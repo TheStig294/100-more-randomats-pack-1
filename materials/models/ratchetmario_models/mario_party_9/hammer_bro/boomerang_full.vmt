@@ -1,0 +1,21 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/RatchetMario_Models/Mario_Party_9/Hammer_Bro/Boomerang_full"
+                "$bumpmap"     "models/RatchetMario_Models/Mario_Party_9/Hammer_Bro/normal"
+	"$halflambert" "1"
+
+                 "$phong" "1"
+	"$phongexponent" "50"
+	"$phongboost" "60"
+	"$phongfresnelranges"	"[.1 5 80]"
+                  "$phongexponenttexture"	"models\RatchetMario_Models/Mario_Party_9/Hammer_Bro\albedo"
+                 "$phongalbedotint"		"1"
+
+
+
+	"$rimlight" "1"												// To enable rim lighting (requires phong)
+	"$rimlightexponent" "8"										// Exponent for phong component of rim lighting	
+	"$rimlightboost" "8"										// Boost for ambient cube component of rim lighting
+	"$rimmask" "1"
+
+}
