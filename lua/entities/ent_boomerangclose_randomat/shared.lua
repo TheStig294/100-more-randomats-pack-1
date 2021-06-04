@@ -33,7 +33,7 @@ function ENT:PhysicsCollide(data, phys)
     local hitEntity = data.HitEntity
 
     if hitEntity == self.Owner then
-        local boomerang = self.Owner:Give("weapon_ttt_boomerang")
+        local boomerang = self.Owner:Give("weapon_ttt_boomerang_randomat")
 
         if SERVER then
             self:Remove()
@@ -89,7 +89,7 @@ end
 
 function deploySwep(ent)
     --local ent = LocalPlayer():GetNWEntity("boomerang_swep")
-    local weapon = ents.Create("weapon_ttt_boomerang")
+    local weapon = ents.Create("weapon_ttt_boomerang_randomat")
     weapon:SetPos(ent:GetPos())
     weapon:SetAngles(ent:GetAngles())
     weapon:SetVelocity(ent:GetVelocity())
@@ -125,8 +125,8 @@ function ENT:Think()
     end
 
     if (self.TargetReached and self:NearOwner()) then
-        self.Owner:Give("weapon_ttt_boomerang")
-        local boomerang = self.Owner:GetWeapon("weapon_ttt_boomerang")
+        self.Owner:Give("weapon_ttt_boomerang_randomat")
+        local boomerang = self.Owner:GetWeapon("weapon_ttt_boomerang_randomat")
         boomerang.Hits = self.Hits
 
         if SERVER then

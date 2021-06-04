@@ -1,56 +1,57 @@
 local EVENT = {}
 
 CreateConVar("randomat_boomerang_timer", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Time between being given boomerangs")
+
 CreateConVar("randomat_boomerang_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons")
+
 CreateConVar("randomat_boomerang_weaponid", "weapon_ttt_boomerang_randomat", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
 
-
 EVENT.Title = "Boomerang Fu!"
-EVENT.Description = "Return-throw only boomerangs for all!"
+EVENT.Description = "Boomerangs only!"
 EVENT.id = "boomerang"
 
 function EVENT:Begin()
-	if GetConVar("randomat_boomerang_strip"):GetBool() then
-		for _, ent in pairs(ents.GetAll()) do
-			if ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE and ent.AutoSpawnable then
-				ent:Remove()
-			end
-		end
-	end
-	
-	for i, ply in pairs(self:GetAlivePlayers(true)) do
-		if table.Count(ply:GetWeapons()) ~= 1 or (table.Count(ply:GetWeapons()) == 1 and ply:GetActiveWeapon():GetClass() ~= "weapon_ttt_homebat") then
-			if GetConVar("randomat_boomerang_strip"):GetBool() then
-				ply:StripWeapons()
-			end
-			ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
-		end
-	end
-	
-	timer.Create("RandomatBoomerangTimer", GetConVar("randomat_boomerang_timer"):GetInt(), 0, function()
-		for i, ply in pairs(self:GetAlivePlayers(true)) do
-			if table.Count(ply:GetWeapons()) ~= 1 or (table.Count(ply:GetWeapons()) == 1 and ply:GetActiveWeapon():GetClass() ~= "weapon_ttt_homebat") then
-				if GetConVar("randomat_boomerang_strip"):GetBool() then
-					ply:StripWeapons()
-				end
-				ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
-			end
-		end
-	end)
-	self:AddHook("Think", function()
-		for i, ply in pairs(self:GetAlivePlayers(true)) do
-			if ply:HasWeapon("weapon_ttt_boomerang") then
-				if GetConVar("randomat_boomerang_strip"):GetBool() and GetConVar("randomat_boomerang_weaponid"):GetString() ~= "weapon_ttt_boomerang" then
-					ply:StripWeapons()
-					ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
-				end
-			end
-		end
-	end)
+    --Remove all weapons from the ground (Which also removes all non-bought weapons from players)
+    if GetConVar("randomat_boomerang_strip"):GetBool() then
+        for _, ent in pairs(ents.GetAll()) do
+            if ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE and ent.AutoSpawnable then
+                ent:Remove()
+            end
+        end
+    end
+
+    for i, ply in pairs(self:GetAlivePlayers(true)) do
+        --Strip all living players' weapons, if enabled
+        if GetConVar("randomat_boomerang_strip"):GetBool() then
+            ply:StripWeapons()
+        end
+
+        --Give everyone their initial boomerang
+        ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
+    end
+
+    --Start a repeating timer (by default every 5-seconds) 
+    timer.Create("RandomatBoomerangTimer", GetConVar("randomat_boomerang_timer"):GetInt(), 0, function()
+        --For every player not dead,
+        for i, ply in pairs(self:GetAlivePlayers(true)) do
+            --And anyone that doesn't already have the boomerang
+            if not ply:HasWeapon(GetConVar("randomat_boomerang_weaponid"):GetString()) then
+                --If enabled,
+                if GetConVar("randomat_boomerang_strip"):GetBool() then
+                    --Strip all their weapons
+                    ply:StripWeapons()
+                end
+
+                --And give them a boomerang
+                ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
+            end
+        end
+    end)
 end
 
+--Stop periodically giving out boomerangs
 function EVENT:End()
-	timer.Remove("RandomatBoomerangTimer")
+    timer.Remove("RandomatBoomerangTimer")
 end
 
 Randomat:register(EVENT)
