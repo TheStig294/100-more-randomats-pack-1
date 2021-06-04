@@ -1,5 +1,6 @@
-local randomatRandomSeed = true
+--Disabling fg addon's chat message to clear up chat box for randomat alerts (if installed)
 RunConsoleCommand("ttt_fgaddons_textmessage", "0")
+local randomatRandomSeed = true
 
 --Seeding random numbers in Garry's Mod to help with the same randomats being picked over and over, running only once
 if randomatRandomSeed then
@@ -12,13 +13,12 @@ if randomatRandomSeed then
 
     -- Now disabling math.randomseed for everyone else so the good randomness just built up isn't reset
     function math.randomseed(seed)
-        -- print("BanRandomSeed: Someone tried to call math.randomseed, they shouldn't! Attempt blocked.")
-        -- print(debug.traceback())
     end
 
     randomatRandomSeed = false
 end
 
+--Net messages for the randomats relying on 'TTT Total Statistics'
 if SERVER then
     util.AddNetworkString("RandomatDetectiveWeaponsList")
     util.AddNetworkString("RandomatTraitorWeaponsList")
@@ -26,6 +26,7 @@ if SERVER then
     util.AddNetworkString("Randomat_SendTraitorEquipmentName")
 end
 
+--Hard-coded list of maps known to not have AI meshes, randomats that give out weapons using AI will not trigger on these maps
 function MapHasAI()
     local maps = {"gm_artisanshome", "gm_michaelshouse", "gm_rayman2_fairyglade_a6", "dm_christmas_in_the_suburbs", "dm_overwatch", "animal_crossing", "thefirstmap_final", "rp_lordaeron", "ttt_fallingwater", "ttt_halloween", "ttt_ile", "ttt_islandstreets", "ttt_minecraft_b5-40", "ttt_starwars_final", "ttt_upstate", "ttt_riverside_b3", "ttt_silenthill", "ttt_waterworld_remastered_2020", "ttt_winter_project", "ttt_woodshop"}
 
@@ -40,9 +41,12 @@ function MapHasAI()
     return mapHasAI
 end
 
+--Function which adds support to giving players a handful of different passive buy menu items, 
+--which normally do not work properly if given just using TTT's default GiveEquipmentItem() function.
 function ClassToGive(name, ply)
     if name == EQUIP_ARMOR then
         ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_ARMOR).id))
+        --Also adds chat messages to passive items that don't have an obvious effect when given
         ply:ChatPrint("You have been given a Body Armor. You receive 30% less damage to body shots.")
     elseif name == EQUIP_RADAR then
         ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_RADAR).id))
@@ -107,6 +111,7 @@ function ClassToGive(name, ply)
     end
 end
 
+--Used for the 'Let's mix it up!' and 'Future Proofing' randomats
 function StripEquipment(ply, equipment, is_item)
     timer.Simple(0.1, function()
         if is_item then
@@ -141,6 +146,7 @@ function StripEquipment(ply, equipment, is_item)
     end)
 end
 
+--Renaming print names of weapons the same way as 'TTT Total Statistics' for compatibility
 local function RenameWeps(name)
     if name == "sipistol_name" then
         return "Silenced Pistol"
@@ -195,6 +201,9 @@ if SERVER then
     detectiveBuyable = {}
     traitorBuyable = {}
 
+    --At the start of the first round of a map, ask the first connected client for the printnames of all detective and traitor weapons
+    --Used by randomats that use 'TTT Total Statistics'
+    --Needed since 'TTT Total Statistics' stores weapon stats identifying weapons by printnames, not classnames
     hook.Add("TTTBeginRound", "RandomatGetBuyMenuLists", function()
         if firstBegin then
             net.Start("RandomatDetectiveWeaponsList")
@@ -211,7 +220,7 @@ if SERVER then
         local error = net.ReadBool()
 
         if error then
-            print("Failed to find equipment (" .. name .. ") for [TTT] Buy 'em all randomat!")
+            print("Failed to find equipment (" .. name .. ") for 'Gotta Buy 'em all!' randomat")
         else
             detectiveBuyable[tbl[2]] = name
         end
@@ -223,7 +232,7 @@ if SERVER then
         local error = net.ReadBool()
 
         if error then
-            print("Failed to find equipment (" .. name .. ") for [TTT] Buy 'em all randomat!")
+            print("Failed to find equipment (" .. name .. ") for 'Gotta Buy 'em all!' randomat")
         else
             traitorBuyable[tbl[2]] = name
         end
@@ -238,6 +247,8 @@ if SERVER then
     end
 end
 
+--Used by randomats reading stats data from 'TTT Total Statistics', e.g. 'Everyone has their favourites'
+--Gives a weapon by its print name, some passive items have hard-codded support, all held weapons installed on the first connected client are supported
 function PrintToGive(name, ply)
     if name == "Body Armor" then
         ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_ARMOR).id))

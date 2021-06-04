@@ -10,8 +10,8 @@ end
 
 local function closeBanFrame()
     if #banTables == 0 then return end
-
     local lastidx
+
     -- Frames not not necessarily stored in order when multiple are shown at once
     -- Find that last index since that will be the frame on top (visually)
     for i, _ in pairs(banTables) do
@@ -38,6 +38,7 @@ local function openFrame(x)
     frame:ShowCloseButton(false)
     frame:SetVisible(true)
     frame:SetDeleteOnClose(true)
+
     return frame
 end
 
@@ -45,7 +46,6 @@ net.Receive("BanEventTrigger", function()
     local x = net.ReadInt(32)
     local tbl = net.ReadTable()
     local frame = openFrame(x)
-
     --Event List
     local list = vgui.Create("DListView", frame)
     list:Dock(FILL)
@@ -55,6 +55,7 @@ net.Receive("BanEventTrigger", function()
     for _, v in pairs(tbl) do
         list:AddLine(v)
     end
+
     banTables[frames] = frame
 
     list.OnRowSelected = function(lst, index, pnl)
@@ -73,7 +74,6 @@ net.Receive("BanVoteTrigger", function()
     local x = net.ReadInt(32)
     local tbl = net.ReadTable()
     local frame = openFrame(x)
-
     --Event List
     local list = vgui.Create("DListView", frame)
     list:Dock(FILL)
@@ -84,6 +84,7 @@ net.Receive("BanVoteTrigger", function()
     for _, v in pairs(tbl) do
         list:AddLine(v, 0)
     end
+
     banTables[frames] = frame
 
     list.OnRowSelected = function(lst, index, pnl)
@@ -98,9 +99,10 @@ net.Receive("BanVoteTrigger", function()
 
     net.Receive("BanPlayerVoted", function()
         local votee = net.ReadString()
+
         for _, v in pairs(list:GetLines()) do
             if v:GetColumnText(1) == votee then
-                v:SetColumnText(2, v:GetColumnText(2)+1)
+                v:SetColumnText(2, v:GetColumnText(2) + 1)
             end
         end
     end)

@@ -5,7 +5,7 @@
 net.Receive("RandomatDetectiveWeaponsList", function()
     local error = false
 
-    --when player buys an item, first check if its on the SWEP list
+    --first check if a weapons is on the SWEP list
     for k, v in pairs(weapons.GetList()) do
         if isstring(v.ClassName) then
             if table.HasValue(v.CanBuy, ROLE_DETECTIVE) then
@@ -31,7 +31,7 @@ end)
 net.Receive("RandomatTraitorWeaponsList", function()
     local error = false
 
-    --when player buys an item, first check if its on the SWEP list
+    --first check if a weapons is on the SWEP list
     for k, v in pairs(weapons.GetList()) do
         if isstring(v.ClassName) then
             if table.HasValue(v.CanBuy, ROLE_TRAITOR) then
@@ -54,6 +54,6 @@ net.Receive("RandomatTraitorWeaponsList", function()
     end
 end)
 
---Catches any poorly coded randomats trying to register on the client and server, rather than just the server
+--Catches any randomats trying to register on both the client and server, rather than just the server, to prevent console errors
 function Randomat:register(tbl)
 end

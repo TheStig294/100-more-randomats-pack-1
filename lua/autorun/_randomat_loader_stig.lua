@@ -1,4 +1,7 @@
+--Randomat base code from Malivil's randomat mod
+--Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if ConVarExists("ttt_randomat_event_hint") and SERVER then
+    --Global bool used to disable all base randomat code files
     SetGlobalBool("DisableStigRandomatBase", true)
 end
 
