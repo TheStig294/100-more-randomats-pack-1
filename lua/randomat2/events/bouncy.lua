@@ -6,15 +6,20 @@ EVENT.id = "bouncy"
 CreateConVar("randomat_bouncy_speed_retain", 0.75, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "% of speed retained between bounces", 0, 1)
 
 function EVENT:Begin()
+    --On taking damage from falling,
     self:AddHook("GetFallDamage", function(ply, speed)
+        --Set push the player upwards, retaining a percentage of their original speed
         ply:SetVelocity(Vector(0, 0, speed * GetConVar("randomat_bouncy_speed_retain"):GetFloat()))
 
+        --Set the damage from falling to 0, but doesn't seem to work so...
         return 0
     end)
 
+    -- ...also completely negate ALL sources of fall damage
     self:AddHook("EntityTakeDamage", function(ply, dmginfo)
         if IsValid(ply) and ply:IsPlayer() and dmginfo:IsFallDamage() then return true end
     end)
+    --Players will stop bouncing when they fall a short enough distance that they wouldn't take fall damage
 end
 
 function EVENT:GetConVars()
