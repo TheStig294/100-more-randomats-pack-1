@@ -8,37 +8,34 @@ EVENT.id = "battleroyale"
 local alertSound = Sound("battleroyale/alert.wav")
 
 function EVENT:Begin()
+    --Plays the Fortnite alert sound as an extra warning this randomat has started
     for i, ply in pairs(player.GetAll()) do
         ply:EmitSound(alertSound)
     end
 
-    hook.Add("TTTCheckForWin", "RandomatBattleRoyalePreventWin", function()
-        AlivePlayerCount = 0
-
-        for k, ply in pairs(self:GetAlivePlayers()) do
-            AlivePlayerCount = AlivePlayerCount + 1
-        end
-
-        if AlivePlayerCount > 1 then return WIN_NONE end
+    --Preventing the round from ending if more than 1 person is alive
+    self:AddHook("TTTCheckForWin", function()
+        if #self:GetAlivePlayers() > 1 then return WIN_NONE end
     end)
 
+    --After the set amount of time runs out, (default 2 minutes) everyone is given a radar to prevent camping
     timer.Create("BattleRoyaleRandomatTimer", 1, GetConVar("randomat_battleroyale_radar_time"):GetInt(), function()
         if timer.RepsLeft("BattleRoyaleRandomatTimer") == 0 then
-            self:SmallNotify("Radar activated, you're traitors so the radar works.")
+            self:SmallNotify("The circle is shrinking! (Radar activated)")
 
             for k, ply in pairs(player.GetAll()) do
-                Randomat:SetRole(ply, ROLE_TRAITOR)
-                SendFullStateUpdate()
-                ply:SetCredits(0)
                 ply:GiveEquipmentItem(tonumber(EQUIP_RADAR))
                 ply:ConCommand("ttt_radar_scan")
+                --Also plays the Fortnite alert sound again
                 ply:EmitSound(alertSound)
             end
         end
     end)
 
-    hook.Add("TTTKarmaGivePenalty", "RandomatBattleroyaleNoKarma", function(ply, penalty, victim) return true end)
+    --Disabling lowering somone's karma for shooting a fellow innocent, as everyone will be innocent
+    self:AddHook("TTTKarmaGivePenalty", function(ply, penalty, victim) return true end)
 
+    --Giving everyone a Fortnite building tool, if one of its convars is found, and turning everyone into an innocent
     for i, ply in pairs(self:GetAlivePlayers()) do
         timer.Simple(0.1, function()
             if ConVarExists("fortnite_low_res_textures") then
@@ -47,14 +44,14 @@ function EVENT:Begin()
 
             Randomat:SetRole(ply, ROLE_INNOCENT)
             SendFullStateUpdate()
+            --Also removing role weapons like the DNA scanner
             self:StripRoleWeapons(ply)
         end)
     end
 end
 
+--Removing the radar timer, else everyone will be given a radar next round...
 function EVENT:End()
-    hook.Remove("TTTCheckForWin", "RandomatBattleRoyalePreventWin")
-    hook.Remove("TTTKarmaGivePenalty", "RandomatBattleroyaleNoKarma")
     timer.Remove("BattleRoyaleRandomatTimer")
 end
 
