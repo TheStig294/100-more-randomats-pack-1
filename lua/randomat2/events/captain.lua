@@ -80,21 +80,15 @@ local function removecorpse(corpse)
     end
 end
 
-local function checkTeam(ply)
-    if Randomat:IsInnocentTeam(ply, false) then
-        return ROLE_INNOCENT
-    else
-        return ROLE_TRAITOR
-    end
-end
-
 function EVENT:Begin()
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
         -- Only proceed if the player didn't suicide, and the attacker is another player.
-        if (attacker.IsPlayer() and attacker ~= victim) then
-            if attacker:GetRole() == ROLE_DETECTIVE and checkTeam(victim) == ROLE_INNOCENT then
-                attacker:Kill() -- Kill the detective
+        if attacker.IsPlayer() and attacker ~= victim then
+            -- If the attacker was a detective and the victim was any kind of innocent,
+            if attacker:GetRole() == ROLE_DETECTIVE and Randomat:IsInnocentTeam(victim, false) then
+                attacker:Kill() -- Kill the detective,
 
+                --Repeatedly try to respawn the victim
                 timer.Create("respawndelay", 0.1, 0, function()
                     local corpse = findcorpse(victim) -- run the normal respawn code now
                     -- Respawn the new detective elsewhere
@@ -102,8 +96,8 @@ function EVENT:Begin()
                     victim:SetRole(ROLE_DETECTIVE)
                     victim:SetHealth(100)
 
+                    --Give the new detective the default amount of detective credits
                     timer.Simple(0.5, function()
-                        attacker:SetDefaultCredits()
                         victim:SetDefaultCredits()
                     end)
 
@@ -115,8 +109,9 @@ function EVENT:Begin()
 
                     SendFullStateUpdate()
 
+                    --Stop trying to spawn the victim once they are alive
                     if victim:Alive() then
-                        timer.Destroy("respawndelay")
+                        timer.Remove("respawndelay")
 
                         return
                     end
@@ -125,12 +120,15 @@ function EVENT:Begin()
         end
     end)
 
+    --Also apply to headshots, else the detective could still freely RDM if they headshot
     self:AddHook("PlayerSilentDeath", function(victim, inflictor, attacker)
         -- Only proceed if the player didn't suicide, and the attacker is another player.
-        if (attacker.IsPlayer() and attacker ~= victim) then
-            if attacker:GetRole() == ROLE_DETECTIVE and checkTeam(victim) == ROLE_INNOCENT then
-                attacker:Kill() -- Kill the detective
+        if attacker.IsPlayer() and attacker ~= victim then
+            -- If the attacker was a detective and the victim was any kind of innocent,
+            if attacker:GetRole() == ROLE_DETECTIVE and Randomat:IsInnocentTeam(victim, false) then
+                attacker:Kill() -- Kill the detective,
 
+                --Repeatedly try to respawn the victim
                 timer.Create("respawndelay", 0.1, 0, function()
                     local corpse = findcorpse(victim) -- run the normal respawn code now
                     -- Respawn the new detective elsewhere
@@ -138,8 +136,8 @@ function EVENT:Begin()
                     victim:SetRole(ROLE_DETECTIVE)
                     victim:SetHealth(100)
 
+                    --Give the new detective the default amount of detective credits
                     timer.Simple(0.5, function()
-                        attacker:SetDefaultCredits()
                         victim:SetDefaultCredits()
                     end)
 
@@ -151,8 +149,9 @@ function EVENT:Begin()
 
                     SendFullStateUpdate()
 
+                    --Stop trying to spawn the victim once they are alive
                     if victim:Alive() then
-                        timer.Destroy("respawndelay")
+                        timer.Remove("respawndelay")
 
                         return
                     end
@@ -160,10 +159,6 @@ function EVENT:Begin()
             end
         end
     end)
-end
-
-function EVENT:End()
-    hook.Remove("DoPlayerDeath", "RandomatCaptain")
 end
 
 Randomat:register(EVENT)
