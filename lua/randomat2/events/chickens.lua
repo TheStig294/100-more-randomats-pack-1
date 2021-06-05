@@ -1,10 +1,13 @@
-AddCSLuaFile()
 local EVENT = {}
 EVENT.Title = "BAWK!"
 EVENT.Description = "Transforms everyone into chickens"
 EVENT.id = "chickens"
 
-CreateConVar("randomat_chickens_hp", 60, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Changes the set HP for the event \"BAWK!\"", 1, 100)
+CreateConVar("randomat_chickens_hp", 60, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Player max HP", 1, 100)
+
+CreateConVar("randomat_chickens_sc", 0.25, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Multiplier players are shrunk by", 0.1, 1)
+
+CreateConVar("randomat_chickens_sp", 0.75, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Player movement speed multiplier", 0.1, 1)
 
 local playerModels = {}
 local offsets = {}
@@ -15,19 +18,23 @@ local sndTabIdle = {"chickens/idle1.wav", "chickens/idle2.wav", "chickens/idle3.
 local sndTabPain = {"chickens/pain1.wav", "chickens/pain2.wav", "chickens/pain3.wav"}
 
 function EVENT:Begin()
+    playerModels = {}
+    local hp = GetConVar("randomat_chickens_hp"):GetInt() -- Player max health
+    local sc = GetConVar("randomat_chickens_sc"):GetFloat() -- Player shrinking scale multiplier
+    local sp = GetConVar("randomat_chickens_sp"):GetFloat() -- Player player movement speed multiplier
+
+    -- For every living player,
     for _, ply in pairs(self:GetAlivePlayers()) do
+        -- If the player's stored viewheight is null, store their viewheight
         if not offsets[ply:SteamID64()] then
             offsets[ply:SteamID64()] = ply:GetViewOffset()
         end
 
+        -- If the player's crouched viewheight is null, store their crouched viewheight
         if not offsets_ducked[ply:SteamID64()] then
             offsets_ducked[ply:SteamID64()] = ply:GetViewOffsetDucked()
         end
     end
-
-    playerModels = {}
-    local hp = GetConVar("randomat_chickens_hp"):GetFloat()
-    local sc = 0.25 --scale factor
 
     -- Gets all players...
     for k, ply in pairs(player.GetAll()) do
@@ -43,47 +50,65 @@ function EVENT:Begin()
             timer.Simple(1, function()
                 -- Set player number K (in the table) to their respective model
                 playerModels[k] = ply:GetModel()
-                -- Sets their model to chosenModel
+                -- Sets their model to a full-sized chicken playermodel
+                -- The chicken playermodel is giant, and is shrunk down to chicken size below
                 ply:SetModel("models/xtra_randos/chicken/chicken3.mdl")
             end)
         end
     end
 
-    hook.Add("Think", "RdmtChickenThink", function()
+    self:AddHook("Think", function()
         for k, ply in pairs(player.GetAll()) do
+            -- Decrease height players can automatically step up (i.e. players can't climb stairs)
             ply:SetStepSize(18 * sc)
+            -- Shrink playermodel size
             ply:SetModelScale(1 * sc, 0)
+            -- Shrink player's camera/view
             ply:SetViewOffset(Vector(0, 0, 64) * sc)
             ply:SetViewOffsetDucked(Vector(0, 0, 32) * sc)
+            -- Shrink player hitbox
             ply:SetHull(Vector(-16, -16, 0) * sc, Vector(16, 16, 72) * sc)
             ply:SetHullDuck(Vector(-16, -16, 0) * sc, Vector(16, 16, 36) * sc)
         end
     end)
 
     for k, ply in pairs(player.GetAll()) do
+        -- Scale player health down, taking into account damage taken
         local oldmax = ply:GetMaxHealth()
         ply:SetMaxHealth(hp)
         ply:SetHealth(math.Clamp(hp * ply:Health() / oldmax, 1, hp))
-        hook.Add("TTTPlayerSpeed", "RdmtChickenMoveSpeed", function() return math.Clamp(ply:GetStepSize() / 9, 0.25, 1) end)
+        -- Scales the player speed on the client
+        net.Start("RdmtSetSpeedMultiplier")
+        net.WriteFloat(sp)
+        net.WriteString("RdmtChickensSpeed")
+        net.Send(ply)
     end
 
-    -- destroy corpse on death
-    hook.Add("TTTOnCorpseCreated", "RdmtChickenCorpse", function(corpse)
+    -- Scales the player speed on the server
+    self:AddHook("TTTSpeedMultiplier", function(ply, mults)
+        if not ply:Alive() or ply:IsSpec() then return end
+        table.insert(mults, sp)
+    end)
+
+    -- Destroy corpse on death
+    self:AddHook("TTTOnCorpseCreated", function(corpse)
         corpse:Remove()
     end)
 
-    -- Replace sounds with chicken sounds
-    hook.Add("DoPlayerDeath", "RdmtChickenDeathSound", function(ply, attacker, dmginfo)
-        dmginfo:SetDamageType(DMG_SLASH) -- slashing damage causes no death sound
-        sound.Play("chickens/bkawk.wav", ply:GetShootPos(), 90, 100, 1)
-    end)
-
+    -- Play a random chicken hurt sound when a player is hurt
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
         if IsValid(ent) and ent:IsPlayer() then
             ent:EmitSound(sndTabPain[math.random(1, #sndTabPain)], 100, 100)
         end
     end)
 
+    -- Play a distinct chicken sound when a player dies
+    self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
+        dmginfo:SetDamageType(DMG_SLASH) -- Slashing damage causes no death sound, and thus mutes the normal death sound
+        sound.Play("chickens/bkawk.wav", ply:GetShootPos(), 90, 100, 1)
+    end)
+
+    -- Plays random idle chicken sounds
     timer.Create("RdmtChickenIdleSounds", 5, 0, function()
         for i, ply in pairs(self:GetAlivePlayers()) do
             timer.Simple(math.random(1, 4), function()
@@ -111,62 +136,84 @@ function EVENT:End()
         table.Empty(playerModels)
     end
 
-    -- clean up
-    hook.Remove("TTTPlayerSpeed", "RdmtChickenMoveSpeed")
-    hook.Remove("DoPlayerDeath", "RdmtChickenDeathSound")
-    hook.Remove("TTTOnCorpseCreated", "RdmtChickenCorpse")
-    hook.Remove("Think", "RdmtChickenThink")
+    -- Remove chicken idle sounds
     timer.Remove("RdmtChickenIdleSounds")
+    -- Reset the player speed on the client
+    net.Start("RdmtRemoveSpeedMultiplier")
+    net.WriteString("RdmtChickensSpeed")
+    net.Broadcast()
 
-    -- resize at the beginning of next round, rather than the end of current
-    hook.Add("TTTPrepareRound", "RdmtChickenFix", function()
-        for k, ply in pairs(player.GetAll()) do
-            local offset = nil
+    -- Resize at the beginning of next round, rather than the end of current round (For some reason, has no effect otherwise)
+    for k, ply in pairs(player.GetAll()) do
+        local offset = nil
 
-            if offsets[ply:SteamID64()] then
-                offset = offsets[ply:SteamID64()]
-                offsets[ply:SteamID64()] = nil
-            end
-
-            if offset or not ply.ec_ViewChanged then
-                ply:SetViewOffset(offset or Vector(0, 0, 64))
-            end
-
-            local offset_ducked = nil
-
-            if offsets_ducked[ply:SteamID64()] then
-                offset_ducked = offsets_ducked[ply:SteamID64()]
-                offsets_ducked[ply:SteamID64()] = nil
-            end
-
-            if offset_ducked or not ply.ec_ViewChanged then
-                ply:SetViewOffsetDucked(offset_ducked or Vector(0, 0, 28))
-            end
-
-            ply:SetModelScale(1, 0)
-            ply:ResetHull()
-            ply:SetStepSize(18)
+        -- Clearing player offset table
+        if offsets[ply:SteamID64()] then
+            offset = offsets[ply:SteamID64()]
+            offsets[ply:SteamID64()] = nil
         end
 
-        hook.Remove("TTTPrepareRound", "RdmtChickenFix")
-    end)
+        -- Resetting player viewheight
+        if offset or not ply.ec_ViewChanged then
+            ply:SetViewOffset(offset or Vector(0, 0, 64))
+        end
+
+        local offset_ducked = nil
+
+        -- Clearing player crouching offset table
+        if offsets_ducked[ply:SteamID64()] then
+            offset_ducked = offsets_ducked[ply:SteamID64()]
+            offsets_ducked[ply:SteamID64()] = nil
+        end
+
+        -- Resetting player crouching viewheight
+        if offset_ducked or not ply.ec_ViewChanged then
+            ply:SetViewOffsetDucked(offset_ducked or Vector(0, 0, 28))
+        end
+
+        -- Resetting player size, hitbox, and ability to climb stairs...
+        ply:SetModelScale(1, 0)
+        ply:ResetHull()
+        ply:SetStepSize(18)
+    end
 end
 
 function EVENT:GetConVars()
     local sliders = {}
-    local convar = GetConVar("randomat_chickens_hp")
 
-    table.insert(sliders, {
-        cmd = "hp",
-        dsc = convar:GetHelpText(),
-        min = convar:GetMin(),
-        max = convar:GetMax(),
-        dcm = 0
-    })
+    for _, v in pairs({"hp"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
 
-    return sliders, {}, {}
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(sliders, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 0
+            })
+        end
+    end
+
+    for _, v in pairs({"sc", "sp"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(sliders, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 2
+            })
+        end
+    end
+
+    return sliders
 end
 
-if Randomat then
-    Randomat:register(EVENT)
-end
+Randomat:register(EVENT)
