@@ -7,17 +7,20 @@ EVENT.Description = "Triggers the randomat after " .. GetConVar("randomat_delay_
 EVENT.id = "delay"
 
 function EVENT:Begin()
-	timer.Simple(GetConVar("randomat_delay_time"):GetInt(), function()
-		Randomat:TriggerRandomEvent(self.owner)
-	end)
+    timer.Simple(GetConVar("randomat_delay_time"):GetInt(), function()
+        Randomat:TriggerRandomEvent(self.owner)
+    end)
 end
 
 function EVENT:GetConVars()
     local sliders = {}
+
     for _, v in pairs({"time"}) do
         local name = "randomat_" .. self.id .. "_" .. v
+
         if ConVarExists(name) then
             local convar = GetConVar(name)
+
             table.insert(sliders, {
                 cmd = v,
                 dsc = convar:GetHelpText(),
@@ -27,6 +30,7 @@ function EVENT:GetConVars()
             })
         end
     end
+
     return sliders
 end
 
