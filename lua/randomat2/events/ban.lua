@@ -20,6 +20,7 @@ local EventChoices = {}
 local owner
 local EventVotes = {}
 local PlayersVoted = {}
+local banRandomat = false
 
 local function GetEventDescription()
     local target
@@ -80,21 +81,21 @@ function EVENT:Begin()
                 local title = Randomat:GetEventTitle(v)
 
                 if title == evnt then
-                    --Banning this randomat itself triggers a special message
-                    --Will cause it to never trigger again, unless it is manually turned back on through its convar
+                    -- Banning this randomat itself triggers a special message
+                    -- Will cause it to never trigger again, unless it is manually turned back on through its convar
                     if v.id == "ban" then
                         timer.Simple(7, function()
                             self:SmallNotify("Well, you've done it. This randomat is never triggering again...")
                         end)
                     end
 
-                    --Turn the last banned randomat back on
+                    -- Turn the last banned randomat back on
                     local lastBan = GetConVar("randomat_ban_last_banned_randomat"):GetString()
                     RunConsoleCommand("ttt_randomat_" .. lastBan, 1)
-                    --Turn the currently banned randomat off
+                    -- Turn the currently banned randomat off
                     RunConsoleCommand("ttt_randomat_" .. v.id, 0)
                     GetConVar("randomat_ban_last_banned_randomat"):SetString(v.id)
-                    --Display a message with the name of the randomat that was banned
+                    -- Display a message with the name of the randomat that was banned
                     self:SmallNotify(title .. " is banned.")
                 end
             end
@@ -112,6 +113,7 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
+    -- Prevent trying to close the popup window if this event has not run (causes an error)
     if banRandomat then
         net.Start("BanEventEnd")
         net.Send(owner)
