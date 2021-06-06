@@ -17,7 +17,7 @@ end
 
 function EVENT:End()
     --Reset everyone's jump height to the default
-    for _, ply in pairs(player.GetAll()) do
+    for _, ply in pairs(self:GetPlayers()) do
         ply:SetJumpPower(200)
     end
 end

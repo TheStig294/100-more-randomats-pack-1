@@ -7,14 +7,14 @@ CreateConVar("randomat_boing_jump_height", 220, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "
 
 function EVENT:Begin()
     --Adds the set jump power to all player's jump power
-    for i, ply in pairs(player.GetAll()) do
+    for i, ply in pairs(self:GetPlayers()) do
         ply:SetJumpPower(ply:GetJumpPower() + GetConVar("randomat_boing_jump_height"):GetInt())
     end
 end
 
 function EVENT:End()
     --Sets everyone's jump power back to the default, 200
-    for _, ply in pairs(player.GetAll()) do
+    for _, ply in pairs(self:GetPlayers()) do
         ply:SetJumpPower(200)
     end
 end

@@ -37,7 +37,7 @@ function EVENT:Begin()
     end
 
     -- Gets all players...
-    for k, ply in pairs(player.GetAll()) do
+    for k, ply in pairs(self:GetPlayers()) do
         -- if they're alive and not in spectator mode
         if ply:Alive() and not ply:IsSpec() then
             -- and not a bot (bots do not have the following command, so it's unnecessary)
@@ -58,7 +58,7 @@ function EVENT:Begin()
     end
 
     self:AddHook("Think", function()
-        for k, ply in pairs(player.GetAll()) do
+        for k, ply in pairs(self:GetPlayers()) do
             -- Decrease height players can automatically step up (i.e. players can't climb stairs)
             ply:SetStepSize(18 * sc)
             -- Shrink playermodel size
@@ -72,7 +72,7 @@ function EVENT:Begin()
         end
     end)
 
-    for k, ply in pairs(player.GetAll()) do
+    for k, ply in pairs(self:GetPlayers()) do
         -- Scale player health down, taking into account damage taken
         local oldmax = ply:GetMaxHealth()
         ply:SetMaxHealth(hp)
@@ -120,7 +120,7 @@ end
 
 function EVENT:End()
     -- loop through all players
-    for k, ply in pairs(player.GetAll()) do
+    for k, ply in pairs(self:GetPlayers()) do
         -- if the index k in the table playermodels has a model, then...
         if (playerModels[k] ~= nil) then
             -- we set the player v to the playermodel with index k in the table
@@ -144,7 +144,7 @@ function EVENT:End()
     net.Broadcast()
 
     -- Resize at the beginning of next round, rather than the end of current round (For some reason, has no effect otherwise)
-    for k, ply in pairs(player.GetAll()) do
+    for k, ply in pairs(self:GetPlayers()) do
         local offset = nil
 
         -- Clearing player offset table

@@ -9,7 +9,7 @@ local alertSound = Sound("battleroyale/alert.wav")
 
 function EVENT:Begin()
     --Plays the Fortnite alert sound as an extra warning this randomat has started
-    for i, ply in pairs(player.GetAll()) do
+    for i, ply in pairs(self:GetPlayers()) do
         ply:EmitSound(alertSound)
     end
 
@@ -23,7 +23,7 @@ function EVENT:Begin()
         if timer.RepsLeft("BattleRoyaleRandomatTimer") == 0 then
             self:SmallNotify("The circle is shrinking! (Radar activated)")
 
-            for k, ply in pairs(player.GetAll()) do
+            for k, ply in pairs(self:GetPlayers()) do
                 ply:GiveEquipmentItem(tonumber(EQUIP_RADAR))
                 ply:ConCommand("ttt_radar_scan")
                 --Also plays the Fortnite alert sound again

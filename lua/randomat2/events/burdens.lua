@@ -26,7 +26,7 @@ end
 
 function EVENT:End()
     --Reset all players back to default speed
-    for i, ply in pairs(player.GetAll()) do
+    for i, ply in pairs(self:GetPlayers()) do
         ply:SetLaggedMovementValue(1)
     end
 end
