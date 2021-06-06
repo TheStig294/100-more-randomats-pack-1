@@ -25,15 +25,6 @@ local function removecorpse(corpse)
     end
 end
 
--- Takes 2 players and checks if they are on the same team, checking one team at a time
-local function IsSameTeam(attacker, victim)
-    if (Randomat:IsInnocentTeam(attacker, false) and Randomat:IsInnocentTeam(victim, false)) or (Randomat:IsTraitorTeam(attacker) and Randomat:IsTraitorTeam(victim)) or (Randomat:IsMonsterTeam(attacker) and Randomat:IsMonsterTeam(victim)) then
-        return true
-    else
-        return false
-    end
-end
-
 function EVENT:Begin()
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
         -- Only proceed if the player didn't suicide, and the attacker is another player.
