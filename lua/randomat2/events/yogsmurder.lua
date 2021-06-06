@@ -12,7 +12,7 @@ function EVENT:Begin()
         net.Start("YogsMurderRandomat")
         net.Broadcast()
 
-        for i, ply in pairs(player.GetAll()) do
+        for i, ply in pairs(self:GetPlayers()) do
             ply:EmitSound(Sound("yogsmurder/murder.wav"))
         end
     end)
@@ -21,7 +21,7 @@ function EVENT:Begin()
         net.Start("YogsMurderRandomatEnd")
         net.Broadcast()
 
-        for i, ply in pairs(player.GetAll()) do
+        for i, ply in pairs(self:GetPlayers()) do
             ply:ChatPrint("Gather guns for a revolver! \nAll traitors have knives...")
         end
     end)

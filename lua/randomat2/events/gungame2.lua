@@ -126,7 +126,7 @@ function EVENT:CreateWeaponList()
     local ListSize = self.RandomListMinimumSize
     local PlayerCount = 1
 
-    for _, ply in pairs(player.GetAll()) do
+    for _, ply in pairs(self:GetPlayers()) do
         PlayerCount = PlayerCount + 1
     end
 

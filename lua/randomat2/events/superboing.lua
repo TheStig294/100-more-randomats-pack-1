@@ -25,7 +25,7 @@ function EVENT:End()
         self:CleanUpHooks()
         RunConsoleCommand("sv_gravity", 600)
 
-        for _, ply in pairs(player.GetAll()) do
+        for _, ply in pairs(self:GetPlayers()) do
             ply:SetJumpPower(200)
         end
     end

@@ -20,7 +20,7 @@ end
 function EVENT:End()
     self:CleanUpHooks()
 
-    for _, ply in pairs(player.GetAll()) do
+    for _, ply in pairs(self:GetPlayers()) do
         ply:SetJumpPower(160)
         ply:SetWalkSpeed(200)
     end

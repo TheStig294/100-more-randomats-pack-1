@@ -70,7 +70,7 @@ function EVENT:Begin()
     local sizeMin = tonumber(GetConVar("randomat_resize_min"):GetString()) / 100
     local sizeMax = tonumber(GetConVar("randomat_resize_max"):GetString()) / 100
 
-    for i, ply in pairs(player.GetAll()) do
+    for i, ply in pairs(self:GetPlayers()) do
         if ply:IsValid() and ply:Alive() then
             if not offsets[ply:SteamID64()] then
                 offsets[ply:SteamID64()] = ply:GetViewOffset()
@@ -91,7 +91,7 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    for i, ply in pairs(player.GetAll()) do
+    for i, ply in pairs(self:GetPlayers()) do
         local offset = nil
 
         if offsets[ply:SteamID64()] then

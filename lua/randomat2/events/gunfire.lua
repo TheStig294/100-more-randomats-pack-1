@@ -43,7 +43,7 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    for i, ply in pairs(player.GetAll()) do
+    for i, ply in pairs(self:GetPlayers()) do
         timer.Remove(ply:SteamID64() .. "_gunfire_timer")
         ply:Extinguish()
     end

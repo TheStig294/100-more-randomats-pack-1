@@ -76,7 +76,7 @@ local remainingModels = {}
 
 function EVENT:Begin()
     -- Gets all players...
-    for k, v in pairs(player.GetAll()) do
+    for k, v in pairs(self:GetPlayers()) do
         -- if they're alive and not in spectator mode
         if v:Alive() and not v:IsSpec() then
             -- and not a bot (bots do not have the following command, so it's unnecessary)
@@ -96,7 +96,7 @@ function EVENT:Begin()
     timer.Simple(2, function()
         table.Add(remainingModels, playerModels)
 
-        for k, v in pairs(player.GetAll()) do
+        for k, v in pairs(self:GetPlayers(true)) do
             local chosenModel = table.Random(remainingModels)
             swapModels[v] = chosenModel
             v:SetModel(chosenModel)
@@ -116,7 +116,7 @@ function EVENT:End()
     table.Empty(remainingModels)
 
     -- loop through all players
-    for k, v in pairs(player.GetAll()) do
+    for k, v in pairs(self:GetPlayers()) do
         -- if the index k in the table playermodels has a model, then...
         if (playerModels[k] ~= nil) then
             -- we set the player v to the playermodel with index k in the table
