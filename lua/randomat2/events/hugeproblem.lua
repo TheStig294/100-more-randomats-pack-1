@@ -40,7 +40,7 @@ function EVENT:Begin()
         -- Continually,
         self:AddHook("Think", function()
             -- For all alive players,
-            for _, v in pairs(self:GetPlayers(false, true)) do
+            for _, v in pairs(self:GetAlivePlayers()) do
                 -- If they're holding the huge,
                 if IsValid(v:GetActiveWeapon()) and v:GetActiveWeapon():GetClass() == "weapon_zm_sledge" then
                     -- Refill their weapon's ammo clip
