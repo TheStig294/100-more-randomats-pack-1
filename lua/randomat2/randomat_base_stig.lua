@@ -3,6 +3,9 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     util.AddNetworkString("randomat_message_silent")
     util.AddNetworkString("AlertTriggerFinal")
     util.AddNetworkString("alerteventtrigger")
+    util.AddNetworkString("RdmtSetSpeedMultiplier")
+    util.AddNetworkString("RdmtSetSpeedMultiplier_WithWeapon")
+    util.AddNetworkString("RdmtRemoveSpeedMultiplier")
     util.AddNetworkString("TTT_RoleChanged")
     util.AddNetworkString("TTT_LogInfo")
     ROLE_MERCENARY = ROLE_MERCENARY or ROLE_SURVIVALIST or -1
@@ -15,12 +18,13 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     ROLE_ASSASSIN = ROLE_ASSASSIN or -1
     ROLE_DETRAITOR = ROLE_DETRAITOR or -1
     ROLE_VAMPIRE = ROLE_VAMPIRE or -1
-    ROLE_ROMANTIC = ROLE_ROMANTIC or -1
+    ROLE_REVENGER = ROLE_REVENGER or -1
     ROLE_DRUNK = ROLE_DRUNK or -1
     ROLE_CLOWN = ROLE_CLOWN or -1
     ROLE_DEPUTY = ROLE_DEPUTY or -1
     ROLE_IMPERSONATOR = ROLE_IMPERSONATOR or -1
     ROLE_BEGGAR = ROLE_BEGGAR or -1
+    ROLE_OLDMAN = ROLE_OLDMAN or -1
     Randomat.Events = Randomat.Events or {}
     Randomat.ActiveEvents = {}
     local randomat_meta = {}
@@ -88,7 +92,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             end
 
             if GetConVar("ttt_randomat_event_hint_chat"):GetBool() then
-                for _, p in pairs(player.GetAll()) do
+                for _, p in ipairs(player.GetAll()) do
                     ChatDescription(p, event, has_description)
                 end
             end
@@ -145,7 +149,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     function Randomat:GetPlayers(shuffle, alive)
         local plys = {}
 
-        for _, ply in pairs(player.GetAll()) do
+        for _, ply in ipairs(player.GetAll()) do
             if IsValid(ply) and (not ply:IsSpec()) and (not alive or ply:Alive()) then
                 table.insert(plys, ply)
             end
@@ -182,6 +186,11 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             tbl.SingleUse = true
         end
 
+        -- Default the event type if it's not specified
+        if tbl.Type == nil then
+            tbl.Type = EVENT_TYPE_DEFAULT
+        end
+
         setmetatable(tbl, randomat_meta)
         Randomat.Events[id] = tbl
 
@@ -209,6 +218,14 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
 
         if event == nil then return false end
+
+        -- Don't allow multiple weapon override events to run at once
+        if event.Type == EVENT_TYPE_WEAPON_OVERRIDE then
+            for _, evt in pairs(Randomat.ActiveEvents) do
+                if evt.Type == EVENT_TYPE_WEAPON_OVERRIDE then return false end
+            end
+        end
+
         local min_players = GetConVar("ttt_randomat_" .. event.Id .. "_min_players"):GetInt()
         local player_count = player.GetCount()
 
@@ -351,9 +368,9 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
     local function GetRandomRoleWeapon(roles, blocklist)
         local selected = math.random(1, #roles)
-        local tbl = table.Copy(EquipmentItems[roles[selected]])
+        local tbl = table.Copy(EquipmentItems[roles[selected]]) or {}
 
-        for _, v in pairs(weapons.GetList()) do
+        for _, v in ipairs(weapons.GetList()) do
             if v and not v.Spawnable and v.CanBuy and not table.HasValue(blocklist, v.ClassName) then
                 table.insert(tbl, v)
             end
@@ -383,15 +400,15 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
                 GiveWep(ply, roles, blocklist, include_equipment, tracking, settrackingvar, onitemgiven)
                 -- Otherwise give it to them
             else
-                ply:GiveEquipmentItem(item_id)
                 onitemgiven(true, item_id)
+                ply:GiveEquipmentItem(item_id)
                 settrackingvar(0)
             end
         elseif swep_table then
             -- If this player can use this weapon, give it to them
             if ply:CanCarryWeapon(swep_table) then
-                ply:Give(item.ClassName)
                 onitemgiven(false, item.ClassName)
+                ply:Give(item.ClassName)
 
                 if swep_table.WasBought then
                     swep_table:WasBought(ply)
@@ -458,7 +475,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     function randomat_meta:RemoveHook(hooktype)
         local id = "RandomatEvent." .. self.Id .. ":" .. hooktype
 
-        for idx, ahook in pairs(self.Hooks) do
+        for idx, ahook in ipairs(self.Hooks) do
             if ahook[1] == hooktype and ahook[2] == id then
                 hook.Remove(ahook[1], ahook[2])
                 table.remove(self.Hooks, idx)
@@ -471,7 +488,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     function randomat_meta:CleanUpHooks()
         if not self.Hooks then return end
 
-        for _, ahook in pairs(self.Hooks) do
+        for _, ahook in ipairs(self.Hooks) do
             hook.Remove(ahook[1], ahook[2])
         end
 
@@ -525,8 +542,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             return "A phantom"
         elseif ply:GetRole() == ROLE_DETRAITOR then
             return "A detraitor"
-        elseif ply:GetRole() == ROLE_ROMANTIC then
-            return "A romantic"
+        elseif ply:GetRole() == ROLE_REVENGER then
+            return "A revenger"
         elseif ply:GetRole() == ROLE_DRUNK then
             return "A drunk"
         elseif ply:GetRole() == ROLE_CLOWN then
@@ -537,6 +554,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             return "An impersonator"
         elseif ply:GetRole() == ROLE_BEGGAR then
             return "A beggar"
+        elseif ply:GetRole() == ROLE_OLDMAN then
+            return "An old man"
         end
 
         return "Someone"
