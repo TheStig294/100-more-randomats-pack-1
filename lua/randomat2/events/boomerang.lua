@@ -1,8 +1,8 @@
 local EVENT = {}
 
-CreateConVar("randomat_boomerang_timer", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Time between being given boomerangs")
+CreateConVar("randomat_boomerang_timer", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Time between being given boomerangs", 1, 10)
 
-CreateConVar("randomat_boomerang_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons")
+CreateConVar("randomat_boomerang_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons", 0, 1)
 
 CreateConVar("randomat_boomerang_weaponid", "weapon_ttt_boomerang_randomat", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
 
@@ -52,6 +52,58 @@ end
 --Stop periodically giving out boomerangs
 function EVENT:End()
     timer.Remove("RandomatBoomerangTimer")
+end
+
+function EVENT:GetConVars()
+    local sliders = {}
+
+    for _, v in ipairs({"timer"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(sliders, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 0
+            })
+        end
+    end
+
+    local checks = {}
+
+    for _, v in ipairs({"strip"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checks, {
+                cmd = v,
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    local textboxes = {}
+
+    for _, v in ipairs({"weaponid"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(textboxes, {
+                cmd = v,
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    return sliders, checks, textboxes
 end
 
 Randomat:register(EVENT)
