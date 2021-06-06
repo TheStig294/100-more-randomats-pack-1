@@ -25,144 +25,65 @@ local function removecorpse(corpse)
     end
 end
 
+-- Takes 2 players and checks if they are on the same team, checking one team at a time
+local function IsSameTeam(attacker, victim)
+    if (Randomat:IsInnocentTeam(attacker, false) and Randomat:IsInnocentTeam(victim, false)) or (Randomat:IsTraitorTeam(attacker) and Randomat:IsTraitorTeam(victim)) or (Randomat:IsMonsterTeam(attacker) and Randomat:IsMonsterTeam(victim)) then
+        return true
+    else
+        return false
+    end
+end
+
 function EVENT:Begin()
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
         -- Only proceed if the player didn't suicide, and the attacker is another player.
-        if (attacker.IsPlayer() and attacker ~= victim) then
-            if Randomat:IsInnocentTeam(attacker, false) and Randomat:IsInnocentTeam(victim, false) then
-                attacker:Kill() -- Kill the attacker
+        if attacker:IsPlayer() and attacker ~= victim and IsSameTeam(attacker, victim) then
+            attacker:Kill() -- Kill the attacker
 
-                timer.Create("respawndelaydontrdm", 0.1, 0, function()
-                    local corpse = findcorpse(victim) -- run the normal respawn code now
-                    -- Respawn the victim elsewhere
-                    victim:SpawnForRound(true)
-                    victim:SetHealth(100)
+            timer.Create("respawndelaydontrdm", 0.1, 0, function()
+                local corpse = findcorpse(victim) -- run the normal respawn code now
+                -- Respawn the victim elsewhere
+                victim:SpawnForRound(true)
+                victim:SetHealth(100)
 
-                    -- Remove the victim's corpse
-                    if corpse then
-                        victim:SetPos(corpse:GetPos())
-                        removecorpse(corpse)
-                    end
+                -- Remove the victim's corpse
+                if corpse then
+                    victim:SetPos(corpse:GetPos())
+                    removecorpse(corpse)
+                end
 
-                    if victim:Alive() then
-                        timer.Remove("respawndelaydontrdm")
+                if victim:Alive() then
+                    timer.Remove("respawndelaydontrdm")
 
-                        return
-                    end
-                end)
-            elseif Randomat:IsTraitorTeam(attacker) and Randomat:IsTraitorTeam(victim) then
-                attacker:Kill() -- Kill the attacker
-
-                timer.Create("respawndelaydontrdm", 0.1, 0, function()
-                    local corpse = findcorpse(victim) -- run the normal respawn code now
-                    -- Respawn the victim elsewhere
-                    victim:SpawnForRound(true)
-                    victim:SetHealth(100)
-
-                    -- Remove the victim's corpse
-                    if corpse then
-                        victim:SetPos(corpse:GetPos())
-                        removecorpse(corpse)
-                    end
-
-                    if victim:Alive() then
-                        timer.Remove("respawndelaydontrdm")
-
-                        return
-                    end
-                end)
-            elseif Randomat:IsMonsterTeam(attacker) and Randomat:IsMonsterTeam(victim) then
-                attacker:Kill() -- Kill the attacker
-
-                timer.Create("respawndelaydontrdm", 0.1, 0, function()
-                    local corpse = findcorpse(victim) -- run the normal respawn code now
-                    -- Respawn the victim elsewhere
-                    victim:SpawnForRound(true)
-                    victim:SetHealth(100)
-
-                    -- Remove the victim's corpse
-                    if corpse then
-                        victim:SetPos(corpse:GetPos())
-                        removecorpse(corpse)
-                    end
-
-                    if victim:Alive() then
-                        timer.Remove("respawndelaydontrdm")
-
-                        return
-                    end
-                end)
-            end
+                    return
+                end
+            end)
         end
     end)
 
     self:AddHook("PlayerSilentDeath", function(victim, inflictor, attacker)
         -- Only proceed if the player didn't suicide, and the attacker is another player.
-        if (attacker.IsPlayer() and attacker ~= victim) then
-            if Randomat:IsInnocentTeam(attacker, false) and Randomat:IsInnocentTeam(victim, false) then
-                attacker:Kill() -- Kill the attacker
+        if attacker:IsPlayer() and attacker ~= victim and IsSameTeam(attacker, victim) then
+            attacker:Kill() -- Kill the attacker
 
-                timer.Create("respawndelaydontrdm", 0.1, 0, function()
-                    local corpse = findcorpse(victim) -- run the normal respawn code now
-                    -- Respawn the victim elsewhere
-                    victim:SpawnForRound(true)
-                    victim:SetHealth(100)
+            timer.Create("respawndelaydontrdm", 0.1, 0, function()
+                local corpse = findcorpse(victim) -- run the normal respawn code now
+                -- Respawn the victim elsewhere
+                victim:SpawnForRound(true)
+                victim:SetHealth(100)
 
-                    -- Remove the victim's corpse
-                    if corpse then
-                        victim:SetPos(corpse:GetPos())
-                        removecorpse(corpse)
-                    end
+                -- Remove the victim's corpse
+                if corpse then
+                    victim:SetPos(corpse:GetPos())
+                    removecorpse(corpse)
+                end
 
-                    if victim:Alive() then
-                        timer.Remove("respawndelaydontrdm")
+                if victim:Alive() then
+                    timer.Remove("respawndelaydontrdm")
 
-                        return
-                    end
-                end)
-            elseif Randomat:IsTraitorTeam(attacker) and Randomat:IsTraitorTeam(victim) then
-                attacker:Kill() -- Kill the attacker
-
-                timer.Create("respawndelaydontrdm", 0.1, 0, function()
-                    local corpse = findcorpse(victim) -- run the normal respawn code now
-                    -- Respawn the victim elsewhere
-                    victim:SpawnForRound(true)
-                    victim:SetHealth(100)
-
-                    -- Remove the victim's corpse
-                    if corpse then
-                        victim:SetPos(corpse:GetPos())
-                        removecorpse(corpse)
-                    end
-
-                    if victim:Alive() then
-                        timer.Remove("respawndelaydontrdm")
-
-                        return
-                    end
-                end)
-            elseif Randomat:IsMonsterTeam(attacker) and Randomat:IsMonsterTeam(victim) then
-                attacker:Kill() -- Kill the attacker
-
-                timer.Create("respawndelaydontrdm", 0.1, 0, function()
-                    local corpse = findcorpse(victim) -- run the normal respawn code now
-                    -- Respawn the victim elsewhere
-                    victim:SpawnForRound(true)
-                    victim:SetHealth(100)
-
-                    -- Remove the victim's corpse
-                    if corpse then
-                        victim:SetPos(corpse:GetPos())
-                        removecorpse(corpse)
-                    end
-
-                    if victim:Alive() then
-                        timer.Remove("respawndelaydontrdm")
-
-                        return
-                    end
-                end)
-            end
+                    return
+                end
+            end)
         end
     end)
 end
