@@ -39,14 +39,14 @@ CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 
 -- On EVENT:Begin, change everyone's model to Doncon
 function EVENT:Begin()
     -- We chose a random player out of all players (thanks google)
-    local randomPly = table.Random(player.GetAll())
+    local randomPly = table.Random(self:GetPlayers(true))
     -- Now we save that player's model like this...
     local chosenModel = randomPly:GetModel()
     -- and we use this to write "It's PLAYERNAME" (taken from suspicion.lua)
     Randomat:EventNotifySilent("It's " .. randomPly:Nick() .. "!")
 
     -- Gets all players...
-    for k, v in pairs(player.GetAll()) do
+    for k, v in pairs(self:GetPlayers()) do
         -- if they're alive and not in spectator mode
         if v:Alive() and not v:IsSpec() then
             -- and not a bot (bots do not have the following command, so it's unnecessary)
@@ -78,6 +78,7 @@ function EVENT:Begin()
         end
     end
 
+    -- Sets someone's playermodel again if needed (e.g. respawning) as force playermodel is off
     self:AddHook("PlayerSetModel", function(ply)
         timer.Simple(0.1, function()
             ply:SetModel(chosenModel[ply])
@@ -88,7 +89,7 @@ end
 -- when the event ends, reset every player's model
 function EVENT:End()
     -- loop through all players
-    for k, v in pairs(player.GetAll()) do
+    for k, v in pairs(self:GetPlayers()) do
         -- if the index k in the table playermodels has a model, then...
         if (playerModels[k] ~= nil) then
             -- we set the player v to the playermodel with index k in the table
