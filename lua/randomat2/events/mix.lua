@@ -4,13 +4,18 @@ EVENT.Description = "When you buy something, you get a random weapon instead"
 EVENT.id = "mix"
 
 function EVENT:Begin()
-    hook.Add("TTTOrderedEquipment", "MixRandomatRandomiser", function(ply, equipment, is_item)
+    -- Whenever someone buys something, 
+    self:AddHook("TTTOrderedEquipment", function(ply, equipment, is_item)
+        -- Remove what they bought
         StripEquipment(ply, equipment, is_item)
 
+        -- Wait a split second
         timer.Simple(0.2, function()
+            -- Get all weapons
             local weps = weapons.GetList()
             local give_weps = {}
 
+            -- Filter out the un-buyable weapons
             for i = 1, #weps do
                 local wep = weps[i]
 
@@ -19,14 +24,11 @@ function EVENT:Begin()
                 end
             end
 
+            -- Select a random weapon and give it to the player
             local item = give_weps[math.random(#give_weps)]
             ply:Give(WEPS.GetClass(item))
         end)
     end)
-end
-
-function EVENT:End()
-    hook.Remove("TTTOrderedEquipment", "MixRandomatRandomiser")
 end
 
 Randomat:register(EVENT)
