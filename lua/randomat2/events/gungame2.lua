@@ -1,173 +1,67 @@
 local EVENT = {}
 EVENT.Title = "Gun Game 2.0"
-EVENT.Description = "Swap weapons when someone dies"
+EVENT.Description = "Change weapons when someone dies"
 EVENT.id = "gungame2"
+EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+local weps = {}
 
-EVENT.DefaultWeaponList = {"weapon_zm_revolver", "weapon_weapon_ttt_dragon_elites", "weapon_zm_shotgun", "weapon_ttt_sawedoff", "weapon_zm_mac10", "weapon_ttt_ak47", "weapon_ttt_m16", "weapon_ttt_famas", "weapon_ttt_aug", "weapon_zm_sledge", "weapon_ttt_m60", "weapon_zm_rifle", "weapon_ttt_sg550", "randomat_weapon_huntingbow", "weapon_ttt_knife", "weapon_ttt_knife"}
+-- Function that swaps everyone to a new weapon
+local function GiveWeps()
+    timer.Simple(0.1, function()
+        -- For all players,
+        for _, v in ipairs(player.GetAll()) do
+            -- See if they are currently holding a weapon that will be swapped
+            local ac = false
 
-EVENT.ZombieWeaponList = {"weapon_zm_revolver", "weapon_weapon_ttt_dragon_elites", "weapon_zm_shotgun", "weapon_ttt_m60", "weapon_zm_rifle", "weapon_ttt_sawedoff", "weapon_zm_mac10", "weapon_ttt_ak47", "weapon_ttt_m16", "weapon_ttt_famas", "weapon_ttt_aug", "weapon_zm_sledge", "weapon_ttt_sg550", "weapon_zm_shotgun", "weapon_ttt_m60", "weapon_ttt_sawedoff"}
-
-EVENT.RandomListMinimumSize = 20
-EVENT.Blacklist = {}
-EVENT.MaxNumber = 16
-
-function EVENT:Begin()
-    local WeaponList = self:CreateWeaponList()
-
-    if (self:CheckZombies()) then
-        self:ChangeZombieGuns(WeaponList)
-    else
-        self:ChangeGuns(WeaponList)
-    end
-
-    self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
-        timer.Simple(0.1, function()
-            if (self:CheckZombies()) then
-                self:ChangeZombieGuns()
-            else
-                self:ChangeGuns(WeaponList)
+            if v:GetActiveWeapon().Kind == WEAPON_HEAVY or v:GetActiveWeapon().Kind == WEAPON_PISTOL then
+                ac = true
             end
-        end)
+
+            -- Remove their pistol and main gun
+            for _, wep in ipairs(v:GetWeapons()) do
+                if wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL then
+                    v:StripWeapon(wep.ClassName)
+                end
+            end
+
+            -- Give them a random weapon
+            local wepGiven = table.Random(weps)
+            v:Give(wepGiven.ClassName)
+            -- Reset FOV to unscope
+            v:SetFOV(0, 0.2)
+
+            -- If they were holding a removed weapon, force them to select the new one
+            if ac then
+                v:SelectWeapon(wepGiven.ClassName)
+            end
+        end
     end)
 end
 
-function EVENT:RemoveWeapons(ply)
-    for _, wep in pairs(ply:GetWeapons()) do
-        if wep.Kind == WEAPON_HEAVY then
-            ply:StripWeapon(wep:GetClass())
-        end
-    end
-end
-
-function EVENT:ChangeGuns(weapons)
-    local AlivePlayerCount = self:CountAlivePlayers()
-
-    if (AlivePlayerCount > self.MaxNumber) then
-        AlivePlayerCount = self.MaxNumber
-    elseif (AlivePlayerCount < 1) then
-        AlivePlayerCount = 1
-    end
-
-    local weaponChoice = (self.MaxNumber - AlivePlayerCount) + 1
-
-    for i, ply in pairs(self:GetAlivePlayers()) do
-        local currentWeapon = ply:GetActiveWeapon()
-        self:RemoveWeapons(ply)
-        local wep = ply:Give(weapons[weaponChoice].ClassName)
-        wep.AllowDrop = false
-
-        if (currentWeapon.Kind == wep.Kind) then
-            ply:SelectWeapon(wep.ClassName)
-        else
-            ply:SelectWeapon(currentWeapon.ClassName)
-        end
-
-        self:FixFOV(ply)
-    end
-end
-
-function EVENT:ChangeZombieGuns(weapons)
-    local AliveNonZom = self:CountNonZombiePlayers()
-
-    if (AliveNonZom > self.MaxNumber) then
-        AliveNonZom = self.MaxNumber
-    elseif (AliveNonZom < 1) then
-        AliveNonZom = 1
-    end
-
-    local weaponChoice = (self.MaxNumber - AliveNonZom) + 1
-
-    for i, ply in pairs(self:GetAlivePlayers()) do
-        local currentWeapon = ply:GetActiveWeapon()
-        self:RemoveWeapons(ply)
-        local wep = ply:Give(weapons[weaponChoice])
-        wep.AllowDrop = false
-
-        if (currentWeapon.Kind == wep.Kind) then
-            ply:SelectWeapon(wep.ClassName)
-        else
-            ply:SelectWeapon(currentWeapon.ClassName)
-        end
-
-        self:FixFOV(ply)
-    end
-end
-
-function EVENT:CountAlivePlayers()
-    local j = 0
-
-    for _, ply in pairs(self:GetAlivePlayers()) do
-        j = j + 1
-    end
-
-    return j
-end
-
-function EVENT:CountNonZombiePlayers()
-    local j = 0
-
-    for _, ply in pairs(self:GetAlivePlayers()) do
-        if (ply:GetRole() ~= ROLE_ZOMBIE) then
-            j = j + 1
-        end
-    end
-end
-
-function EVENT:CheckZombies()
-    for _, ply in pairs(self:GetAlivePlayers()) do
-        if ply:GetRole() == ROLE_ZOMBIE then return true end
-    end
-
-    return false
-end
-
-function EVENT:CreateWeaponList()
-    local RandomList = {}
-    local ListSize = self.RandomListMinimumSize
-    local PlayerCount = 1
-
-    for _, ply in pairs(self:GetPlayers()) do
-        PlayerCount = PlayerCount + 1
-    end
-
-    if self.RandomListMinimumSize < PlayerCount then
-        ListSize = PlayerCount
-    end
-
-    local currentSize = 0
-
-    for k, wep in pairs(weapons.GetList()) do
-        if wep.AutoSpawnable and wep.Kind == WEAPON_HEAVY then
-            table.insert(RandomList, wep)
-            currentSize = currentSize + 1
+function EVENT:Begin()
+    -- Remove all weapons from the ground, except grenades
+    for _, ent in ipairs(ents.GetAll()) do
+        if ent.AutoSpawnable and (ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_PISTOL) then
+            ent:Remove()
         end
     end
 
-    if next(RandomList) then
-        while (currentSize < ListSize) do
-            table.insert(RandomList, table.Random(RandomList))
-            currentSize = currentSize + 1
-        end
-    else
-        if self:CheckZombies() then
-            return self.ZombieWeaponList
-        else
-            return self.DefaultWeaponList
+    -- Add all floor weapons to a table to choose from
+    weps = {}
+
+    for _, wep in ipairs(weapons.GetList()) do
+        if wep.AutoSpawnable and (wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL) then
+            table.insert(weps, wep)
         end
     end
 
-    return RandomList
-end
+    -- Give everyone their first weapon
+    GiveWeps()
 
---Prevents picking up primaries or secondaries that are not part of the 'round'
-function EVENT:PreventPickups()
-end
-
---If players are using a scope, they get stuck in a zoomed FOV and this needs to be fixed
-function EVENT:FixFOV(ply)
-    if ply:GetActiveWeapon().Kind == WEAPON_HEAVY then
-        ply:SetFOV(0, 0.2)
-    end
+    -- Give everyone a new weapon when someone dies
+    self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
+        GiveWeps()
+    end)
 end
 
 Randomat:register(EVENT)
