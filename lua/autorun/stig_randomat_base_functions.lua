@@ -18,6 +18,56 @@ if randomatRandomSeed then
     randomatRandomSeed = false
 end
 
+--Renaming print names of weapons the same way as 'TTT Total Statistics' for compatibility
+local function RenameWeps(name)
+    if name == "sipistol_name" then
+        return "Silenced Pistol"
+    elseif name == "knife_name" then
+        return "Knife"
+    elseif name == "newton_name" then
+        return "Newton Launcher"
+    elseif name == "tele_name" then
+        return "Teleporter"
+    elseif name == "hstation_name" then
+        return "Health Station"
+    elseif name == "flare_name" then
+        return "Flare Gun"
+    elseif name == "decoy_name" then
+        return "Decoy"
+    elseif name == "radio_name" then
+        return "Radio"
+    elseif name == "polter_name" then
+        return "Poltergeist"
+    elseif name == "vis_name" then
+        return "Visualizer"
+    elseif name == "defuser_name" then
+        return "Defuser"
+    elseif name == "stungun_name" then
+        return "UMP Prototype"
+    elseif name == "binoc_name" then
+        return "Binoculars"
+    elseif name == "item_radar" then
+        return "Radar"
+    elseif name == "item_armor" then
+        return "Body Armor"
+    elseif name == "dragon_elites_name" then
+        return "Dragon Elites"
+    elseif name == "silenced_m4a1_name" then
+        return "Silenced M4A1"
+    elseif name == "slam_name" then
+        return "M4 SLAM"
+    elseif name == "jihad_bomb_name" then
+        return "Jihad Bomb"
+    elseif name == "item_slashercloak" then
+        --custom mods friends and I made ;)
+        return "Slasher Cloak"
+    elseif name == "heartbeat_monitor_name" then
+        return "Heartbeat Monitor"
+    else
+        return name
+    end
+end
+
 --Net messages for the randomats relying on 'TTT Total Statistics'
 if SERVER then
     util.AddNetworkString("RandomatDetectiveWeaponsList")
@@ -263,56 +313,6 @@ function StripEquipment(ply, equipment, is_item)
             ply:StripWeapon(equipment)
         end
     end)
-end
-
---Renaming print names of weapons the same way as 'TTT Total Statistics' for compatibility
-local function RenameWeps(name)
-    if name == "sipistol_name" then
-        return "Silenced Pistol"
-    elseif name == "knife_name" then
-        return "Knife"
-    elseif name == "newton_name" then
-        return "Newton Launcher"
-    elseif name == "tele_name" then
-        return "Teleporter"
-    elseif name == "hstation_name" then
-        return "Health Station"
-    elseif name == "flare_name" then
-        return "Flare Gun"
-    elseif name == "decoy_name" then
-        return "Decoy"
-    elseif name == "radio_name" then
-        return "Radio"
-    elseif name == "polter_name" then
-        return "Poltergeist"
-    elseif name == "vis_name" then
-        return "Visualizer"
-    elseif name == "defuser_name" then
-        return "Defuser"
-    elseif name == "stungun_name" then
-        return "UMP Prototype"
-    elseif name == "binoc_name" then
-        return "Binoculars"
-    elseif name == "item_radar" then
-        return "Radar"
-    elseif name == "item_armor" then
-        return "Body Armor"
-    elseif name == "dragon_elites_name" then
-        return "Dragon Elites"
-    elseif name == "silenced_m4a1_name" then
-        return "Silenced M4A1"
-    elseif name == "slam_name" then
-        return "M4 SLAM"
-    elseif name == "jihad_bomb_name" then
-        return "Jihad Bomb"
-    elseif name == "item_slashercloak" then
-        --custom mods friends and I made ;)
-        return "Slasher Cloak"
-    elseif name == "heartbeat_monitor_name" then
-        return "Heartbeat Monitor"
-    else
-        return name
-    end
 end
 
 -- Takes 2 players and checks if they are on the same team, checking one team at a time
