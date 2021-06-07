@@ -4,6 +4,8 @@ EVENT.id = "yogsmurder"
 EVENT.AltTitle = "Murder (Yogscast intro)"
 util.AddNetworkString("YogsMurderRandomat")
 util.AddNetworkString("YogsMurderRandomatEnd")
+-- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
+EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 function EVENT:Begin()
     Randomat:SilentTriggerEvent("murder", self.owner)

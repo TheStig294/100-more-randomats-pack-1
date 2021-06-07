@@ -2,6 +2,8 @@ local EVENT = {}
 EVENT.Title = "Crowbars Only!"
 EVENT.Description = "Can only use, or be damaged by, a buffed crowbar"
 EVENT.id = "crowbarsonly"
+-- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
+EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 function EVENT:Begin()
     -- Remove all non-buyable weapons
