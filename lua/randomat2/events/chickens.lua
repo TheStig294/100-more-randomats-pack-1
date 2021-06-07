@@ -143,7 +143,7 @@ function EVENT:End()
     net.WriteString("RdmtChickensSpeed")
     net.Broadcast()
 
-    -- Resize at the beginning of next round, rather than the end of current round (For some reason, has no effect otherwise)
+    -- Reset all players
     for k, ply in pairs(self:GetPlayers()) do
         local offset = nil
 
