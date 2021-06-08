@@ -10,7 +10,7 @@ local function findcorpse(v)
     end
 end
 
--- Remove corpse, used on the player the detective kills.
+-- Remove corpse, used on the player who got RDM'd
 local function removecorpse(corpse)
     CORPSE.SetFound(corpse, false)
 
@@ -25,57 +25,40 @@ local function removecorpse(corpse)
     end
 end
 
+local function respawnandkill(victim, attacker)
+    -- Only proceed if the player didn't suicide, and the attacker is another player.
+    if attacker:IsPlayer() and attacker ~= victim and IsSameTeam(attacker, victim) then
+        timer.Create("respawndelaydontrdm", 0.1, 0, function()
+            local corpse = findcorpse(victim) -- run the normal respawn code now
+            -- Respawn the victim elsewhere
+            victim:SpawnForRound(true)
+            victim:SetHealth(100)
+
+            -- Remove the victim's corpse
+            if corpse then
+                victim:SetPos(corpse:GetPos())
+                removecorpse(corpse)
+            end
+
+            if victim:Alive() then
+                attacker:Kill() -- Kill the attacker
+                timer.Remove("respawndelaydontrdm")
+
+                return
+            end
+        end)
+    end
+end
+
 function EVENT:Begin()
+    -- Trigger randomat effect on non-headshot deaths,
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
-        -- Only proceed if the player didn't suicide, and the attacker is another player.
-        if attacker:IsPlayer() and attacker ~= victim and IsSameTeam(attacker, victim) then
-            attacker:Kill() -- Kill the attacker
-
-            timer.Create("respawndelaydontrdm", 0.1, 0, function()
-                local corpse = findcorpse(victim) -- run the normal respawn code now
-                -- Respawn the victim elsewhere
-                victim:SpawnForRound(true)
-                victim:SetHealth(100)
-
-                -- Remove the victim's corpse
-                if corpse then
-                    victim:SetPos(corpse:GetPos())
-                    removecorpse(corpse)
-                end
-
-                if victim:Alive() then
-                    timer.Remove("respawndelaydontrdm")
-
-                    return
-                end
-            end)
-        end
+        respawnandkill(victim, attacker)
     end)
 
+    -- And headshot deaths
     self:AddHook("PlayerSilentDeath", function(victim, inflictor, attacker)
-        -- Only proceed if the player didn't suicide, and the attacker is another player.
-        if attacker:IsPlayer() and attacker ~= victim and IsSameTeam(attacker, victim) then
-            attacker:Kill() -- Kill the attacker
-
-            timer.Create("respawndelaydontrdm", 0.1, 0, function()
-                local corpse = findcorpse(victim) -- run the normal respawn code now
-                -- Respawn the victim elsewhere
-                victim:SpawnForRound(true)
-                victim:SetHealth(100)
-
-                -- Remove the victim's corpse
-                if corpse then
-                    victim:SetPos(corpse:GetPos())
-                    removecorpse(corpse)
-                end
-
-                if victim:Alive() then
-                    timer.Remove("respawndelaydontrdm")
-
-                    return
-                end
-            end)
-        end
+        respawnandkill(victim, attacker)
     end)
 end
 
