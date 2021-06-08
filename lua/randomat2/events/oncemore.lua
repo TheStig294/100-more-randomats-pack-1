@@ -13,7 +13,7 @@ hook.Add("TTTBeginRound", "OnceMoreRandomatGetRandomatID", function()
             -- Grab the ID of the auto-randomat that triggered
             local activeEventId = Randomat.ActiveEvents[1].Id
 
-            -- And store it in the convar, which allows the last randomat from the last map to also work!
+            -- And store it in the convar, so long as the randomat being stored isn't this one
             if activeEventId ~= nil and activeEventId ~= "oncemore" then
                 GetConVar("randomat_oncemore_last_randomat"):SetString(activeEventId)
             end
@@ -35,7 +35,7 @@ function EVENT:Begin()
             Randomat:TriggerEvent(lastEventID, self.owner)
         end)
     else
-        -- If this is the first randomat in the round,
+        -- If this is the first randomat in the round, and the last randomat wasn't this one,
         if (GetConVar("randomat_oncemore_last_randomat"):GetString() ~= nil) and GetConVar("randomat_oncemore_last_randomat"):GetString() ~= "oncemore" then
             -- Trigger the last randomat stored in the convar
             timer.Simple(5, function()
