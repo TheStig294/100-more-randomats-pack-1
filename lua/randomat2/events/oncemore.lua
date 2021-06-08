@@ -45,6 +45,7 @@ function EVENT:Begin()
     end
 end
 
+-- Doesn't trigger if the convar is empty or auto-randomat is turned off
 function EVENT:Condition()
     if GetConVar("ttt_randomat_oncemore_last_randomat"):GetString() == "" then return false end
 
