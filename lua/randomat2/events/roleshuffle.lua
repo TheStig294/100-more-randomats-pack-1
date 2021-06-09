@@ -7,29 +7,37 @@ EVENT.Description = "Everyone changes role in " .. GetConVar("randomat_roleshuff
 EVENT.id = "roleshuffle"
 
 function EVENT:Begin()
-	timer.Create("RoleShuffleRandomatTimer", 1, GetConVar("randomat_roleshuffle_time"):GetInt(), function()
-        if timer.RepsLeft("RoleShuffleRandomatTimer") == 0 then
-            self:SmallNotify("Role shuffle!")
-            SelectRoles()
-            SendFullStateUpdate()
-            for _, ply in pairs(self:GetPlayers()) do
-                self:StripRoleWeapons(ply)
-                GAMEMODE:PlayerLoadout(ply)
-            end
+    -- Create a full timer that doesn't repeat, so it can be stopped if the round ends before it triggers
+    timer.Create("RoleShuffleRandomatTimer", 1, GetConVar("randomat_roleshuffle_time"):GetInt(), function()
+        -- Notify everyone when the role shuffle happens
+        self:SmallNotify("Role shuffle!")
+        -- Have TTT select new roles for everyone
+        SelectRoles()
+        -- Let the end of round scoreboard know roles have changed
+        SendFullStateUpdate()
+
+        -- Remove everyone's role weapons and give them their new ones, if their new role has one
+        for _, ply in pairs(self:GetPlayers()) do
+            self:StripRoleWeapons(ply)
+            GAMEMODE:PlayerLoadout(ply)
         end
-	end)
+    end)
 end
 
 function EVENT:End()
+    -- Stop the timer if the round ends before the role shuffle triggers
     timer.Remove("RoleShuffleRandomatTimer")
 end
 
 function EVENT:GetConVars()
     local sliders = {}
+
     for _, v in pairs({"time"}) do
         local name = "randomat_" .. self.id .. "_" .. v
+
         if ConVarExists(name) then
             local convar = GetConVar(name)
+
             table.insert(sliders, {
                 cmd = v,
                 dsc = convar:GetHelpText(),
@@ -39,6 +47,7 @@ function EVENT:GetConVars()
             })
         end
     end
+
     return sliders
 end
 
