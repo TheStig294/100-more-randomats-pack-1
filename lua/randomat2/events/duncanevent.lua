@@ -29,12 +29,13 @@ local standardHeightVector = Vector(0, 0, 64)
 local standardCrouchedHeightVector = Vector(0, 0, 28)
 local playerModels = {}
 local EVENT = {}
+
+CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Player names hidden when Duncan Event is active.")
+
 EVENT.Title = ""
 EVENT.id = "duncanevent"
 EVENT.Description = "Everyone gets someone's playermodel"
 EVENT.AltTitle = "It's ..."
-
-CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Player names hidden when Duncan Event is active.")
 
 -- On EVENT:Begin, change everyone's model to Doncon
 function EVENT:Begin()

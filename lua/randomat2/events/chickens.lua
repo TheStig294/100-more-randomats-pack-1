@@ -1,7 +1,4 @@
 local EVENT = {}
-EVENT.Title = "BAWK!"
-EVENT.Description = "Transforms everyone into chickens"
-EVENT.id = "chickens"
 
 CreateConVar("randomat_chickens_hp", 60, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Player max HP", 1, 100)
 
@@ -9,13 +6,17 @@ CreateConVar("randomat_chickens_sc", 0.25, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Multi
 
 CreateConVar("randomat_chickens_sp", 0.75, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Player movement speed multiplier", 0.1, 1)
 
-local playerModels = {}
-local offsets = {}
-local offsets_ducked = {}
+EVENT.Title = "BAWK!"
+EVENT.Description = "Transforms everyone into chickens"
+EVENT.id = "chickens"
 
 local sndTabIdle = {"chickens/idle1.wav", "chickens/idle2.wav", "chickens/idle3.wav", "chickens/alert.wav"}
 
 local sndTabPain = {"chickens/pain1.wav", "chickens/pain2.wav", "chickens/pain3.wav"}
+
+local playerModels = {}
+local offsets = {}
+local offsets_ducked = {}
 
 function EVENT:Begin()
     playerModels = {}

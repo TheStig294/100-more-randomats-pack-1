@@ -1,8 +1,8 @@
 local EVENT = {}
+CreateConVar("randomat_oncemore_last_randomat", "", FCVAR_ARCHIVE, "The last auto-randomat that was activated, (don't touch), used for the 'Once more with feeling!' randomat")
 EVENT.Title = "Once more, with feeling!"
 EVENT.Description = "Repeats the last randomat"
 EVENT.id = "oncemore"
-CreateConVar("randomat_oncemore_last_randomat", "", FCVAR_ARCHIVE, "The last auto-randomat that was activated, (don't touch), used for the 'Once more with feeling!' randomat")
 
 -- At the start of each round,
 hook.Add("TTTBeginRound", "OnceMoreRandomatGetRandomatID", function()

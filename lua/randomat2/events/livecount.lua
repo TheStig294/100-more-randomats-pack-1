@@ -1,4 +1,3 @@
-AddCSLuaFile()
 local EVENT = {}
 
 CreateConVar("randomat_livecount_timer", 30, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Time between live counts", 5, 90)
@@ -8,6 +7,7 @@ EVENT.Description = "Counts no. of alive players every " .. GetConVar("randomat_
 EVENT.id = "livecount"
 
 function EVENT:Begin()
+    -- Trigger every amount of seconds set by the convar
     timer.Create("RandomatLiveCountTimer", GetConVar("randomat_livecount_timer"):GetInt(), 0, function()
         self:SmallNotify("There are " .. #self:GetAlivePlayers() .. " people still alive")
     end)

@@ -1,4 +1,9 @@
 local EVENT = {}
+
+CreateConVar("randomat_freeze2_duration", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Duration of the Freeze (in seconds)", 1, 60)
+
+CreateConVar("randomat_freeze2_timer", 30, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How often (in seconds) the Freeze occurs", 5, 60)
+
 -- Fills a table with all the possible names of this randomat
 local eventnames = {}
 table.insert(eventnames, "What's this one? Oh, it's the freeze randomat...")
@@ -18,14 +23,10 @@ table.insert(eventnames, "Random Freeze for everyone!")
 table.insert(eventnames, "Honey, I froze the terrorists")
 table.insert(eventnames, "Sudden Freeze!")
 table.insert(eventnames, "There are more than " .. #eventnames .. " different freeze randomat names")
--- Setting a random name to this randomat
+-- And picking a random name
 EVENT.Title = table.Random(eventnames)
 EVENT.AltTitle = "Freeze (Randomat Puns)"
 EVENT.id = "freeze2"
-
-CreateConVar("randomat_freeze2_duration", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Duration of the Freeze (in seconds)", 1, 60)
-
-CreateConVar("randomat_freeze2_timer", 30, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How often (in seconds) the Freeze occurs", 5, 60)
 
 function EVENT:Begin()
     -- Display this randomat's description after a delay

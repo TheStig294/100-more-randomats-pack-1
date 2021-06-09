@@ -1,11 +1,12 @@
 local EVENT = {}
-EVENT.Title = "Zero friction!"
-EVENT.Description = "Also, no prop damage"
-EVENT.id = "friction"
 
 CreateConVar("randomat_friction_friction", "0", {FCVAR_ARCHIVE}, "Friction amount", 0, 8)
 
 CreateConVar("randomat_friction_nopropdmg", "1", {FCVAR_ARCHIVE}, "Immunity to prop damage, else you might die from touching props")
+
+EVENT.Title = "Zero friction!"
+EVENT.Description = "Also, no prop damage"
+EVENT.id = "friction"
 
 function EVENT:Begin()
     bananaRandomat = true

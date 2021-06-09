@@ -1,9 +1,10 @@
 local EVENT = {}
+
+CreateConVar("randomat_burdens_speed_multiplier", 0.75, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "% of speed changed when dropping/picking up weapons", 0.01, 1)
+
 EVENT.Title = "I'm sworn to carry your burdens"
 EVENT.Description = "Less weapons, move faster. More weapons, move slower."
 EVENT.id = "burdens"
-
-CreateConVar("randomat_burdens_speed_multiplier", 0.75, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "% of speed changed when dropping/picking up weapons", 0.01, 1)
 
 function EVENT:Begin()
     --Remove all grenades from players and the floor as speed multipliers don't apply correctly to them

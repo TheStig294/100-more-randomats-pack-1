@@ -1,9 +1,10 @@
 local EVENT = {}
+
+CreateConVar("randomat_bouncy_speed_retain", 0.75, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "% of speed retained between bounces", 0, 1)
+
 EVENT.Title = "Bouncy"
 EVENT.Description = "Bounce instead of fall damage"
 EVENT.id = "bouncy"
-
-CreateConVar("randomat_bouncy_speed_retain", 0.75, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "% of speed retained between bounces", 0, 1)
 
 function EVENT:Begin()
     --On taking damage from falling,
