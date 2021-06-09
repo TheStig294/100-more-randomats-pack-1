@@ -6,9 +6,10 @@ EVENT.Title = GetConVar("randomat_speedjumphealth_multiplier"):GetInt() .. "% Mo
 EVENT.id = "speedjumphealth"
 util.AddNetworkString("SpeedJumpHealthBegin")
 util.AddNetworkString("SpeedJumpHealthEnd")
-multiplier = 1 + GetConVar("randomat_speedjumphealth_multiplier"):GetInt() / 100
 
 function EVENT:Begin()
+    local multiplier = 1 + GetConVar("randomat_speedjumphealth_multiplier"):GetInt() / 100
+
     for i, ply in pairs(self:GetAlivePlayers()) do
         ply:SetHealth(ply:Health() * multiplier)
         ply:SetMaxHealth(ply:GetMaxHealth() * multiplier)
@@ -18,9 +19,9 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    self:CleanUpHooks()
-
     for _, ply in pairs(self:GetPlayers()) do
+        ply:SetHealth(ply:Health() / multiplier)
+        ply:SetMaxHealth(100)
         ply:SetJumpPower(160)
         ply:SetWalkSpeed(200)
     end
