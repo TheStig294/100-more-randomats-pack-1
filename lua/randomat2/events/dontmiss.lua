@@ -1,10 +1,11 @@
+local EVENT = {}
+
 CreateConVar("randomat_dontmiss_damage", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Damage from missing", 1, 100)
 
 CreateConVar("randomat_dontmiss_heal", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Healing from hitting", 1, 100)
 
-local EVENT = {}
 EVENT.Title = "Don't Miss..."
-EVENT.Description = "If you miss a shot, you take damage, but if you hit, then you gain health."
+EVENT.Description = "Take damage for missing shots, gain health for hitting"
 EVENT.id = "dontmiss"
 
 function EVENT:Begin()
