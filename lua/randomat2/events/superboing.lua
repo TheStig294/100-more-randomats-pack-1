@@ -2,17 +2,20 @@ local EVENT = {}
 EVENT.Title = "Super Boing"
 EVENT.Description = "Super jump, high gravity, no fall damage"
 EVENT.id = "superboing"
+local superBoingRandomat = false
 
 function EVENT:Begin()
+    -- Let end function know randomat has triggered
     superBoingRandomat = true
+    -- Set high gravity
     RunConsoleCommand("sv_gravity", 1800)
 
+    -- Super jump
     for i, ply in pairs(self:GetAlivePlayers()) do
         ply:SetJumpPower(ply:GetJumpPower() + 800)
     end
 
-    self:AddHook("TTTPlayerSpeed", function() return 1.5 end)
-
+    -- And no fall damage
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
         if IsValid(ent) and ent:IsPlayer() and dmginfo:IsFallDamage() then
             dmginfo:SetDamage(0)
@@ -21,13 +24,17 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
+    -- If randomat has triggered
     if superBoingRandomat then
-        self:CleanUpHooks()
+        -- Reset gravity and jump power
         RunConsoleCommand("sv_gravity", 600)
 
         for _, ply in pairs(self:GetPlayers()) do
             ply:SetJumpPower(200)
         end
+
+        -- Prevent end function from running until randomat triggers again
+        superBoingRandomat = false
     end
 end
 
