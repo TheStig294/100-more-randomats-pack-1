@@ -1,8 +1,9 @@
+local EVENT = {}
+
 CreateConVar("randomat_guilt_time", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Time Guilty", 1, 30)
 
-local EVENT = {}
 EVENT.Title = "Unbelievable Guilt"
-EVENT.Description = "Killing someone on your team forces your head down for a few seconds"
+EVENT.Description = "Killing someone on your team forces your head down for " .. GetConVar("randomat_guilt_time"):GetInt() .. " seconds"
 EVENT.id = "guilt"
 util.AddNetworkString("Guilty")
 
