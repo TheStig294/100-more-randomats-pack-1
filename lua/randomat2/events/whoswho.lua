@@ -1,4 +1,3 @@
-AddCSLuaFile()
 local EVENT = {}
 EVENT.Title = "Who's Who?"
 EVENT.Description = "Everyone swaps playermodels"
