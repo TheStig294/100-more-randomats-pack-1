@@ -1,4 +1,8 @@
+-- Randomat base code from Malivil's randomat mod
+-- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if not GetGlobalBool("DisableStigRandomatBase", false) then
+    -- Malivil's client-side randomat functions, handles the custom player speed manipulation hook modifying the default one in TTT,
+    -- And grabs the printname of a buy menu item, used for example in the 'Communism' and 'Privacy policy' randomat events
     local function GetItemName(item, role)
         local id = tonumber(item)
         local info = GetEquipmentItem(role, id)

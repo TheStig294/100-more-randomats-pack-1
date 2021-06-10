@@ -1,4 +1,7 @@
+-- Randomat base code from Malivil's randomat mod
+-- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if not GetGlobalBool("DisableStigRandomatBase", false) then
+    -- Adds extra functions useful for making randomats with, for example the 'Don't RDM...' randomat event uses IsInnocentTeam() and IsTraitorTeam() to check for RDMs
     -- Event Types
     EVENT_TYPE_DEFAULT = 0
     EVENT_TYPE_WEAPON_OVERRIDE = 1

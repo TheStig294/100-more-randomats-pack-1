@@ -1,4 +1,7 @@
+-- Randomat base code from Malivil's randomat mod
+-- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if not GetGlobalBool("DisableStigRandomatBase", false) then
+    -- Handles the basic functions this mod requires to run
     util.AddNetworkString("randomat_message")
     util.AddNetworkString("randomat_message_silent")
     util.AddNetworkString("AlertTriggerFinal")
@@ -149,12 +152,17 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     function Randomat:GetPlayers(shuffle, alive_only, dead_only)
         local plys = {}
 
-        for _, ply in ipairs(player.GetAll()) do
-            if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()))) then
+        -- Optimize this to get the full raw list if both alive and dead should be included
+        if alive_only == dead_only then
+            plys = player.GetAll()
+        else
+            for _, ply in ipairs(player.GetAll()) do
                 -- Anybody
                 -- Alive and non-spec
                 -- Dead or spec
-                table.insert(plys, ply)
+                if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()))) then
+                    table.insert(plys, ply)
+                end
             end
         end
 
