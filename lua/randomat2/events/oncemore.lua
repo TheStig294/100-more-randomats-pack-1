@@ -30,9 +30,12 @@ function EVENT:Begin()
         -- Grab the ID of the last randomat that triggered, 
         local lastEventID = Randomat.ActiveEvents[activeEventsNo - 1].Id
 
-        -- And after 5 seconds, trigger that randomat
+        -- And after 5 seconds, trigger that randomat,
         timer.Simple(5, function()
-            Randomat:TriggerEvent(lastEventID, self.owner)
+            -- If that randomat isn't this one
+            if lastEventID ~= "oncemore" then
+                Randomat:TriggerEvent(lastEventID, self.owner)
+            end
         end)
     else
         -- If this is the first randomat in the round, and the last randomat wasn't this one,
