@@ -1,3 +1,4 @@
+-- Boomerang weapon used for the 'Boomerang Fu!' randomat
 if SERVER then
     AddCSLuaFile("shared.lua")
     resource.AddFile("models/boomerang/boomerang.mdl")
