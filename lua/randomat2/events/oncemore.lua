@@ -7,7 +7,7 @@ EVENT.id = "oncemore"
 -- At the start of each round,
 hook.Add("TTTBeginRound", "OnceMoreRandomatGetRandomatID", function()
     -- If auto-randomat, and this event is enabled
-    if GetConVar("ttt_randomat_auto"):GetBool() and GetConVar("randomat_oncemore"):GetBool() then
+    if GetConVar("ttt_randomat_auto"):GetBool() and GetConVar("ttt_randomat_oncemore"):GetBool() then
         -- Wait a second,
         timer.Simple(1, function()
             -- Grab the ID of the auto-randomat that triggered
