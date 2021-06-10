@@ -20,8 +20,6 @@ end
 
 function EVENT:End()
     for _, ply in pairs(self:GetPlayers()) do
-        ply:SetHealth(ply:Health() / multiplier)
-        ply:SetMaxHealth(100)
         ply:SetJumpPower(160)
         ply:SetWalkSpeed(200)
     end
