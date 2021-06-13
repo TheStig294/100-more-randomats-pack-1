@@ -8,19 +8,23 @@ EVENT.id = "roleshuffle"
 
 function EVENT:Begin()
     -- Create a full timer that doesn't repeat, so it can be stopped if the round ends before it triggers
-    timer.Create("RoleShuffleRandomatTimer", 1, GetConVar("randomat_roleshuffle_time"):GetInt(), function()
+    timer.Create("RoleShuffleRandomatTimer", GetConVar("randomat_roleshuffle_time"):GetInt(), 1, function()
         -- Notify everyone when the role shuffle happens
         self:SmallNotify("Role shuffle!")
         -- Have TTT select new roles for everyone
         SelectRoles()
-        -- Let the end of round scoreboard know roles have changed
-        SendFullStateUpdate()
 
-        -- Remove everyone's role weapons and give them their new ones, if their new role has one
         for _, ply in pairs(self:GetPlayers()) do
+            -- Remove everyone's role weapons and give them their new ones, if their new role has one
             self:StripRoleWeapons(ply)
             GAMEMODE:PlayerLoadout(ply)
+            -- Set everyone's roles through the randomat function again so the new roles show up in the end of round scoreboard
+            local role = ply:GetRole()
+            Randomat:SetRole(ply, role)
         end
+
+        -- Needed after any role change for whatever reason...
+        SendFullStateUpdate()
     end)
 end
 
