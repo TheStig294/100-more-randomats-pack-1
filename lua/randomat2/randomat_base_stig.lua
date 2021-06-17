@@ -28,6 +28,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     ROLE_IMPERSONATOR = ROLE_IMPERSONATOR or -1
     ROLE_BEGGAR = ROLE_BEGGAR or -1
     ROLE_OLDMAN = ROLE_OLDMAN or -1
+    ROLE_BODYSNATCHER = ROLE_BODYSNATCHER or -1
+    ROLE_VETERAN = ROLE_VETERAN or -1
     Randomat.Events = Randomat.Events or {}
     Randomat.ActiveEvents = {}
     local randomat_meta = {}
@@ -157,10 +159,10 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             plys = player.GetAll()
         else
             for _, ply in ipairs(player.GetAll()) do
-                -- Anybody
-                -- Alive and non-spec
-                -- Dead or spec
                 if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()))) then
+                    -- Anybody
+                    -- Alive and non-spec
+                    -- Dead or spec
                     table.insert(plys, ply)
                 end
             end
@@ -180,6 +182,11 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     function Randomat:SetRole(ply, role)
+        -- Reset the Veteran damage bonus
+        if ply:GetRole() == ROLE_VETERAN then
+            ply:SetNWBool("VeteranActive", false)
+        end
+
         ply:SetRole(role)
         net.Start("TTT_RoleChanged")
         net.WriteString(ply:SteamID64())
@@ -532,44 +539,48 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     -- What role is a player?
-    function randomat_meta:GetRoleName(ply, hide_detraitor)
-        if ply:GetRole() == ROLE_TRAITOR then
+    function randomat_meta:GetRoleName(ply, hide_secret_roles)
+        local role = ply:GetRole()
+
+        if role == ROLE_TRAITOR then
             return "A traitor"
-        elseif ply:GetRole() == ROLE_HYPNOTIST then
+        elseif role == ROLE_HYPNOTIST then
             return "A hypnotist"
-        elseif ply:GetRole() == ROLE_ASSASSIN then
+        elseif role == ROLE_ASSASSIN then
             return "An assassin"
-        elseif ply:GetRole() == ROLE_DETECTIVE or (ply:GetRole() == ROLE_DETRAITOR and hide_detraitor) then
+        elseif role == ROLE_DETECTIVE or (hide_secret_roles and role == ROLE_DETRAITOR) then
+            -- Hide detraitors so they don't get outed
             return "A detective"
-        elseif ply:GetRole() == ROLE_MERCENARY then
+        elseif role == ROLE_MERCENARY then
             return "A mercenary"
-        elseif ply:GetRole() == ROLE_ZOMBIE then
+        elseif role == ROLE_ZOMBIE then
             return "A zombie"
-        elseif ply:GetRole() == ROLE_VAMPIRE then
+        elseif role == ROLE_VAMPIRE then
             return "A vampire"
-        elseif ply:GetRole() == ROLE_KILLER then
+        elseif role == ROLE_KILLER then
             return "A killer"
-        elseif ply:GetRole() == ROLE_INNOCENT then
+        elseif role == ROLE_INNOCENT then
             return "An innocent"
-        elseif ply:GetRole() == ROLE_GLITCH then
+        elseif role == ROLE_GLITCH then
             return "A glitch"
-        elseif ply:GetRole() == ROLE_PHANTOM then
+        elseif role == ROLE_PHANTOM then
             return "A phantom"
-        elseif ply:GetRole() == ROLE_DETRAITOR then
+        elseif role == ROLE_DETRAITOR then
             return "A detraitor"
-        elseif ply:GetRole() == ROLE_REVENGER then
+        elseif role == ROLE_REVENGER then
             return "A revenger"
-        elseif ply:GetRole() == ROLE_DRUNK then
+        elseif role == ROLE_DRUNK then
             return "A drunk"
-        elseif ply:GetRole() == ROLE_CLOWN then
+        elseif role == ROLE_CLOWN then
             return "A clown"
-        elseif ply:GetRole() == ROLE_DEPUTY then
+        elseif role == ROLE_DEPUTY or (hide_secret_roles and role == ROLE_IMPERSONATOR) then
+            -- Hide imposters so they don't get outed
             return "A deputy"
-        elseif ply:GetRole() == ROLE_IMPERSONATOR then
+        elseif role == ROLE_IMPERSONATOR then
             return "An impersonator"
-        elseif ply:GetRole() == ROLE_BEGGAR then
+        elseif role == ROLE_BEGGAR then
             return "A beggar"
-        elseif ply:GetRole() == ROLE_OLDMAN then
+        elseif role == ROLE_OLDMAN then
             return "An old man"
         end
 
@@ -614,6 +625,14 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
         if ply:HasWeapon("weapon_hyp_brainwash") then
             ply:StripWeapon("weapon_hyp_brainwash")
+        end
+
+        if ply:HasWeapon("weapon_ttt_brainwash") then
+            ply:StripWeapon("weapon_ttt_brainwash")
+        end
+
+        if ply:HasWeapon("weapon_ttt_bodysnatch") then
+            ply:StripWeapon("weapon_ttt_bodysnatch")
         end
 
         if ply:HasWeapon("weapon_vam_fangs") then
@@ -669,7 +688,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     function randomat_meta:SwapWeapons(ply, weapons, from_killer)
-        local had_brainwash = ply:HasWeapon("weapon_hyp_brainwash")
+        local had_brainwash = ply:HasWeapon("weapon_hyp_brainwash") or ply:HasWeapon("weapon_ttt_brainwash")
+        local had_bodysnatch = ply:HasWeapon("weapon_ttt_bodysnatch")
         local had_scanner = ply:HasWeapon("weapon_ttt_wtester")
 
         self:HandleWeaponAddAndSelect(ply, function()
@@ -677,11 +697,18 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             -- Reset FOV to unscope
             ply:SetFOV(0, 0.2)
 
-            -- Have Zombies keep their claws, Hypnotists keep their brainwashing device, and Detective/Detraitors keep their DNA Scanners
+            -- Have Zombies keep their claws, Hypnotists keep their brainwashing device, Bodysnatchers keep their snatching devices, and Detective-like players keep their DNA Scanners
             if ply:GetRole() == ROLE_ZOMBIE then
                 ply:Give("weapon_zom_claws")
             elseif had_brainwash then
-                ply:Give("weapon_hyp_brainwash")
+                -- Give back whichever version exists
+                if weapons.Get("weapon_hyp_brainwash") ~= nil then
+                    ply:Give("weapon_hyp_brainwash")
+                elseif weapons.Get("weapon_ttt_brainwash") ~= nil then
+                    ply:Give("weapon_ttt_brainwash")
+                end
+            elseif had_bodysnatch then
+                ply:Give("weapon_ttt_bodysnatch")
             elseif had_scanner then
                 ply:Give("weapon_ttt_wtester")
             elseif ply:GetRole() == ROLE_KILLER and ConVarExists("ttt_killer_knife_enabled") and GetConVar("ttt_killer_knife_enabled"):GetBool() then

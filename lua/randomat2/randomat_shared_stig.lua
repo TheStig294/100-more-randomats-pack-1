@@ -8,15 +8,17 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
     -- Shared Functions
     function Randomat:IsInnocentTeam(ply, skip_detective)
-        local role = ply:GetRole()
         -- Handle this early because IsInnocentTeam doesn't
-        if skip_detective and role == ROLE_DETECTIVE then return false end
+        if skip_detective and Randomat:IsGoodDetectiveLike(ply) then return false end
         if ply.IsInnocentTeam then return ply:IsInnocentTeam() end
+        local role = ply:GetRole()
 
         return role == ROLE_DETECTIVE or role == ROLE_INNOCENT or role == ROLE_MERCENARY or role == ROLE_PHANTOM or role == ROLE_GLITCH
     end
 
-    function Randomat:IsTraitorTeam(ply)
+    function Randomat:IsTraitorTeam(ply, skip_evil_detective)
+        -- Handle this early because IsTraitorTeam doesn't
+        if skip_evil_detective and Randomat:IsEvilDetectiveLike(ply) then return false end
         if player.IsTraitorTeam then return player.IsTraitorTeam(ply) end
         if ply.IsTraitorTeam then return ply:IsTraitorTeam() end
         local role = ply:GetRole()
@@ -45,6 +47,25 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         return role == ROLE_KILLER
     end
 
+    function Randomat:IsDetectiveLike(ply)
+        if ply.IsDetectiveLike then return ply:IsDetectiveLike() end
+        local role = ply:GetRole()
+
+        return role == ROLE_DETECTIVE or ROLE_DETRAITOR
+    end
+
+    function Randomat:IsGoodDetectiveLike(ply)
+        local role = ply:GetRole()
+
+        return role == ROLE_DETECTIVE or (Randomat:IsDetectiveLike(ply) and Randomat:IsInnocentTeam(ply))
+    end
+
+    function Randomat:IsEvilDetectiveLike(ply)
+        local role = ply:GetRole()
+
+        return role == ROLE_DETRAITOR or (Randomat:IsDetectiveLike(ply) and Randomat:IsTraitorTeam(ply))
+    end
+
     function Randomat:GetRoleColor(role)
         local color = nil
 
@@ -55,6 +76,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         -- Don't return the table directly because if the table exists but is missing a role we need to handle that
         if color then return color end
 
+        -- Only the roles in the original Custom Roles need to be defined here because the updated version and my version both have ROLE_COLORS defined
         local role_colors = {
             [ROLE_INNOCENT] = Color(55, 170, 50, 255),
             [ROLE_TRAITOR] = Color(180, 50, 40, 255),
@@ -68,14 +90,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             [ROLE_VAMPIRE] = Color(45, 45, 45, 255),
             [ROLE_SWAPPER] = Color(111, 0, 255, 255),
             [ROLE_ASSASSIN] = Color(112, 50, 0, 255),
-            [ROLE_KILLER] = Color(50, 0, 70, 255),
-            [ROLE_DETRAITOR] = Color(112, 27, 140, 255),
-            [ROLE_REVENGER] = Color(245, 200, 0, 255),
-            [ROLE_DRUNK] = Color(255, 80, 235, 255),
-            [ROLE_DEPUTY] = Color(245, 200, 0, 255),
-            [ROLE_IMPERSONATOR] = Color(245, 106, 0, 255),
-            [ROLE_BEGGAR] = Color(180, 23, 253, 255),
-            [ROLE_CLOWN] = Color(255, 80, 235, 255)
+            [ROLE_KILLER] = Color(50, 0, 70, 255)
         }
 
         return role_colors[role]
