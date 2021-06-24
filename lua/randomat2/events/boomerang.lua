@@ -9,8 +9,11 @@ CreateConVar("randomat_boomerang_weaponid", "weapon_ttt_boomerang_randomat", {FC
 EVENT.Title = "Boomerang Fu!"
 EVENT.Description = "Boomerangs only!"
 EVENT.id = "boomerang"
+
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
-EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+if GetConVar("randomat_boomerang_strip"):GetBool() then
+    EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+end
 
 function EVENT:Begin()
     --Remove all weapons from the ground (Which also removes all non-bought weapons from players)
