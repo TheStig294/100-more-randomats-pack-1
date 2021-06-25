@@ -3,8 +3,11 @@ EVENT.Title = "People are Crabs"
 EVENT.Description = "You can only walk sideways"
 EVENT.id = "peoplearecrabs"
 local orginalJumps = 1
+local crabsTriggered = false
 
 function EVENT:Begin()
+    crabsTriggered = true
+
     -- Prevent people from walking forwards or backwards
     self:AddHook("SetupMove", function(ply, mv, cmd)
         if ply:IsTerror() then
@@ -21,7 +24,7 @@ end
 
 function EVENT:End()
     -- Re-enable multi-jumping
-    if ConVarExists("multijump_default_jumps") then
+    if crabsTriggered and ConVarExists("multijump_default_jumps") then
         GetConVar("multijump_default_jumps"):SetInt(orginalJumps)
     end
 end
