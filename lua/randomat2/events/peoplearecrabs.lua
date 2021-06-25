@@ -26,6 +26,7 @@ function EVENT:End()
     -- Re-enable multi-jumping
     if crabsTriggered and ConVarExists("multijump_default_jumps") then
         GetConVar("multijump_default_jumps"):SetInt(orginalJumps)
+        crabsTriggered = false
     end
 end
 
