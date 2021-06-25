@@ -25,8 +25,10 @@ function EVENT:Begin()
     end)
 
     self:AddHook("PlayerSpawn", function(ply, transition)
-        -- Resets the speed of players that respawn
-        ply:SetLaggedMovementValue(1)
+        -- Resets the speed of players that respawn, after a delay of 2 seconds
+        timer.Simple(2, function()
+            ply:SetLaggedMovementValue(1)
+        end)
     end)
 end
 
