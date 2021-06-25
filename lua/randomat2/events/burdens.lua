@@ -23,6 +23,11 @@ function EVENT:Begin()
         --Speed up players that drop weapons
         owner:SetLaggedMovementValue(owner:GetLaggedMovementValue() * 1 / GetConVar("randomat_burdens_speed_multiplier"):GetFloat())
     end)
+
+    self:AddHook("PlayerSpawn", function(ply, transition)
+        -- Resets the speed of players that respawn
+        ply:SetLaggedMovementValue(1)
+    end)
 end
 
 function EVENT:End()
