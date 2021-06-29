@@ -22,7 +22,7 @@ function EVENT:Begin()
     end
 
     -- Display a randomat notification when there's half the set seconds left until imperfect karma players explode
-    timer.Simple(GetConVar("randomat_kexplode_timer"):GetFloat() / 2, function()
+    timer.Create("RandomatKExplodeNotif", GetConVar("randomat_kexplode_timer"):GetFloat() / 2, 1, function()
         self:SmallNotify(GetConVar("randomat_kexplode_timer"):GetInt() / 2 .. " seconds left!")
     end)
 
@@ -56,6 +56,7 @@ end
 function EVENT:End()
     -- Don't explode players on the next round...
     timer.Remove("RandomatKExplode")
+    timer.Remove("RandomatKExplodeNotif")
 end
 
 function EVENT:GetConVars()
