@@ -3,44 +3,38 @@ local EVENT = {}
 CreateConVar("randomat_kexplode_timer", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The time until imperfect karma players explode.", 5)
 
 EVENT.Title = ""
-EVENT.AltTitle = "Everyone with imperfect karma will explode in " .. GetConVar("randomat_kexplode_timer"):GetInt() .. " seconds!"
+EVENT.AltTitle = "Everyone with a karma damage penalty will explode in " .. GetConVar("randomat_kexplode_timer"):GetInt() .. " seconds!"
 EVENT.id = "kexplode"
 
 function EVENT:Begin()
     -- Dynamically change the name of this randomat as the convar is changed
-    Randomat:EventNotifySilent("Everyone with imperfect karma will explode in " .. GetConVar("randomat_kexplode_timer"):GetInt() .. " seconds!")
-    -- Used for the explosion to work
+    Randomat:EventNotifySilent("Everyone with a karma damage penalty will explode in " .. GetConVar("randomat_kexplode_timer"):GetInt() .. " seconds!")
     local effectdata = EffectData()
-    -- Used for displaying the correct message to all players depending on whether anyone exploded or not
     local message_sent = false
 
     -- Notify everyone in chat whether they'll explode
     for _, ply in pairs(self:GetAlivePlayers()) do
-        if ply:GetBaseKarma() < GetConVar("ttt_karma_max"):GetFloat() then
-            ply:ChatPrint("You have " .. math.floor(ply:GetBaseKarma()) .. " / " .. GetConVar("ttt_karma_max"):GetFloat() .. " karma.\nYOU WILL EXPLODE!")
+        if ply:GetDamageFactor() < 1 then
+            ply:ChatPrint("You have a karma damage penalty.\nYOU WILL EXPLODE!")
         end
     end
 
-    -- Display a randomat notification when there's half the set seconds left until imperfect karma players explode
+    -- Display a randomat notification when there's half the set seconds left until players with a karma damage penalty explode
     timer.Create("RandomatKExplodeNotif", GetConVar("randomat_kexplode_timer"):GetFloat() / 2, 1, function()
         self:SmallNotify(GetConVar("randomat_kexplode_timer"):GetInt() / 2 .. " seconds left!")
     end)
 
-    -- Explosion timer
+    -- Explode players once time is up
     timer.Create("RandomatKExplode", GetConVar("randomat_kexplode_timer"):GetInt(), 1, function()
-        -- For all alive players,
         for _, ply in pairs(self:GetAlivePlayers()) do
-            -- If their current karma is less than the maximum
-            if IsValid(ply) and ply:GetBaseKarma() < GetConVar("ttt_karma_max"):GetFloat() then
-                -- They explode!
+            if IsValid(ply) and ply:GetDamageFactor() < 1 then
                 ply:EmitSound(Sound("ambient/explosions/explode_4.wav"))
                 util.BlastDamage(ply, ply, ply:GetPos(), 300, 10000)
                 effectdata:SetStart(ply:GetPos() + Vector(0, 0, 10))
                 effectdata:SetOrigin(ply:GetPos() + Vector(0, 0, 10))
                 effectdata:SetScale(1)
                 util.Effect("HelicopterMegaBomb", effectdata)
-                -- Notify everyone time is up
-                self:SmallNotify("Everyone with imperfect karma was exploded!")
+                self:SmallNotify("Everyone with a karma damage penalty was exploded!")
                 -- Don't display the 'No one exploded' message
                 message_sent = true
             end
@@ -54,7 +48,6 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    -- Don't explode players on the next round...
     timer.Remove("RandomatKExplode")
     timer.Remove("RandomatKExplodeNotif")
 end
