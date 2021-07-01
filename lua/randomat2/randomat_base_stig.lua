@@ -76,6 +76,14 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
     local function TriggerEvent(event, ply, silent, ...)
         if not silent then
+            -- If this event is supposed to start secretly, trigger "secret" with this specific event chosen
+            -- Unless "secret" is already running in which case we don't care, just let it go
+            if event.StartSecret and not Randomat:IsEventActive("secret") then
+                TriggerEvent(Randomat.Events["secret"], ply, false, {event.id})
+
+                return
+            end
+
             Randomat:EventNotify(event.Title)
         end
 
@@ -204,6 +212,11 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             tbl.SingleUse = true
         end
 
+        -- Default StartSecret to false if it isn't specified
+        if tbl.StartSecret ~= true then
+            tbl.StartSecret = false
+        end
+
         -- Default the event type if it's not specified
         if tbl.Type == nil then
             tbl.Type = EVENT_TYPE_DEFAULT
@@ -215,6 +228,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         CreateConVar("ttt_randomat_" .. id, 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 
         CreateConVar("ttt_randomat_" .. id .. "_min_players", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+
+        CreateConVar("ttt_randomat_" .. id .. "_weight", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
     end
 
     function Randomat:unregister(id)
@@ -223,9 +238,22 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     local function GetRandomEvent(events)
-        local count = table.Count(events)
+        local weighted_events = {}
+
+        for id, _ in pairs(events) do
+            local weight = GetConVar("ttt_randomat_" .. id .. "_weight"):GetInt()
+
+            for _ = 1, weight do
+                table.insert(weighted_events, id)
+            end
+        end
+
+        -- Randomize the weighted list
+        table.Shuffle(weighted_events)
+        -- Then get a random index from the random list for more randomness
+        local count = table.Count(weighted_events)
         local idx = math.random(count)
-        local key = table.GetKeys(events)[idx]
+        local key = weighted_events[idx]
 
         return events[key]
     end
