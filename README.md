@@ -1,5 +1,8 @@
 # The List of Randomats, and Randomat Options
 _Words in italics_ are console commands. Press ` or ~ in a game of TTT to open the console and type in console commands (plus a space and a number) to change this mod’s settings. \
+\
+Alternatively, add the italic text to your server.cfg (for dedicated servers) or listenserver.cfg (for peer-to-peer servers).\
+\
 E.g. To turn off randomats triggering at the start of a round of TTT, type in:\
 _ttt_randomat_auto 0_\
 (1 = on, 0 = off)\
