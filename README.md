@@ -272,6 +272,192 @@ Turns everyone's models into chickens, corpses disappear on death, a set amount 
 Converted to work with randomat 2.0 rather than TTT2, added much more chicken sounds, fixed playermodels not being reset at the start of the next round, removed zombie chicken\
 \
 _ttt_randomat_chickens_ - Default: 1 - Whether this randomat is enabled\
-randomat_chickens_hp - Default: 60 - The HP players are set to\
-randomat_chickens_sc - Default: 0.25 - The fraction of size players are shrunk to\
-randomat_chickens_sp - Default: 0.75 - The movement speed multiplier
+_randomat_chickens_hp_ - Default: 60 - The HP players are set to\
+_randomat_chickens_sc_ - Default: 0.25 - The fraction of size players are shrunk to\
+_randomat_chickens_sp_ - Default: 0.75 - The movement speed multiplier
+
+
+
+# Randomats made by "Guardain954"
+**The mod these randomats come from: [Steam Workshop::TTT Randomat 2.0 MORE EVENTS!](https://steamcommunity.com/sharedfiles/filedetails/?id=2068742309)**
+## Resize!
+Changes everyone's size, if smaller you have less health, if larger you have more\
+Changed name from "Try another perspective on life"\
+\
+_ttt_randomat_resize_ - Default: 1 - Whether this randomat is enabled\
+_randomat_resize_min_ - Default: 50 - Minimum possible size\
+_randomat_resize_max_ - Default: 200 - Maximum possible size
+
+## Who's Who?
+Swaps everyone's playermodels\
+Changed name from "Guess Who!", fixed depreciated code that broke this randomat, and properly set everyone's playermodels back once round is over\
+\
+_ttt_randomat_whoswho_ - Default: 1 - Whether this randomat is enabled
+
+
+
+# Randomats made by "Wasted"
+**The mod these randomats come from: [Steam Workshop::[TTT2MG] Minigames Pack #3](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)**
+## Bouncy
+Bounce instead of taking fall damage\
+Converted to work with randomat 2.0 rather than TTT2\
+\
+_ttt_randomat_bouncy_ - Default: 1 - Whether this randomat is enabled\
+_randomat_bouncy_speed_retain_ - Default: 0.75 - % of speed retained between bounces
+
+## How Dreary
+Turns the color saturation way down\
+Changed name from "Greyscale", converted to work with randomat 2.0 rather than TTT2\
+\
+_ttt_randomat_dreary_ - Default: 1 - Whether this randomat is enabled
+
+## Stop Ghosting!
+Ghostly t-posing models follow spectators\
+Changed name from "There are ghosts around", converted to work with randomat 2.0 rather than TTT2, fixed major bug that would prevent the round from being manually restarted on any map this event activated on\
+\
+_ttt_randomat_ghosting_ - Default: 1 - Whether this randomat is enabled
+
+## Zero Friction!
+Removes friction and gives prop damage immunity, else you would die if you touched a prop ‘cause gmod physics...\
+Changed name from "Trouble in Terrorist Town: On Ice", converted to work with randomat 2.0 rather than TTT2, fixed prop damage immunity not working\
+\
+_ttt_randomat_friction_ - Default: 1 - Whether this randomat is enabled
+
+## Ghostly Revenge
+Buffs spectator prop possession a lot. Players can move props they possess quickly enough to kill living players!\
+Changed name from "Troll Prop"\
+\
+_ttt_randomat_revenge_ - Default: 1 - Whether this randomat is enabled\
+_randomat_revenge_multiplier_ - Default: 4 - Multiplier to all prop possession stats
+
+## What did WE find in our pockets?
+Gives everyone the same random buyable weapon\
+Changed name from "Sweepstakes Giveaway", weapon is now given immediately\
+\
+_ttt_randomat_pockets_ - Default: 1 - Whether this randomat is enabled
+
+
+
+# Randomats made by "Legendahkiin"
+**The mod these randomats come from: [Steam Workshop::TTT Randomat 2.0 - It's Duncan! Event](https://steamcommunity.com/sharedfiles/filedetails/?id=2007014855)**
+
+## It's ...!
+Changes everyone's playermodel to someone's on the server\
+Added description\
+\
+_ttt_randomat_duncanevent_ - Default: 1 - Whether this randomat is enabled\
+_randomat_duncanevent_disguise_ - Default: 1 - Hide player names or not (1 = on, 0 = off)
+
+
+
+# Randomats made by "Dem"
+**The mod these randomats come from: [Workshop::TTT Randomat 2.0](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)**
+
+## The Freeze Randomat
+All Innocents Freeze and become immune to damage every 30 seconds.\
+Has a different name each time it’s triggered, there are over 16 different names!\
+Added many more possible names, mostly based on the names of other randomats.\
+\
+_ttt_randomat_freeze2_ - Default: 1 - Whether this randomat is enabled\
+_randomat_freeze2_duration_ - Default: 5 - Duration of the Freeze (in seconds)\
+_randomat_freeze2_timer_ - Default: 30 - How often (in seconds) the Freeze occurs\
+\
+Possible names:
+- It's snowing on Mt. Fuji
+- Freezing people to find traitors? Is it really worth it...
+- What? Freeze randomat on Earth?
+- Unconventional Freezing
+- We learned how to freeze over time, it's hard, but definitely possible...
+- Shh... It's a Freeze Randomat!
+- There's this game my father taught me years ago, it's called "Freeze"
+- Everyone will freeze every 30 seconds! Watch out! (EXCEPT TRAITORS)
+- Freeze randomat! Time to learn how to keep moving...
+- We've updated our freezing policy.
+- Random Freeze for everyone!
+- Honey, I froze the terrorists
+- Sudden Freeze!
+- Icy dead people
+- What's this one? Oh, it's the freeze randomat...
+- This is a new one! Wait, it's a freeze randomat...
+- There are more than 16 different freeze randomat names
+
+## Ban an Event!
+Presents 5 randomats, one of which to be banned by vote. Randomat is banned until this is triggered again.\
+Changed name from "Choose an Event!", now presents 5 choices and everyone votes by default. Bans rather than triggers the chosen randomat.\
+\
+_ttt_randomat_ban_ - Default: 1 - Whether this randomat is enabled\
+_randomat_ban_choices_ - Default: 5 - Number of events you can choose from to ban\
+_randomat_ban_vote_ - Default: 1 - Allows all players to vote on the event\
+_randomat_ban_votetimer_ - Default: 10 - How long players have to vote on the event\
+_randomat_ban_deadvoters_ - Default: 0 - Allow dead people to vote\
+
+## Gun Game 2.0
+When someone dies, gives everyone a new gun\
+Changed name from Gun Game, as base Randomat 2.0 already has a randomat with this name, added support for modded guns\
+\
+_ttt_randomat_gungame2_ - Default: 1 - Whether this randomat is enabled
+
+
+
+# Randomats made by "Owningle"
+**The mod these randomats come from: [Workshop::TTT Extra Randomat Events](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)**
+
+## Don’t RDM...
+Killing someone on your side kills you instead. The player you would have killed repawns with full health.\
+Modified version of "I'm the captain now" randomat. Fixed compatibility with Custom Roles for TTT and added compatibility with Noxx’s Custom Roles for TTT.\
+\
+_ttt_randomat_dontrdm_ - Default: 1 - Whether this randomat is enabled
+
+## I'm The Captain Now.
+When a detective kills an innocent, the innocent becomes the detective, and the old detective dies.\
+Fixed compatibility with Custom Roles for TTT and added compatibility with Noxx’s Custom Roles for TTT.\
+\
+_ttt_randomat_captain_ - Default: 1 - Whether this randomat is enabled
+
+## Contagious Morality
+Killing others respawns them with your role.\
+\
+_ttt_randomat_contagiousmorality_ - Default: 1 - Whether this randomat is enabled
+
+## Cremation
+Bodies burn after a player dies. They cannot be checked, but can be put out if placed in water. After burning for a while the body disappears, while burning the fire makes noise.\
+Fixed lua error if bodies were removed before they were removed by this randomat.\
+\
+_ttt_randomat_cremation_ - Default: 1 - Whether this randomat is enabled
+
+## Don't Miss...
+If you miss a shot, you take damage, but if you hit, then you gain health. Everyone is set to 100 health and 200 max health, so players can heal by being accurate with their shots. Everyone will appear to be injured when this randomat triggers.\
+\
+_ttt_randomat_dontmiss_ - Default: 1 - Whether this randomat is enabled\
+_randomat_dontmiss_damage_ - Default: 5 - Damage dealt for missing\
+_randomat_dontmiss_heal_ - Default: 5 - Health gained for healing
+
+## Unbelievable Guilt
+If you kill a player on your team, your head will be forced down for a few seconds.\
+Fixed compatibility with Custom Roles for TTT and added compatibility with Noxx’s Custom Roles for TTT.\
+\
+_ttt_randomat_guilt_ - Default: 1 - Whether this randomat is enabled\
+_randomat_guilt_time_ - Default: 5 - Seconds your head is held down
+
+## ... That's Lame.
+Nothing happens.\
+\
+_ttt_randomat_lame_ - Default: 1 - Whether this randomat is enabled
+
+## Petrify!
+Turns players into a stone like figure, playing a quite annoying sound when they move.\
+\
+_ttt_randomat_petrify_ - Default: 1 - Whether this randomat is enabled
+
+## Pinball People
+When two players collide, they will be sent flying in opposite directions.\
+\
+_ttt_randomat_pinball_ - Default: 1 - Whether this randomat is enabled\
+_randomat_pinball_mul_ - Default: 10 - Player-flinging velocity multiplier
+
+## Realistic Recoil
+Shooting strongly pushes you backwards. Looking down and shooting pushes you into the air.\
+\
+_ttt_randomat_recoil_ - Default: 1 - Whether this randomat is enabled\
+_randomat_recoil_max_ - Default: 15 - Maximum Magnitude a gun can change someone's velocity by.\
+_randomat_recoil_mul_ - Default: 6 - Recoil velocity multiplier
