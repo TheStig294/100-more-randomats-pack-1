@@ -31,23 +31,27 @@ Bullet damage only, everyone is immune to any other form of damage\
 _ttt_randomat_bullets_ - Default: 1 - Whether this randomat is enabled
 
 ## You do know how to use this right?
-Gives everyone a DNA scanner
+Gives everyone a DNA scanner\
+\
+_ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_dna - Default: 1 - Whether this randomat is enabled
-Random jump height for everyone!
-Randomly sets the jump height of every player from 0 up to 3x as high as default
+## Random jump height for everyone!
+Randomly sets the jump height of every player from 0 up to 3x as high as default\
+\
+_ttt_randomat_randomjump_ - Default: 1 - Whether this randomat is enabled\
+_randomat_randomjump_max_multiplier_ - Default: 3.0 - Max multiplier to jump height
 
-ttt_randomat_randomjump - Default: 1 - Whether this randomat is enabled
-randomat_randomjump_max_multiplier - Default: 3.0 - Max multiplier to jump height
-Huge Problem
-Everyone can only use an infinite ammo huge as their main weapon
+## Huge Problem
+Everyone can only use an infinite ammo huge as their main weapon\
+\
+_ttt_randomat_hugeproblem_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_hugeproblem - Default: 1 - Whether this randomat is enabled
-Speedrun!
-Cuts the round time down to 1 minute!
+## Speedrun!
+Cuts the round time down to 1 minute!\
+\
+_ttt_randomat_speedrun_ - Default: 1 - Whether this randomat is enabled\
+_randomat_speedrun_time_ - Default: 60 - Time in seconds the round will last
 
-ttt_randomat_speedrun - Default: 1 - Whether this randomat is enabled
-randomat_speedrun_time - Default: 60 - Time in seconds the round will last
 Super Boing
 Everyone can jump very high, high gravity, no fall damage
 
