@@ -1,4 +1,4 @@
-# Press “Ctrl + F” to find the randomat you want
+# The Grand List of All Randomats:
 _Words in italics_ are console commands. Press ` or ~ in a game of TTT to open the console and type in console commands (plus a space and a number) to change this mod’s settings. \
 E.g. To turn off randomats triggering at the start of a round of TTT, type in:\
 _ttt_randomat_auto 0_\
