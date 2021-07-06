@@ -178,4 +178,14 @@ _randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is g
 Plays the original Yogscast Murder theme and the original Yogscast Murder logo pops up on screen, then triggers the “Murder” randomat.\
 This randomat will never trigger if you do not have another randomat mod that has the “Murder” randomat.\
 \
-_ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled\
+_ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled
+
+# Randomats made by "nanz"
+**The mod these randomats come from: [Steam Workshop::Randomat 2.0 (TTT2)](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)**
+## Live Count
+Every 30 seconds all players are told how many people are still alive in the current round.\
+Changed name from "Live Check!"\
+\
+_ttt_randomat_livecount_ - Default: 1 - Whether this randomat is enabled\
+_randomat_livecount_timer_ - Default: 30 - Time between live counts\
+
