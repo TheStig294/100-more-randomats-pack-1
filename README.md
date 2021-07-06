@@ -215,6 +215,8 @@ Original name in German, updated to be compatible with randomat 2.0\
 \
 _ttt_randomat_peoplearecrabs_ - Default: 1 - Whether this randomat is enabled
 
+
+
 # Randomats made by "ruiner189"
 **The mod these randomats come from: [Steam Workshop::Custom Randomat](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)**
 ## Dead men tell no lies
@@ -227,3 +229,49 @@ Everyone copies someone's loadout. Everyone can only use a gun if the chosen per
 Changed name from "Simon Says", changed the "leader" to only be picked once, or after the leader dies\
 \
 _ttt_randomat_simonsays_ - Default: 1 - Whether this randomat is enabled
+
+
+
+# Randomats made by "Arch"
+**The mod these randomats come from: [Steam Workshop::Randomat Plus](https://steamcommunity.com/sharedfiles/filedetails/?id=1461821324)**
+## Explosive spectating
+Spectators can explode props they posses (left click)\
+Changed name from "Pyro-possession - middle click to go boom!", updated to work with randomat 2.0\
+\
+_ttt_randomat_explosivespectate_ - Default: 1 - Whether this randomat is enabled
+
+## Unconventional Healing
+Fall, fire and explosion damage heals!\
+Changed name from "Pyromaniac - fire heals!" and added fall and fire damage to heal\
+\
+_ttt_randomat_unconventional_ - Default: 1 - Whether this randomat is enabled
+
+
+
+# Randomats made by "HagenSNKL"
+**The mod these randomats come from: [Workshop::TTT Randomat](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819)**
+## ...% More Speed, Jump Height and Health for everyone!
+Increases speed, jump height, and current health for everyone by a set percentage\
+\
+_ttt_randomat_speedjumphealth_ - Default: 1 - Whether this randomat is enabled\
+_randomat_speedjumphealth_multiplier_ - Default: 50 - Percent multiplier to stats
+
+## Everyone with a karma damage penalty will explode in ... seconds!
+Explodes all players with a damage penalty from karma, a set amount of seconds after activation.\
+Changed name from "A Random Person will explode every ... seconds! Watch out! (EXCEPT DETECTIVES)", not random anymore and only targets players with karma penalties, notifies when time is up rather than who exploded\
+\
+_ttt_randomat_kexplode_ - Default: 1 - Whether this randomat is enabled\
+_randomat_kexplode_timer_ - Default: 60 - The time until imperfect karma players explode
+
+
+
+# Randomats made by "Miko0l"
+**The mod these randomats come from: [Steam Workshop:: [TTT2] Xtra Randomat Events](https://steamcommunity.com/sharedfiles/filedetails/?id=2224127289)**
+## BAWK!
+Turns everyone's models into chickens, corpses disappear on death, a set amount of health, and everyone makes chicken noises.\
+Converted to work with randomat 2.0 rather than TTT2, added much more chicken sounds, fixed playermodels not being reset at the start of the next round, removed zombie chicken\
+\
+_ttt_randomat_chickens_ - Default: 1 - Whether this randomat is enabled\
+randomat_chickens_hp - Default: 60 - The HP players are set to\
+randomat_chickens_sc - Default: 0.25 - The fraction of size players are shrunk to\
+randomat_chickens_sp - Default: 0.75 - The movement speed multiplier
