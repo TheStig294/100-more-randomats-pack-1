@@ -52,42 +52,50 @@ Cuts the round time down to 1 minute!\
 _ttt_randomat_speedrun_ - Default: 1 - Whether this randomat is enabled\
 _randomat_speedrun_time_ - Default: 60 - Time in seconds the round will last
 
-Super Boing
-Everyone can jump very high, high gravity, no fall damage
+## Super Boing
+Everyone can jump very high, high gravity, no fall damage\
+\
+_ttt_randomat_superboing_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_superboing - Default: 1 - Whether this randomat is enabled
-Boing Warp
-Increases everyone's jump power over time
+## Boing Warp
+Increases everyone's jump power over time\
+\
+_ttt_randomat_boingwarp_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_boingwarp - Default: 1 - Whether this randomat is enabled
+## Role Call
+Announces a random player's role every 60 seconds\
+\
+_ttt_randomat_rolecall_ - Default: 1 - Whether this randomat is enabled\
+_randomat_rolecall_time_ - Default: 60 - Time between role announcements
 
-Role Call
-Announces a random player's role every 60 seconds
+## Ending Flair
+Sound effect plays at the end of each round, depending on who wins\
+\
+_ttt_randomat_flair_ - Default: 1 - Whether this randomat is enabled\
 
-ttt_randomat_rolecall - Default: 1 - Whether this randomat is enabled
-randomat_rolecall_time - Default: 60 - Time between role announcements
-Ending Flair
-Sound effect plays at the end of each round, depending on who wins
+## Once more, with feeling!
+Repeats the last randomat, doesn't trigger unless auto-randomat is on (randomat starts every round)\
+\
+_ttt_randomat_oncemore_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_flair - Default: 1 - Whether this randomat is enabled
-Once more, with feeling!
-Repeats the last randomat, doesn't trigger unless auto-randomat is on (randomat starts every round)
+## Nobody
+Anyone killed doesn't leave behind a body anymore.\
+\
+_ttt_randomat_nobody - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_oncemore - Default: 1 - Whether this randomat is enabled
-Nobody
-Anyone killed doesn't leave behind a body anymore.
+## Oof
+Replaces the death noise with the Roblox oof.\
+\
+_ttt_randomat_oof_ - Default: 1 - Whether this randomat is enabled\
 
-ttt_randomat_nobody - Default: 1 - Whether this randomat is enabled
-Oof
-Replaces the death noise with the Roblox oof.
+## Pistols at dawn
+Last 2 (non-jester) players alive have a one-shot pistol showdown!\
+They are given 1-shot pistols, infinite ammo, and wallhacks.\
+All unspent credits are removed, no other guns/grenades/weapons other than the revolver can be used.\
+\
+_ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_oof - Default: 1 - Whether this randomat is enabled
-Pistols at dawn
-Last 2 (non-jester) players alive have a one-shot pistol showdown!
-They are given 1-shot pistols, infinite ammo, and wallhacks. All unspent credits are removed, no other guns/grenades/weapons other than the revolver can be used.
-
-ttt_randomat_pistols - Default: 1 - Whether this randomat is enabled
-I'm Mary Poppins Y'all!
+## I'm Mary Poppins Y'all!
 Everyone can float/teleport up and down walls and automatically walk over most obstacles.
 
 ttt_randomat_marypoppins - Default: 1 - Whether this randomat is enabled
