@@ -1,1 +1,6 @@
-workshop-file.gma
+/workshop-file.gma
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+/.idea/
+/.vscode/
