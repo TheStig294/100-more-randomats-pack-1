@@ -96,70 +96,86 @@ All unspent credits are removed, no other guns/grenades/weapons other than the r
 _ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled
 
 ## I'm Mary Poppins Y'all!
-Everyone can float/teleport up and down walls and automatically walk over most obstacles.
+Everyone can float/teleport up and down walls and automatically walk over most obstacles.\
+\
+_ttt_randomat_marypoppins_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_marypoppins - Default: 1 - Whether this randomat is enabled
-Crowbars Only!
-Can only use, or be damaged by, a buffed crowbar.
+## Crowbars Only!
+Can only use, or be damaged by, a buffed crowbar.\
+\
+_ttt_randomat_crowbarsonly_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_crowbarsonly - Default: 1 - Whether this randomat is enabled
-No more of your little tricks..
-Disables all traitor traps or anything that relies on a traitor button
+## No more of your little tricks..
+Disables all traitor traps or anything that relies on a traitor button\
+\
+_ttt_randomat_traitortraps_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_traitortraps - Default: 1 - Whether this randomat is enabled
-Traitor testers disabled
-Disables all traitor testers until the next round.
+## Traitor testers disabled
+Disables all traitor testers until the next round.\
+\
+_ttt_randomat_testers_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_testers - Default: 1 - Whether this randomat is enabled
-Heads Up Dismay
-Removes the HUD and scoreboard after a brief delay.
+## Heads Up Dismay
+Removes the HUD and scoreboard after a brief delay.\
+\
+_ttt_randomat_hud_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_hud - Default: 1 - Whether this randomat is enabled
-Let's mix it up...
-When you buy something from a buy menu, you get a random item instead.
+## Let's mix it up...
+When you buy something from a buy menu, you get a random item instead.\
+\
+_ttt_randomat_mix_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_mix - Default: 1 - Whether this randomat is enabled
-The OGs
-Everyone gets a random default TTT weapon.
+## The OGs
+Everyone gets a random default TTT weapon.\
+\
+_ttt_randomat_ogs_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_ogs - Default: 1 - Whether this randomat is enabled
-Delayed Start
-Triggers a random randomat after a minute.
+## Delayed Start
+Triggers a random randomat after a minute.\
+\
+_ttt_randomat_delay_ - Default: 1 - Whether this randomat is enabled\
+_randomat_delay_time_ - Default: 60 - Seconds before randomat is triggered
 
-ttt_randomat_delay - Default: 1 - Whether this randomat is enabled
-randomat_delay_time - Default: 60 - Seconds before randomat is triggered
+## Hold Space To Slow Down
+A player will slow to half speed while they hold space. Will prevent fall damage.\
+\
+_ttt_randomat_space_ - Default: 1 - Whether this randomat is enabled
 
+## I'm sworn to carry your burdens
+Move faster the less weapons you have, move slower the more weapons you have.\
+Also counts buy menu weapons... (watch out traitors!)\
+\
+_ttt_randomat_burdens_ - Default: 1 - Whether this randomat is enabled\
+_randomat_burdens_speed_multiplier_ - Default: 0.75 - % of speed changed when dropping/picking up weapons
 
-Hold Space To Slow Down
-A player will slow to half speed while they hold space. Will prevent fall damage. 
+## Future Proofing
+Gives items you buy at the start of the next round, rather than when you buy them.\
+\
+_ttt_randomat_future_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_space - Default: 1 - Whether this randomat is enabled
-I'm sworn to carry your burdens
-Move faster the less weapons you have, move slower the more weapons you have. Also counts buy menu weapons... (watch out traitors!)
+## Outcome? Prop go boom.
+Makes props explode when they are destroyed.\
+\
+_ttt_randomat_goboom_ - Default: 1 - Whether this randomat is enabled
 
-ttt_randomat_burdens - Default: 1 - Whether this randomat is enabled
-randomat_burdens_speed_multiplier - Default: 0.75 - % of speed changed when dropping/picking up weapons
-Future Proofing
-Gives items you buy at the start of the next round, rather than when you buy them.
+## Boomerang Fu!
+Continually gives everyone boomerangs, and removes all other weapons.\
+\
+_ttt_randomat_boomerang_ - Default: 1 - Whether this randomat is enabled\
+_randomat_boomerang_timer_ - Default: 5 - Time between being given boomerangs\
+_randomat_boomerang_strip_ - Default: 1 - The event strips your other weapons\
+_randomat_boomerang_weaponid_ - Default: weapon_ttt_boomerang_randomat - ID of the weapon given
 
-ttt_randomat_future - Default: 1 - Whether this randomat is enabled
-Outcome? Prop go boom.
-Makes props explode when they are destroyed.
+## LAST ONE STANDING WINS! BATTLE ROYALE!
+Turns the round into a battle royale!\
+Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool if it’s installed, last one alive wins.\
+Everyone gets a radar after 2 minutes to prevent camping.\
+\
+_ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
+_randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar
 
-ttt_randomat_goboom - Default: 1 - Whether this randomat is enabled
-Boomerang Fu!
-Continually gives everyone boomerangs, and removes all other weapons.
-
-ttt_randomat_boomerang - Default: 1 - Whether this randomat is enabled
-randomat_boomerang_timer - Default: 5 - Time between being given boomerangs
-randomat_boomerang_strip - Default: 1 - The event strips your other weapons
-randomat_boomerang_weaponid - Default: weapon_ttt_boomerang_randomat - ID of the weapon given
-LAST ONE STANDING WINS! BATTLE ROYALE!
-Turns the round into a battle royale! Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool if it’s installed, last one alive wins. Everyone gets a radar after 2 minutes to prevent camping.
-
-ttt_randomat_battleroyale - Default: 1 - Whether this randomat is enabled
-randomat_battleroyale_radar_time - Default: 120 - Seconds before everyone is given a radar
-Murder (Yogscast intro)
-Plays the original Yogscast Murder theme and the original Yogscast Murder logo pops up on screen, then triggers the “Murder” randomat. This randomat will never trigger if you do not have another randomat mod that has the “Murder” randomat.
-
-ttt_randomat_yogsmurder - Default: 1 - Whether this randomat is enabled
+## Murder (Yogscast intro)
+Plays the original Yogscast Murder theme and the original Yogscast Murder logo pops up on screen, then triggers the “Murder” randomat.\
+This randomat will never trigger if you do not have another randomat mod that has the “Murder” randomat.\
+\
+_ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled\
