@@ -11,6 +11,7 @@ _ttt_randomat_event_hint_ - Default: 1 - Whether the Randomat should print what 
 _ttt_randomat_event_hint_chat_ - Default: 1 - Whether hints should also be put in chat.
 
 
+
 # Randomats Made By Me
 ## Gunfire
 Anyone that hasn't shot with an ordinary gun for a set amount of seconds, is set on fire.\
@@ -180,6 +181,8 @@ This randomat will never trigger if you do not have another randomat mod that ha
 \
 _ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled
 
+
+
 # Randomats made by "nanz"
 **The mod these randomats come from: [Steam Workshop::Randomat 2.0 (TTT2)](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)**
 ## Live Count
@@ -189,3 +192,38 @@ Changed name from "Live Check!"\
 _ttt_randomat_livecount_ - Default: 1 - Whether this randomat is enabled\
 _randomat_livecount_timer_ - Default: 30 - Time between live counts\
 
+
+
+# Randomats made by "Schlurf"
+**The mod these randomats come from: [Steam Workshop:: Randomat DieAnstalt](https://steamcommunity.com/sharedfiles/filedetails/?id=1394919304)**
+## Team Deathmatch
+Turns half of everyone into traitors, and half detectives.\
+Changed name from "Random Team Deathmatch", fixed randomat registration bug.\
+\
+_ttt_randomat_deathmatch_ - Default: 1 - Whether this randomat is enabled
+
+## Role shuffle in 60 seconds!
+Reselects everyone's role for the round after 60 seconds.\
+Changed name from "ROLE SHUFFLE!", fixed randomat registration bug and role weapons not being removed, added a delay of 60 seconds before it's triggered, added a notification to when the roles are shuffled.\
+\
+_ttt_randomat_roleshuffle_ - Default: 1 - Whether this randomat is enabled\
+_randomat_roleshuffle_time_ - Default: 60 - How long in seconds until roles are shuffled
+
+## People are Crabs
+Everyone can only walk side-to-side\
+Original name in German, updated to be compatible with randomat 2.0\
+\
+_ttt_randomat_peoplearecrabs_ - Default: 1 - Whether this randomat is enabled
+
+# Randomats made by "ruiner189"
+**The mod these randomats come from: [Steam Workshop::Custom Randomat](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)**
+## Dead men tell no lies
+When someone dies, everyone is told what their role was\
+\
+_ttt_randomat_nolies_ - Default: 1 - Whether this randomat is enabled
+
+## Simon Says
+Everyone copies someone's loadout. Everyone can only use a gun if the chosen person has theirs out.\
+Changed name from "Simon Says", changed the "leader" to only be picked once, or after the leader dies\
+\
+_ttt_randomat_simonsays_ - Default: 1 - Whether this randomat is enabled
