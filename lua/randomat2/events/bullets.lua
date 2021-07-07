@@ -2,6 +2,8 @@ local EVENT = {}
 EVENT.Title = "Bullets, my only weakness!"
 EVENT.Description = "Bullet damage only"
 EVENT.id = "bullets"
+-- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
+EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 function EVENT:Begin()
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
