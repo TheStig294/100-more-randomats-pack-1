@@ -195,7 +195,7 @@ _randomat_livecount_timer_ - Default: 30 - Time between live counts\
 
 
 # Randomats made by "Schlurf"
-**The mod these randomats come from: [Steam Workshop:: Randomat DieAnstalt](https://steamcommunity.com/sharedfiles/filedetails/?id=1394919304)**
+**The mod these randomats come from: [Steam Workshop::Randomat DieAnstalt](https://steamcommunity.com/sharedfiles/filedetails/?id=1394919304)**
 ## Team Deathmatch
 Turns half of everyone into traitors, and half detectives.\
 Changed name from "Random Team Deathmatch", fixed randomat registration bug.\
@@ -249,7 +249,7 @@ _ttt_randomat_unconventional_ - Default: 1 - Whether this randomat is enabled
 
 
 # Randomats made by "HagenSNKL"
-**The mod these randomats come from: [Workshop::TTT Randomat](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819)**
+**The mod these randomats come from: [Steam Workshop::TTT Randomat](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819)**
 ## ...% More Speed, Jump Height and Health for everyone!
 Increases speed, jump height, and current health for everyone by a set percentage\
 \
@@ -266,7 +266,7 @@ _randomat_kexplode_timer_ - Default: 60 - The time until imperfect karma players
 
 
 # Randomats made by "Miko0l"
-**The mod these randomats come from: [Steam Workshop:: [TTT2] Xtra Randomat Events](https://steamcommunity.com/sharedfiles/filedetails/?id=2224127289)**
+**The mod these randomats come from: [Steam Workshop::[TTT2] Xtra Randomat Events](https://steamcommunity.com/sharedfiles/filedetails/?id=2224127289)**
 ## BAWK!
 Turns everyone's models into chickens, corpses disappear on death, a set amount of health, and everyone makes chicken noises.\
 Converted to work with randomat 2.0 rather than TTT2, added much more chicken sounds, fixed playermodels not being reset at the start of the next round, removed zombie chicken\
@@ -351,7 +351,7 @@ _randomat_duncanevent_disguise_ - Default: 1 - Hide player names or not (1 = on,
 
 
 # Randomats made by "Dem"
-**The mod these randomats come from: [Workshop::TTT Randomat 2.0](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)**
+**The mod these randomats come from: [Steam Workshop::TTT Randomat 2.0](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)**
 
 ## The Freeze Randomat
 All Innocents Freeze and become immune to damage every 30 seconds.\
@@ -400,7 +400,7 @@ _ttt_randomat_gungame2_ - Default: 1 - Whether this randomat is enabled
 
 
 # Randomats made by "Owningle"
-**The mod these randomats come from: [Workshop::TTT Extra Randomat Events](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)**
+**The mod these randomats come from: [Steam Workshop::TTT Extra Randomat Events](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)**
 
 ## Don’t RDM...
 Killing someone on your side kills you instead. The player you would have killed repawns with full health.\
