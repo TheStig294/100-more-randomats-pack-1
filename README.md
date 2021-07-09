@@ -75,7 +75,7 @@ Sound effect plays at the end of each round, depending on who wins\
 _ttt_randomat_flair_ - Default: 1 - Whether this randomat is enabled\
 
 ## Once more, with feeling!
-Repeats the last randomat, doesn't trigger unless auto-randomat is on (randomat starts every round)\
+Repeats the last randomat\
 \
 _ttt_randomat_oncemore_ - Default: 1 - Whether this randomat is enabled
 
