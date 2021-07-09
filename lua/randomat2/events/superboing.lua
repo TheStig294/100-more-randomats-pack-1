@@ -3,10 +3,12 @@ EVENT.Title = "Super Boing"
 EVENT.Description = "Super jump, high gravity, no fall damage"
 EVENT.id = "superboing"
 local superBoingRandomat = false
+local gravity
 
 function EVENT:Begin()
     -- Let end function know randomat has triggered
     superBoingRandomat = true
+    gravity = GetConVar("sv_gravity"):GetFloat()
     -- Set high gravity
     RunConsoleCommand("sv_gravity", 1800)
 
@@ -27,7 +29,7 @@ function EVENT:End()
     -- If randomat has triggered
     if superBoingRandomat then
         -- Reset gravity and jump power
-        RunConsoleCommand("sv_gravity", 600)
+        RunConsoleCommand("sv_gravity", gravity)
 
         for _, ply in pairs(self:GetPlayers()) do
             ply:SetJumpPower(200)
