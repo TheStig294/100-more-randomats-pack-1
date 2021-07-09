@@ -14,8 +14,8 @@ _ttt_randomat_event_hint_chat_ - Default: 1 - Whether hints should also be put i
 
 # Randomats Made By Me
 ## Gunfire
-Anyone that hasn't shot with an ordinary gun for a set amount of seconds, is set on fire.\
-Shoot an ordinary gun to extinguish yourself.\
+Anyone who hasn't shot with a gun for a set amount of time, is set on fire.\
+Shoot a gun to extinguish yourself.\
 \
 _ttt_randomat_gunfire_ - Default: 1 - Whether this randomat is enabled\
 _randomat_gunfire_timer_ - Default: 20 - Seconds a player must not shoot before they are ignited
