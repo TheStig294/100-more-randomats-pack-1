@@ -111,11 +111,6 @@ Disables all traitor traps or anything that relies on a traitor button\
 \
 _ttt_randomat_traitortraps_ - Default: 1 - Whether this randomat is enabled
 
-## Traitor testers disabled
-Disables all traitor testers until the next round.\
-\
-_ttt_randomat_testers_ - Default: 1 - Whether this randomat is enabled
-
 ## Heads Up Dismay
 Removes the HUD and scoreboard after a brief delay.\
 \
