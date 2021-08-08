@@ -5,8 +5,11 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     -- Event Types
     EVENT_TYPE_DEFAULT = 0
     EVENT_TYPE_WEAPON_OVERRIDE = 1
+    EVENT_TYPE_VOTING = 2
+    EVENT_TYPE_SMOKING = 3
+    EVENT_TYPE_SPECTATOR_UI = 4
 
-    -- Shared Functions
+    -- Team Functions
     function Randomat:IsInnocentTeam(ply, skip_detective)
         -- Handle this early because IsInnocentTeam doesn't
         if skip_detective and Randomat:IsGoodDetectiveLike(ply) then return false end
@@ -47,6 +50,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         return role == ROLE_KILLER
     end
 
+    -- Role Functions
     function Randomat:IsDetectiveLike(ply)
         if ply.IsDetectiveLike then return ply:IsDetectiveLike() end
         local role = ply:GetRole()
@@ -121,5 +125,122 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
 
         return Randomat:GetValidRoles(initial_roles, WEPS.DoesRoleHaveWeapon)
+    end
+
+    function Randomat:CanUseShop(ply)
+        if ply.CanUseShop then return ply:CanUseShop() end
+        if ply.IsShopRole then return ply:IsShopRole() and (not ply:IsDeputy() or ply:GetNWBool("HasPromotion", false)) and (not ply:IsClown() or ply:GetNWBool("KillerClownActive", false)) end
+        if player.HasBuyMenu then return player.HasBuyMenu(ply) end
+        -- Otherwise just assume any roel in the list of shop roles can use the shop
+        local shop_roles = Randomat:GetShopRoles()
+
+        return shop_roles[ply:GetRole()] or false
+    end
+
+    function Randomat:IsZombifying(ply)
+        return ply:GetPData("IsZombifying", 0) == 1 or ply:GetNWBool("IsZombifying", false)
+    end
+
+    -- Weapon Sound Functions
+    function Randomat:RestoreWeaponSound(wep)
+        if not IsValid(wep) or not wep.Primary then return end
+
+        if wep.Primary.OriginalSound then
+            wep.Primary.Sound = wep.Primary.OriginalSound
+            wep.Primary.OriginalSound = nil
+        end
+    end
+
+    function Randomat:OverrideWeaponSound(wep, chosen_sound)
+        if not IsValid(wep) or not wep.Primary then return end
+        if wep.Primary.OriginalSound ~= nil then return end
+        wep.Primary.OriginalSound = wep.Primary.Sound
+        wep.Primary.Sound = chosen_sound
+    end
+
+    function Randomat:OverrideWeaponSoundData(data, chosen_sound)
+        if not IsValid(data.Entity) then return end
+        local current_sound = data.SoundName:lower()
+        local fire_start, _ = string.find(current_sound, ".*weapons/.*fire.*%..*")
+        local shot_start, _ = string.find(current_sound, ".*weapons/.*shot.*%..*")
+        local shoot_start, _ = string.find(current_sound, ".*weapons/.*shoot.*%..*")
+
+        if fire_start or shot_start or shoot_start then
+            data.SoundName = chosen_sound
+
+            return true
+        end
+    end
+
+    -- Player Functions
+    local player_view_offsets = {}
+    local player_view_offsets_ducked = {}
+
+    function Randomat:SetPlayerScale(ply, scale, id)
+        ply:SetStepSize(ply:GetStepSize() * scale)
+        ply:SetModelScale(ply:GetModelScale() * scale, 1)
+        -- Save the original values
+        local sid = ply:SteamID64()
+
+        if not player_view_offsets[sid] then
+            player_view_offsets[sid] = ply:GetViewOffset()
+        end
+
+        if not player_view_offsets_ducked[sid] then
+            player_view_offsets_ducked[sid] = ply:GetViewOffsetDucked()
+        end
+
+        -- Use the current, not the saved, values so that this can run multiple times (in theory)
+        ply:SetViewOffset(ply:GetViewOffset() * scale)
+        ply:SetViewOffsetDucked(ply:GetViewOffsetDucked() * scale)
+        local a, b = ply:GetHull()
+        ply:SetHull(a * scale, b * scale)
+        a, b = ply:GetHullDuck()
+        ply:SetHullDuck(a * scale, b * scale)
+        -- Reduce the player speed on the client
+        local speed_factor = math.Clamp(ply:GetStepSize() / 9, 0.25, 1)
+        net.Start("RdmtSetSpeedMultiplier")
+        net.WriteFloat(speed_factor)
+        net.WriteString("Rdmt" .. id .. "Speed")
+        net.Send(ply)
+    end
+
+    function Randomat:ResetPlayerScale(ply, id)
+        ply:SetModelScale(1, 1)
+        -- Retrieve the saved offsets
+        local offset = nil
+        local sid = ply:SteamID64()
+
+        if player_view_offsets[sid] then
+            offset = player_view_offsets[sid]
+            player_view_offsets[sid] = nil
+        end
+
+        -- Reset the view offset to the saved value or the default (if the ec_ViewChanged is not set)
+        -- The "ec_ViewChanged" property is from the "Enhanced Camera" mod which use ViewOffset to make the camera more "realistic"
+        if offset or not ply.ec_ViewChanged then
+            ply:SetViewOffset(offset or Vector(0, 0, 64))
+        end
+
+        -- Retrieve the saved ducked offsets
+        local offset_ducked = nil
+
+        if player_view_offsets_ducked[sid] then
+            offset_ducked = player_view_offsets_ducked[sid]
+            player_view_offsets_ducked[sid] = nil
+        end
+
+        -- Reset the view offset to the saved value or the default (if the ec_ViewChanged is not set)
+        -- The "ec_ViewChanged" property is from the "Enhanced Camera" mod which use ViewOffset to make the camera more "realistic"
+        if offset_ducked or not ply.ec_ViewChanged then
+            ply:SetViewOffsetDucked(offset_ducked or Vector(0, 0, 28))
+        end
+
+        ply:ResetHull()
+        ply:SetStepSize(18)
+        -- Reset the player speed on the client
+        net.Start("RdmtRemoveSpeedMultiplier")
+        net.WriteString("Rdmt" .. id .. "Speed")
+        net.Send(ply)
     end
 end
