@@ -1,6 +1,6 @@
 --Disabling fg addon's chat message to clear up chat box for randomat alerts (if installed)
 RunConsoleCommand("ttt_fgaddons_textmessage", "0")
-local randomatRandomSeed = true
+local randomatRandomSeed = GetGlobalBool("RandomatRandomisationSeeding", true)
 
 --Seeding random numbers in Garry's Mod to help with the same randomats being picked over and over, running only once
 if randomatRandomSeed then
