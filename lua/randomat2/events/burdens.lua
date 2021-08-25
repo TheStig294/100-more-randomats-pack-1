@@ -1,6 +1,6 @@
 local EVENT = {}
 
-CreateConVar("randomat_burdens_multiplier", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Times speed modifier", 0.5, 2)
+CreateConVar("randomat_burdens_multiplier", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Times speed modifier", 0.5, 2)
 
 EVENT.Title = "I'm sworn to carry your burdens"
 EVENT.Description = "Less weapons, move faster. More weapons, move slower."
