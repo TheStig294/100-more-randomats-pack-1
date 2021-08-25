@@ -12,7 +12,6 @@ function EVENT:Begin()
         for i, ply in ipairs(self:GetAlivePlayers()) do
             local numWeapons = #ply:GetWeapons()
             ply:SetLaggedMovementValue(math.max(0.25, -1 / 3 * (numWeapons - 8) * GetConVar("randomat_burdens_multiplier"):GetFloat()))
-            print(ply:GetLaggedMovementValue())
         end
     end)
 
