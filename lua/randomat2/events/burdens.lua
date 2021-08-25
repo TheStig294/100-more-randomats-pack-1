@@ -1,39 +1,29 @@
 local EVENT = {}
 
-CreateConVar("randomat_burdens_speed_multiplier", 0.75, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "% of speed changed when dropping/picking up weapons", 0.01, 1)
+CreateConVar("randomat_burdens_multiplier", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Times speed modifier", 0.5, 2)
 
 EVENT.Title = "I'm sworn to carry your burdens"
 EVENT.Description = "Less weapons, move faster. More weapons, move slower."
 EVENT.id = "burdens"
 
 function EVENT:Begin()
-    --Remove all grenades from players and the floor as speed multipliers don't apply correctly to them
-    for _, ent in pairs(ents.GetAll()) do
-        if ent.Kind == WEAPON_NADE and ent.AutoSpawnable then
-            ent:Remove()
+    -- Players have default speed at 5 weapons, min speed at 9, max speed at 0
+    self:AddHook("Think", function()
+        for i, ply in ipairs(self:GetAlivePlayers()) do
+            local numWeapons = #ply:GetWeapons()
+            ply:SetLaggedMovementValue(math.max(0.25, -1 / 3 * (numWeapons - 8) * GetConVar("randomat_burdens_multiplier"):GetFloat()))
+            print(ply:GetLaggedMovementValue())
         end
-    end
-
-    self:AddHook("WeaponEquip", function(weapon, owner)
-        --Slows players that pick up weapons
-        owner:SetLaggedMovementValue(owner:GetLaggedMovementValue() * GetConVar("randomat_burdens_speed_multiplier"):GetFloat())
     end)
 
-    self:AddHook("PlayerDroppedWeapon", function(owner, wep)
-        --Speed up players that drop weapons
-        owner:SetLaggedMovementValue(owner:GetLaggedMovementValue() * 1 / GetConVar("randomat_burdens_speed_multiplier"):GetFloat())
-    end)
-
-    self:AddHook("PlayerSpawn", function(ply, transition)
-        -- Resets the speed of players that respawn, after a delay of 2 seconds
-        timer.Simple(2, function()
-            ply:SetLaggedMovementValue(1)
-        end)
+    -- Resets the speed of players that die
+    self:AddHook("PostPlayerDeath", function(ply)
+        ply:SetLaggedMovementValue(1)
     end)
 end
 
+--Reset all players back to default speed when the round ends/randomat is cleared
 function EVENT:End()
-    --Reset all players back to default speed
     for i, ply in pairs(self:GetPlayers()) do
         ply:SetLaggedMovementValue(1)
     end
@@ -42,7 +32,7 @@ end
 function EVENT:GetConVars()
     local sliders = {}
 
-    for _, v in pairs({"speed_multiplier"}) do
+    for _, v in pairs({"multiplier"}) do
         local name = "randomat_" .. self.id .. "_" .. v
 
         if ConVarExists(name) then
