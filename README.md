@@ -142,7 +142,7 @@ Move faster the less weapons you have, move slower the more weapons you have.\
 Also counts buy menu weapons... (watch out traitors!)\
 \
 _ttt_randomat_burdens_ - Default: 1 - Whether this randomat is enabled\
-_randomat_burdens_speed_multiplier_ - Default: 0.75 - % of speed changed when dropping/picking up weapons
+_randomat_burdens_multiplier_ - Default: 1 - The speed multiplier is multiplied by tis value
 
 ## Future Proofing
 Gives items you buy at the start of the next round, rather than when you buy them.\
