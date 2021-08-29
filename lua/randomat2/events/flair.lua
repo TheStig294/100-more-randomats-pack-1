@@ -40,7 +40,7 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    return not file.Exists("autorun/ttt_round_end_sounds.lua", "lsv")
+    return not file.Exists("autorun/_round_end_sounds.lua", "lsv")
 end
 
 Randomat:register(EVENT)
