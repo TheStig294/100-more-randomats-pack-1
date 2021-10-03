@@ -15,9 +15,7 @@ end
 
 function EVENT:End()
     for i, ply in pairs(self:GetPlayers()) do
-        timer.Simple(0.1, function()
-            ply:SetStepSize(20)
-        end)
+        ply:SetStepSize(20)
     end
 end
 
