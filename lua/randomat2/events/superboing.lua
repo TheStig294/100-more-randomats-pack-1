@@ -32,7 +32,7 @@ function EVENT:End()
         RunConsoleCommand("sv_gravity", gravity)
 
         for _, ply in pairs(self:GetPlayers()) do
-            ply:SetJumpPower(200)
+            ply:SetJumpPower(160)
         end
 
         -- Prevent end function from running until randomat triggers again

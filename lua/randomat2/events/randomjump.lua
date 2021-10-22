@@ -16,7 +16,7 @@ end
 function EVENT:End()
     -- Reset it back to default: 200
     for k, ply in pairs(self:GetPlayers()) do
-        ply:SetJumpPower(200)
+        ply:SetJumpPower(160)
     end
 end
 
