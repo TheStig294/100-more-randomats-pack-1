@@ -11,6 +11,8 @@ local hasteMinutes = 0.5
 
 function EVENT:Begin()
     speedrunRandomat = true
+    hasteMode = GetConVar("ttt_haste"):GetBool()
+    hasteMinutes = GetConVar("ttt_haste_minutes_per_death"):GetFloat()
 
     -- This global float controls the time the round will end, part of base TTT
     if hasteMode then
