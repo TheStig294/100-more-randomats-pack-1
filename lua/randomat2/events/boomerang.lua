@@ -7,7 +7,7 @@ CreateConVar("randomat_boomerang_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The 
 CreateConVar("randomat_boomerang_weaponid", "weapon_ttt_boomerang_randomat", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
 
 EVENT.Title = "Boomerang Fu!"
-EVENT.Description = "Boomerangs only!"
+EVENT.Description = "\"They're a one-shot if it hits you twice\""
 EVENT.id = "boomerang"
 
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
