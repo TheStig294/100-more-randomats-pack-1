@@ -46,12 +46,12 @@ function EVENT:Begin()
                     ply:SetCredits(0)
 
                     -- Give players ammo for the one-shot pistol if they have it
-                    if ply:GetActiveWeapon():GetClass() == "weapon_ttt_pistol_randomat" then
+                    if IsValid(ply:GetActiveWeapon()) and ply:GetActiveWeapon():GetClass() == "weapon_ttt_pistol_randomat" then
                         ply:SetAmmo(69, "Pistol")
                     end
 
                     -- And if they're not a jester/swapper and aren't holding the one-shot pistol,
-                    if (ply:GetRole() ~= ROLE_SWAPPER) and (ply:GetRole() ~= ROLE_JESTER) and ply:GetActiveWeapon():GetClass() ~= "weapon_ttt_pistol_randomat" then
+                    if IsValid(ply:GetActiveWeapon()) and (ply:GetRole() ~= ROLE_SWAPPER) and (ply:GetRole() ~= ROLE_JESTER) and ply:GetActiveWeapon():GetClass() ~= "weapon_ttt_pistol_randomat" then
                         -- Remove all their weapons and credits
                         ply:StripWeapons()
                         ply:SetCredits(0)
