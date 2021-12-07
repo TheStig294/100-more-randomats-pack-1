@@ -1,13 +1,24 @@
 -- Randomat base code from Malivil's randomat mod
 -- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if not GetGlobalBool("DisableStigRandomatBase", false) then
-    -- Adds extra functions useful for making randomats with, for example the 'Don't RDM...' randomat event uses IsInnocentTeam() and IsTraitorTeam() to check for RDMs
     -- Event Types
     EVENT_TYPE_DEFAULT = 0
     EVENT_TYPE_WEAPON_OVERRIDE = 1
     EVENT_TYPE_VOTING = 2
     EVENT_TYPE_SMOKING = 3
     EVENT_TYPE_SPECTATOR_UI = 4
+
+    -- String Functions
+    function Randomat:Capitalize(msg, skip_lower)
+        local first = msg:sub(1, 1):upper()
+        local rest = msg:sub(2)
+
+        if not skip_lower then
+            rest = rest:lower()
+        end
+
+        return first .. rest
+    end
 
     -- Team Functions
     function Randomat:IsInnocentTeam(ply, skip_detective)
@@ -70,6 +81,12 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         return role == ROLE_DETRAITOR or (Randomat:IsDetectiveLike(ply) and Randomat:IsTraitorTeam(ply))
     end
 
+    function Randomat:ShouldActLikeJester(ply)
+        if ply.ShouldActLikeJester then return ply:ShouldActLikeJester() end
+
+        return Randomat:IsJesterTeam(ply)
+    end
+
     function Randomat:GetRoleColor(role)
         local color = nil
 
@@ -98,6 +115,114 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         }
 
         return role_colors[role]
+    end
+
+    function Randomat:GetRoleExtendedString(role, hide_secret_roles)
+        -- Hide detraitors and impersonators so they don't get outed
+        if hide_secret_roles then
+            if role == ROLE_DETRAITOR then
+                role = ROLE_DETECTIVE
+            elseif role == ROLE_IMPERSONATOR then
+                role = ROLE_DEPUTY
+            end
+        end
+
+        -- Use the role strings if they exist
+        local role_string = ROLE_STRINGS_EXT and ROLE_STRINGS_EXT[role] or nil
+        if role_string then return Randomat:Capitalize(role_string) end
+
+        -- Otherwise fall back to the defaults
+        if role == ROLE_TRAITOR then
+            return "A traitor"
+        elseif role == ROLE_HYPNOTIST then
+            return "A hypnotist"
+        elseif role == ROLE_ASSASSIN then
+            return "An assassin"
+        elseif role == ROLE_DETECTIVE then
+            return "A detective"
+        elseif role == ROLE_MERCENARY then
+            return "A mercenary"
+        elseif role == ROLE_ZOMBIE then
+            return "A zombie"
+        elseif role == ROLE_VAMPIRE then
+            return "A vampire"
+        elseif role == ROLE_KILLER then
+            return "A killer"
+        elseif role == ROLE_INNOCENT then
+            return "An innocent"
+        elseif role == ROLE_GLITCH then
+            return "A glitch"
+        elseif role == ROLE_PHANTOM then
+            return "A phantom"
+        end
+
+        return "Someone"
+    end
+
+    function Randomat:GetRoleString(role)
+        -- Use the role strings if they exist
+        if ROLE_STRINGS and ROLE_STRINGS[role] or nil then return ROLE_STRINGS[role] end
+
+        -- Otherwise fall back to the defaults
+        if role == ROLE_TRAITOR then
+            return "Traitor"
+        elseif role == ROLE_HYPNOTIST then
+            return "Hypnotist"
+        elseif role == ROLE_ASSASSIN then
+            return "Assassin"
+        elseif role == ROLE_DETECTIVE then
+            return "Detective"
+        elseif role == ROLE_MERCENARY then
+            return "Mercenary"
+        elseif role == ROLE_ZOMBIE then
+            return "Zombie"
+        elseif role == ROLE_VAMPIRE then
+            return "Vampire"
+        elseif role == ROLE_KILLER then
+            return "Killer"
+        elseif role == ROLE_INNOCENT then
+            return "Innocent"
+        elseif role == ROLE_GLITCH then
+            return "Glitch"
+        elseif role == ROLE_PHANTOM then
+            return "Phantom"
+        end
+
+        return "Someone"
+    end
+
+    function Randomat:GetRolePluralString(role)
+        -- Use the role strings if they exist
+        if ROLE_STRINGS_PLURAL and ROLE_STRINGS_PLURAL[role] or nil then return ROLE_STRINGS_PLURAL[role] end
+
+        -- Otherwise fall back to the defaults
+        if role == ROLE_TRAITOR then
+            return "Traitors"
+        elseif role == ROLE_HYPNOTIST then
+            return "Hypnotists"
+        elseif role == ROLE_ASSASSIN then
+            return "Assassins"
+        elseif role == ROLE_DETECTIVE then
+            return "Detectives"
+        elseif role == ROLE_MERCENARY then
+            return "Mercenaries"
+        elseif role == ROLE_ZOMBIE then
+            return "Zombies"
+        elseif role == ROLE_VAMPIRE then
+            return "Vampires"
+        elseif role == ROLE_KILLER then
+            return "Killers"
+        elseif role == ROLE_INNOCENT then
+            return "Innocents"
+        elseif role == ROLE_GLITCH then
+            return "Glitches"
+        elseif role == ROLE_PHANTOM then
+            return "Phantoms"
+        elseif role == ROLE_DETRAITOR then
+            return "Detraitors"
+        end
+
+        return "Players"
     end
 
     function Randomat:GetValidRoles(roles, check)
@@ -129,7 +254,6 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
     function Randomat:CanUseShop(ply)
         if ply.CanUseShop then return ply:CanUseShop() end
-        if ply.IsShopRole then return ply:IsShopRole() and (not ply:IsDeputy() or ply:GetNWBool("HasPromotion", false)) and (not ply:IsClown() or ply:GetNWBool("KillerClownActive", false)) end
         if player.HasBuyMenu then return player.HasBuyMenu(ply) end
         -- Otherwise just assume any roel in the list of shop roles can use the shop
         local shop_roles = Randomat:GetShopRoles()
@@ -138,10 +262,10 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     function Randomat:IsZombifying(ply)
-        return ply:GetPData("IsZombifying", 0) == 1 or ply:GetNWBool("IsZombifying", false)
+        return ply:GetNWBool("IsZombifying", false) or ply:GetPData("IsZombifying", 0) == 1
     end
 
-    -- Weapon Sound Functions
+    -- Weapon Functions
     function Randomat:RestoreWeaponSound(wep)
         if not IsValid(wep) or not wep.Primary then return end
 
@@ -169,6 +293,63 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             data.SoundName = chosen_sound
 
             return true
+        end
+    end
+
+    function Randomat:RemoveEquipmentItem(ply, item_id)
+        -- Keep track of what equipment the player had
+        local i = 1
+        local equip = {}
+        local credits = 0
+        local removed = false
+
+        while i <= EQUIP_MAX do
+            if ply:HasEquipmentItem(i) then
+                -- Remove and refund the specific equipment item we're removing
+                if i == item_id then
+                    removed = true
+                    credits = credits + 1
+                else
+                    table.insert(equip, i)
+                end
+            end
+
+            -- Double the index since this is a bit-mask
+            i = i * 2
+        end
+
+        -- Give the player enough credits to compensate for the equipment they can no longer use
+        ply:AddCredits(credits)
+        -- Remove all their equipment
+        ply:ResetEquipment()
+
+        -- Add back the others (since we only want to remove the given item)
+        for _, id in ipairs(equip) do
+            ply:GiveEquipmentItem(id)
+        end
+
+        return removed
+    end
+
+    function Randomat:RemovePhdFlopper(ply, block_message)
+        local removed = false
+
+        -- Remove and refund the player's PHD Flopper
+        if Randomat:RemoveEquipmentItem(ply, EQUIP_PHD) then
+            removed = true
+            ply:SetNWBool("PHDActive", false)
+        elseif ply:GetNWString("phdIsActive", "false") == "true" then
+            ply:SetNWString("phdIsActive", "false")
+            ply.ShouldRemoveFallDamage = false
+            hook.Remove("HUDPaint", "perkHUDPaintIcon")
+            -- Explicitly refund this here. RemoveEquipmentItem handles the refund of the other type of PHD Flopper
+            ply:AddCredits(1)
+        end
+
+        if removed and not block_message then
+            timer.Simple(1, function()
+                ply:ChatPrint("PHD Floppers are disabled while this event is active! Your purchase has been refunded.")
+            end)
         end
     end
 
@@ -242,5 +423,26 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         net.Start("RdmtRemoveSpeedMultiplier")
         net.WriteString("Rdmt" .. id .. "Speed")
         net.Send(ply)
+    end
+
+    function Randomat:IsPlayerInvisible(ply)
+        return ply:GetNWBool("RdmtInvisible", false)
+    end
+
+    function Randomat:SetPlayerInvisible(ply)
+        ply:SetColor(Color(255, 255, 255, 0))
+        ply:SetMaterial("sprites/heatwave")
+        ply:SetNWBool("RdmtInvisible", true)
+    end
+
+    function Randomat:SetPlayerVisible(ply)
+        ply:SetColor(Color(255, 255, 255, 255))
+        ply:SetMaterial("models/glass")
+        ply:SetNWBool("RdmtInvisible", false)
+    end
+
+    -- Round Functions
+    function Randomat:GetRoundCompletePercent()
+        return ((CurTime() - GAMEMODE.RoundStartTime) / (GetGlobalFloat("ttt_round_end", CurTime()) - GAMEMODE.RoundStartTime)) * 100
     end
 end

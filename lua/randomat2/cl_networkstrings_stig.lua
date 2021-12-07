@@ -1,8 +1,6 @@
 -- Randomat base code from Malivil's randomat mod
 -- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if not GetGlobalBool("DisableStigRandomatBase", false) then
-    -- Malivil's client-side randomat functions, handles the custom player speed manipulation hook modifying the default one in TTT,
-    -- And grabs the printname of a buy menu item, used for example in the 'Communism' and 'Privacy policy' randomat events
     -- Weapon/Item Names
     net.Receive("alerteventtrigger", function()
         local event = net.ReadString()
@@ -81,7 +79,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         -- Apply all of these that are valid and have a weapon that matches the specific class
         local wep = ply:GetActiveWeapon()
 
-        if wep and IsValid(wep) then
+        if IsValid(wep) then
             local wep_class = wep:GetClass()
 
             for _, m in pairs(current_mults_withweapon) do

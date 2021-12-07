@@ -1,7 +1,6 @@
 -- Randomat base code from Malivil's randomat mod
 -- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if not GetGlobalBool("DisableStigRandomatBase", false) then
-    -- Handles the message popup at the centre of the screen every time a randomat is activated
     surface.CreateFont("RandomatHeader", {
         font = "Roboto",
         size = 48
@@ -57,7 +56,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         local msg = net.ReadString()
         local length = net.ReadUInt(8)
         ShowMessage(big, msg, length)
-        surface.PlaySound("weapons/c4_initiate.wav")
+        surface.PlaySound("weapons/c4_initiate.mp3")
     end)
 
     net.Receive("randomat_message_silent", function()

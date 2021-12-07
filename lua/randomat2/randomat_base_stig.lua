@@ -1,7 +1,6 @@
 -- Randomat base code from Malivil's randomat mod
 -- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if not GetGlobalBool("DisableStigRandomatBase", false) then
-    -- Handles the basic functions this mod requires to run
     util.AddNetworkString("randomat_message")
     util.AddNetworkString("randomat_message_silent")
     util.AddNetworkString("AlertTriggerFinal")
@@ -106,6 +105,9 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
                 end
             end
         end
+
+        -- Let other addons know that an event was started
+        hook.Call("TTTRandomatTriggered", nil, event.Id, owner)
     end
 
     function Randomat:EndActiveEvent(id)
@@ -180,7 +182,13 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         ply:SetRole(role)
         net.Start("TTT_RoleChanged")
         net.WriteString(ply:SteamID64())
-        net.WriteUInt(role, 8)
+
+        if CR_VERSION and CRVersion("1.1.2") then
+            net.WriteInt(role, 8)
+        else
+            net.WriteUInt(role, 8)
+        end
+
         net.Broadcast()
     end
 
@@ -257,6 +265,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             end
         end
 
+        local round_percent_complete = Randomat:GetRoundCompletePercent()
+        if (event.MinRoundCompletePercent and event.MinRoundCompletePercent > round_percent_complete) or (event.MaxRoundCompletePercent and event.MaxRoundCompletePercent < round_percent_complete) then return false end
         local min_players = GetConVar("ttt_randomat_" .. event.Id .. "_min_players"):GetInt()
         local player_count = player.GetCount()
 
@@ -504,44 +514,77 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         net.Send(ply)
     end
 
-    function Randomat:RemoveEquipmentItem(ply, item_id)
-        -- Keep track of what equipment the player had
-        local i = 1
-        local equip = {}
-        local credits = 0
-        local removed = false
+    -- Adapted from Sandbox code by Jenssons
+    function Randomat:SpawnNPC(ply, pos, cls)
+        local npc_list = list.Get("NPC")
+        local npc_data = npc_list[cls]
 
-        while i <= EQUIP_MAX do
-            if ply:HasEquipmentItem(i) then
-                -- Remove and refund the specific equipment item we're removing
-                if i == item_id then
-                    removed = true
-                    credits = credits + 1
-                else
-                    table.insert(equip, i)
-                end
+        -- Don't let them spawn this entity if it isn't in our NPC Spawn list.
+        -- We don't want them spawning any entity they like!
+        if not npc_data then
+            if IsValid(ply) then
+                ply:SendLua("Derma_Message(\"Sorry! You can't spawn that NPC!\")")
             end
 
-            -- Double the index since this is a bit-mask
-            i = i * 2
+            return
         end
 
-        -- Give the player enough credits to compensate for the equipment they can no longer use
-        ply:AddCredits(credits)
-        -- Remove all their equipment
-        ply:ResetEquipment()
+        -- Create NPC
+        local npc_ent = ents.Create(npc_data.Class)
+        if not IsValid(npc_ent) then return end
+        npc_ent:SetPos(pos)
 
-        -- Add back the others (since we only want to remove the given item)
-        for _, id in ipairs(equip) do
-            ply:GiveEquipmentItem(id)
+        --
+        -- This NPC has a special model we want to define
+        --
+        if npc_data.Model then
+            npc_ent:SetModel(npc_data.Model)
         end
 
-        return removed
+        --
+        -- Spawn Flags
+        --
+        local spawn_flags = bit.bor(SF_NPC_FADE_CORPSE, SF_NPC_ALWAYSTHINK)
+
+        if npc_data.SpawnFlags then
+            spawn_flags = bit.bor(spawn_flags, npc_data.SpawnFlags)
+        end
+
+        if npc_data.TotalSpawnFlags then
+            spawn_flags = npc_data.TotalSpawnFlags
+        end
+
+        npc_ent:SetKeyValue("spawnflags", spawn_flags)
+
+        --
+        -- Optional Key Values
+        --
+        if npc_data.KeyValues then
+            for k, v in pairs(npc_data.KeyValues) do
+                npc_ent:SetKeyValue(k, v)
+            end
+        end
+
+        --
+        -- This NPC has a special skin we want to define
+        --
+        if npc_data.Skin then
+            npc_ent:SetSkin(npc_data.Skin)
+        end
+
+        npc_ent:Spawn()
+        npc_ent:Activate()
+
+        if not npc_data.NoDrop and not npc_data.OnCeiling then
+            npc_ent:DropToFloor()
+        end
+
+        return npc_ent
     end
 
-    function Randomat:SpawnBee(ply, color)
-        local spos = ply:GetPos() + Vector(math.random(-75, 75), math.random(-75, 75), math.random(200, 250))
-        local headBee = SpawnNPC(ply, spos, "npc_manhack")
+    function Randomat:SpawnBee(ply, color, height)
+        local spos = ply:GetPos() + Vector(math.random(-75, 75), math.random(-75, 75), height or math.random(200, 250))
+        local headBee = Randomat:SpawnNPC(ply, spos, "npc_manhack")
         headBee:SetNPCState(2)
         local bee = ents.Create("prop_dynamic")
         bee:SetModel("models/lucian/props/stupid_bee.mdl")
@@ -554,6 +597,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
         headBee:SetNoDraw(true)
         headBee:SetHealth(1000)
+
+        return headBee
     end
 
     --[[
@@ -619,59 +664,14 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     function randomat_meta:Enabled()
-        if GetConVar("ttt_randomat_" .. self.id):GetBool() then
-            return true
-        else
-            return false
-        end
+        return GetConVar("ttt_randomat_" .. self.id):GetBool()
     end
 
     function randomat_meta:GetConVars()
     end
 
-    -- What role is a player?
     function randomat_meta:GetRoleName(ply, hide_secret_roles)
-        local role = ply:GetRole()
-
-        -- Hide detraitors and impersonators so they don't get outed
-        if hide_secret_roles then
-            if role == ROLE_DETRAITOR then
-                role = ROLE_DETECTIVE
-            elseif role == ROLE_IMPERSONATOR then
-                role = ROLE_DEPUTY
-            end
-        end
-
-        -- Use the role strings if they exist
-        local role_string = ROLE_STRINGS_EXT and ROLE_STRINGS_EXT[role] or nil
-        if role_string then return role_string:sub(1, 1):upper() .. role_string:sub(2):lower() end
-
-        -- Otherwise fall back to the defaults
-        if role == ROLE_TRAITOR then
-            return "A traitor"
-        elseif role == ROLE_HYPNOTIST then
-            return "A hypnotist"
-        elseif role == ROLE_ASSASSIN then
-            return "An assassin"
-        elseif role == ROLE_DETECTIVE then
-            return "A detective"
-        elseif role == ROLE_MERCENARY then
-            return "A mercenary"
-        elseif role == ROLE_ZOMBIE then
-            return "A zombie"
-        elseif role == ROLE_VAMPIRE then
-            return "A vampire"
-        elseif role == ROLE_KILLER then
-            return "A killer"
-        elseif role == ROLE_INNOCENT then
-            return "An innocent"
-        elseif role == ROLE_GLITCH then
-            return "A glitch"
-        elseif role == ROLE_PHANTOM then
-            return "A phantom"
-        end
-
-        return "Someone"
+        return Randomat:GetRoleExtendedString(ply:GetRole(), hide_secret_roles)
     end
 
     -- Rename stock weapons so they are readable
@@ -710,20 +710,14 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     function randomat_meta:StripRoleWeapons(ply)
         if not IsValid(ply) then return end
 
+        if ply.StripRoleWeapons then
+            ply:StripRoleWeapons()
+
+            return
+        end
+
         if ply:HasWeapon("weapon_hyp_brainwash") then
             ply:StripWeapon("weapon_hyp_brainwash")
-        end
-
-        if ply:HasWeapon("weapon_bod_bodysnatch") then
-            ply:StripWeapon("weapon_bod_bodysnatch")
-        end
-
-        if ply:HasWeapon("weapon_doc_defib") then
-            ply:StripWeapon("weapon_doc_defib")
-        end
-
-        if ply:GetRole() == ROLE_DOCTOR and ply:HasWeapon("weapon_ttt_health_station") and GetConVar("ttt_doctor_mode"):GetInt() == DOCTOR_MODE_STATION then
-            ply:StripWeapon("weapon_ttt_health_station")
         end
 
         if ply:HasWeapon("weapon_vam_fangs") then
@@ -744,10 +738,6 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
         if ply:HasWeapon("weapon_ttt_wtester") then
             ply:StripWeapon("weapon_ttt_wtester")
-        end
-
-        if ply:HasWeapon("weapon_qua_bomb_station") then
-            ply:StripWeapon("weapon_qua_bomb_station")
         end
     end
 
@@ -786,12 +776,11 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
     end
 
-    function randomat_meta:SwapWeapons(ply, weapons, from_killer)
+    function randomat_meta:SwapWeapons(ply, weapon_list, from_killer)
         local had_brainwash = ply:HasWeapon("weapon_hyp_brainwash")
         local had_bodysnatch = ply:HasWeapon("weapon_bod_bodysnatch")
-        local had_doctor_defib = ply:HasWeapon("weapon_doc_defib")
-        local had_doctor_station = ply:GetRole() == ROLE_DOCTOR and ply:HasWeapon("weapon_ttt_health_station") and GetConVar("ttt_doctor_mode"):GetInt() == DOCTOR_MODE_STATION
-        local had_bomb_station = ply:HasWeapon("weapon_qua_bomb_station")
+        local had_paramedic_defib = ply:HasWeapon("weapon_med_defib")
+        local had_zombificator = ply:HasWeapon("weapon_mad_zombificator")
         local had_scanner = ply:HasWeapon("weapon_ttt_wtester")
 
         self:HandleWeaponAddAndSelect(ply, function()
@@ -810,12 +799,10 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
                 ply:Give("weapon_bod_bodysnatch")
             elseif had_scanner then
                 ply:Give("weapon_ttt_wtester")
-            elseif had_doctor_defib then
-                ply:Give("weapon_doc_defib")
-            elseif had_doctor_station then
-                ply:Give("weapon_ttt_health_station")
-            elseif had_bomb_station then
-                ply:Give("weapon_qua_bomb_station")
+            elseif had_paramedic_defib then
+                ply:Give("weapon_med_defib")
+            elseif had_zombificator then
+                ply:Give("weapon_mad_zombificator")
             elseif ply:GetRole() == ROLE_KILLER then
                 if ConVarExists("ttt_killer_knife_enabled") and GetConVar("ttt_killer_knife_enabled"):GetBool() then
                     ply:Give("weapon_kil_knife")
@@ -833,7 +820,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             end
 
             -- Handle inventory weapons last to make sure the roles get their specials
-            for _, v in ipairs(weapons) do
+            for _, v in ipairs(weapon_list) do
                 local wep_class = WEPS.GetClass(v)
 
                 -- Don't give players the detective's tester
@@ -858,7 +845,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     function randomat_meta:ResetAllPlayerScales()
-        for _, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in ipairs(player.GetAll()) do
             Randomat:ResetPlayerScale(ply, self.id)
         end
 
@@ -866,8 +853,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
-     Commands
-    ]]
+ Commands
+]]
     --
     local function EndActiveEvents()
         if Randomat.ActiveEvents ~= {} then
