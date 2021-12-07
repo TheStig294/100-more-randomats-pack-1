@@ -2,7 +2,7 @@
 --In the server-side of this randomat, a hook adds the 'sahmin' sound
 --This new method of replacing the gun sound allows it to play for every bullet shot
 --Rather than just the first bullet shot after the mouse is held down
-local sahmin_sound = "weapons/silence.wav"
+local sahmin_sound = "weapons/silence.mp3"
 local hooked = false
 
 local function FixWeapon(wep)

@@ -6,18 +6,18 @@ EVENT.id = "sahmin"
 util.AddNetworkString("TriggerSahmin")
 util.AddNetworkString("EndSahmin")
 -- The new sounds
-util.PrecacheSound("weapons/sahmin1.wav")
-util.PrecacheSound("weapons/sahmin2.wav")
-util.PrecacheSound("weapons/sahmin3.wav")
-util.PrecacheSound("weapons/sahmin4.wav")
-util.PrecacheSound("weapons/sahmin5.wav")
+util.PrecacheSound("weapons/sahmin1.mp3")
+util.PrecacheSound("weapons/sahmin2.mp3")
+util.PrecacheSound("weapons/sahmin3.mp3")
+util.PrecacheSound("weapons/sahmin4.mp3")
+util.PrecacheSound("weapons/sahmin5.mp3")
 -- Client-side shooting sounds will be replaced with a silent sound file
-util.PrecacheSound("weapons/silence.wav")
+util.PrecacheSound("weapons/silence.mp3")
 
 -- Unlike the old 'sosig' randomat, this one plays one of many sounds
-local sahmin_sound_table = {"weapons/sahmin1.wav", "weapons/sahmin2.wav", "weapons/sahmin3.wav", "weapons/sahmin4.wav", "weapons/sahmin5.wav"}
+local sahmin_sound_table = {"weapons/sahmin1.mp3", "weapons/sahmin2.mp3", "weapons/sahmin3.mp3", "weapons/sahmin4.mp3", "weapons/sahmin5.mp3"}
 
-local sahmin_sound = "weapons/silence.wav"
+local sahmin_sound = "weapons/silence.mp3"
 
 -- Silences the regular shooting sound from a gun, on the server
 local function FixWeapon(wep)

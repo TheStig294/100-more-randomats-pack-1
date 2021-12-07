@@ -10,9 +10,9 @@ EVENT.Title = "BAWK!"
 EVENT.Description = "Transforms everyone into chickens"
 EVENT.id = "chickens"
 
-local sndTabIdle = {"chickens/idle1.wav", "chickens/idle2.wav", "chickens/idle3.wav", "chickens/alert.wav"}
+local sndTabIdle = {"chickens/idle1.mp3", "chickens/idle2.mp3", "chickens/idle3.mp3", "chickens/alert.mp3"}
 
-local sndTabPain = {"chickens/pain1.wav", "chickens/pain2.wav", "chickens/pain3.wav"}
+local sndTabPain = {"chickens/pain1.mp3", "chickens/pain2.mp3", "chickens/pain3.mp3"}
 
 local playerModels = {}
 local offsets = {}
@@ -106,7 +106,7 @@ function EVENT:Begin()
     -- Play a distinct chicken sound when a player dies
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
         dmginfo:SetDamageType(DMG_SLASH) -- Slashing damage causes no death sound, and thus mutes the normal death sound
-        sound.Play("chickens/bkawk.wav", ply:GetShootPos(), 90, 100, 1)
+        sound.Play("chickens/bkawk.mp3", ply:GetShootPos(), 90, 100, 1)
     end)
 
     -- Plays random idle chicken sounds

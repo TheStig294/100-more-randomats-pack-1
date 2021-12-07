@@ -5,7 +5,7 @@ CreateConVar("randomat_battleroyale_radar_time", 120, {FCVAR_NOTIFY, FCVAR_ARCHI
 EVENT.Title = "LAST ONE STANDING WINS! BATTLE ROYALE!"
 EVENT.Description = "Press 'F' to change platform shape"
 EVENT.id = "battleroyale"
-local alertSound = Sound("battleroyale/alert.wav")
+local alertSound = Sound("battleroyale/alert.mp3")
 
 function EVENT:Begin()
     --Plays the Fortnite alert sound as an extra warning this randomat has started

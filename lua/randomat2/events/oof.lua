@@ -9,7 +9,7 @@ function EVENT:Begin()
         -- Silence their usual death noise
         dmginfo:SetDamageType(DMG_SLASH)
         -- And play the Roblox oof instead
-        sound.Play("oof/oof.wav", ply:GetShootPos(), 90, 100, 1)
+        sound.Play("oof/oof.mp3", ply:GetShootPos(), 90, 100, 1)
     end)
 end
 

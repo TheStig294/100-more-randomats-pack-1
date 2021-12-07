@@ -17,7 +17,7 @@ function EVENT:Begin()
         net.Broadcast()
 
         for i, ply in pairs(self:GetPlayers()) do
-            ply:EmitSound(Sound("yogsmurder/murder.wav"))
+            ply:EmitSound(Sound("yogsmurder/murder.mp3"))
         end
     end)
 
