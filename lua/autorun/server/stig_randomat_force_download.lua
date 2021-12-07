@@ -1,6 +1,6 @@
---Loads models and textures needed for the boomerang weapon, used by the 'Boomerang Fu!' randomat
+-- This forces clients to have the materials and files needed for some randomat weapons
 if SERVER then
-    resource.AddWorkshop("639521512")
+    -- The boomerang weapon, used by the 'Boomerang Fu!' randomat
     resource.AddFile("materials/models/ratchet_mario/mario_party_9/hammer_bro/boomerang_full.vmt")
     resource.AddFile("materials/models/ratchet_mario/mario_party_9/hammer_bro/boomerang_full.vtf")
     resource.AddFile("materials/models/ratchet_mario/mario_party_9/hammer_bro/normal.vtf")
