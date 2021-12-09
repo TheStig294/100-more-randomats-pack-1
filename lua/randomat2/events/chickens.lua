@@ -20,11 +20,10 @@ local offsets_ducked = {}
 
 function EVENT:Begin()
     playerModels = {}
-    local hp = GetConVar("randomat_chickens_hp"):GetInt() -- Player max health
-    local sc = GetConVar("randomat_chickens_sc"):GetFloat() -- Player shrinking scale multiplier
-    local sp = GetConVar("randomat_chickens_sp"):GetFloat() -- Player player movement speed multiplier
+    local hp = GetConVar("randomat_chickens_hp"):GetInt()
+    local sc = GetConVar("randomat_chickens_sc"):GetFloat()
+    local sp = GetConVar("randomat_chickens_sp"):GetFloat()
 
-    -- For every living player,
     for _, ply in pairs(self:GetAlivePlayers()) do
         -- If the player's stored viewheight is null, store their viewheight
         if not offsets[ply:SteamID64()] then
@@ -37,29 +36,25 @@ function EVENT:Begin()
         end
     end
 
-    -- Gets all players...
-    for k, ply in pairs(self:GetPlayers()) do
-        -- if they're alive and not in spectator mode
-        if ply:Alive() and not ply:IsSpec() then
-            -- and not a bot (bots do not have the following command, so it's unnecessary)
-            if (not ply:IsBot()) then
-                -- We need to disable cl_playermodel_selector_force, because it messes with SetModel, we'll reset it when the event ends
-                ply:ConCommand("cl_playermodel_selector_force 0")
-            end
-
-            -- we need  to wait a second for cl_playermodel_selector_force to take effect (and THEN change model)
-            timer.Simple(1, function()
-                -- Set player number K (in the table) to their respective model
-                playerModels[k] = ply:GetModel()
-                -- Sets their model to a full-sized chicken playermodel
-                -- The chicken playermodel is giant, and is shrunk down to chicken size below
-                ply:SetModel("models/xtra_randos/chicken/chicken3.mdl")
-            end)
+    for k, ply in pairs(self:GetAlivePlayers()) do
+        -- Bots do not have the following command, so it's unnecessary
+        if (not ply:IsBot()) then
+            -- We need to disable cl_playermodel_selector_force, because it messes with SetModel, we'll reset it when the event ends
+            ply:ConCommand("cl_playermodel_selector_force 0")
         end
+
+        -- we need  to wait a second for cl_playermodel_selector_force to take effect (and THEN change model)
+        timer.Simple(0.1, function()
+            -- Set player number K (in the table) to their respective model
+            playerModels[k] = ply:GetModel()
+            -- Sets their model to a full-sized chicken playermodel
+            -- The chicken playermodel is giant, and is shrunk down to chicken size below
+            ply:SetModel("models/xtra_randos/chicken/chicken3.mdl")
+        end)
     end
 
     self:AddHook("Think", function()
-        for k, ply in pairs(self:GetPlayers()) do
+        for k, ply in pairs(self:GetAlivePlayers()) do
             -- Decrease height players can automatically step up (i.e. players can't climb stairs)
             ply:SetStepSize(18 * sc)
             -- Shrink playermodel size
@@ -73,17 +68,24 @@ function EVENT:Begin()
         end
     end)
 
+    -- Scales the player speed on clients
     for k, ply in pairs(self:GetPlayers()) do
-        -- Scale player health down, taking into account damage taken
-        local oldmax = ply:GetMaxHealth()
-        ply:SetMaxHealth(hp)
-        ply:SetHealth(math.Clamp(hp * ply:Health() / oldmax, 1, hp))
-        -- Scales the player speed on the client
         net.Start("RdmtSetSpeedMultiplier")
         net.WriteFloat(sp)
         net.WriteString("RdmtChickensSpeed")
         net.Send(ply)
     end
+
+    -- Caps player HP
+    timer.Create("RdmtChickenHp", 1, 0, function()
+        for _, ply in ipairs(self:GetAlivePlayers()) do
+            if ply:Health() > math.floor(hp) then
+                ply:SetHealth(math.floor(hp))
+            end
+
+            ply:SetMaxHealth(math.floor(hp))
+        end
+    end)
 
     -- Scales the player speed on the server
     self:AddHook("TTTSpeedMultiplier", function(ply, mults)
@@ -117,6 +119,13 @@ function EVENT:Begin()
             end)
         end
     end)
+
+    -- Sets a player's model to a chicken if they respawn
+    self:AddHook("PlayerSpawn", function(ply, transition)
+        timer.Simple(0, function()
+            ply:SetModel("models/xtra_randos/chicken/chicken3.mdl")
+        end)
+    end)
 end
 
 function EVENT:End()
@@ -137,8 +146,8 @@ function EVENT:End()
         table.Empty(playerModels)
     end
 
-    -- Remove chicken idle sounds
     timer.Remove("RdmtChickenIdleSounds")
+    timer.Remove("RdmtChickenHp")
     -- Reset the player speed on the client
     net.Start("RdmtRemoveSpeedMultiplier")
     net.WriteString("RdmtChickensSpeed")
