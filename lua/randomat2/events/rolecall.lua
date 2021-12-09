@@ -12,7 +12,7 @@ function EVENT:Begin()
         -- Pick a random alive player,
         local ply = table.Random(self:GetAlivePlayers())
         -- And announces their role to everyone
-        self:SmallNotify(ply:Nick() .. " is " .. self:GetRoleName(ply, true) .. " !")
+        self:SmallNotify(ply:Nick() .. " is " .. string.lower(self:GetRoleName(ply, false)) .. " !")
     end)
 end
 
