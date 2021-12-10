@@ -16,17 +16,50 @@ function EVENT:SetPlayerSize(randomSize, ply)
     ply:SetViewOffsetDucked(Vector(0, 0, 28 * randomSize))
     ply:SetHealth(ply:Health() * randomSize)
     ply:SetGravity(randomSize)
-    -- Set a corresponding step size and hitbox
     ply:SetStepSize(ply:GetStepSize() * randomSize)
-    local hullBottom, hullTop = ply:GetHull()
-    ply:SetHull(hullBottom * randomSize, hullTop * randomSize)
-    hullBottom, hullTop = ply:GetHullDuck()
-    ply:SetHullDuck(hullBottom * randomSize, hullTop * randomSize)
     -- Reduce the player speed on the client
     local speed_factor = math.Clamp(ply:GetStepSize() / 9, 0.25, 1)
     net.Start("RdmtSetSpeedMultiplier")
     net.WriteFloat(speed_factor)
     net.WriteString("RdmtResizeSpeed")
+    net.Send(ply)
+end
+
+function EVENT:ResetPlayerSize(ply)
+    local offset = nil
+
+    -- Check to see if they had their view height changed
+    if offsets[ply:SteamID64()] then
+        -- If so, grab it and clear it from the table
+        offset = offsets[ply:SteamID64()]
+        offsets[ply:SteamID64()] = nil
+    end
+
+    -- Reset their view height if it was changed
+    if offset or not ply.ec_ViewChanged then
+        ply:SetViewOffset(offset or Vector(0, 0, 64))
+    end
+
+    -- And same with their view height while crouched
+    local offset_ducked = nil
+
+    if offsets_ducked[ply:SteamID64()] then
+        offset_ducked = offsets_ducked[ply:SteamID64()]
+        offsets_ducked[ply:SteamID64()] = nil
+    end
+
+    if offset_ducked or not ply.ec_ViewChanged then
+        ply:SetViewOffsetDucked(offset_ducked or Vector(0, 0, 28))
+    end
+
+    -- Reset their model size, ability to jump, hitbox and step size
+    ply:SetModelScale(1, 1)
+    ply:SetGravity(1)
+    ply:SetStepSize(18)
+    ply:SetHealth(100)
+    -- Reset the player speed on the client
+    net.Start("RdmtRemoveSpeedMultiplier")
+    net.WriteString("RdmtReziseSpeed")
     net.Send(ply)
 end
 
@@ -91,51 +124,19 @@ function EVENT:Begin()
         if not PlayerNotStuck(ply) then
             local randomSize = math.Rand(sizeMin, 1)
             -- Reset the larger health, hull and step size they had, else this won't scale correctly
-            ply:SetHealth(100)
-            ply:ResetHull()
-            ply:SetStepSize(18)
+            self:ResetPlayerSize(ply)
             self:SetPlayerSize(randomSize, ply)
         end
     end
+
+    self:AddHook("PlayerSpawn", function(ply)
+        self:ResetPlayerSize(ply)
+    end)
 end
 
 function EVENT:End()
     for i, ply in pairs(self:GetPlayers()) do
-        local offset = nil
-
-        -- Check to see if they had their view height changed
-        if offsets[ply:SteamID64()] then
-            -- If so, grab it and clear it from the table
-            offset = offsets[ply:SteamID64()]
-            offsets[ply:SteamID64()] = nil
-        end
-
-        -- Reset their view height if it was changed
-        if offset or not ply.ec_ViewChanged then
-            ply:SetViewOffset(offset or Vector(0, 0, 64))
-        end
-
-        -- And same with their view height while crouched
-        local offset_ducked = nil
-
-        if offsets_ducked[ply:SteamID64()] then
-            offset_ducked = offsets_ducked[ply:SteamID64()]
-            offsets_ducked[ply:SteamID64()] = nil
-        end
-
-        if offset_ducked or not ply.ec_ViewChanged then
-            ply:SetViewOffsetDucked(offset_ducked or Vector(0, 0, 28))
-        end
-
-        -- Reset their model size, ability to jump, hitbox and step size
-        ply:SetModelScale(1, 1)
-        ply:SetGravity(1)
-        ply:ResetHull()
-        ply:SetStepSize(18)
-        -- Reset the player speed on the client
-        net.Start("RdmtRemoveSpeedMultiplier")
-        net.WriteString("RdmtReziseSpeed")
-        net.Send(ply)
+        self:ResetPlayerSize(ply)
     end
 end
 
