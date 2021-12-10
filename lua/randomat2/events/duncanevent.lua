@@ -57,7 +57,7 @@ function EVENT:Begin()
             end
 
             -- we need  to wait a second for cl_playermodel_selector_force to take effect (and THEN change model)
-            timer.Simple(1, function()
+            timer.Simple(0.1, function()
                 -- if the player's viewoffset is different than the standard, then...
                 if not (v:GetViewOffset() == standardHeightVector) then
                     -- So we set their new heights to the default values (which the Duncan model uses)

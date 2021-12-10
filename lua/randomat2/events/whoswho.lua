@@ -18,7 +18,7 @@ function EVENT:Begin()
             end
 
             -- we need  to wait a second for cl_playermodel_selector_force to take effect (and THEN change model)
-            timer.Simple(1, function()
+            timer.Simple(0.1, function()
                 -- Set player number K (in the table) to their respective model
                 playerModels[k] = v:GetModel()
             end)
