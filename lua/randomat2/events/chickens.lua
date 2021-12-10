@@ -142,6 +142,7 @@ function EVENT:End()
 
         -- we reset the cl_playermodel_selector_force to 1, otherwise TTT will reset their playermodels on a new round start (to default models!)
         ply:ConCommand("cl_playermodel_selector_force 1")
+        ply:ConCommand("playermodel_apply")
         -- clear the model table to avoid setting wrong models (e.g. disconnected players)
         table.Empty(playerModels)
     end
