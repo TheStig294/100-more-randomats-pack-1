@@ -5,7 +5,7 @@ CreateConVar("randomat_resize_min", 50, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Minimum 
 CreateConVar("randomat_resize_max", 200, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Maximum possible size", 50, 400)
 
 EVENT.Title = "Resize!"
-EVENT.Description = "Become bigger or smaller! (And have corresponding health)"
+EVENT.Description = "Become bigger or smaller, and have corresponding health"
 EVENT.id = "resize"
 local offsets = {}
 local offsets_ducked = {}
@@ -32,12 +32,23 @@ function EVENT:Begin()
         ply:SetViewOffset(Vector(0, 0, 64 * randomSize))
         ply:SetViewOffsetDucked(Vector(0, 0, 28 * randomSize))
         ply:SetHealth(ply:Health() * randomSize)
-        ply:SetGravity(1 * randomSize)
+        ply:SetGravity(randomSize)
+        -- Set a corresponding step size and hitbox
+        ply:SetStepSize(ply:GetStepSize() * randomSize)
+        local hullBottom, hullTop = ply:GetHull()
+        ply:SetHull(hullBottom * randomSize, hullTop * randomSize)
+        hullBottom, hullTop = ply:GetHullDuck()
+        ply:SetHullDuck(hullBottom * randomSize, hullTop * randomSize)
+        -- Reduce the player speed on the client
+        local speed_factor = math.Clamp(ply:GetStepSize() / 9, 0.25, 1)
+        net.Start("RdmtSetSpeedMultiplier")
+        net.WriteFloat(speed_factor)
+        net.WriteString("RdmtResizeSpeed")
+        net.Send(ply)
     end
 end
 
 function EVENT:End()
-    -- For all players,
     for i, ply in pairs(self:GetPlayers()) do
         local offset = nil
 
@@ -65,9 +76,15 @@ function EVENT:End()
             ply:SetViewOffsetDucked(offset_ducked or Vector(0, 0, 28))
         end
 
-        -- Reset their model size and ability to jump
+        -- Reset their model size, ability to jump, hitbox and step size
         ply:SetModelScale(1, 1)
         ply:SetGravity(1)
+        ply:ResetHull()
+        ply:SetStepSize(18)
+        -- Reset the player speed on the client
+        net.Start("RdmtRemoveSpeedMultiplier")
+        net.WriteString("RdmtReziseSpeed")
+        net.Send(ply)
     end
 end
 
