@@ -15,6 +15,7 @@ function EVENT:Begin()
     -- Super jump
     for i, ply in pairs(self:GetAlivePlayers()) do
         ply:SetJumpPower(ply:GetJumpPower() + 800)
+        Randomat:RemovePhdFlopper(ply)
     end
 
     -- And no fall damage
