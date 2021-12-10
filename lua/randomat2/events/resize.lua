@@ -5,7 +5,7 @@ CreateConVar("randomat_resize_min", 50, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Minimum 
 CreateConVar("randomat_resize_max", 200, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Maximum possible size", 50, 400)
 
 EVENT.Title = "Resize!"
-EVENT.Description = "Everyone's bigger/smaller, and has corresponding health"
+EVENT.Description = "Become bigger or smaller! (And have corresponding health)"
 EVENT.id = "resize"
 local offsets = {}
 local offsets_ducked = {}
