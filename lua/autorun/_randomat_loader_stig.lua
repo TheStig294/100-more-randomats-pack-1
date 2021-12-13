@@ -34,13 +34,6 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
     end
 
-    AddServer("randomat2/randomat_base_stig.lua")
-    AddServer("randomat2/randomat_shared_stig.lua")
-    AddClient("randomat2/randomat_shared_stig.lua")
-    AddClient("randomat2/cl_common_stig.lua")
-    AddClient("randomat2/cl_message_stig.lua")
-    AddClient("randomat2/cl_networkstrings_stig.lua")
-
     if SERVER then
         resource.AddSingleFile("materials/icon32/copy.png")
         resource.AddSingleFile("materials/icon32/cut.png")
@@ -80,6 +73,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
         CreateConVar("ttt_randomat_event_hint_chat", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Whether hints should also be put in chat.")
 
+        CreateConVar("ttt_randomat_event_history", 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How many events to keep in history to prevent duplication.")
+
         hook.Add("TTTBeginRound", "AutoRandomat", function()
             if auto:GetBool() and math.random() <= auto_chance:GetFloat() then
                 local silent = auto_silent:GetBool()
@@ -101,6 +96,12 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end)
     end
 
+    AddServer("randomat2/randomat_base_stig.lua")
+    AddServer("randomat2/randomat_shared_stig.lua")
+    AddClient("randomat2/randomat_shared_stig.lua")
+    AddClient("randomat2/cl_common_stig.lua")
+    AddClient("randomat2/cl_message_stig.lua")
+    AddClient("randomat2/cl_networkstrings_stig.lua")
     local files, _ = file.Find("randomat2/events/*.lua", "LUA")
 
     for _, fil in ipairs(files) do

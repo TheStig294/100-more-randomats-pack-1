@@ -357,7 +357,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     local player_view_offsets = {}
     local player_view_offsets_ducked = {}
 
-    function Randomat:SetPlayerScale(ply, scale, id)
+    function Randomat:SetPlayerScale(ply, scale, id, skip_speed)
         ply:SetStepSize(ply:GetStepSize() * scale)
         ply:SetModelScale(ply:GetModelScale() * scale, 1)
         -- Save the original values
@@ -378,6 +378,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         ply:SetHull(a * scale, b * scale)
         a, b = ply:GetHullDuck()
         ply:SetHullDuck(a * scale, b * scale)
+        -- If we don't want to adjust the player's speed, we're done here
+        if skip_speed then return end
         -- Reduce the player speed on the client
         local speed_factor = math.Clamp(ply:GetStepSize() / 9, 0.25, 1)
         net.Start("RdmtSetSpeedMultiplier")
