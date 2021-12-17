@@ -18,7 +18,7 @@ function EVENT:Begin()
             end
 
             -- we need  to wait a second for cl_playermodel_selector_force to take effect (and THEN change model)
-            timer.Simple(0.1, function()
+            timer.Simple(1, function()
                 -- Set player number K (in the table) to their respective model
                 playerModels[k] = v:GetModel()
             end)
@@ -30,21 +30,47 @@ function EVENT:Begin()
         table.Add(remainingModels, playerModels)
 
         -- For all alive players,
-        for k, v in pairs(self:GetPlayers(true)) do
-            -- Randomly choose a playermodel that hasn't yet been chosen
-            local chosenModel = table.Random(remainingModels)
-            swapModels[v] = chosenModel
-            -- Set them to that model
-            v:SetModel(chosenModel)
-            -- And remove that model from the pool of possible playermodels
-            table.RemoveByValue(remainingModels, chosenModel)
+        for k, v in ipairs(self:GetPlayers()) do
+            local ownModelRemoved = false
+            local ownModel = playerModels[k]
+
+            if table.HasValue(remainingModels, ownModel) then
+                table.RemoveByValue(remainingModels, ownModel)
+                ownModelRemoved = true
+            end
+
+            if table.IsEmpty(remainingModels) then
+                for i, ply in ipairs(self:GetPlayers()) do
+                    if v ~= ply then
+                        local randomModel = ply:GetModel()
+                        local lastPlayerModel = v:GetModel()
+                        ply:SetModel(lastPlayerModel)
+                        v:SetModel(randomModel)
+                        break
+                    end
+                end
+            else
+                -- Randomly choose a playermodel that hasn't yet been chosen
+                local chosenModel = table.Random(remainingModels)
+                swapModels[v] = chosenModel
+                -- Set them to that model
+                v:SetModel(chosenModel)
+                -- And remove that model from the pool of possible playermodels
+                table.RemoveByValue(remainingModels, chosenModel)
+
+                if ownModelRemoved then
+                    table.insert(remainingModels, ownModel)
+                end
+            end
         end
     end)
 
-    -- Whenever a player is about to set their model (e.g. being revived), set them to their swapped playermodel
-    self:AddHook("PlayerSetModel", function(ply)
-        timer.Simple(0.1, function()
-            ply:SetModel(swapModels[ply])
+    -- Whenever a player is respawned, set them to their swapped playermodel
+    self:AddHook("PlayerSpawn", function(ply)
+        timer.Simple(0, function()
+            if swapModels[ply] ~= nil then
+                ply:SetModel(swapModels[ply])
+            end
         end)
     end)
 end
