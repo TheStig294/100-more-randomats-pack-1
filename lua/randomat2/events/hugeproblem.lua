@@ -50,6 +50,12 @@ function EVENT:Begin()
                 end
             end
         end)
+
+        -- Gives players that respawn a H.U.G.E. again
+        self:AddHook("PlayerSpawn", function(ply)
+            ply:Give("weapon_zm_sledge")
+            ply:SelectWeapon("weapon_zm_sledge")
+        end)
     end)
 end
 
