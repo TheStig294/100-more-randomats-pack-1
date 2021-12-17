@@ -24,36 +24,42 @@ function EVENT:Begin()
             -- Make it invincible
             ghostent:SetNWBool("IsSpookyInv", true)
             ply:SetNWBool("IsSpooky", true)
-
-            -- Continually, for every player, 
-            hook.Add("Think", "ghostRandomatUpdate", function()
-                local plys = player.GetAll()
-
-                for i = 1, #plys do
-                    local ply = plys[i]
-
-                    -- That is alive, remove their ghost
-                    if ply:Alive() or not ply:IsSpec() then
-                        if IsValid(ghostents[ply:Nick()]) then
-                            ghostent = ghostents[ply:Nick()]
-                            ghostent:Remove()
-                        end
-
-                        continue
-                    end
-
-                    -- That doesn't have the spooky tag, ignore
-                    if not ply:GetNWBool("IsSpooky") then continue end
-                    -- Else, get their ghost entity
-                    ghostent = ghostents[ply:Nick()]
-
-                    -- Check it's valid and update the ghost's position
-                    if IsValid(ghostent) then
-                        ghostent:SetPos(ply:GetPos())
-                    end
-                end
-            end)
         end)
+    end)
+
+    -- Continually, for every player, 
+    self:AddHook("Think", function()
+        local plys = player.GetAll()
+
+        for i = 1, #plys do
+            local ply = plys[i]
+
+            -- That is alive, remove their ghost
+            if ply:Alive() or not ply:IsSpec() then
+                if IsValid(ghostents[ply:Nick()]) then
+                    ghostent = ghostents[ply:Nick()]
+                    ghostent:Remove()
+                end
+
+                continue
+            end
+
+            -- That doesn't have the spooky tag, ignore
+            if not ply:GetNWBool("IsSpooky") then continue end
+            -- Else, get their ghost entity
+            ghostent = ghostents[ply:Nick()]
+
+            -- Check it's valid and update the ghost's position
+            if IsValid(ghostent) then
+                ghostent:SetPos(ply:GetPos())
+                -- ghostent:SetAngles(ply:GetAngles())
+                ghostent:SetAngles(ply:EyeAngles())
+            end
+        end
+    end)
+
+    self:AddHook("PlayerDisconnected", function(ply)
+        SafeRemoveEntity(ghostents[ply:Nick()])
     end)
 
     -- Ghosts don't take damage
