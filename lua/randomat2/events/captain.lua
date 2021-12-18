@@ -75,7 +75,7 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    for i, ply in ipairs(player.GetAll()) do
+    for i, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsGoodDetectiveLike(ply) then return true end
     end
 
