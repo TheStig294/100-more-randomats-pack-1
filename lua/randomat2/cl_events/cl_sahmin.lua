@@ -39,9 +39,11 @@ net.Receive("TriggerSahmin", function()
 end)
 
 net.Receive("EndSahmin", function()
-    for _, wep in pairs(LocalPlayer():GetWeapons()) do
-        if wep.Primary and wep.Primary.OriginalSound then
-            wep.Primary.Sound = wep.Primary.OriginalSound
+    if IsValid(LocalPlayer()) then
+        for _, wep in pairs(LocalPlayer():GetWeapons()) do
+            if wep.Primary and wep.Primary.OriginalSound then
+                wep.Primary.Sound = wep.Primary.OriginalSound
+            end
         end
     end
 
