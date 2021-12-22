@@ -9,6 +9,7 @@ local eventnames = {}
 table.insert(eventnames, "What's this one? Oh, it's the freeze randomat...")
 table.insert(eventnames, "This is a new one! Wait, it's a freeze randomat...")
 table.insert(eventnames, "It's snowing on Mt. Fuji")
+table.insert(eventnames, "Bing Chilling")
 table.insert(eventnames, "Icy dead people")
 table.insert(eventnames, "Freezing people to find traitors? Is it really worth it...")
 table.insert(eventnames, "What? Freeze randomat on Earth?")
