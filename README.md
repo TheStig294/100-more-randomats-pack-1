@@ -374,7 +374,8 @@ Possible names:
 - Icy dead people
 - What's this one? Oh, it's the freeze randomat...
 - This is a new one! Wait, it's a freeze randomat...
-- There are more than 16 different freeze randomat names
+- Bing Chilling
+- There are more than 17 different freeze randomat names
 
 ## Ban an Event!
 Presents 5 randomats, one of which to be banned by vote. Randomat is banned until this is triggered again.\
