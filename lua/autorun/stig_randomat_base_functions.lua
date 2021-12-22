@@ -195,19 +195,9 @@ function PrintToGive(name, ply)
     end
 end
 
---Hard-coded list of maps known to not have AI meshes, randomats that give out weapons using AI will not trigger on these maps
+-- Returns whether or not the current map has a navmesh. Used for randomats that use ai-based weapons that need a navmesh to work, such as the guard dog or killer snail randomats
 function MapHasAI()
-    local maps = {"gm_michaelshouse", "dm_christmas_in_the_suburbs", "dm_overwatch", "thefirstmap_final", "rp_lordaeron", "ttt_halloween", "ttt_minecraft_b5-40", "ttt_starwars_final", "ttt_riverside_b3", "ttt_woodshop"}
-
-    local mapHasAI = true
-
-    for i = 1, #maps do
-        if game.GetMap() == maps[i] then
-            mapHasAI = false
-        end
-    end
-
-    return mapHasAI
+    return file.Exists("maps/" .. game.GetMap() .. ".nav", "GAME")
 end
 
 --Function which adds support to giving players a handful of different passive buy menu items, 
