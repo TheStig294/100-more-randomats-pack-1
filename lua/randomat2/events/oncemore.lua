@@ -6,19 +6,11 @@ EVENT.id = "oncemore"
 
 hook.Add("TTTRandomatTriggered", "OnceMoreRandomatGetRandomatID", function(id, owner)
     -- If this event is not enabled, or this event is the one that is triggering, we don't need to bother with this hook
-    if not GetConVar("ttt_randomat_oncemore"):GetBool() or id == "oncemore" then return end
-    local autoRandomat = GetConVar("ttt_randomat_auto"):GetBool()
-    local autoChoose = GetConVar("ttt_randomat_auto_choose"):GetBool()
-
-    if autoRandomat and not autoChoose then
-        GetConVar("randomat_oncemore_last_randomat"):SetString(id)
-    elseif autoRandomat and autoChoose then
-        if id == "choose" then
-            return
-        else
-            GetConVar("randomat_oncemore_last_randomat"):SetString(id)
-        end
-    end
+    if not GetConVar("ttt_randomat_" .. EVENT.id):GetBool() or id == EVENT.id then return end
+    -- Also don't record the choose randomat while auto choose is on
+    if id == "choose" and GetConVar("ttt_randomat_auto"):GetBool() and GetConVar("ttt_randomat_auto_choose"):GetBool() then return end
+    -- Else store the triggered randomat in a convar
+    GetConVar("randomat_oncemore_last_randomat"):SetString(id)
 end)
 
 function EVENT:Begin()
@@ -28,9 +20,9 @@ function EVENT:Begin()
     end)
 end
 
--- Don't trigger if the previous randomat hasn't been recorded
 function EVENT:Condition()
-    return GetConVar("randomat_oncemore_last_randomat"):GetString() ~= ""
+    -- Don't trigger if the previous randomat can't run
+    return Randomat:CanEventRun(GetConVar("randomat_oncemore_last_randomat"):GetString(), true)
 end
 
 Randomat:register(EVENT)
