@@ -4,55 +4,33 @@ EVENT.Title = "Once more, with feeling!"
 EVENT.Description = "Repeats the last randomat"
 EVENT.id = "oncemore"
 
--- At the start of each round,
-hook.Add("TTTBeginRound", "OnceMoreRandomatGetRandomatID", function()
-    -- If auto-randomat, and this event is enabled
-    if GetConVar("ttt_randomat_auto"):GetBool() and GetConVar("ttt_randomat_oncemore"):GetBool() then
-        -- Wait a second,
-        timer.Simple(1, function()
-            -- Grab the ID of the auto-randomat that triggered
-            local activeEventId = Randomat.ActiveEvents[1].Id
+hook.Add("TTTRandomatTriggered", "OnceMoreRandomatGetRandomatID", function(id, owner)
+    -- If this event is not enabled, or this event is the one that is triggering, we don't need to bother with this hook
+    if not GetConVar("ttt_randomat_oncemore"):GetBool() or id == "oncemore" then return end
+    local autoRandomat = GetConVar("ttt_randomat_auto"):GetBool()
+    local autoChoose = GetConVar("ttt_randomat_auto_choose"):GetBool()
 
-            -- And store it in the convar, so long as the randomat being stored isn't this one
-            if activeEventId ~= nil and activeEventId ~= "oncemore" then
-                GetConVar("randomat_oncemore_last_randomat"):SetString(activeEventId)
-            end
-        end)
+    if autoRandomat and not autoChoose then
+        GetConVar("randomat_oncemore_last_randomat"):SetString(id)
+    elseif autoRandomat and autoChoose then
+        if id == "choose" then
+            return
+        else
+            GetConVar("randomat_oncemore_last_randomat"):SetString(id)
+        end
     end
 end)
 
 function EVENT:Begin()
-    -- Grab the number of randomat currently active in the round (including this one)
-    local activeEventsNo = #Randomat.ActiveEvents
-
-    -- If this randomat activated after another in the same round,
-    if activeEventsNo > 1 then
-        -- Grab the ID of the last randomat that triggered, 
-        local lastEventID = Randomat.ActiveEvents[activeEventsNo - 1].Id
-
-        -- And after 5 seconds, trigger that randomat,
-        timer.Simple(5, function()
-            -- If that randomat isn't this one
-            if lastEventID ~= "oncemore" then
-                Randomat:TriggerEvent(lastEventID, self.owner)
-            end
-        end)
-    else
-        -- If this is the first randomat in the round, and the last randomat wasn't this one,
-        if (GetConVar("randomat_oncemore_last_randomat"):GetString() ~= nil) and GetConVar("randomat_oncemore_last_randomat"):GetString() ~= "oncemore" then
-            -- Trigger the last randomat stored in the convar
-            timer.Simple(5, function()
-                Randomat:TriggerEvent(GetConVar("randomat_oncemore_last_randomat"):GetString(), self.owner)
-            end)
-        end
-    end
+    -- Trigger the last randomat stored in the convar
+    timer.Simple(5, function()
+        Randomat:TriggerEvent(GetConVar("randomat_oncemore_last_randomat"):GetString(), self.owner)
+    end)
 end
 
--- Doesn't trigger if the convar is empty or auto-randomat is turned off
+-- Don't trigger if the previous randomat hasn't been recorded
 function EVENT:Condition()
-    if GetConVar("randomat_oncemore_last_randomat"):GetString() == "" then return false end
-
-    return GetConVar("ttt_randomat_auto"):GetBool()
+    return GetConVar("randomat_oncemore_last_randomat"):GetString() ~= ""
 end
 
 Randomat:register(EVENT)
