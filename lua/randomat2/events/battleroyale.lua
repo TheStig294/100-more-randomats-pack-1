@@ -3,11 +3,17 @@ local EVENT = {}
 CreateConVar("randomat_battleroyale_radar_time", 120, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds before everyone is given a radar", 5, 240)
 
 EVENT.Title = "LAST ONE STANDING WINS! BATTLE ROYALE!"
-EVENT.Description = "Press 'F' to change platform shape"
+EVENT.Description = ""
 EVENT.id = "battleroyale"
 local alertSound = Sound("battleroyale/alert.mp3")
 
 function EVENT:Begin()
+    local fortniteToolExists = weapons.Get("weapon_ttt_fortnite_building") ~= nil
+
+    if fortniteToolExists then
+        EVENT.Description = "Press 'F' to change platform shape"
+    end
+
     --Plays the Fortnite alert sound as an extra warning this randomat has started
     for i, ply in pairs(self:GetPlayers()) do
         ply:EmitSound(alertSound)
@@ -38,7 +44,7 @@ function EVENT:Begin()
     --Giving everyone a Fortnite building tool, if one of its convars is found, and turning everyone into an innocent
     for i, ply in pairs(self:GetAlivePlayers()) do
         timer.Simple(0.1, function()
-            if ConVarExists("fortnite_low_res_textures") then
+            if fortniteToolExists then
                 ply:Give("weapon_ttt_fortnite_building")
             end
 
