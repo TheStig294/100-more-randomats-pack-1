@@ -313,3 +313,18 @@ function IsSameTeam(attacker, victim)
         return false
     end
 end
+
+-- Accepts an event id and returns that event's table
+function Randomat:GetEvent(eventname)
+    if CLIENT then
+        print("Error: Attempting to use Randomat:GetEvent() on client!")
+
+        return {}
+    end
+
+    for i, event in pairs(Randomat.Events) do
+        if event.id == eventname then return event end
+    end
+
+    print("Error: Cannot find event specified with Randomat:GetEvent()!")
+end
