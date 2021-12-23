@@ -327,4 +327,10 @@ function Randomat:GetEvent(eventname)
     end
 
     print("Error: Cannot find event specified with Randomat:GetEvent()!")
+
+    return {}
+end
+
+function IsValidRandomat(eventname)
+    return ConVarExists("ttt_randomat_" .. eventname)
 end
