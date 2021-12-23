@@ -33,18 +33,9 @@ function EVENT:Begin()
     end)
 end
 
--- Do not trigger if the murder randomat doesn't exist or isn't turned on
 function EVENT:Condition()
-    if Randomat:CanEventRun("murder") then return true end
-
-    return false
+    -- Only triggers if the 'Murder' randomat can
+    return IsValidRandomat("murder") and Randomat:GetEvent("murder"):Condition()
 end
 
 Randomat:register(EVENT)
-
--- If this randomat is on, but the murder randomat isn't, turn the murder randomat on
-hook.Add("TTTPrepareRound", "YogsMurderRandomatConvarCheck", function()
-    if ConVarExists("ttt_randomat_murder") and GetConVar("ttt_randomat_yogsmurder"):GetBool() then
-        GetConVar("ttt_randomat_murder"):SetBool(true)
-    end
-end)
