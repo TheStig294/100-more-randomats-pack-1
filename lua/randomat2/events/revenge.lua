@@ -40,6 +40,11 @@ function EVENT:End()
     end
 end
 
+function EVENT:Condition()
+    -- Only run this if there are actual props
+    if table.Count(ents.FindByClass("prop_physics*")) == 0 and table.Count(ents.FindByClass("prop_dynamic")) == 0 then return false end
+end
+
 function EVENT:GetConVars()
     local sliders = {}
 
