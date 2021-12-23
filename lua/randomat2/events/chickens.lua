@@ -122,7 +122,7 @@ function EVENT:Begin()
 
     -- Sets a player's model to a chicken if they respawn
     self:AddHook("PlayerSpawn", function(ply, transition)
-        timer.Simple(0, function()
+        timer.Simple(1, function()
             ply:SetModel("models/xtra_randos/chicken/chicken3.mdl")
         end)
     end)

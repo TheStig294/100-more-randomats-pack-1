@@ -67,7 +67,7 @@ function EVENT:Begin()
 
     -- Whenever a player is respawned, set them to their swapped playermodel
     self:AddHook("PlayerSpawn", function(ply)
-        timer.Simple(0, function()
+        timer.Simple(1, function()
             if swapModels[ply] ~= nil then
                 ply:SetModel(swapModels[ply])
             end

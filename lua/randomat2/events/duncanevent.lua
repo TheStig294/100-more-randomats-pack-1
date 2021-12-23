@@ -79,10 +79,10 @@ function EVENT:Begin()
         end
     end
 
-    -- Sets someone's playermodel again if needed (e.g. respawning) as force playermodel is off
-    self:AddHook("PlayerSetModel", function(ply)
-        timer.Simple(0.1, function()
-            ply:SetModel(chosenModel[ply])
+    -- Sets someone's playermodel again when respawning, as force playermodel is off
+    self:AddHook("PlayerSpawn", function(ply)
+        timer.Simple(1, function()
+            ply:SetModel(chosenModel)
         end)
     end)
 end
