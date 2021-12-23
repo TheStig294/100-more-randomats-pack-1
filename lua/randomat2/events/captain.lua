@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "I'm The Captain Now."
-EVENT.Description = "When a detective kills an innocent, the innocent becomes the detective, and the old detective dies."
+EVENT.Description = "The 1st time a detective RDMs, they die instead, and the victim becomes a detective"
 EVENT.id = "captain"
 
 -- Used in removecorpse.
@@ -66,11 +66,7 @@ end
 function EVENT:Begin()
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
         RespawnDetective(victim, inflictor, attacker)
-    end)
-
-    --Also apply to headshots, else the detective could still freely RDM if they headshot
-    self:AddHook("PlayerSilentDeath", function(victim, inflictor, attacker)
-        RespawnDetective(victim, inflictor, attacker)
+        self:RemoveHook("PlayerDeath")
     end)
 end
 

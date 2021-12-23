@@ -399,13 +399,13 @@ _ttt_randomat_gungame2_ - Default: 1 - Whether this randomat is enabled
 **The mod these randomats come from: [Steam Workshop::TTT Extra Randomat Events](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)**
 
 ## Don’t RDM...
-Killing someone on your side kills you instead. The player you would have killed repawns with full health.\
+The first person to kill someone on their side dies, and their victim respawns at full health.\
 Modified version of "I'm the captain now" randomat. Fixed compatibility with Custom Roles for TTT and added compatibility with Noxx’s Custom Roles for TTT.\
 \
 _ttt_randomat_dontrdm_ - Default: 1 - Whether this randomat is enabled
 
 ## I'm The Captain Now.
-When a detective kills an innocent, the innocent becomes the detective, and the old detective dies.\
+The first time a detective kills someone on their side, they die, and their victim respawns as a detective with full health.\
 Fixed compatibility with Custom Roles for TTT and added compatibility with Noxx’s Custom Roles for TTT.\
 \
 _ttt_randomat_captain_ - Default: 1 - Whether this randomat is enabled

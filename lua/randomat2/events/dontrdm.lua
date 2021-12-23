@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Don't RDM..."
-EVENT.Description = "If you kill someone on your side, you die instead"
+EVENT.Description = "The 1st person to RDM dies instead"
 EVENT.id = "dontrdm"
 
 -- Used in removecorpse.
@@ -51,14 +51,9 @@ local function respawnandkill(victim, attacker)
 end
 
 function EVENT:Begin()
-    -- Trigger randomat effect on non-headshot deaths,
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
         respawnandkill(victim, attacker)
-    end)
-
-    -- And headshot deaths
-    self:AddHook("PlayerSilentDeath", function(victim, inflictor, attacker)
-        respawnandkill(victim, attacker)
+        self:RemoveHook("PlayerDeath")
     end)
 end
 
