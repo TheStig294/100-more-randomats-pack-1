@@ -83,6 +83,10 @@ function EVENT:Begin()
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
             ply:SetModel(chosenModel)
+
+            if GetConVar("randomat_duncanevent_disguise"):GetBool() then
+                ply:SetNWBool("disguised", true)
+            end
         end)
     end)
 end
