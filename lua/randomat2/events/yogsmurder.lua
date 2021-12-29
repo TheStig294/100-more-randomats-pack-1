@@ -35,7 +35,7 @@ end
 
 function EVENT:Condition()
     -- Only triggers if the 'Murder' randomat can
-    return IsValidRandomat("murder") and Randomat:GetEvent("murder"):Condition()
+    return Randomat.Events["murder"] ~= nil and Randomat.Events["murder"]:Condition()
 end
 
 Randomat:register(EVENT)
