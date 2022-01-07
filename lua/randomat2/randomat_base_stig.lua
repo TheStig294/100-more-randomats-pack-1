@@ -432,7 +432,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         local found = false
 
         for _, v in pairs(events) do
-            if Randomat:CanEventRun(v, can_run) then
+            if Randomat:CanEventRun(v) and ((not can_run) or can_run(v)) then
                 found = true
                 break
             end
@@ -442,10 +442,10 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             error("Could not find valid event, consider enabling more")
         end
 
-        local event = GetRandomWeightedEvent(events)
+        local event = GetRandomWeightedEvent(events, can_run)
 
         while not Randomat:CanEventRun(event) do
-            event = GetRandomWeightedEvent(events)
+            event = GetRandomWeightedEvent(events, can_run)
         end
 
         -- Only add randomly selected events to the history so specifically-triggered events don't get tracked
