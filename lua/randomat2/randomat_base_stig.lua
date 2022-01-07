@@ -358,20 +358,20 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
 
         -- Basic checks
-        if event == nil then return false end
-        if not event:Enabled() then return false end
-        if not event:Condition() then return false end
+        if event == nil then return false, "No such event" end
+        if not event:Enabled() then return false, "Not enabled" end
+        if not event:Condition() then return false, "Condition not fulfilled" end
         -- Check there are enough players
         local min_players = GetConVar("ttt_randomat_" .. event.Id .. "_min_players"):GetInt()
         local player_count = player.GetCount()
-        if min_players > 0 and player_count < min_players then return false end
+        if min_players > 0 and player_count < min_players then return false, "Not enough players (" .. player_count .. " vs. " .. min_players .. " required)" end
         -- Check that the round has run the correct amount of time
         local round_percent_complete = Randomat:GetRoundCompletePercent()
-        if (event.MinRoundCompletePercent and event.MinRoundCompletePercent > round_percent_complete) or (event.MaxRoundCompletePercent and event.MaxRoundCompletePercent < round_percent_complete) then return false end
+        if (event.MinRoundCompletePercent and event.MinRoundCompletePercent > round_percent_complete) or (event.MaxRoundCompletePercent and event.MaxRoundCompletePercent < round_percent_complete) then return false, "Round percent complete mismatch (" .. round_percent_complete .. ")" end
         -- Don't allow single use events to run twice
-        if event.SingleUse and Randomat:IsEventActive(event.Id) then return false end
+        if event.SingleUse and Randomat:IsEventActive(event.Id) then return false, "Single use event is already running" end
         -- Don't use the same events over and over again
-        if not ignore_history and IsEventInHistory(event) then return false end
+        if not ignore_history and IsEventInHistory(event) then return false, "Event is in recent history" end
 
         -- Don't allow multiple events of the same type to run at once
         if event.Type ~= EVENT_TYPE_DEFAULT then
@@ -380,18 +380,18 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
                     -- If both are tables don't allow any matching types
                     if type(event.Type) == "table" then
                         for _, t in ipairs(event.Type) do
-                            if table.HasValue(evt.Type, t) then return false end
+                            if table.HasValue(evt.Type, t) then return false, "Event with same type (" .. t .. ") is already running" end
                         end
                         -- If only one is a table, don't allow it to contain the other's type
                     elseif table.HasValue(evt.Type, event.Type) then
-                        return false
+                        return false, "Event with same type (" .. event.Type .. ") is already running"
                     end
                     -- If only one is a table, don't allow it to contain the other's type
                 elseif type(event.Type) == "table" then
-                    if table.HasValue(event.Type, evt.Type) then return false end
+                    if table.HasValue(event.Type, evt.Type) then return false, "Event with same type (" .. evt.Type .. ") is already running" end
                 elseif evt.Type == event.Type then
                     -- If neither are tables, don't allow the types to match
-                    return false
+                    return false, "Event with same type (" .. event.Type .. ") is already running"
                 end
             end
         end
@@ -399,10 +399,11 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         return true
     end
 
-    local function GetRandomWeightedEvent(events)
+    local function GetRandomWeightedEvent(events, can_run)
         local weighted_events = {}
 
-        for id, _ in pairs(events) do
+        for id, event in pairs(events) do
+            if can_run and not can_run(event) then continue end
             local weight = GetConVar("ttt_randomat_" .. id .. "_weight"):GetInt()
             local default_weight = GetConVar("ttt_randomat_event_weight"):GetInt()
 
@@ -426,12 +427,12 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         return events[key]
     end
 
-    function Randomat:GetRandomEvent()
+    function Randomat:GetRandomEvent(skip_history, can_run)
         local events = Randomat.Events
         local found = false
 
         for _, v in pairs(events) do
-            if Randomat:CanEventRun(v) then
+            if Randomat:CanEventRun(v, can_run) then
                 found = true
                 break
             end
@@ -448,7 +449,9 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
 
         -- Only add randomly selected events to the history so specifically-triggered events don't get tracked
-        AddEventToHistory(event)
+        if skip_history then
+            AddEventToHistory(event)
+        end
 
         return event
     end
@@ -475,11 +478,12 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     function Randomat:SafeTriggerEvent(cmd, ply, error_if_unsafe, ...)
         if Randomat.Events[cmd] ~= nil then
             local event = Randomat.Events[cmd]
+            local can_run, reason = Randomat:CanEventRun(event)
 
-            if Randomat:CanEventRun(event) then
+            if can_run then
                 TriggerEvent(event, ply, false, ...)
             elseif error_if_unsafe then
-                error("Conditions for event not met")
+                error("Conditions for event not met: " .. reason)
             end
         else
             error("Could not find event '" .. cmd .. "'")
