@@ -14,22 +14,22 @@ function EVENT:Begin()
     hasteMode = GetConVar("ttt_haste"):GetBool()
     hasteMinutes = GetConVar("ttt_haste_minutes_per_death"):GetFloat()
 
+    local time = GetConVar("randomat_speedrun_time"):GetInt()
+    self.Description =  time .. " second round"
+
     -- This global float controls the time the round will end, part of base TTT
     if hasteMode then
         GetConVar("ttt_haste"):SetBool(false)
         GetConVar("ttt_haste_minutes_per_death"):SetFloat(0)
-        SetGlobalFloat("ttt_haste_end", CurTime() + GetConVar("randomat_speedrun_time"):GetInt())
-        SetGlobalFloat("ttt_round_end", CurTime() + GetConVar("randomat_speedrun_time"):GetInt())
+        SetGlobalFloat("ttt_haste_end", CurTime() + time)
+        SetGlobalFloat("ttt_round_end", CurTime() + time)
     else
-        SetGlobalFloat("ttt_round_end", CurTime() + GetConVar("randomat_speedrun_time"):GetInt())
+        SetGlobalFloat("ttt_round_end", CurTime() + time)
     end
 end
 
 function EVENT:End()
-    -- If the begin function has run, set the zombie prime weapons setting to what it was,
     if speedrunRandomat then
-        GetConVar("ttt_zombie_prime_only_weapons"):SetBool(initialPrimeOnlyWeapons)
-
         if hasteMode then
             GetConVar("ttt_haste"):SetBool(true)
             GetConVar("ttt_haste_minutes_per_death"):SetFloat(hasteMinutes)
