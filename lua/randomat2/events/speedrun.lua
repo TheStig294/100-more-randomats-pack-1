@@ -1,6 +1,6 @@
 local EVENT = {}
 
-CreateConVar("randomat_speedrun_time", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Time in seconds the round will last", 5)
+CreateConVar("randomat_speedrun_time", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Time in seconds the round will last", 30, 120)
 
 EVENT.Title = "Speedrun!"
 EVENT.Description = GetConVar("randomat_speedrun_time"):GetInt() .. " second round"
