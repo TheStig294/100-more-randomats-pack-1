@@ -12,9 +12,10 @@ function EVENT:Begin()
     -- Set high gravity
     RunConsoleCommand("sv_gravity", 1800)
 
-    -- Super jump
+    -- Super jump, and remove PHD flopper
     for i, ply in pairs(self:GetAlivePlayers()) do
         ply:SetJumpPower(ply:GetJumpPower() + 800)
+        -- Remove PHD Flopper if someone has it
         Randomat:RemovePhdFlopper(ply)
     end
 
@@ -22,6 +23,17 @@ function EVENT:Begin()
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
         if IsValid(ent) and ent:IsPlayer() and dmginfo:IsFallDamage() then
             dmginfo:SetDamage(0)
+        end
+    end)
+
+    -- Prevent anyone from buying a new PHD flopper, (Taken from Malivli's 'Come on and Slam!' event)
+    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+        if not IsValid(ply) then return end
+
+        if id == "hoff_perk_phd" or (is_item and is_item == EQUIP_PHD) then
+            ply:ChatPrint("PHD Floppers are disabled while '" .. Randomat:GetEventTitle(EVENT) .. "' is active!\nTry during the other 'Boing' randomats instead.")
+
+            return false
         end
     end)
 end
