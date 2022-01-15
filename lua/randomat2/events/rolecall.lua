@@ -7,18 +7,25 @@ EVENT.Description = "Announces a random player's role every " .. GetConVar("rand
 EVENT.id = "rolecall"
 
 function EVENT:Begin()
-    -- Every set amount of seconds,
+    self.Description = "Announces a random player's role every " .. GetConVar("randomat_rolecall_time"):GetInt() .. " seconds"
+
     timer.Create("RandomatRoleCallTimer", GetConVar("randomat_rolecall_time"):GetInt(), 0, function()
-        -- Pick a random alive player,
-        local ply = table.Random(self:GetAlivePlayers())
-        -- And announces their role to everyone
-        self:SmallNotify(ply:Nick() .. " is " .. string.lower(self:GetRoleName(ply, false)) .. " !")
+        for i, ply in ipairs(self:GetAlivePlayers(true)) do
+            if Randomat:IsGoodDetectiveLike(ply) == false and ply:GetNWBool("RoleCallRandomatRevealed") == false then
+                self:SmallNotify(ply:Nick() .. " is " .. string.lower(self:GetRoleName(ply, false) .. "!"))
+                ply:SetNWBool("RoleCallRandomatRevealed", true)
+                break
+            end
+        end
     end)
 end
 
 function EVENT:End()
-    -- Stop announcing roles
     timer.Remove("RandomatRoleCallTimer")
+
+    for i, ply in ipairs(player.GetAll()) do
+        ply:SetNWBool("RoleCallRandomatRevealed", false)
+    end
 end
 
 function EVENT:GetConVars()
