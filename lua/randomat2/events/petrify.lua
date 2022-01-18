@@ -5,10 +5,8 @@ EVENT.id = "petrify"
 
 -- Turn player to stone
 local function petrify(ply)
-    if ply then
-        if ply:IsValid() and ply:Alive() then
-            FindMetaTable("Entity").SetModel(ply, "models/player.mdl")
-        end
+    if IsPlayer(ply) and ply:Alive() then
+        FindMetaTable("Entity").SetModel(ply, "models/player.mdl")
     end
 end
 
