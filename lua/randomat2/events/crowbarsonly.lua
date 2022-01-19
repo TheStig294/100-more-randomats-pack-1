@@ -4,6 +4,7 @@ EVENT.Description = "Can only use, or be damaged by, a buffed crowbar"
 EVENT.id = "crowbarsonly"
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+local crowbarPushForce
 
 function EVENT:Begin()
     -- Remove all non-buyable weapons
@@ -11,11 +12,6 @@ function EVENT:Begin()
         if (ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE) and ent.AutoSpawnable then
             ent:Remove()
         end
-    end
-
-    -- Buff the crowbar if that randomat can run/exists
-    if Randomat:CanEventRun("crowbar") then
-        Randomat:SilentTriggerEvent("crowbar", self.owner)
     end
 
     -- If someone takes damage from something that's not a crowbar, negate it
@@ -36,6 +32,28 @@ function EVENT:Begin()
                 ply:SelectWeapon("weapon_zm_improvised")
             end
         end)
+    end
+
+    -- Buff the crowbar
+    crowbarPushForce = GetConVar("ttt_crowbar_pushforce"):GetFloat()
+    RunConsoleCommand("ttt_crowbar_pushforce", 20 * GetConVar("ttt_crowbar_pushforce"):GetFloat())
+
+    for i, ply in ipairs(player.GetAll()) do
+        local crowbar = ply:GetWeapon("weapon_zm_improvised")
+
+        if IsValid(crowbar) == false then
+            crowbar = ply:GetWeapon("weapon_kil_crowbar")
+        end
+
+        if IsValid(crowbar) then
+            crowbar.Primary.Damage = crowbar.Primary.Damage * 2.5
+        end
+    end
+end
+
+function EVENT:End()
+    if crowbarPushForce then
+        RunConsoleCommand("ttt_crowbar_pushforce", crowbarPushForce)
     end
 end
 
