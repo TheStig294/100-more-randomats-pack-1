@@ -2,6 +2,8 @@ local EVENT = {}
 EVENT.Title = "Pistols at dawn"
 EVENT.Description = "Last innocent and traitor alive have a one-shot pistol showdown"
 EVENT.id = "pistols"
+util.AddNetworkString("PistolsDrawHalos")
+util.AddNetworkString("PistolsRemoveHalos")
 
 function EVENT:Begin()
     -- Allow the initial trigger code to run
@@ -32,10 +34,8 @@ function EVENT:Begin()
                 -- After 1 second, trigger a notification and let players see through walls if that randomat is added by another mod,
                 timer.Simple(1, function()
                     self:SmallNotify("Pistols at dawn!")
-
-                    if Randomat:CanEventRun("wallhack") then
-                        Randomat:SilentTriggerEvent("wallhack", self.owner)
-                    end
+                    net.Start("PistolsDrawHalos")
+                    net.Broadcast()
                 end)
             end
 
@@ -66,6 +66,11 @@ function EVENT:Begin()
             pistolsTriggerOnce = true
         end
     end)
+end
+
+function EVENT:End()
+    net.Start("PistolsRemoveHalos")
+    net.Broadcast()
 end
 
 Randomat:register(EVENT)
