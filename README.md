@@ -170,12 +170,6 @@ Everyone gets a radar after 2 minutes to prevent camping.\
 _ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
 _randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar
 
-## Murder (Yogscast intro)
-Plays the original Yogscast Murder theme and the original Yogscast Murder logo pops up on screen, then triggers the “Murder” randomat.\
-This randomat will never trigger if you do not have another randomat mod that has the “Murder” randomat.\
-\
-_ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled
-
 
 
 # Randomats made by "nanz"
