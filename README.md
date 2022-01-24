@@ -319,12 +319,6 @@ Changed name from "Troll Prop"\
 _ttt_randomat_revenge_ - Default: 1 - Whether this randomat is enabled\
 _randomat_revenge_multiplier_ - Default: 4 - Multiplier to all prop possession stats
 
-## What did WE find in our pockets?
-Gives everyone the same random buyable weapon\
-Changed name from "Sweepstakes Giveaway", weapon is now given immediately\
-\
-_ttt_randomat_pockets_ - Default: 1 - Whether this randomat is enabled
-
 
 
 # Randomats made by "Legendahkiin"
@@ -451,3 +445,16 @@ Shooting strongly pushes you backwards. Looking down and shooting pushes you int
 _ttt_randomat_recoil_ - Default: 1 - Whether this randomat is enabled\
 _randomat_recoil_max_ - Default: 15 - Maximum Magnitude a gun can change someone's velocity by.\
 _randomat_recoil_mul_ - Default: 6 - Recoil velocity multiplier
+
+
+
+# Randomats made by "Malivil"
+**The mod these randomats come from: [Steam Workshop::TTT Randomat 2.0 for Custom Roles for TTT](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086)**
+
+## What did WE find in our pockets?
+Gives everyone the same random buyable weapon\
+Changed name from "What did I find in my pocket?", chooses a random weapon to give to everyone instead.\
+The idea for this event is from [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)\
+\
+_ttt_randomat_pockets_ - Default: 1 - Whether this randomat is enabled\
+randomat_pockets_blocklist - Default: "" - A list of weapon IDs, separated by commas, that cannot be given out.

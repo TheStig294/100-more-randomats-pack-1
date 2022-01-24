@@ -3,29 +3,55 @@ EVENT.Title = "What did WE find in our pockets?"
 EVENT.Description = "Gives everyone the same random buyable weapon"
 EVENT.id = "pockets"
 
+CreateConVar("randomat_pockets_blocklist", "", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The comma-separated list of weapon IDs to not give out")
+
 function EVENT:Begin()
-    -- Get the table of all weapons installed
-    local weps = weapons.GetList()
-    local give_weps = {}
+    local blocklist = {}
 
-    -- Filter out the non-buyable weapons
-    for i = 1, #weps do
-        local wep = weps[i]
+    for blocked_id in string.gmatch(GetConVar("randomat_pockets_blocklist"):GetString(), "([^,]+)") do
+        table.insert(blocklist, blocked_id:Trim())
+    end
 
-        if wep and (wep.CanBuy and #wep.CanBuy > 0) then
-            give_weps[#give_weps + 1] = wep
+    local players = self:GetAlivePlayers(true)
+    local pocketsweptries = 0
+    local testingPly = players[1]
+
+    local searchShops = {ROLE_DETECTIVE, ROLE_TRAITOR}
+
+    local item, _, swep_table = Randomat:GetShopEquipment(testingPly, searchShops, blocklist, false, pocketsweptries, function() return pocketsweptries end, function(value)
+        pocketsweptries = value
+    end)
+
+    timer.Simple(0.1, function()
+        for i, ply in ipairs(players) do
+            if item then
+                ply:Give(item.ClassName)
+                Randomat:CallShopHooks(false, item.ClassName, ply)
+            elseif swep_table then
+                ply:Give(swep_table.ClassName)
+                Randomat:CallShopHooks(false, swep_table.ClassName, ply)
+            end
+        end
+    end)
+end
+
+function EVENT:GetConVars()
+    local textboxes = {}
+
+    for _, v in ipairs({"blocklist"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(textboxes, {
+                cmd = v,
+                dsc = convar:GetHelpText()
+            })
         end
     end
 
-    -- Choose a random weapon and get all alive players
-    local item = give_weps[math.random(#give_weps)]
-    local plys = self:GetAlivePlayers()
-
-    -- Give everyone that random weapon
-    for i = 1, #plys do
-        local ply = plys[i]
-        ply:Give(WEPS.GetClass(item))
-    end
+    return textboxes
 end
 
 Randomat:register(EVENT)
