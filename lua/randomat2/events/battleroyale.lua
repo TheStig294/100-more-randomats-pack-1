@@ -48,10 +48,9 @@ function EVENT:Begin()
                 ply:Give("weapon_ttt_fortnite_building")
             end
 
+            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
             SendFullStateUpdate()
-            --Also removing role weapons like the DNA scanner
-            self:StripRoleWeapons(ply)
         end)
     end
 end

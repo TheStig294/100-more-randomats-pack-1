@@ -32,6 +32,7 @@ function EVENT:Begin()
     -- Replace all Jesters with Innocents
     for i, v in ipairs(self:GetPlayers()) do
         if Randomat:IsJesterTeam(v) then
+            self:StripRoleWeapons(v)
             Randomat:SetRole(v, ROLE_INNOCENT)
         end
     end
