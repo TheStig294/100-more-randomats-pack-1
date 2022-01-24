@@ -1,11 +1,11 @@
 local EVENT = {}
 
-CreateConVar("randomat_resize_min", 50, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Minimum possible size", 10, 200)
+CreateConVar("randomat_resize_min", 25, {FCVAR_NOTIFY}, "Minimum possible size", 10, 100)
 
-CreateConVar("randomat_resize_max", 200, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Maximum possible size", 50, 400)
+CreateConVar("randomat_resize_max", 100, {FCVAR_NOTIFY}, "Maximum possible size", 10, 100)
 
 EVENT.Title = "Resize!"
-EVENT.Description = "Become bigger or smaller, and have corresponding health"
+EVENT.Description = "Everyone becomes a random size, and has corresponding health"
 EVENT.id = "resize"
 local offsets = {}
 local offsets_ducked = {}
@@ -67,7 +67,6 @@ function EVENT:Begin()
     -- Getting the set minimum and maximum size set by the convars
     local sizeMin = GetConVar("randomat_resize_min"):GetInt() / 100
     local sizeMax = GetConVar("randomat_resize_max"):GetInt() / 100
-    local playersIncreasedSize = {}
 
     -- For all alive players,
     for i, ply in pairs(self:GetAlivePlayers()) do
@@ -83,50 +82,6 @@ function EVENT:Begin()
         -- Randomly scale their model size, view heights, health and how high they jump
         local randomSize = math.Rand(sizeMin, sizeMax)
         self:SetPlayerSize(randomSize, ply)
-
-        -- Need to check players that increased in size are not stuck
-        if randomSize > 1 then
-            table.insert(playersIncreasedSize, ply)
-        end
-    end
-
-    -- Function to free players stuck from their increased size, from my "Crouch to Unstuck" mod
-    local function PlayerNotStuck(ply)
-        local pos = ply:GetPos()
-
-        local t = {
-            start = pos,
-            endpos = pos,
-            mask = MASK_PLAYERSOLID,
-            filter = ply
-        }
-
-        local isSolidEnt = util.TraceEntity(t, ply).StartSolid
-        local ent = util.TraceEntity(t, ply).Entity
-
-        if IsValid(ent) then
-            -- A backup check if an entity can be passed through or not
-            local nonPlayerCollisionGroups = {1, 2, 10, 11, 12, 15, 16, 17, 20}
-
-            local entGroup = ent:GetCollisionGroup()
-
-            for i, group in ipairs(nonPlayerCollisionGroups) do
-                if entGroup == group then return true end
-            end
-        end
-        -- Else, use what the trace returned
-
-        return not isSolidEnt
-    end
-
-    -- Set all players who got stuck to a smaller size instead
-    for i, ply in ipairs(playersIncreasedSize) do
-        if not PlayerNotStuck(ply) then
-            local randomSize = math.Rand(sizeMin, 1)
-            -- Reset the larger health, hull and step size they had, else this won't scale correctly
-            self:ResetPlayerSize(ply)
-            self:SetPlayerSize(randomSize, ply)
-        end
     end
 
     self:AddHook("PlayerSpawn", function(ply)

@@ -270,12 +270,12 @@ _randomat_chickens_sp_ - Default: 0.75 - The movement speed multiplier
 # Randomats made by "Guardain954"
 **The mod these randomats come from: [Steam Workshop::TTT Randomat 2.0 MORE EVENTS!](https://steamcommunity.com/sharedfiles/filedetails/?id=2068742309)**
 ## Resize!
-Changes everyone's size, if smaller you have less health, if larger you have more\
-Changed name from "Try another perspective on life"\
+Everyone becomes a random smaller size, and has corresponding health. The smaller the size, the less health you are set to.\
+Changed name from "Try another perspective on life", now only shrinks players rather than possible making then larger.\
 \
 _ttt_randomat_resize_ - Default: 1 - Whether this randomat is enabled\
-_randomat_resize_min_ - Default: 50 - Minimum possible size\
-_randomat_resize_max_ - Default: 200 - Maximum possible size
+_randomat_resize_min_ - Default: 25 - Minimum possible size\
+_randomat_resize_max_ - Default: 100 - Maximum possible size
 
 ## Who's Who?
 Swaps everyone's playermodels\
