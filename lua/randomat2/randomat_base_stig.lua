@@ -36,14 +36,14 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     ROLE_TRICKSTER = ROLE_TRICKSTER or -1
     ROLE_DETRAITOR = ROLE_DETRAITOR or -1
     Randomat.Events = Randomat.Events or {}
-    Randomat.ActiveEvents = {}
+    Randomat.ActiveEvents = Randomat.ActiveEvents or {}
     local randomat_meta = {}
     randomat_meta.__index = randomat_meta
     --[[
- Event History
-]]
+     Event History
+    ]]
     --
-    Randomat.EventHistory = {}
+    Randomat.EventHistory = Randomat.EventHistory or {}
 
     local function IsEventInHistory(event)
         if type(event) ~= "table" then
@@ -137,10 +137,10 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end)
 
     --[[
- Event Notifications
-]]
+     Event Notifications
+    ]]
     --
-    local function NotifyDescription(event)
+    function Randomat:NotifyDescription(event)
         -- Show this if "secret" is active if we're specifically showing the description for "secret"
         if event.Id ~= "secret" and Randomat:IsEventActive("secret") then return end
         net.Start("randomat_message")
@@ -150,7 +150,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         net.Broadcast()
     end
 
-    local function ChatDescription(ply, event, has_description)
+    function Randomat:ChatDescription(ply, event, has_description)
         -- Show this if "secret" is active if we're specifically showing the description for "secret"
         if event.Id ~= "secret" and Randomat:IsEventActive("secret") then return end
         if not IsValid(ply) then return end
@@ -165,8 +165,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
- Event Control
-]]
+     Event Control
+    ]]
     --
     local function EndEvent(evt)
         evt:CleanUpHooks()
@@ -196,8 +196,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
 
         local owner = Randomat:GetValidPlayer(ply)
-        local index = #Randomat.ActiveEvents + 1
-        Randomat.ActiveEvents[index] = event
+        local index = table.insert(Randomat.ActiveEvents, event)
         Randomat.ActiveEvents[index].owner = owner
         Randomat.ActiveEvents[index]:Begin(...)
         -- Run this after the "Begin" so we have the latest title and description
@@ -209,12 +208,12 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
             if has_description and GetConVar("ttt_randomat_event_hint"):GetBool() then
                 -- Show the small description message but don't use SmallNotify because it specifically mutes when "secret" is running and we want to show this if this event IS "secret"
-                NotifyDescription(event)
+                Randomat:NotifyDescription(event)
             end
 
             if GetConVar("ttt_randomat_event_hint_chat"):GetBool() then
                 for _, p in ipairs(player.GetAll()) do
-                    ChatDescription(p, event, has_description)
+                    Randomat:ChatDescription(p, event, has_description)
                 end
             end
         end
@@ -224,8 +223,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
- Randomat Namespace
-]]
+     Randomat Namespace
+    ]]
     --
     function Randomat:EndActiveEvent(id)
         for k, evt in pairs(Randomat.ActiveEvents) do
@@ -300,7 +299,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         net.Start("TTT_RoleChanged")
         net.WriteString(ply:SteamID64())
 
-        if CR_VERSION and CRVersion("1.1.2") then
+        if CR_VERSION then
             net.WriteInt(role, 8)
         else
             net.WriteUInt(role, 8)
@@ -310,9 +309,16 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     function Randomat:register(tbl)
-        local id = tbl.id
+        local default_weight = GetConVar("ttt_randomat_event_weight"):GetInt()
+        local id = tbl.id or tbl.Id
         tbl.Id = id
+        tbl.id = id
         tbl.__index = tbl
+
+        -- Default IsEnabled to true if it isn't specified
+        if tbl.IsEnabled ~= false then
+            tbl.IsEnabled = true
+        end
 
         -- Default SingleUse to true if it isn't specified
         if tbl.SingleUse ~= false then
@@ -329,16 +335,24 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             tbl.Type = EVENT_TYPE_DEFAULT
         end
 
+        -- Default MinPlayers to 0 if it's not specified
+        if tbl.MinPlayers == nil then
+            tbl.MinPlayers = 0
+        end
+
+        -- Default Weight to -1 if it's not specified or matches the global default
+        if tbl.Weight == nil or tbl.Weight == default_weight then
+            tbl.Weight = -1
+        end
+
         setmetatable(tbl, randomat_meta)
         Randomat.Events[id] = tbl
 
-        CreateConVar("ttt_randomat_" .. id, 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+        CreateConVar("ttt_randomat_" .. id, tbl.IsEnabled and 1 or 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 
-        CreateConVar("ttt_randomat_" .. id .. "_min_players", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+        CreateConVar("ttt_randomat_" .. id .. "_min_players", tbl.MinPlayers, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 
-        local weight = CreateConVar("ttt_randomat_" .. id .. "_weight", -1, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-
-        local default_weight = GetConVar("ttt_randomat_event_weight"):GetInt()
+        local weight = CreateConVar("ttt_randomat_" .. id .. "_weight", tbl.Weight, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 
         -- If the current weight matches the default, update the per-event weight to the new default of -1
         if weight:GetInt() == default_weight then
@@ -734,9 +748,42 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         return headBee
     end
 
+    function Randomat:SpawnBarrel(pos, range, min_range, ignore_negative)
+        local ent = ents.Create("prop_physics")
+        if not IsValid(ent) then return end
+
+        if not min_range then
+            min_range = range
+        end
+
+        local x = math.random(min_range, range)
+        local y = math.random(min_range, range)
+
+        if not ignore_negative then
+            if math.random(0, 1) == 1 then
+                x = -x
+            end
+
+            if math.random(0, 1) == 1 then
+                y = -y
+            end
+        end
+
+        ent:SetModel("models/props_c17/oildrum001_explosive.mdl")
+        ent:SetPos(pos + Vector(x, y, math.random(5, range)))
+        ent:Spawn()
+        local phys = ent:GetPhysicsObject()
+
+        if not IsValid(phys) then
+            ent:Remove()
+
+            return
+        end
+    end
+
     --[[
- Randomat Meta
-]]
+     Randomat Meta
+    ]]
     --
     -- Valid players not spec
     function randomat_meta:GetPlayers(shuffle)
@@ -988,8 +1035,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
- Commands
-]]
+     Commands
+    ]]
     --
     local function EndActiveEvents()
         if Randomat.ActiveEvents ~= {} then
@@ -1048,8 +1095,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end, nil, "Triggers a random  randomat event", FCVAR_SERVER_CAN_EXECUTE)
 
     --[[
- Override TTT Stuff
-]]
+     Override TTT Stuff
+    ]]
     --
     hook.Add("TTTEndRound", "RandomatEndRound", EndActiveEvents)
 
