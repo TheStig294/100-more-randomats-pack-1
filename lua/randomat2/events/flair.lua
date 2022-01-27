@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Ending Flair"
-EVENT.Description = "Win/lose sound play at the end of each round, until the next map"
+EVENT.Description = "Win/lose sounds now play at the end of each round, until the next map!"
 EVENT.id = "flair"
 util.AddNetworkString("FlairRandomatWin")
 util.AddNetworkString("FlairRandomatPlay")
