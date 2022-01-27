@@ -227,7 +227,7 @@ Changed name from "Random Team Deathmatch", fixed randomat registration bug.\
 _ttt_randomat_deathmatch_ - Default: 1 - Whether this randomat is enabled
 
 ## Role shuffle in 60 seconds!
-Reselects everyone's role for the round after 60 seconds.\
+Swaps everyone's roles around, 60 seconds after this randomat triggers.\
 Changed name from "ROLE SHUFFLE!", fixed randomat registration bug and role weapons not being removed, added a delay of 60 seconds before it's triggered, added a notification to when the roles are shuffled.\
 \
 _ttt_randomat_roleshuffle_ - Default: 1 - Whether this randomat is enabled\
