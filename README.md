@@ -70,9 +70,44 @@ _ttt_randomat_rolecall_ - Default: 1 - Whether this randomat is enabled\
 _randomat_rolecall_time_ - Default: 60 - Time between role announcements
 
 ## Ending Flair
-Sound effect plays at the end of each round, depending on who wins\
+For the rest of the current map, a win/lose sound effect plays for everyone at the end of each round\
 \
 _ttt_randomat_flair_ - Default: 1 - Whether this randomat is enabled\
+_randomat_flair_bees_not_the_bees.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_clown_ahhohhehey.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_clown_circus_intro.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_jester_directed_by_robert_b_weide.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_jester_goteeem.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_jester_old_man_laughing.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_killer_valorant_team_kill.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_loss_impostorwin.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_loss_mission_failed.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_loss_oh_no.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_loss_overwatch_defeat.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_loss_pmd_fail.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_loss_sad_trombone.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_loss_sad_violin.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_loss_smallest_violin.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_loss_team_skull.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_lover_what_is_love.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_oldmanloss_yogpod_old_man.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_oldmanwin_tranzit.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_vampire_phantom_of_the_opera.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_botw_spirit_orb.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_congratulations.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_crewmatewin.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_ff_fanfare.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_ff_simon_fanfare.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_here_comes_team_charm.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_mario_64_star.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_nfl_theme.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_old_yogs_outro.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_pmd_fanfare.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_pokemon_fanfare.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_win_zelda_fanfare.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_zombie_mystery_box_laugh.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_zombie_zombies_round_end.mp3_ - Default: 1 - Whether this sound can play\
+_randomat_flair_zombie_zombies_round_start.mp3_ - Default: 1 - Whether this sound can play
 
 ## Once more, with feeling!
 Repeats the last randomat\
