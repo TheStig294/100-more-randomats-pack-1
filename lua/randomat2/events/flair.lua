@@ -43,6 +43,8 @@ for i, dir in ipairs(foundDirectories) do
 end
 
 function EVENT:Begin()
+    eventTriggered = true
+
     -- Note: hook.Add() is used not self:AddHook() to ensure this event persists between rounds once triggered, until the server is restarted or the map is changed
     hook.Add("TTTEndRound", "TTTFlairRandomat", function(result)
         -- Hard-coded list of win condition names and their enumerators cause idk how to dynamically get them
@@ -135,7 +137,7 @@ end
 
 function EVENT:Condition()
     -- This event cannot trigger more than once a map, and cannot trigger at all if the round end sounds mod is installed as that makes this event redundant
-    return not (eventTriggered and file.Exists("autorun/_round_end_sounds.lua", "lsv"))
+    return not (eventTriggered or file.Exists("autorun/_round_end_sounds.lua", "lsv"))
 end
 
 function EVENT:GetConVars()
