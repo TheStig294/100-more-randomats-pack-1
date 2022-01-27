@@ -233,11 +233,11 @@ Changed name from "ROLE SHUFFLE!", fixed randomat registration bug and role weap
 _ttt_randomat_roleshuffle_ - Default: 1 - Whether this randomat is enabled\
 _randomat_roleshuffle_time_ - Default: 60 - How long in seconds until roles are shuffled
 
-## People are Crabs
+## Crab Walk
 Everyone can only walk side-to-side\
 Original name in German, updated to be compatible with randomat 2.0\
 \
-_ttt_randomat_peoplearecrabs_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_crabwalk_ - Default: 1 - Whether this randomat is enabled
 
 
 

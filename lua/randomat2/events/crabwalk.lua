@@ -1,7 +1,7 @@
 local EVENT = {}
-EVENT.Title = "People are Crabs"
+EVENT.Title = "Crab Walk"
 EVENT.Description = "You can only walk sideways"
-EVENT.id = "peoplearecrabs"
+EVENT.id = "crabwalk"
 local orginalJumps = 1
 local crabsTriggered = false
 
