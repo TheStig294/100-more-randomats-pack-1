@@ -8,6 +8,8 @@ EVENT.id = "guilt"
 util.AddNetworkString("Guilty")
 
 function EVENT:Begin()
+    self.Description = "Killing someone on your team forces your head down for " .. GetConVar("randomat_guilt_time"):GetInt() .. " seconds"
+
     -- Players who RDM have their head forced down
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
         if victim and attacker and victim ~= attacker and victim:IsPlayer() and attacker:IsPlayer() and IsSameTeam(attacker, victim) then

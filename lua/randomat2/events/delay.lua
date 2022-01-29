@@ -3,10 +3,12 @@ local EVENT = {}
 CreateConVar("randomat_delay_time", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds before randomat is triggered", 5, 180)
 
 EVENT.Title = "Delayed Start"
-EVENT.Description = "Triggers the randomat after " .. GetConVar("randomat_delay_time"):GetInt() .. " seconds"
+EVENT.Description = "Triggers a randomat after " .. GetConVar("randomat_delay_time"):GetInt() .. " seconds"
 EVENT.id = "delay"
 
 function EVENT:Begin()
+    self.Description = "Triggers a randomat after " .. GetConVar("randomat_delay_time"):GetInt() .. " seconds"
+
     timer.Simple(GetConVar("randomat_delay_time"):GetInt(), function()
         Randomat:TriggerRandomEvent(self.owner)
     end)
