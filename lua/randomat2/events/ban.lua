@@ -39,6 +39,7 @@ end
 EVENT.Title = "Ban a Randomat!"
 EVENT.Description = GetEventDescription()
 EVENT.id = "ban"
+EVENT.Type = EVENT_TYPE_VOTING
 
 function EVENT:Begin()
     banRandomat = true
