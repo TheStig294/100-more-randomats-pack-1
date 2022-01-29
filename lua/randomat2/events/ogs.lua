@@ -11,6 +11,7 @@ function EVENT:Begin()
         timer.Simple(0.1, function()
             local weapon = defaultWeapons[math.random(#defaultWeapons)]
             ply:Give(weapon)
+            Randomat:CallShopHooks(false, weapon, ply)
         end)
     end
 end

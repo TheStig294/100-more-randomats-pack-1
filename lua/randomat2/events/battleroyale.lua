@@ -46,6 +46,7 @@ function EVENT:Begin()
         timer.Simple(0.1, function()
             if fortniteToolExists then
                 ply:Give("weapon_ttt_fortnite_building")
+                Randomat:CallShopHooks(false, "weapon_ttt_fortnite_building", ply)
             end
 
             self:StripRoleWeapons(ply)

@@ -34,9 +34,11 @@ function EVENT:Begin()
         -- Select a random weapon and give it to the player
         if not table.IsEmpty(give_weps) then
             local item = give_weps[math.random(#give_weps)]
+            local classname = WEPS.GetClass(item)
             -- Override the weapon's slot so one is always given
             item.Kind = wepSlot
-            ply:Give(WEPS.GetClass(item))
+            ply:Give(classname)
+            Randomat:CallShopHooks(false, classname, ply)
             wepSlot = wepSlot + 1
         end
 
