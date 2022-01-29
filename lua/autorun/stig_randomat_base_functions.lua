@@ -127,71 +127,49 @@ if SERVER then
     end
 end
 
+--Gives a weapon by its print name
+--Only supports items installed on the first connected client, available to either the detective or traitor (for passive items they must also have a valid id)
 --Used by randomats reading stats data from 'TTT Total Statistics', e.g. 'Everyone has their favourites'
---Gives a weapon by its print name, some passive items have hard-codded support, all held weapons installed on the first connected client are supported
 function PrintToGive(name, ply)
-    if name == "Body Armor" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_ARMOR).id))
-        ply:ChatPrint("You have been given a Body Armor. You receive 30% less damage to body shots.")
-    elseif name == "Radar" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_RADAR).id))
-        ply:ConCommand("ttt_radar_scan")
-        ply:ChatPrint("You have been given a Radar.")
-    elseif name == "A Second Chance" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_ASC).id))
-        ply.shouldasc = true
+    local traitorWeapon = table.KeyFromValue(traitorBuyable, name)
+    local detectiveWeapon = table.KeyFromValue(detectiveBuyable, name)
 
-        if ply:GetRole() == ROLE_TRAITOR or ply:GetRole() == ROLE_JACKAL or ply:GetRole() == ROLE_SIDEKICK then
-            ply.SecondChanceChance = math.random(15, 25)
-        else
-            ply.SecondChanceChance = math.random(20, 35)
-        end
-
-        net.Start("ASCBuyed")
-        net.WriteInt(ply.SecondChanceChance, 8)
-        net.Send(ply)
-    elseif name == "Demonic Possession" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_DEMONIC_POSSESSION).id))
-        ply.DemonicPossession = true
-    elseif name == "Juggernog" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_JUGGERNOG).id))
-        ply:Give("ttt_perk_juggernog")
-    elseif name == "PHD Flopper Perk." then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_PHD).id))
-        ply:Give("ttt_perk_phd")
-    elseif name == "Stamin-Up" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_STAMINUP).id))
-        ply:Give("ttt_perk_staminup")
-    elseif name == "Bruh Bunker" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_DETECTIVE, EQUIP_BUNKER).id))
-        ply:ChatPrint("You have been given a Bruh Bunker. Taking damage from a player will spawn a bunker around you. ")
-        ply.cringealert = true
-    elseif name == "Disguiser" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_TRAITOR, EQUIP_DISGUISE).id))
-        ply:ChatPrint("You have been given a Disguiser. Press numpad enter to enable disguise.")
-    elseif name == "Flesh Wound" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_TRAITOR, EQUIP_FLSHWND).id))
-
-        if ply:HasEquipmentItem(EQUIP_FLSHWND) then
-            if ply.flshwnd == false then
-                ply:ChatPrint("You have been given a Flesh Wound. Upon reaching 1 HP you will survive for 5 seconds")
-            end
-
-            ply.flshwnd = true
-            ply.flshwndtimer = true
-        end
-    elseif name == "DoubleTap Root Beer" then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_TRAITOR, EQUIP_DOUBLETAP).id))
-        ply:Give("ttt_perk_doubletap")
-    elseif name == "Speed Cola Perk." then
-        ply:GiveEquipmentItem(tonumber(GetEquipmentItem(ROLE_TRAITOR, EQUIP_SPEED).id))
-        ply:Give("ttt_perk_speed")
-    elseif table.KeyFromValue(detectiveBuyable, name) ~= nil then
-        ply:Give(table.KeyFromValue(detectiveBuyable, name))
-    elseif table.KeyFromValue(traitorBuyable, name) ~= nil then
-        ply:Give(table.KeyFromValue(traitorBuyable, name))
+    -- First try giving the equipment as a weapon, if the ID found isn't a number (and therefore isn't an equipment ID)
+    if traitorWeapon ~= nil and not isnumber(tonumber(traitorWeapon)) then
+        ply:Give(traitorWeapon)
+        Randomat:CallShopHooks(false, traitorWeapon, ply)
+    elseif detectiveWeapon ~= nil and not isnumber(tonumber(detectiveWeapon)) then
+        ply:Give(detectiveWeapon)
+        Randomat:CallShopHooks(false, detectiveWeapon, ply)
     else
-        ply:ChatPrint("Weapon to give you was not found...")
+        -- Else try giving the weapon as a passive item in the detective or traitor buy menus
+        local itemFound = false
+
+        for _, equ in ipairs(EquipmentItems[ROLE_TRAITOR]) do
+            if equ.name == name and isnumber(tonumber(equ.id)) then
+                id = equ.id
+                ply:GiveEquipmentItem(tonumber(id))
+                Randomat:CallShopHooks(true, id, ply)
+                itemFound = true
+                break
+            end
+        end
+
+        if itemFound then return end
+
+        for _, equ in ipairs(EquipmentItems[ROLE_DETECTIVE]) do
+            if equ.name == name and isnumber(tonumber(equ.id)) then
+                id = equ.id
+                ply:GiveEquipmentItem(tonumber(id))
+                Randomat:CallShopHooks(true, id, ply)
+                itemFound = true
+                break
+            end
+        end
+
+        if itemFound then return end
+        -- If that fails, simply print a message in chat to the player
+        ply:ChatPrint("The equipment you were supposed to be given wasn't found...")
     end
 end
 
