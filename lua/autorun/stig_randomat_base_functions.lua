@@ -169,7 +169,7 @@ function PrintToGive(name, ply)
 
         if itemFound then return end
         -- If that fails, simply print a message in chat to the player
-        ply:ChatPrint("The equipment you were supposed to be given wasn't found...")
+        ply:ChatPrint("The equipment '" .. name .. "' you were supposed to be given wasn't found...")
     end
 end
 
