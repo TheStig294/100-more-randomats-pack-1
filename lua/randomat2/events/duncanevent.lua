@@ -34,7 +34,7 @@ CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 
 
 EVENT.Title = ""
 EVENT.id = "duncanevent"
-EVENT.Description = "Everyone gets someone's playermodel"
+EVENT.Description = "Everyone has the same playermodel! Names are hidden"
 EVENT.AltTitle = "It's ..."
 
 -- On EVENT:Begin, change everyone's model to Doncon

@@ -3,7 +3,7 @@ local EVENT = {}
 CreateConVar("randomat_gunfire_timer", 20, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds before a player is ignited", 1, 120)
 
 EVENT.Title = "Gunfire"
-EVENT.Description = "Anyone that hasn't shot for a while gets set on fire"
+EVENT.Description = "Not shooting for too long sets you on fire!"
 EVENT.id = "gunfire"
 
 function EVENT:Begin()

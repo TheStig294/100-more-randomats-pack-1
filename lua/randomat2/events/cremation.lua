@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Cremation"
-EVENT.Description = "Bodies burn after a player dies."
+EVENT.Description = "Bodies burn after a player dies"
 EVENT.id = "cremation"
 
 -- Takes any dead player and returns their ragdoll, else returns false

@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Simon Says"
-EVENT.Description = "Everyone's forced to use the gun the chosen person has out"
+EVENT.Description = "Everyone is forced to use the gun the chosen person has out"
 EVENT.id = "simonsays"
 EVENT.leader = nil
 EVENT.weapons = {}

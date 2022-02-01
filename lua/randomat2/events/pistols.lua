@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Pistols at dawn"
-EVENT.Description = "Last innocent and traitor alive have a one-shot pistol showdown"
+EVENT.Description = "The last innocent and traitor alive have a one-shot pistol showdown!"
 EVENT.id = "pistols"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 util.AddNetworkString("PistolsDrawHalos")

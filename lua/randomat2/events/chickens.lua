@@ -7,7 +7,7 @@ CreateConVar("randomat_chickens_sc", 0.25, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Multi
 CreateConVar("randomat_chickens_sp", 0.75, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Player movement speed multiplier", 0.1, 1)
 
 EVENT.Title = "BAWK!"
-EVENT.Description = "Transforms everyone into chickens"
+EVENT.Description = "Transforms everyone into chickens!"
 EVENT.id = "chickens"
 
 local sndTabIdle = {"chickens/idle1.mp3", "chickens/idle2.mp3", "chickens/idle3.mp3", "chickens/alert.mp3"}

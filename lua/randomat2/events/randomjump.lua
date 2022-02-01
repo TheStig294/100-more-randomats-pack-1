@@ -3,7 +3,6 @@ local EVENT = {}
 CreateConVar("randomat_randomjump_max_multiplier", 3.0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Max multiplier to jump height", 0, 8)
 
 EVENT.Title = "Random jump height for everyone!"
-EVENT.Description = "Randomly sets how high you can jump"
 EVENT.id = "randomjump"
 
 function EVENT:Begin()

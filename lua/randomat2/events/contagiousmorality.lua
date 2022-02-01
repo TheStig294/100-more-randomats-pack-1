@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Contagious Morality"
-EVENT.Description = "Killing others respawns them with your role"
+EVENT.Description = "Killing someone respawns them with your role!"
 EVENT.id = "contagiousmorality"
 
 -- Used in removecorpse

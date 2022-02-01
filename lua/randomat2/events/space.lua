@@ -1,6 +1,5 @@
 local EVENT = {}
 EVENT.Title = "Hold Space To Slow Down"
-EVENT.Description = "When you hold space, you slow down"
 EVENT.id = "space"
 
 function EVENT:Begin()

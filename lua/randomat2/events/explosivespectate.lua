@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Explosive Spectating"
-EVENT.Description = "Click while prop-possessing to explode"
+EVENT.Description = "Left-click while prop-possessing to explode!"
 EVENT.id = "explosivespectate"
 
 function EVENT:Begin()

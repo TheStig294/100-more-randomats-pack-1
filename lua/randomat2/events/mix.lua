@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Let's mix it up..."
-EVENT.Description = "When you buy something, you get a random weapon instead"
+EVENT.Description = "When you buy something, you get a random item instead"
 EVENT.id = "mix"
 
 function EVENT:Begin()
