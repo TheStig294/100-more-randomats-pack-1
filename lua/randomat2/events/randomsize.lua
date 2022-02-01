@@ -1,12 +1,11 @@
 local EVENT = {}
 
-CreateConVar("randomat_resize_min", 25, {FCVAR_NOTIFY}, "Minimum possible size", 10, 100)
+CreateConVar("randomat_randomsize_min", 25, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Minimum possible size", 10, 100)
 
-CreateConVar("randomat_resize_max", 100, {FCVAR_NOTIFY}, "Maximum possible size", 10, 100)
+CreateConVar("randomat_randomsize_max", 100, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Maximum possible size", 10, 100)
 
-EVENT.Title = "Resize!"
-EVENT.Description = "Everyone becomes a random size, and has corresponding health"
-EVENT.id = "resize"
+EVENT.Title = "Random sizes for everyone!"
+EVENT.id = "randomsize"
 local offsets = {}
 local offsets_ducked = {}
 
@@ -21,7 +20,7 @@ function EVENT:SetPlayerSize(randomSize, ply)
     local speed_factor = math.Clamp(ply:GetStepSize() / 9, 0.25, 1)
     net.Start("RdmtSetSpeedMultiplier")
     net.WriteFloat(speed_factor)
-    net.WriteString("RdmtResizeSpeed")
+    net.WriteString("RdmtRandomSizeSpeed")
     net.Send(ply)
 end
 
@@ -59,14 +58,14 @@ function EVENT:ResetPlayerSize(ply)
     ply:SetHealth(100)
     -- Reset the player speed on the client
     net.Start("RdmtRemoveSpeedMultiplier")
-    net.WriteString("RdmtReziseSpeed")
+    net.WriteString("RdmtRandomSizeSpeed")
     net.Send(ply)
 end
 
 function EVENT:Begin()
     -- Getting the set minimum and maximum size set by the convars
-    local sizeMin = GetConVar("randomat_resize_min"):GetInt() / 100
-    local sizeMax = GetConVar("randomat_resize_max"):GetInt() / 100
+    local sizeMin = GetConVar("randomat_randomsize_min"):GetInt() / 100
+    local sizeMax = GetConVar("randomat_randomsize_max"):GetInt() / 100
 
     -- For all alive players,
     for i, ply in pairs(self:GetAlivePlayers()) do
