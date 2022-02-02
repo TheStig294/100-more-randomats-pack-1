@@ -31,11 +31,6 @@ Bullet damage only, everyone is immune to any other form of damage\
 \
 _ttt_randomat_bullets_ - Default: 1 - Whether this randomat is enabled
 
-## You do know how to use this right?
-Gives everyone a DNA scanner\
-\
-_ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
-
 ## Random jump height for everyone!
 Randomly sets the jump height of every player from 0 up to 3x as high as default\
 \
