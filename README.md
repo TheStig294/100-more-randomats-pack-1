@@ -193,7 +193,6 @@ _ttt_randomat_goboom_ - Default: 1 - Whether this randomat is enabled
 Continually gives everyone boomerangs, and removes all other weapons.\
 \
 _ttt_randomat_boomerang_ - Default: 1 - Whether this randomat is enabled\
-_randomat_boomerang_timer_ - Default: 5 - Time between being given boomerangs\
 _randomat_boomerang_strip_ - Default: 1 - The event strips your other weapons\
 _randomat_boomerang_weaponid_ - Default: weapon_ttt_boomerang_randomat - ID of the weapon given
 
