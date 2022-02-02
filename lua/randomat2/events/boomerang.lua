@@ -48,12 +48,12 @@ end
 
 --Stop periodically giving out boomerangs
 function EVENT:End()
+    for i, ent in ipairs(ents.FindByClass(GetConVar("randomat_boomerang_weaponid"):GetString())) do
+        ent:Remove()
+    end
+
     if GetConVar("randomat_boomerang_strip"):GetBool() then
         for i, ply in ipairs(self:GetAlivePlayers()) do
-            if ply:HasWeapon(GetConVar("randomat_boomerang_weaponid"):GetString()) then
-                ply:StripWeapon(GetConVar("randomat_boomerang_weaponid"):GetString())
-            end
-
             timer.Remove(ply:SteamID64() .. "BoomerangRandomatTimer")
             ply:Give("weapon_zm_improvised")
             ply:Give("weapon_zm_carry")

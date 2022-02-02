@@ -41,7 +41,7 @@ function EVENT:Begin()
             end
 
             -- After 2 seconds, continually
-            timer.Simple(2, function()
+            timer.Simple(1, function()
                 for i, ply in pairs(self:GetAlivePlayers()) do
                     -- Strip all credits
                     ply:SetCredits(0)
@@ -72,6 +72,18 @@ end
 function EVENT:End()
     net.Start("PistolsRemoveHalos")
     net.Broadcast()
+
+    timer.Simple(2, function()
+        for i, ply in ipairs(self:GetAlivePlayers()) do
+            ply:Give("weapon_zm_improvised")
+            ply:Give("weapon_zm_carry")
+            ply:Give("weapon_ttt_unarmed")
+        end
+
+        for i, ent in ipairs(ents.FindByClass("weapon_ttt_pistol_randomat")) do
+            ent:Remove()
+        end
+    end)
 end
 
 Randomat:register(EVENT)
