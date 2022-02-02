@@ -37,6 +37,10 @@ function EVENT:Begin()
             ent:Extinguish()
         end
     end)
+
+    self:AddHook("PlayerSpawn", function(ply)
+        RestartExtinguishTimer(ply)
+    end)
 end
 
 function EVENT:End()
