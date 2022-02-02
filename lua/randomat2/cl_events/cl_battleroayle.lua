@@ -13,7 +13,7 @@ net.Receive("RandomatBattleRoyaleWinTitle", function()
 
         local newTitle = {
             txt = "win_battleroyale",
-            c = COLOR_INNOCENT["default"],
+            c = ROLE_COLORS[ROLE_INNOCENT],
             params = nil
         }
 
