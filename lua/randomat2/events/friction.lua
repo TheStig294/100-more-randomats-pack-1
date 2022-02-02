@@ -31,6 +31,30 @@ function EVENT:Begin()
     for i, barrel in ipairs(ents.FindByModel("models/props_c17/oildrum001_explosive.mdl")) do
         barrel:Remove()
     end
+
+    -- Refund credits if players are holding weapons that don't work during this event
+    for i, ply in ipairs(self:GetAlivePlayers()) do
+        if ply:HasWeapon("weapon_prop_blaster") then
+            ply:StripWeapon("weapon_prop_blaster")
+            ply:AddCredits(1)
+            ply:ChatPrint("The prop blaster doesn't work during this event.\nYour credit has been refunded.")
+        end
+
+        if ply:HasWeapon("weapon_randomlauncher") then
+            ply:StripWeapon("weapon_randomlauncher")
+            ply:AddCredits(1)
+            ply:ChatPrint("The random launcher doesn't work during this event.\nYour credit has been refunded.")
+        end
+    end
+
+    -- Prevent players from buying weapons that don't work
+    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+        if id == "weapon_prop_blaster" or id == "weapon_randomlauncher" then
+            ply:PrintMessage(HUD_PRINTCENTER, "Doesn't work during this randomat!")
+
+            return false
+        end
+    end)
 end
 
 function EVENT:End()
