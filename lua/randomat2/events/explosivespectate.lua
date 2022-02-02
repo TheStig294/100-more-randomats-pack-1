@@ -25,6 +25,12 @@ function EVENT:Begin()
             end
         end
     end)
+
+    self:AddHook("PostPlayerDeath", function(ply)
+        timer.Simple(3, function()
+            ply:ChatPrint("'" .. self.Title .. "' is active!\n" .. self.Description)
+        end)
+    end)
 end
 
 function EVENT:Condition()

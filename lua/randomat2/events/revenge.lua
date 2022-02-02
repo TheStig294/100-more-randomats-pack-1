@@ -25,6 +25,12 @@ function EVENT:Begin()
         RunConsoleCommand("ttt_spec_prop_maxbonus", prop_maxbonus * randomat_revenge_multiplier:GetFloat())
         RunConsoleCommand("ttt_spec_prop_force", prop_force * randomat_revenge_multiplier:GetFloat())
         RunConsoleCommand("ttt_spec_prop_rechargetime", prop_recharge / randomat_revenge_multiplier:GetFloat())
+
+        self:AddHook("PostPlayerDeath", function(ply)
+            timer.Simple(3, function()
+                ply:ChatPrint("'" .. self.Title .. "' is active!\n" .. self.Description)
+            end)
+        end)
     end
 end
 
