@@ -41,9 +41,13 @@ function EVENT:Begin()
         end
 
         if ply:HasWeapon("weapon_randomlauncher") then
-            ply:StripWeapon("weapon_randomlauncher")
-            ply:AddCredits(1)
-            ply:ChatPrint("The random launcher doesn't work during this event.\nYour credit has been refunded.")
+            local wep = ply:GetWeapon("weapon_randomlauncher")
+
+            if wep:Clip1() ~= nil and wep:Clip1() > 0 then
+                ply:StripWeapon("weapon_randomlauncher")
+                ply:AddCredits(1)
+                ply:ChatPrint("The random launcher doesn't work during this event.\nYour credit has been refunded.")
+            end
         end
     end
 
