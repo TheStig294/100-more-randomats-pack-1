@@ -29,7 +29,7 @@ function EVENT:Begin()
             dmginfo:SetDamage(0)
             -- Play a "gomba stomp" sound effect when jumping on top of someone!
         elseif IsPlayer(attacker) and dmginfo:IsDamageType(DMG_CRUSH) then
-            sound.Play(gombaSound, attacker:GetPos(), 120, 100, 1)
+            sound.Play(gombaSound, attacker:GetPos(), 150, 100, 1)
         end
     end)
 
