@@ -105,39 +105,36 @@ function SWEP:GetViewModelPosition(pos, ang)
 end
 
 function SWEP:PrimaryAttack()
-    if self.Weapon:Clip1() <= 0 then return end
-    self.Weapon:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-    local Pos = self.Owner:GetShootPos()
-    local trace = self.Owner:GetEyeTrace()
+    if self:Clip1() <= 0 then return end
+    self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
+    local Pos = self:GetOwner():GetShootPos()
+    local trace = self:GetOwner():GetEyeTrace()
     local targetPos = trace.HitPos
 
     if trace.HitWorld and Pos:Distance(targetPos) < 2000 then
         targetPos = targetPos - ((Pos - targetPos):GetNormalized() * 10)
     else
-        targetPos = Pos + self.Owner:GetAimVector() * 2000
+        targetPos = Pos + self:GetOwner():GetAimVector() * 2000
     end
 
-    targetPos = Pos + self.Owner:GetAimVector() * 2000
-    self.Weapon:EmitSound("weapons/slam/throw.wav")
+    targetPos = Pos + self:GetOwner():GetAimVector() * 2000
+    self:EmitSound("weapons/slam/throw.wav")
 
     if SERVER then
         local boomerang = ents.Create("ent_boomerangClose_randomat")
         boomerang:SetAngles(Angle(20, 0, 90))
-        boomerang:SetPos(self.Owner:GetShootPos())
-        boomerang:SetOwner(self.Owner)
-        boomerang:SetPhysicsAttacker(self.Owner, 10)
+        boomerang:SetPos(self:GetOwner():GetShootPos())
+        boomerang:SetOwner(self:GetOwner())
+        boomerang:SetPhysicsAttacker(self:GetOwner(), 10)
         boomerang:SetNWVector("targetPos", targetPos)
         boomerang:Spawn()
         boomerang:Activate()
         boomerang.Hits = self.Hits
-        boomerang.LastVelocity = self.Owner:GetAimVector()
+        boomerang.LastVelocity = self:GetOwner():GetAimVector()
         local phys = boomerang:GetPhysicsObject()
-        phys:SetVelocity(self.Owner:GetAimVector():GetNormalized() * 10)
+        phys:SetVelocity(self:GetOwner():GetAimVector():GetNormalized() * 10)
         phys:AddAngleVelocity(Vector(0, -10, 0))
-    end
-
-    if SERVER then
-        self.Weapon:Remove()
+        self:Remove()
     end
 end
 
@@ -175,8 +172,8 @@ function SWEP:Initialize()
         self:CreateModels(self.WElements) -- create worldmodels
 
         -- init view model bone build function
-        if IsValid(self.Owner) then
-            local vm = self.Owner:GetViewModel()
+        if IsValid(self:GetOwner()) then
+            local vm = self:GetOwner():GetViewModel()
 
             if IsValid(vm) then
                 self:ResetBonePositions(vm)
@@ -197,8 +194,8 @@ function SWEP:Initialize()
 end
 
 function SWEP:Holster()
-    if CLIENT and IsValid(self.Owner) then
-        local vm = self.Owner:GetViewModel()
+    if CLIENT and IsValid(self:GetOwner()) then
+        local vm = self:GetOwner():GetViewModel()
 
         if IsValid(vm) then
             self:ResetBonePositions(vm)
@@ -216,7 +213,7 @@ if CLIENT then
     SWEP.vRenderOrder = nil
 
     function SWEP:ViewModelDrawn()
-        local vm = self.Owner:GetViewModel()
+        local vm = self:GetOwner():GetViewModel()
         if not IsValid(vm) then return end
         if (not self.VElements) then return end
         self:UpdateBonePositions(vm)
@@ -328,8 +325,8 @@ if CLIENT then
             end
         end
 
-        if (IsValid(self.Owner)) then
-            bone_ent = self.Owner
+        if (IsValid(self:GetOwner())) then
+            bone_ent = self:GetOwner()
         else
             -- when the weapon is dropped
             bone_ent = self
@@ -438,7 +435,7 @@ if CLIENT then
                 pos, ang = m:GetTranslation(), m:GetAngles()
             end
 
-            if (IsValid(self.Owner) and self.Owner:IsPlayer() and ent == self.Owner:GetViewModel() and self.ViewModelFlip) then
+            if (IsValid(self:GetOwner()) and self:GetOwner():IsPlayer() and ent == self:GetOwner():GetViewModel() and self.ViewModelFlip) then
                 ang.r = -ang.r -- Fixes mirrored models
             end
         end
