@@ -205,6 +205,11 @@ Everyone gets a radar after 2 minutes to prevent camping.\
 _ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
 _randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar
 
+## Blegh!
+Whenever someone dies, everyone hears a random "Blegh!" sound.\
+\
+_ttt_randomat_blegh_ - Default: 1 - Whether this randomat is enabled\
+
 
 
 # Randomats made by "nanz"
