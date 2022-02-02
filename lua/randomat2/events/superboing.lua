@@ -4,6 +4,7 @@ EVENT.Description = "Super jump, high gravity, no fall damage"
 EVENT.id = "superboing"
 local superBoingRandomat = false
 local gravity
+local gombaSound = Sound("superboing/gomba_stomp.mp3")
 
 function EVENT:Begin()
     -- Let end function know randomat has triggered
@@ -21,8 +22,14 @@ function EVENT:Begin()
 
     -- And no fall damage
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
-        if IsValid(ent) and ent:IsPlayer() and dmginfo:IsFallDamage() then
+        if not IsPlayer(ent) then return end
+        local attacker = dmginfo:GetAttacker()
+
+        if dmginfo:IsFallDamage() then
             dmginfo:SetDamage(0)
+            -- Play a "gomba stomp" sound effect when jumping on top of someone!
+        elseif IsPlayer(attacker) and dmginfo:IsDamageType(DMG_CRUSH) then
+            sound.Play(gombaSound, attacker:GetPos(), 120, 100, 1)
         end
     end)
 
