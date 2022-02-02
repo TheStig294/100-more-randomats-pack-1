@@ -29,16 +29,21 @@ local standardHeightVector = Vector(0, 0, 64)
 local standardCrouchedHeightVector = Vector(0, 0, 28)
 local playerModels = {}
 local EVENT = {}
+util.AddNetworkString("DuncanEventRandomatHideNames")
+util.AddNetworkString("DuncanEventRandomatEnd")
 
 CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Player names hidden when Duncan Event is active.")
 
 EVENT.Title = ""
 EVENT.id = "duncanevent"
-EVENT.Description = "Everyone has the same playermodel! Names are hidden"
+EVENT.Description = "Everyone has the same playermodel!"
 EVENT.AltTitle = "It's ..."
 
--- On EVENT:Begin, change everyone's model to Doncon
 function EVENT:Begin()
+    if GetConVar("randomat_duncanevent_disguise"):GetBool() then
+        self.Description = self.Description .. " Names are hidden"
+    end
+
     -- We chose a random player out of all players (thanks google)
     local randomPly = table.Random(self:GetPlayers(true))
     -- Now we save that player's model like this...
@@ -71,7 +76,7 @@ function EVENT:Begin()
                 v:SetModel(chosenModel)
 
                 -- if name disguising is enabled...
-                if GetConVar("randomat_duncanevent_disguise"):GetBool() then
+                if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
                     -- Remove their names! Traitors still see names though!				
                     v:SetNWBool("disguised", true)
                 end
@@ -79,12 +84,17 @@ function EVENT:Begin()
         end
     end
 
+    if CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
+        net.Start("DuncanEventRandomatHideNames")
+        net.Broadcast()
+    end
+
     -- Sets someone's playermodel again when respawning, as force playermodel is off
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
             ply:SetModel(chosenModel)
 
-            if GetConVar("randomat_duncanevent_disguise"):GetBool() then
+            if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
                 ply:SetNWBool("disguised", true)
             end
         end)
@@ -108,6 +118,11 @@ function EVENT:End()
         v:ConCommand("cl_playermodel_selector_force 1")
         -- clear the model table to avoid setting wrong models (e.g. disconnected players)
         table.Empty(playerModels)
+    end
+
+    if CR_VERSION then
+        net.Start("DuncanEventRandomatEnd")
+        net.Broadcast()
     end
 end
 
