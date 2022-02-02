@@ -351,6 +351,8 @@ Removes friction and gives prop damage immunity, else you would die if you touch
 Changed name from "Trouble in Terrorist Town: On Ice", converted to work with randomat 2.0 rather than TTT2, fixed prop damage immunity not working\
 \
 _ttt_randomat_friction_ - Default: 1 - Whether this randomat is enabled
+_randomat_friction_friction_ - Default: 0 - Friction amount that is set
+_randomat_friction_nopropdmg_ - Default: 1 - Whether everyone becomes immune to prop damage, else you might die from touching props
 
 ## Ghostly Revenge
 Buffs spectator prop possession a lot. Players can move props they possess quickly enough to kill living players!\

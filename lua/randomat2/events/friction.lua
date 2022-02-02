@@ -1,15 +1,22 @@
 local EVENT = {}
 
-CreateConVar("randomat_friction_friction", "0", {FCVAR_ARCHIVE}, "Friction amount", 0, 8)
+CreateConVar("randomat_friction_friction", "0", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Friction amount", 0, 8)
 
-CreateConVar("randomat_friction_nopropdmg", "1", {FCVAR_ARCHIVE}, "Immunity to prop damage, else you might die from touching props")
+CreateConVar("randomat_friction_nopropdmg", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Immunity to prop damage, else you might die from touching props")
 
 EVENT.Title = "Zero friction!"
-EVENT.Description = "Also, no prop damage"
+EVENT.Description = ""
 EVENT.id = "friction"
 
 function EVENT:Begin()
     bananaRandomat = true
+
+    if GetConVar("randomat_friction_nopropdmg"):GetBool() then
+        self.Description = "Also, no prop damage!"
+    else
+        self.Description = ""
+    end
+
     -- Setting friction to 0, by default
     RunConsoleCommand("sv_friction", GetConVar("randomat_friction_friction"):GetInt())
 
@@ -18,6 +25,11 @@ function EVENT:Begin()
         self:AddHook("EntityTakeDamage", function(ent, dmginfo)
             if IsValid(ent) and ent:IsPlayer() and dmginfo:IsDamageType(DMG_CRUSH) then return true end
         end)
+    end
+
+    -- Removing all explosive barrels from the map as people will not expect them to explode when they walk into them
+    for i, barrel in ipairs(ents.FindByModel("models/props_c17/oildrum001_explosive.mdl")) do
+        barrel:Remove()
     end
 end
 
