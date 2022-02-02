@@ -10,7 +10,11 @@ function EVENT:Begin()
     self.Description = "Triggers a randomat after " .. GetConVar("randomat_delay_time"):GetInt() .. " seconds"
 
     timer.Simple(GetConVar("randomat_delay_time"):GetInt(), function()
-        Randomat:TriggerRandomEvent(self.owner)
+        self:SmallNotify("And now for the 'Delayed Start' randomat...")
+
+        timer.Simple(5, function()
+            Randomat:TriggerRandomEvent(self.owner)
+        end)
     end)
 end
 
