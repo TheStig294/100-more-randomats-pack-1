@@ -16,8 +16,9 @@ function EVENT:Begin()
     -- Add all floor weapons to a table to choose from
     local weps = {}
 
+    -- But don't add weapons like the rocket thruster that don't deal damage
     for _, wep in ipairs(weapons.GetList()) do
-        if wep.AutoSpawnable and (wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL) then
+        if wep.AutoSpawnable and (wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL) and wep.Primary.Damage > 0 then
             table.insert(weps, wep)
         end
     end
