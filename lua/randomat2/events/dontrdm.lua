@@ -25,35 +25,34 @@ local function removecorpse(corpse)
     end
 end
 
-local function respawnandkill(victim, attacker)
-    -- Only proceed if the player didn't suicide, and the attacker is another player.
-    if attacker:IsPlayer() and attacker ~= victim and IsSameTeam(attacker, victim) then
-        timer.Create("respawndelaydontrdm", 0.1, 0, function()
-            local corpse = findcorpse(victim) -- run the normal respawn code now
-            -- Respawn the victim elsewhere
-            victim:SpawnForRound(true)
-            victim:SetHealth(100)
-
-            -- Remove the victim's corpse
-            if corpse then
-                victim:SetPos(corpse:GetPos())
-                removecorpse(corpse)
-            end
-
-            if victim:Alive() then
-                attacker:Kill() -- Kill the attacker
-                timer.Remove("respawndelaydontrdm")
-
-                return
-            end
-        end)
-    end
-end
-
 function EVENT:Begin()
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
-        respawnandkill(victim, attacker)
-        self:RemoveHook("PlayerDeath")
+        -- Only proceed if the player didn't suicide, and the attacker is another player.
+        if attacker:IsPlayer() and attacker ~= victim and IsSameTeam(attacker, victim) then
+            self:RemoveHook("PlayerDeath")
+
+            timer.Create("respawndelaydontrdm", 0.1, 0, function()
+                local corpse = findcorpse(victim) -- run the normal respawn code now
+                -- Respawn the victim elsewhere
+                victim:SpawnForRound(true)
+                victim:SetHealth(100)
+
+                -- Remove the victim's corpse
+                if corpse then
+                    victim:SetPos(corpse:GetPos())
+                    removecorpse(corpse)
+                end
+
+                if victim:Alive() then
+                    attacker:Kill() -- Kill the attacker
+                    timer.Remove("respawndelaydontrdm")
+                    attacker:PrintMessage(HUD_PRINTCENTER, "You RDMed!")
+                    attacker:PrintMessage(HUD_PRINTTALK, "'" .. self.Title .. "' is active!\n" .. self.Description)
+
+                    return
+                end
+            end)
+        end
     end)
 end
 

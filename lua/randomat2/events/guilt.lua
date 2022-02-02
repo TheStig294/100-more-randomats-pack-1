@@ -15,14 +15,8 @@ function EVENT:Begin()
         if victim and attacker and victim ~= attacker and victim:IsPlayer() and attacker:IsPlayer() and IsSameTeam(attacker, victim) then
             net.Start("Guilty")
             net.Send(attacker)
-        end
-    end)
-
-    -- Players who RDM with a headshot get their head forced down
-    self:AddHook("PlayerSilentDeath", function(victim, inflictor, attacker)
-        if victim and attacker and victim ~= attacker and victim:IsPlayer() and attacker:IsPlayer() and IsSameTeam(attacker, victim) then
-            net.Start("Guilty")
-            net.Send(attacker)
+            attacker:PrintMessage(HUD_PRINTCENTER, "You killed a teammate!")
+            attacker:PrintMessage(HUD_PRINTTALK, "'" .. self.Title .. "' is active!\n" .. self.Description)
         end
     end)
 end

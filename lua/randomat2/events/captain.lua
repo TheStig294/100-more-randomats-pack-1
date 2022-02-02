@@ -25,48 +25,46 @@ local function removecorpse(corpse)
     end
 end
 
-local function RespawnDetective(victim, inflictor, attacker)
-    -- Only proceed if the player didn't suicide, and the attacker is another player.
-    -- If the attacker was a detective and the victim was any kind of innocent,
-    if attacker.IsPlayer() and attacker ~= victim and Randomat:IsGoodDetectiveLike(attacker) and Randomat:IsInnocentTeam(victim, false) then
-        attacker:Kill() -- Kill the detective,
-        local role = attacker:GetRole()
-
-        --Repeatedly try to respawn the victim
-        timer.Create("respawndelay", 0.1, 0, function()
-            local corpse = findcorpse(victim) -- run the normal respawn code now
-            -- Respawn the new detective elsewhere
-            victim:SpawnForRound(true)
-            victim:SetRole(role)
-            victim:SetHealth(100)
-
-            --Give the new detective the default amount of detective credits
-            timer.Simple(0.5, function()
-                victim:SetDefaultCredits()
-            end)
-
-            -- Remove his corpse
-            if corpse then
-                victim:SetPos(corpse:GetPos())
-                removecorpse(corpse)
-            end
-
-            SendFullStateUpdate()
-
-            --Stop trying to spawn the victim once they are alive
-            if victim:Alive() then
-                timer.Remove("respawndelay")
-
-                return
-            end
-        end)
-    end
-end
-
 function EVENT:Begin()
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
-        RespawnDetective(victim, inflictor, attacker)
-        self:RemoveHook("PlayerDeath")
+        -- Only proceed if the player didn't suicide, and the attacker is another player.
+        -- If the attacker was a detective and the victim was any kind of innocent,
+        if attacker.IsPlayer() and attacker ~= victim and Randomat:IsGoodDetectiveLike(attacker) and Randomat:IsInnocentTeam(victim, false) then
+            self:RemoveHook("PlayerDeath")
+            attacker:Kill() -- Kill the detective,
+            attacker:PrintMessage(HUD_PRINTCENTER, "You RDMed!")
+            attacker:PrintMessage(HUD_PRINTTALK, "'" .. self.Title .. "' is active!\n" .. self.Description)
+            local role = attacker:GetRole()
+
+            --Repeatedly try to respawn the victim
+            timer.Create("respawndelay", 0.1, 0, function()
+                local corpse = findcorpse(victim) -- run the normal respawn code now
+                -- Respawn the new detective elsewhere
+                victim:SpawnForRound(true)
+                victim:SetRole(role)
+                victim:SetHealth(100)
+
+                --Give the new detective the default amount of detective credits
+                timer.Simple(0.5, function()
+                    victim:SetDefaultCredits()
+                end)
+
+                -- Remove his corpse
+                if corpse then
+                    victim:SetPos(corpse:GetPos())
+                    removecorpse(corpse)
+                end
+
+                SendFullStateUpdate()
+
+                --Stop trying to spawn the victim once they are alive
+                if victim:Alive() then
+                    timer.Remove("respawndelay")
+
+                    return
+                end
+            end)
+        end
     end)
 end
 
