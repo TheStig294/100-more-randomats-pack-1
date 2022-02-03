@@ -47,6 +47,7 @@ function EVENT:Begin()
 
     -- Note: hook.Add() is used not self:AddHook() to ensure this event persists between rounds once triggered, until the server is restarted or the map is changed
     hook.Add("TTTEndRound", "TTTFlairRandomat", function(result)
+        if GetGlobalBool("StopEndingFlairRandomat") then return end
         -- Hard-coded list of win condition names and their enumerators cause idk how to dynamically get them
         local wins = {}
         wins["time"] = WIN_TIMELIMIT

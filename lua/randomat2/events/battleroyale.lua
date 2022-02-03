@@ -2,12 +2,17 @@ local EVENT = {}
 
 CreateConVar("randomat_battleroyale_radar_time", 120, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds before everyone is given a radar", 5, 240)
 
+CreateConVar("randomat_battleroyale_music", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Play victory royale music when someone wins", 0, 1)
+
 EVENT.Title = "LAST ONE STANDING WINS! BATTLE ROYALE!"
 EVENT.Description = ""
 EVENT.id = "battleroyale"
 local alertSound = Sound("battleroyale/alert.mp3")
-util.AddNetworkString("RandomatBattleRoyaleWinTitle")
-util.AddNetworkString("RandomatBattleRoyaleWinTitleRemove")
+local roundEndSounds = false
+local endingFlairSounds = false
+util.PrecacheSound("battleroyale/fortnite_victory_royale.mp3")
+util.AddNetworkString("RandomatBattleRoyaleBegin")
+util.AddNetworkString("RandomatBattleRoyaleEnd")
 
 function EVENT:Begin()
     local fortniteToolExists = weapons.Get("weapon_ttt_fortnite_building") ~= nil
@@ -57,21 +62,42 @@ function EVENT:Begin()
         end)
     end
 
-    if CR_VERSION then
-        net.Start("RandomatBattleRoyaleWinTitle")
-        net.Broadcast()
+    net.Start("RandomatBattleRoyaleBegin")
+    net.WriteBool(CR_VERSION ~= nil)
+    net.WriteBool(GetConVar("randomat_battleroyale_music"):GetBool())
+    net.Broadcast()
+
+    -- Disable round end sounds and 'Ending Flair' event so victory royale music can play
+    if GetConVar("randomat_battleroyale_music"):GetBool() then
+        SetGlobalBool("StopEndingFlairRandomat", true)
+        endingFlairSounds = true
+
+        if ConVarExists("ttt_roundendsounds") and GetConVar("ttt_roundendsounds"):GetBool() then
+            GetConVar("ttt_roundendsounds"):SetBool(false)
+            roundEndSounds = true
+        end
     end
 end
 
 function EVENT:End()
     -- Removing the radar timer, else everyone will be given a radar next round...
     timer.Remove("BattleRoyaleRandomatTimer")
-
     -- Also remove the win title hook, else the win title will always be "[Player] WINS!"
-    if CR_VERSION then
-        net.Start("RandomatBattleRoyaleWinTitleRemove")
-        net.Broadcast()
-    end
+    net.Start("RandomatBattleRoyaleEnd")
+    net.Broadcast()
+
+    -- Re-enable round end sounds and 'Ending Flair' event
+    timer.Simple(1, function()
+        if endingFlairSounds then
+            endingFlairSounds = false
+            SetGlobalBool("StopEndingFlairRandomat", false)
+        end
+
+        if roundEndSounds then
+            roundEndSounds = false
+            GetConVar("ttt_roundendsounds"):SetBool(true)
+        end
+    end)
 end
 
 function EVENT:GetConVars()
@@ -93,7 +119,25 @@ function EVENT:GetConVars()
         end
     end
 
-    return sliders
+    local checkboxes = {}
+
+    for _, v in pairs({"music"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checkboxes, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 0
+            })
+        end
+    end
+
+    return sliders, checkboxes
 end
 
 Randomat:register(EVENT)

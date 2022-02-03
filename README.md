@@ -197,7 +197,8 @@ Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool
 Everyone gets a radar after 2 minutes to prevent camping.\
 \
 _ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
-_randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar
+_randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar\
+randomat_battleroyale_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
 ## Blegh!
 Whenever someone dies, everyone hears a random "Blegh!" sound.\
