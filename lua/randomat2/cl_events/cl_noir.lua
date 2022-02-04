@@ -10,7 +10,10 @@ local color_tbl = {
     ["$pp_colour_mulb"] = 0.05
 }
 
-net.Receive("randomat_dreary", function()
+net.Receive("randomat_noir", function()
+    local playMusic = net.ReadBool()
+    local chosenMusic = net.ReadString()
+
     hook.Add("RenderScreenspaceEffects", "GrayscaleRandomatEffect", function()
         local client = LocalPlayer()
         if not client:Alive() or client:IsSpec() then return end
@@ -21,8 +24,14 @@ net.Receive("randomat_dreary", function()
         render.SuppressEngineLighting(false)
         cam.End3D()
     end)
+
+    if playMusic then
+        for i = 1, 2 do
+            surface.PlaySound(chosenMusic)
+        end
+    end
 end)
 
-net.Receive("randomat_dreary_end", function()
+net.Receive("randomat_noir_end", function()
     hook.Remove("RenderScreenspaceEffects", "GrayscaleRandomatEffect")
 end)

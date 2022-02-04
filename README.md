@@ -337,11 +337,12 @@ Converted to work with randomat 2.0 rather than TTT2\
 _ttt_randomat_bouncy_ - Default: 1 - Whether this randomat is enabled\
 _randomat_bouncy_speed_retain_ - Default: 0.75 - % of speed retained between bounces
 
-## How Dreary
-Turns the color saturation way down\
-Changed name from "Greyscale", converted to work with randomat 2.0 rather than TTT2\
+## Noir
+Turns the color saturation way down, forces everyone to use a revolver, and changes everyone to a "Detective Kermit" playermodel (if installed: [Jenssons Detective Kermit Playermodel](https://steamcommunity.com/sharedfiles/filedetails/?id=1157022429))\
+Changed name from "Greyscale", added music, revolver, and logic for playermodel, converted to work with randomat 2.0 rather than TTT2\
 \
-_ttt_randomat_dreary_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_noir_ - Default: 1 - Whether this randomat is enabled\
+_ttt_randomat_noir_music_ - Default: 1 - Whether this randomat plays music
 
 ## Stop Ghosting!
 Ghostly t-posing models follow spectators\
