@@ -203,7 +203,15 @@ randomat_battleroyale_music - Default: 1 - Whether to play vicotry royale music 
 ## Blegh!
 Whenever someone dies, everyone hears a random "Blegh!" sound.\
 \
-_ttt_randomat_blegh_ - Default: 1 - Whether this randomat is enabled\
+_ttt_randomat_blegh_ - Default: 1 - Whether this randomat is enabled
+
+## Whoa!
+Everyone is changed to a Crash Bandicoot playermodel (if installed: [PS1's Crash Bandicoot P.M.](https://steamcommunity.com/sharedfiles/filedetails/?id=1009092087)) and is forced to use a "Spin Attack" weapon.\
+\
+_ttt_randomat_whoa_ - Default: 1 - Whether this randomat is enabled\
+_randomat_whoa_timer_ - Default: 3 - Time between being given spin attacks\
+_randomat_whoa_strip_ - Default: 1 - The event strips your other weapons\
+_randomat_whoa_weaponid_ - Default: weapon_ttt_whoa_randomat - Id of the weapon given
 
 
 
