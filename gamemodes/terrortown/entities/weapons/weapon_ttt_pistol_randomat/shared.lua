@@ -5,8 +5,8 @@ SWEP.Slot = 6
 SWEP.Icon = "vgui/ttt/icon_pistols.png"
 SWEP.IconLetter = "f"
 SWEP.Base = "weapon_tttbase"
-SWEP.HoldType = "pistol"
-SWEP.Primary.Ammo = "Pistol"
+SWEP.HoldType = "revolver"
+SWEP.Primary.Ammo = "357"
 SWEP.Primary.Delay = 2
 SWEP.Primary.Recoil = 0.8
 SWEP.Primary.Cone = 0.0325
@@ -25,12 +25,12 @@ SWEP.IronSightsPos = Vector(-4.64, -3.96, 0.68)
 SWEP.IronSightsAng = Vector(0.214, -0.1767, 0)
 SWEP.Kind = WEAPON_EQUIP1
 SWEP.AutoSpawnable = false
-SWEP.AmmoEnt = "item_ammo_pistol_ttt"
+SWEP.AmmoEnt = "item_ammo_revolver_ttt"
 
 SWEP.InLoadoutFor = {nil}
 
 SWEP.LimitedStock = true
-SWEP.AllowDrop = true
+SWEP.AllowDrop = false
 SWEP.IsSilent = false
 SWEP.NoSights = false
 
