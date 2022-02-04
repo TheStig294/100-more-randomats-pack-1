@@ -10,46 +10,68 @@ function EVENT:Begin()
     -- Dynamically change the name of this randomat as the convar is changed
     Randomat:EventNotifySilent("Everyone with a karma damage penalty will explode in " .. GetConVar("randomat_kexplode_timer"):GetInt() .. " seconds!")
     local effectdata = EffectData()
-    local message_sent = false
+    local karmaPlayers = {}
 
-    -- Notify everyone in chat whether they'll explode
-    for _, ply in pairs(self:GetAlivePlayers()) do
+    for i, ply in ipairs(self:GetAlivePlayers()) do
         if ply:GetDamageFactor() < 1 then
-            ply:ChatPrint("You have a karma damage penalty.\nYOU WILL EXPLODE!")
+            table.insert(karmaPlayers, ply)
+
+            timer.Simple(5, function()
+                ply:PrintMessage(HUD_PRINTCENTER, "YOU WILL EXPLODE!")
+            end)
         end
     end
 
-    -- Display a randomat notification when there's half the set seconds left until players with a karma damage penalty explode
-    timer.Create("RandomatKExplodeNotif", GetConVar("randomat_kexplode_timer"):GetFloat() / 2, 1, function()
-        self:SmallNotify(GetConVar("randomat_kexplode_timer"):GetInt() / 2 .. " seconds left!")
-    end)
+    if table.IsEmpty(karmaPlayers) then
+        timer.Simple(5, function()
+            self:SmallNotify("But all of you have high karma, so here's a reward for being good...")
 
-    -- Explode players once time is up
-    timer.Create("RandomatKExplode", GetConVar("randomat_kexplode_timer"):GetInt(), 1, function()
-        for _, ply in pairs(self:GetAlivePlayers()) do
-            if IsValid(ply) and ply:GetDamageFactor() < 1 then
-                ply:EmitSound(Sound("ambient/explosions/explode_4.wav"))
-                util.BlastDamage(ply, ply, ply:GetPos(), 300, 10000)
-                effectdata:SetStart(ply:GetPos() + Vector(0, 0, 10))
-                effectdata:SetOrigin(ply:GetPos() + Vector(0, 0, 10))
-                effectdata:SetScale(1)
-                util.Effect("HelicopterMegaBomb", effectdata)
-                self:SmallNotify("Everyone with a karma damage penalty was exploded!")
-                -- Don't display the 'No one exploded' message
-                message_sent = true
+            timer.Simple(5, function()
+                if Randomat:CanEventRun("communist") then
+                    Randomat:TriggerEvent("communist")
+                else
+                    Randomat:TriggerEvent("pockets")
+                end
+            end)
+        end)
+    else
+        timer.Simple(5, function()
+            PrintMessage(HUD_PRINTTALK, "These players will explode:")
+
+            for i, ply in ipairs(karmaPlayers) do
+                PrintMessage(HUD_PRINTTALK, ply:Nick())
             end
-        end
+        end)
 
-        -- Displays if the explosion check above didn't trigger for any player
-        if not message_sent then
-            self:SmallNotify("No one exploded!")
-        end
-    end)
+        -- Display a randomat notification when there's half the set seconds left until players with a karma damage penalty explode
+        timer.Create("RandomatKExplodeNotif", GetConVar("randomat_kexplode_timer"):GetFloat() / 2, 1, function()
+            self:SmallNotify(GetConVar("randomat_kexplode_timer"):GetInt() / 2 .. " seconds left!")
+        end)
+
+        -- Explode players once time is up
+        timer.Create("RandomatKExplode", GetConVar("randomat_kexplode_timer"):GetInt(), 1, function()
+            for _, ply in pairs(karmaPlayers) do
+                if ply:Alive() and not ply:IsSpec() then
+                    ply:EmitSound(Sound("ambient/explosions/explode_4.wav"))
+                    util.BlastDamage(ply, ply, ply:GetPos(), 300, 10000)
+                    effectdata:SetStart(ply:GetPos() + Vector(0, 0, 10))
+                    effectdata:SetOrigin(ply:GetPos() + Vector(0, 0, 10))
+                    effectdata:SetScale(1)
+                    util.Effect("HelicopterMegaBomb", effectdata)
+                    self:SmallNotify("Everyone with a karma damage penalty exploded!")
+                end
+            end
+        end)
+    end
 end
 
 function EVENT:End()
     timer.Remove("RandomatKExplode")
     timer.Remove("RandomatKExplodeNotif")
+end
+
+function EVENT:Condition()
+    return GetConVar("ttt_karma"):GetBool()
 end
 
 function EVENT:GetConVars()
