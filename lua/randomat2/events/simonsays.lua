@@ -127,6 +127,9 @@ function EVENT:CopyGuns()
                 end
             end
 
+            -- Unscope them so their fov isn't permenantly zoomed in if they were scoped
+            ply:SetFOV(0, 0.2)
+
             -- Give them the leader's weapons and prevent them from dropping them
             for k, weapon in pairs(self.weapons) do
                 local wep = ply:Give(weapon.cl)

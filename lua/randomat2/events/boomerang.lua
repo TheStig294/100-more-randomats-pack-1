@@ -29,6 +29,7 @@ function EVENT:Begin()
             ply:StripWeapons()
         end
 
+        ply:SetFOV(0, 0.2)
         --Give everyone their initial boomerang
         ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
     end

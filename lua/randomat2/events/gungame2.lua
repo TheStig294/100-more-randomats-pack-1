@@ -20,12 +20,12 @@ local function GiveNewWeapon(ply, weps)
         end
     end
 
+    -- Reset FOV to unscope
+    ply:SetFOV(0, 0.2)
     -- Give them a random weapon
     local wepGiven = table.Random(weps)
     local wep = ply:Give(wepGiven.ClassName)
     wep.AllowDrop = false
-    -- Reset FOV to unscope
-    ply:SetFOV(0, 0.2)
 
     -- If they were holding a removed weapon, force them to select the new one
     if holdingFloorWeapon then

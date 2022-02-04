@@ -13,37 +13,26 @@ function EVENT:Begin()
         end
     end
 
-    -- For all players,
-    for i, ply in pairs(self:GetPlayers()) do
+    -- Giving everyone a huge
+    for i, ply in pairs(self:GetAlivePlayers()) do
         timer.Simple(0.1, function()
-            -- Remove their main weapon and pistol
             for _, wep in pairs(ply:GetWeapons()) do
                 if wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL then
                     ply:StripWeapon(wep:GetClass())
                 end
             end
 
-            -- Reset FOV to unscope weapons if they were possibly scoped in
-            if active_kind == WEAPON_HEAVY or active_kind == WEAPON_PISTOL then
-                ply:SetFOV(0, 0.2)
-            end
-
-            -- Give them a huge,
+            ply:SetFOV(0, 0.2)
             local wep1 = ply:Give("weapon_zm_sledge")
-            -- Force them to hold it,
             ply:SelectWeapon(wep1)
-            -- And prevent it from being dropped
             wep1.AllowDrop = false
         end)
     end
 
     -- 1 second delay to give the infinite ammo hook a chance to see players are now holding the huge
     timer.Simple(1, function()
-        -- Continually,
         self:AddHook("Think", function()
-            -- For all alive players,
             for _, v in pairs(self:GetAlivePlayers()) do
-                -- If they're holding the huge,
                 if IsValid(v:GetActiveWeapon()) and v:GetActiveWeapon():GetClass() == "weapon_zm_sledge" then
                     -- Refill their weapon's ammo clip
                     v:GetActiveWeapon():SetClip1(v:GetActiveWeapon().Primary.ClipSize)

@@ -56,6 +56,7 @@ function EVENT:Begin()
                         -- Remove all their weapons and credits
                         ply:StripWeapons()
                         ply:SetCredits(0)
+                        ply:SetFOV(0, 0.2)
                         -- Give them the pistol and force them to select it
                         ply:Give("weapon_ttt_pistol_randomat")
                         ply:SelectWeapon("weapon_ttt_pistol_randomat")

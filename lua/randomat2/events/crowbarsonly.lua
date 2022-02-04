@@ -22,6 +22,8 @@ function EVENT:Begin()
     -- For all alive players,
     for i, ply in pairs(self:GetAlivePlayers()) do
         timer.Simple(0.1, function()
+            ply:SetFOV(0, 0.2)
+
             -- If someone is a killer, give them the killer's special crowbar
             if ply:GetRole() == ROLE_KILLER then
                 ply:Give("weapon_kil_crowbar")
