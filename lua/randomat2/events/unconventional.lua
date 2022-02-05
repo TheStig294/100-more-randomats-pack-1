@@ -5,7 +5,8 @@ EVENT.id = "unconventional"
 
 function EVENT:Begin()
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
-        if IsValid(ent) and ent:IsPlayer() and (dmginfo:IsDamageType(DMG_BURN) or dmginfo:IsDamageType(DMG_FALL) or dmginfo:IsDamageType(DMG_BLAST)) then
+        -- Don't affect negative damage sources, else this hook will lower a player's health
+        if IsPlayer(ent) and dmginfo:GetDamage() > 0 and (dmginfo:IsDamageType(DMG_BURN) or dmginfo:IsDamageType(DMG_FALL) or dmginfo:IsDamageType(DMG_BLAST)) then
             -- Heal a player by the damage they would take, don't set them above max health
             ent:SetHealth(math.min(ent:Health() + dmginfo:GetDamage(), ent:GetMaxHealth()))
             -- Negate the damage they would take
