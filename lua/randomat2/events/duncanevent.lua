@@ -32,7 +32,7 @@ local EVENT = {}
 util.AddNetworkString("DuncanEventRandomatHideNames")
 util.AddNetworkString("DuncanEventRandomatEnd")
 
-CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Player names hidden when Duncan Event is active.")
+CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Hide player names")
 
 EVENT.Title = ""
 EVENT.id = "duncanevent"
