@@ -73,6 +73,7 @@ end
 function EVENT:End()
     -- Unfreeze any currently frozen players, and stop periodically freezing them
     timer.Remove("RdmtFreeze2Timer")
+    EVENT.Title = ""
 end
 
 function EVENT:GetConVars()

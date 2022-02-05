@@ -56,6 +56,8 @@ function EVENT:End()
         net.Start("randomat_noir_end")
         net.Broadcast()
     end
+
+    EVENT.Title = ""
 end
 
 function EVENT:GetConVars()
