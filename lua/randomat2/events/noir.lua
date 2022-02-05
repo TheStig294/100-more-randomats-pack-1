@@ -23,7 +23,8 @@ CreateConVar("randomat_noir_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play mu
 function EVENT:Begin()
     noirRandomat = true
     -- Picking a random name
-    Randomat:EventNotifySilent(table.Random(eventnames))
+    EVENT.Title = table.Random(eventnames)
+    Randomat:EventNotifySilent(EVENT.Title)
 
     -- Remove all weapons on players and the ground that take up the pistol slot
     for _, ent in pairs(ents.GetAll()) do

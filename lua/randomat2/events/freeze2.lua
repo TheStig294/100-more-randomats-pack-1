@@ -30,7 +30,8 @@ EVENT.id = "freeze2"
 
 function EVENT:Begin()
     -- Picking a random name
-    Randomat:EventNotifySilent(table.Random(eventnames))
+    EVENT.Title = table.Random(eventnames)
+    Randomat:EventNotifySilent(EVENT.Title)
 
     -- Display this randomat's description after a delay
     timer.Simple(7, function()
