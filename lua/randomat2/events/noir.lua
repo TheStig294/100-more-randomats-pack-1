@@ -10,7 +10,7 @@ table.insert(eventnames, "I sat in the hotel room, as I contemplated my next mov
 table.insert(eventnames, "I was there in the smoke-filled bar...")
 table.insert(eventnames, "I saw him standing in the cold alleyway...")
 local EVENT = {}
-EVENT.Title = table.Random(eventnames)
+EVENT.Title = ""
 EVENT.AltTitle = "Noir"
 EVENT.id = "noir"
 util.AddNetworkString("randomat_noir")
@@ -22,6 +22,8 @@ CreateConVar("randomat_noir_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play mu
 
 function EVENT:Begin()
     noirRandomat = true
+    -- Picking a random name
+    Randomat:EventNotifySilent(table.Random(eventnames))
 
     -- Remove all weapons on players and the ground that take up the pistol slot
     for _, ent in pairs(ents.GetAll()) do

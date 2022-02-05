@@ -24,12 +24,14 @@ table.insert(eventnames, "Random Freeze for everyone!")
 table.insert(eventnames, "Honey, I froze the terrorists")
 table.insert(eventnames, "Sudden Freeze!")
 table.insert(eventnames, "There are more than " .. #eventnames .. " different freeze randomat names")
--- And picking a random name
-EVENT.Title = table.Random(eventnames)
+EVENT.Title = ""
 EVENT.AltTitle = "Freeze (Randomat Puns)"
 EVENT.id = "freeze2"
 
 function EVENT:Begin()
+    -- Picking a random name
+    Randomat:EventNotifySilent(table.Random(eventnames))
+
     -- Display this randomat's description after a delay
     timer.Simple(7, function()
         self:SmallNotify("All Innocents will Freeze (and become immune) every " .. GetConVar("randomat_freeze2_timer"):GetInt() .. " seconds")
