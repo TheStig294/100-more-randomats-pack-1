@@ -1,11 +1,11 @@
 local EVENT = {}
 
-CreateConVar("randomat_guilt_time", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Time Guilty", 1, 30)
+CreateConVar("randomat_guilt_time", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds a player's head is forced down", 1, 30)
 
 EVENT.Title = "Unbelievable Guilt"
 EVENT.Description = "Killing someone on your team forces your head down for " .. GetConVar("randomat_guilt_time"):GetInt() .. " seconds"
 EVENT.id = "guilt"
-util.AddNetworkString("Guilty")
+util.AddNetworkString("GuiltyRandomatTrigger")
 
 function EVENT:Begin()
     self.Description = "Killing someone on your team forces your head down for " .. GetConVar("randomat_guilt_time"):GetInt() .. " seconds"
@@ -13,7 +13,8 @@ function EVENT:Begin()
     -- Players who RDM have their head forced down
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
         if victim and attacker and victim ~= attacker and victim:IsPlayer() and attacker:IsPlayer() and IsSameTeam(attacker, victim) then
-            net.Start("Guilty")
+            net.Start("GuiltyRandomatTrigger")
+            net.WriteInt(GetConVar("randomat_guilt_time"):GetInt(), 8)
             net.Send(attacker)
             attacker:PrintMessage(HUD_PRINTCENTER, "You killed a teammate!")
             attacker:PrintMessage(HUD_PRINTTALK, "'" .. self.Title .. "' is active!\n" .. self.Description)

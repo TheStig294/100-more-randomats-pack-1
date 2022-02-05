@@ -1,10 +1,9 @@
-CreateConVar("randomat_guilt_time", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Time Guilty", 1, 30)
-
-net.Receive("Guilty", function()
+net.Receive("GuiltyRandomatTrigger", function()
+    local guiltyTime = net.ReadInt(8)
     time = CurTime()
 
     hook.Add("Think", "RandomatGuiltThink", function()
-        if (CurTime() - time) < GetConVar("randomat_guilt_time"):GetInt() then
+        if (CurTime() - time) < guiltyTime then
             current = LocalPlayer():EyeAngles()
             current.p = 90
             LocalPlayer():SetEyeAngles(current)
@@ -13,7 +12,7 @@ net.Receive("Guilty", function()
         end
     end)
 
-    LocalPlayer():NextThink(CurTime()) -- Set the next think to run as soon as possible, i.e. the next frame.
+    LocalPlayer():SetNextClientThink(CurTime()) -- Set the next think to run as soon as possible, i.e. the next frame.
 
     return true -- Apply NextThink call
 end)
