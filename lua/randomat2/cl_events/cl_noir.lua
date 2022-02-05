@@ -10,6 +10,9 @@ local color_tbl = {
     ["$pp_colour_mulb"] = 0.05
 }
 
+local upgradeFrame
+local upgradeFrame2
+
 net.Receive("randomat_noir", function()
     local playMusic = net.ReadBool()
     local chosenMusic = net.ReadString()
@@ -30,8 +33,47 @@ net.Receive("randomat_noir", function()
             surface.PlaySound(chosenMusic)
         end
     end
+
+    -- Draws a lettebox on the screen
+    upgradeFrame = vgui.Create("DFrame")
+    upgradeFrame:SetSize(ScrW(), ScrH() / 7)
+    upgradeFrame:SetPos(0, 0)
+    upgradeFrame:SetTitle("")
+    upgradeFrame:SetDraggable(false)
+    upgradeFrame:ShowCloseButton(false)
+    upgradeFrame:SetVisible(true)
+    upgradeFrame:SetDeleteOnClose(true)
+    upgradeFrame:SetZPos(-32768)
+
+    upgradeFrame.Paint = function(self, w, h)
+        draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
+    end
+
+    upgradeFrame2 = vgui.Create("DFrame")
+    upgradeFrame2:SetSize(ScrW(), ScrH() / 6)
+    upgradeFrame2:SetPos(0, ScrH() - (ScrH() / 7))
+    upgradeFrame2:SetTitle("")
+    upgradeFrame2:SetDraggable(false)
+    upgradeFrame2:ShowCloseButton(false)
+    upgradeFrame2:SetVisible(true)
+    upgradeFrame2:SetDeleteOnClose(true)
+    upgradeFrame2:SetZPos(-32768)
+
+    upgradeFrame2.Paint = function(self, w, h)
+        draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
+    end
 end)
 
 net.Receive("randomat_noir_end", function()
     hook.Remove("RenderScreenspaceEffects", "GrayscaleRandomatEffect")
+
+    if upgradeFrame ~= nil then
+        upgradeFrame:Close()
+        upgradeFrame = nil
+    end
+
+    if upgradeFrame2 ~= nil then
+        upgradeFrame2:Close()
+        upgradeFrame2 = nil
+    end
 end)
