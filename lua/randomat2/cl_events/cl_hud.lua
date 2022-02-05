@@ -10,7 +10,9 @@ end)
 
 net.Receive("HUDRandomat", function()
     --The magic hook that does all the work! (Hiding the HUD)
-    hook.Add("HUDShouldDraw", "RandomatHideAllHUD", function() return false end)
+    hook.Add("HUDShouldDraw", "RandomatHideAllHUD", function(name)
+        if name ~= "CHudGMod" then return false end
+    end)
 
     --Disable the scoreboard as well
     hook.Add("PlayerBindPress", "WhoAmIDisableScorboard", function(ply, bind, pressed)
