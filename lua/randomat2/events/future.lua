@@ -4,39 +4,13 @@ EVENT.Description = "Buy menu items aren't given until the next round"
 EVENT.id = "future"
 local futureRandomatEquipment = {}
 
-function EVENT:Begin()
-    -- Let the weapon giving hook know the randomat has activated
-    local futureRandomat = true
-
-    -- Clear bought equipment table
-    for i, ply in ipairs(player.GetAll()) do
-        futureRandomatEquipment[ply] = {}
-    end
-
-    -- Add bought equipment to the table and remove it from the player
-    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
-        if is_item then
-            id = math.floor(id)
-        end
-
-        if table.HasValue(futureRandomatEquipment[ply], id) then
-            ply:PrintMessage(HUD_PRINTCENTER, "You've already bought that!")
-        else
-            table.insert(futureRandomatEquipment[ply], id)
-            ply:SubtractCredits(1)
-            ply:PrintMessage(HUD_PRINTCENTER, "You'll get that on the next round")
-        end
-
-        return false
-    end)
-
-    -- Give everyone's bought equipment at the start of the next round
+local function SetWeaponGiveHook()
     hook.Add("TTTBeginRound", "FutureRandomatGiveEquipment", function()
         timer.Simple(0.1, function()
             local weaponKind = 10
 
             for i, ply in pairs(player.GetAll()) do
-                for j, item in ipairs(futureRandomatEquipment[ply]) do
+                for j, item in ipairs(futureRandomatEquipment[ply:SteamID()]) do
                     local is_item = isnumber(item)
 
                     if is_item then
@@ -53,19 +27,58 @@ function EVENT:Begin()
 
                     Randomat:CallShopHooks(is_item, item, ply)
                 end
+
+                ply:PrintMessage(HUD_PRINTCENTER, "Weapons from 'Future Proofing'!")
+                ply:PrintMessage(HUD_PRINTTALK, "You got weapons from the 'Future Proofing' randomat last round!")
             end
-        end)
 
-        -- Let removal hook know the weapons have been given
-        futureRandomat = false
-    end)
-
-    -- At the end of the next round, remove the weapon giving hook
-    hook.Add("TTTEndRound", "FutureRandomatStopGiveEquipment", function()
-        if futureRandomat == false then
+            -- Clear equipment table as equipment has been given
+            -- Stop hook that will trigger giving weapons on the next map
+            -- And stop this hook from giving weapons every round
+            table.Empty(futureRandomatEquipment)
+            hook.Remove("ShutDown", "FutureRandomatGiveNextMapWeapons")
             hook.Remove("TTTBeginRound", "FutureRandomatGiveEquipment")
-        end
+        end)
     end)
+end
+
+-- If the randomat triggered on the last round of the map, give players weapons from a text file
+if file.Exists("randomat/future.txt", "DATA") then
+    futureRandomatEquipment = util.JSONToTable(file.Read("randomat/future.txt", "DATA"))
+    SetWeaponGiveHook()
+    file.Delete("randomat/future.txt")
+end
+
+function EVENT:Begin()
+    -- Add bought equipment to the table and remove it from the player
+    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+        if is_item then
+            id = math.floor(id)
+        end
+
+        if table.HasValue(futureRandomatEquipment[ply], id) then
+            ply:PrintMessage(HUD_PRINTCENTER, "You've already bought that!")
+        else
+            if futureRandomatEquipment[ply:SteamID()] == nil then
+                futureRandomatEquipment[ply:SteamID()] = {}
+            end
+
+            table.insert(futureRandomatEquipment[ply:SteamID()], id)
+            ply:SubtractCredits(1)
+            ply:PrintMessage(HUD_PRINTCENTER, "You'll get that on the next round")
+        end
+
+        return false
+    end)
+
+    -- Set this hook to write the equipment table to a file in case the next round happens on the next map (Server is changing maps/shutting down)
+    hook.Add("ShutDown", "FutureRandomatGiveNextMapWeapons", function()
+        file.CreateDir("randomat")
+        file.Write("randomat/future.txt", util.TableToJSON(futureRandomatEquipment))
+    end)
+
+    -- Give everyone's bought equipment at the start of the next round
+    SetWeaponGiveHook()
 end
 
 Randomat:register(EVENT)
