@@ -5,6 +5,9 @@ CreateConVar("randomat_gunfire_timer", 20, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Secon
 EVENT.Title = "Gunfire"
 EVENT.Description = "Not shooting for too long sets you on fire!"
 EVENT.id = "gunfire"
+util.AddNetworkString("GunfireRandomatClientBegin")
+util.AddNetworkString("GunfireRandomatClientClickExtinguish")
+util.AddNetworkString("GunfireRandomatClientEnd")
 
 local function RestartExtinguishTimer(ply)
     timer.Create(ply:SteamID64() .. "_gunfire_timer", 1, GetConVar("randomat_gunfire_timer"):GetInt(), function()
@@ -22,24 +25,18 @@ function EVENT:Begin()
         RestartExtinguishTimer(ply)
     end
 
-    -- Literally just looking for the player left-clicking, alive, and having some ammo in their gun's clip when they click
-    self:AddHook("PlayerButtonDown", function(ply, button)
-        if button == MOUSE_LEFT and ply:Alive() and not ply:IsSpec() and ply:GetActiveWeapon():Clip1() ~= nil and ply:GetActiveWeapon():Clip1() > 0 then
-            RestartExtinguishTimer(ply)
-            ply:Extinguish()
-        end
-    end)
-
-    -- Original player extinguishing hook, apparently doesn't work for projectile-based guns, which is why the hook above was added
-    self:AddHook("EntityFireBullets", function(ent, data)
-        if IsPlayer(ent) then
-            RestartExtinguishTimer(ent)
-            ent:Extinguish()
-        end
-    end)
-
+    -- Extinguish respawned players 
     self:AddHook("PlayerSpawn", function(ply)
         RestartExtinguishTimer(ply)
+    end)
+
+    net.Start("GunfireRandomatClientBegin")
+    net.Broadcast("GunfireRandomatClientBegin")
+
+    -- Extinguish players when they press their primary attack button at the appropriate time
+    net.Receive("GunfireRandomatClientClickExtinguish", function(len, ply)
+        RestartExtinguishTimer(ply)
+        ply:Extinguish()
     end)
 end
 
@@ -48,6 +45,9 @@ function EVENT:End()
         timer.Remove(ply:SteamID64() .. "_gunfire_timer")
         ply:Extinguish()
     end
+
+    net.Start("GunfireRandomatClientEnd")
+    net.Broadcast()
 end
 
 function EVENT:GetConVars()
