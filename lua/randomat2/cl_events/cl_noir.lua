@@ -19,7 +19,7 @@ net.Receive("randomat_noir", function()
 
     hook.Add("RenderScreenspaceEffects", "GrayscaleRandomatEffect", function()
         local client = LocalPlayer()
-        if not client:Alive() or client:IsSpec() then return end
+        -- if not client:Alive() or client:IsSpec() then return end
         DrawColorModify(color_tbl)
         cam.Start3D(EyePos(), EyeAngles())
         render.SuppressEngineLighting(true)
