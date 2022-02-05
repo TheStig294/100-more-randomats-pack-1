@@ -1,37 +1,31 @@
 local EVENT = {}
 EVENT.Title = "Pistols at dawn"
-EVENT.Description = "The last innocent and traitor alive have a one-shot pistol showdown!"
+EVENT.Description = "The last players alive have a one-shot pistol showdown!"
 EVENT.id = "pistols"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 util.AddNetworkString("PistolsDrawHalos")
+util.AddNetworkString("PistolsRandomatWinTitle")
 util.AddNetworkString("PistolsRemoveHalos")
 
 function EVENT:Begin()
     -- Allow the initial trigger code to run
     local pistolsTriggerOnce = false
+    local triggerShowdown = false
+
+    -- Transform all jesters/independents to innocents so we don't have to worry about special win logic
+    for i, ply in ipairs(self:GetAlivePlayers()) do
+        if Randomat:IsJesterTeam(ply) or Randomat:IsIndependentTeam(ply) then
+            Randomat:SetRole(ply, ROLE_INNOCENT)
+        end
+    end
+
+    SendFullStateUpdate()
 
     -- Continually,
     self:AddHook("Think", function()
-        -- Count the number of players alive,
-        local pistolsAlivePlayers = #self:GetAlivePlayers()
-
-        -- The jester/swapper doesn't count
-        for i, ply in pairs(self:GetAlivePlayers()) do
-            if ply:GetRole() == ROLE_SWAPPER or ply:GetRole() == ROLE_JESTER then
-                pistolsAlivePlayers = pistolsAlivePlayers - 1
-            end
-        end
-
         -- At 2 players alive, initial trigger code runs once
-        if pistolsAlivePlayers == 2 then
+        if triggerShowdown then
             if pistolsTriggerOnce == false then
-                -- Strip all weapons from the ground,
-                for _, ent in pairs(ents.GetAll()) do
-                    if ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE and ent.AutoSpawnable then
-                        ent:Remove()
-                    end
-                end
-
                 -- After 1 second, trigger a notification and let players see through walls if that randomat is added by another mod,
                 timer.Simple(1, function()
                     self:SmallNotify("Pistols at dawn!")
@@ -47,12 +41,12 @@ function EVENT:Begin()
                     ply:SetCredits(0)
 
                     -- Give players ammo for the one-shot pistol if they have it
-                    if IsValid(ply:GetActiveWeapon()) and ply:GetActiveWeapon():GetClass() == "weapon_ttt_pistol_randomat" then
+                    if not IsValid(ply:GetActiveWeapon()) or ply:GetActiveWeapon():GetClass() == "weapon_ttt_pistol_randomat" then
                         ply:SetAmmo(69, "Pistol")
                     end
 
                     -- And if they're not a jester/swapper and aren't holding the one-shot pistol,
-                    if IsValid(ply:GetActiveWeapon()) and (ply:GetRole() ~= ROLE_SWAPPER) and (ply:GetRole() ~= ROLE_JESTER) and ply:GetActiveWeapon():GetClass() ~= "weapon_ttt_pistol_randomat" then
+                    if not IsValid(ply:GetActiveWeapon()) or ply:GetActiveWeapon():GetClass() ~= "weapon_ttt_pistol_randomat" then
                         -- Remove all their weapons and credits
                         ply:StripWeapons()
                         ply:SetCredits(0)
@@ -67,6 +61,66 @@ function EVENT:Begin()
             -- Prevent the initial trigger code from running again, until this randomat is triggered again
             pistolsTriggerOnce = true
         end
+    end)
+
+    local winBlocked = false
+    local messageLength = 4
+
+    self:AddHook("TTTCheckForWin", function()
+        if not winBlocked then
+            local alivePlayers = self:GetAlivePlayers()
+            -- Else, check there are only innocents or traitors remaining
+            local traitorPlayers = {}
+            local innocentPlayers = {}
+
+            for i, ply in ipairs(alivePlayers) do
+                if Randomat:IsTraitorTeam(ply) then
+                    table.insert(traitorPlayers, ply)
+                elseif Randomat:IsInnocentTeam(ply) then
+                    table.insert(innocentPlayers, ply)
+                end
+            end
+
+            if table.IsEmpty(traitorPlayers) or table.IsEmpty(innocentPlayers) then
+                winBlocked = true
+
+                if table.IsEmpty(traitorPlayers) then
+                    Randomat:SmallNotify("Innocents Win... But now it's a free-for-all!", messageLength)
+                elseif table.IsEmpty(innocentPlayers) then
+                    Randomat:SmallNotify("Traitors Win... But now it's a free-for-all!", messageLength)
+                end
+
+                -- Strip all weapons from the ground and players
+                for _, ent in pairs(ents.GetAll()) do
+                    if (ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE or ent.Base == "weapon_tttbase") then
+                        ent:Remove()
+                    end
+                end
+
+                timer.Simple(messageLength, function()
+                    triggerShowdown = true
+
+                    if CR_VERSION then
+                        net.Start("PistolsRandomatWinTitle")
+                        net.Broadcast()
+                    end
+                end)
+            elseif #alivePlayers == 2 then
+                -- If there are only 2 alive players then trigger the randomat
+                -- Strip all weapons from the ground and players
+                for _, ent in pairs(ents.GetAll()) do
+                    if (ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE or ent.Base == "weapon_tttbase") then
+                        ent:Remove()
+                    end
+                end
+
+                triggerShowdown = true
+                winBlocked = true
+            end
+        end
+
+        -- Prevent the round from ending while there is more than 1 player alive, and the timer has not run out
+        if GetGlobalFloat("ttt_round_end") > CurTime() and #self:GetAlivePlayers() > 1 then return WIN_NONE end
     end)
 end
 
