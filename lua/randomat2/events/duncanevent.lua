@@ -126,5 +126,24 @@ function EVENT:End()
     end
 end
 
+function EVENT:GetConVars()
+    local checks = {}
+
+    for _, v in pairs({"disguise"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checks, {
+                cmd = v,
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    return nil, checks
+end
+
 -- register the event in the randomat!
 Randomat:register(EVENT)
