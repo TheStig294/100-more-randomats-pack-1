@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Future Proofing"
-EVENT.Description = "Buy menu items aren't given until the next round"
+EVENT.Description = "Buy menu items aren't given until the next round you play"
 EVENT.id = "future"
 local futureRandomatEquipment = {}
 
@@ -10,34 +10,40 @@ local function SetWeaponGiveHook()
             local weaponKind = 10
 
             for i, ply in pairs(player.GetAll()) do
-                for j, item in ipairs(futureRandomatEquipment[ply:SteamID()]) do
-                    local is_item = isnumber(item)
-
-                    if is_item then
-                        ply:GiveEquipmentItem(tonumber(item))
-                    else
-                        -- Increment the weapon's kind by 1 to ensure every player receives all weapons even if some take the same slot (kind) as each other
-                        weaponKind = weaponKind + 1
-                        ply:Give(item).Kind = weaponKind
-
-                        if item.WasBought then
-                            item:WasBought(ply)
-                        end
-                    end
-
-                    Randomat:CallShopHooks(is_item, item, ply)
+                -- If someone doesn't have an entry in the equipment table, add a blank one, which will prevent the below loop from erroring
+                if not futureRandomatEquipment[ply:SteamID()] then
+                    futureRandomatEquipment[ply:SteamID()] = {}
                 end
 
-                ply:PrintMessage(HUD_PRINTCENTER, "Weapons from 'Future Proofing'!")
-                ply:PrintMessage(HUD_PRINTTALK, "You got weapons from the 'Future Proofing' randomat last round!")
-            end
+                if ply:Alive() and not ply:IsSpec() then
+                    for j, item in ipairs(futureRandomatEquipment[ply:SteamID()]) do
+                        local is_item = isnumber(item)
 
-            -- Clear equipment table as equipment has been given
-            -- Stop hook that will trigger giving weapons on the next map
-            -- And stop this hook from giving weapons every round
-            table.Empty(futureRandomatEquipment)
-            hook.Remove("ShutDown", "FutureRandomatGiveNextMapWeapons")
-            hook.Remove("TTTBeginRound", "FutureRandomatGiveEquipment")
+                        if is_item then
+                            ply:GiveEquipmentItem(tonumber(item))
+                        else
+                            -- Increment the weapon's kind by 1 to ensure every player receives all weapons even if some take the same slot (kind) as each other
+                            weaponKind = weaponKind + 1
+                            ply:Give(item).Kind = weaponKind
+
+                            if item.WasBought then
+                                item:WasBought(ply)
+                            end
+                        end
+
+                        Randomat:CallShopHooks(is_item, item, ply)
+                    end
+
+                    -- Don't display weapons given message if no weapons were given
+                    if not table.IsEmpty(futureRandomatEquipment[ply:SteamID()]) then
+                        ply:PrintMessage(HUD_PRINTCENTER, "Weapons from 'Future Proofing'!")
+                        ply:PrintMessage(HUD_PRINTTALK, "You got weapons from the 'Future Proofing' randomat!")
+                    end
+
+                    -- Clear equipment table as equipment has been given
+                    futureRandomatEquipment[ply:SteamID()] = {}
+                end
+            end
         end)
     end)
 end
@@ -78,7 +84,10 @@ function EVENT:Begin()
     end)
 
     -- Give everyone's bought equipment at the start of the next round
-    SetWeaponGiveHook()
+    -- Delay this by a split second so if weapons are being given between maps, they are given before this randomat triggers and overrides the weapon giving hook
+    timer.Simple(0.5, function()
+        SetWeaponGiveHook()
+    end)
 end
 
 Randomat:register(EVENT)
