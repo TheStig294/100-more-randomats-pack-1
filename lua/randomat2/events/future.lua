@@ -52,7 +52,6 @@ end
 if file.Exists("randomat/future.txt", "DATA") then
     futureRandomatEquipment = util.JSONToTable(file.Read("randomat/future.txt", "DATA"))
     SetWeaponGiveHook()
-    file.Delete("randomat/future.txt")
 end
 
 function EVENT:Begin()
