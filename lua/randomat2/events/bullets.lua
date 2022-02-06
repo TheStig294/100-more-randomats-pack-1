@@ -7,8 +7,8 @@ EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 function EVENT:Begin()
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
-        --If an entity takes damage that isn't bullet damage, negate it.
-        if IsValid(ent) and ent:IsPlayer() and dmginfo:IsBulletDamage() == false then return true end
+        -- If we make people immune to damage from the barnacle, the last players alive could get stuck, so also let barnacle damage through
+        if IsPlayer(ent) and dmginfo:IsBulletDamage() == false and IsValid(dmginfo:GetInflictor()) and dmginfo:GetInflictor():GetClass() ~= "npc_barnacle" then return true end
     end)
 end
 

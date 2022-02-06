@@ -16,7 +16,8 @@ function EVENT:Begin()
 
     -- If someone takes damage from something that's not a crowbar, negate it
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
-        if IsValid(ent) and ent:IsPlayer() and not dmginfo:IsDamageType(DMG_CLUB) then return true end
+        -- If we make people immune to damage from the barnacle, the last players alive could get stuck, so also let barnacle damage through
+        if IsPlayer(ent) and not dmginfo:IsDamageType(DMG_CLUB) and IsValid(dmginfo:GetInflictor()) and dmginfo:GetInflictor():GetClass() ~= "npc_barnacle" then return true end
     end)
 
     -- For all alive players,
