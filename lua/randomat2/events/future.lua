@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Future Proofing"
-EVENT.Description = "Buy menu items aren't given until the next round you play"
+EVENT.Description = "Buy menu items aren't given until the next round"
 EVENT.id = "future"
 local futureRandomatEquipment = {}
 
@@ -52,6 +52,7 @@ end
 if file.Exists("randomat/future.txt", "DATA") then
     futureRandomatEquipment = util.JSONToTable(file.Read("randomat/future.txt", "DATA"))
     SetWeaponGiveHook()
+    file.Delete("randomat/future.txt")
 end
 
 function EVENT:Begin()
