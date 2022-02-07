@@ -51,7 +51,7 @@ function EVENT:GetConVars()
         end
     end
 
-    return nil, nil, textboxes
+    return {}, {}, textboxes
 end
 
 Randomat:register(EVENT)

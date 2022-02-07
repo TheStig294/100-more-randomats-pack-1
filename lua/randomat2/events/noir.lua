@@ -79,7 +79,7 @@ function EVENT:GetConVars()
         end
     end
 
-    return nil, checkboxes
+    return {}, checkboxes
 end
 
 Randomat:register(EVENT)
