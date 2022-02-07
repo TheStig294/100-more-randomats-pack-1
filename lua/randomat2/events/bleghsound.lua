@@ -1,12 +1,12 @@
 local EVENT = {}
-EVENT.Title = "Blegh!"
+EVENT.Title = "Blegh"
 EVENT.Description = "When someone dies, everyone hears a random 'Blegh!' sound"
-EVENT.id = "blegh"
+EVENT.id = "bleghsound"
 util.AddNetworkString("RandomatBleghSound")
 local bleghSounds = {}
 
 for i = 1, 17 do
-    table.insert(bleghSounds, Sound("blegh/blegh" .. i .. ".mp3"))
+    table.insert(bleghSounds, Sound("bleghsound/blegh" .. i .. ".mp3"))
 end
 
 function EVENT:Begin()

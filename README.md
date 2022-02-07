@@ -200,10 +200,10 @@ _ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
 _randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar\
 randomat_battleroyale_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
-## Blegh!
+## Blegh
 Whenever someone dies, everyone hears a random "Blegh!" sound.\
 \
-_ttt_randomat_blegh_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_bleghsound_ - Default: 1 - Whether this randomat is enabled
 
 ## Whoa!
 Everyone is changed to a Crash Bandicoot playermodel (if installed: [PS1's Crash Bandicoot P.M.](https://steamcommunity.com/sharedfiles/filedetails/?id=1009092087)) and is forced to use a "Spin Attack" weapon.\
