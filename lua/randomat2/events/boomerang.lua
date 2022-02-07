@@ -23,7 +23,7 @@ function EVENT:Begin()
         end
     end
 
-    for i, ply in pairs(self:GetAlivePlayers(true)) do
+    for i, ply in pairs(self:GetAlivePlayers()) do
         --Strip all living players' weapons, if enabled
         if GetConVar("randomat_boomerang_strip"):GetBool() then
             ply:StripWeapons()
@@ -32,7 +32,16 @@ function EVENT:Begin()
         ply:SetFOV(0, 0.2)
         --Give everyone their initial boomerang
         ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
+
+        -- Set assassins to ordinary traitors as their damage bonus doesn't work with boomerangs
+        if ply:GetRole() == ROLE_ASSASSIN and GetConVar("randomat_boomerang_strip"):GetBool() then
+            Randomat:SetRole(ply, ROLE_TRAITOR)
+            ply:ChatPrint("Boomerangs are not affected by your assassin damage bonus.\nYou have been changed from an assassin to a traitor.")
+            ply:PrintMessage(HUD_PRINTCENTER, "Role changed to traitor")
+        end
     end
+
+    SendFullStateUpdate()
 
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
