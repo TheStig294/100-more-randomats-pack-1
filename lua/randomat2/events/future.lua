@@ -17,7 +17,7 @@ local function SetWeaponGiveHook()
 
                 if ply:Alive() and not ply:IsSpec() then
                     for j, item in ipairs(futureRandomatEquipment[ply:SteamID()]) do
-                        local is_item = isnumber(item)
+                        local is_item = tonumber(item)
 
                         if is_item then
                             ply:GiveEquipmentItem(tonumber(item))
@@ -31,7 +31,9 @@ local function SetWeaponGiveHook()
                             end
                         end
 
-                        Randomat:CallShopHooks(is_item, item, ply)
+                        timer.Simple(0.1, function()
+                            Randomat:CallShopHooks(is_item, item, ply)
+                        end)
                     end
 
                     -- Don't display weapons given message if no weapons were given
