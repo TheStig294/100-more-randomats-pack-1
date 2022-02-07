@@ -2,6 +2,7 @@ local standardHeightVector = Vector(0, 0, 64)
 local standardCrouchedHeightVector = Vector(0, 0, 28)
 local playerModels = {}
 local modelExists = file.Exists("models/bandicoot/bandicoot.mdl", "THIRDPARTY")
+util.PrecacheSound("whoa/whoa.mp3")
 local EVENT = {}
 
 CreateConVar("randomat_whoa_timer", 3, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Time between being given spin attacks")
@@ -86,6 +87,10 @@ function EVENT:Begin()
             end)
         end)
     end
+
+    self:AddHook("PostPlayerDeath", function(ply)
+        ply:SendLua("surface.PlaySound(\"whoa/whoa.mp3\")")
+    end)
 end
 
 function EVENT:End()
