@@ -126,10 +126,10 @@ All unspent credits are removed, no other guns/grenades/weapons other than the r
 \
 _ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled
 
-## I'm Mary Poppins Y'all!
-Everyone can float/teleport up and down walls and automatically walk over most obstacles.\
+## Instant Elevator
+Everyone can teleport up and down walls and obstacles by walking into/off them and automatically walk over most obstacles.\
 \
-_ttt_randomat_marypoppins_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_elevator_ - Default: 1 - Whether this randomat is enabled
 
 ## Crowbars Only!
 Can only use, or be damaged by, a buffed crowbar.\
