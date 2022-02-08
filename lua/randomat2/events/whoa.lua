@@ -90,8 +90,10 @@ function EVENT:Begin()
         end)
     end
 
-    self:AddHook("PostPlayerDeath", function(ply)
-        ply:SendLua("surface.PlaySound(\"whoa/whoa.mp3\")")
+    self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
+        -- Silence their usual death noise
+        dmginfo:SetDamageType(DMG_SLASH)
+        sound.Play("whoa/whoa.mp3", ply:GetShootPos(), 140, 100, 1)
     end)
 end
 
