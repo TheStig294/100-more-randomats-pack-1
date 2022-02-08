@@ -1,7 +1,7 @@
 local standardHeightVector = Vector(0, 0, 64)
 local standardCrouchedHeightVector = Vector(0, 0, 28)
 local playerModels = {}
-local modelExists = file.Exists("models/bandicoot/bandicoot.mdl", "THIRDPARTY")
+local modelExists = util.IsValidModel("models/bandicoot/bandicoot.mdl")
 util.PrecacheSound("whoa/whoa.mp3")
 local EVENT = {}
 
