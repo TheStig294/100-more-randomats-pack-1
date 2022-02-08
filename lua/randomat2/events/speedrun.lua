@@ -50,7 +50,7 @@ function EVENT:Begin()
                     playerModels[ply] = ply:GetModel()
                     -- Sets their model to chosenModel
                     ply:SetModel("models/vinrax/player/mgs_solid_snake.mdl")
-                    ply:ChatPrint("You share the same name or playermodel as a world-famous speedrunner.\nYour playermodel has changed for this round...")
+                    ply:ChatPrint("Your name or model has triggered an easter egg!\nYour playermodel has changed for this randomat")
                 end)
             end
         end
