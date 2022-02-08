@@ -1,19 +1,36 @@
---A couple of net messages for getting the print names of buy menu weapons
---Triggers at the start of the first round of TTT on a map, every buy menu item found on the first connected player has its print name associated with its class name
---Used with randomats that rely on 'TTT Total Statistics'
---Buy menu items on the server but not on the first connected client aren't tracked by these randomats
 net.Receive("RandomatDetectiveWeaponsList", function()
     local error = false
+    local excludeWepsExist = istable(WEPS.ExcludeWeapons)
+    local includeWepsExist = istable(WEPS.BuyableWeapons)
 
-    --first check if a weapons is on the SWEP list
+    --when player buys an item, first check if its on the SWEP list
     for k, v in pairs(weapons.GetList()) do
-        if isstring(v.ClassName) then
-            if table.HasValue(v.CanBuy, ROLE_DETECTIVE) then
-                net.Start("Randomat_SendDetectiveEquipmentName")
-                net.WriteString(v.PrintName .. "," .. v.ClassName)
-                net.WriteBool(error)
-                net.SendToServer()
+        local classname = v.ClassName
+        if not isstring(classname) then continue end
+        local included = false
+
+        -- Also take into account the weapon exclude and include lists from Custom Roles, if they exist
+        if includeWepsExist then
+            for i, includedWep in ipairs(WEPS.BuyableWeapons[ROLE_DETECTIVE]) do
+                if classname == includedWep then
+                    included = true
+                end
             end
+        end
+
+        if not included and excludeWepsExist and table.HasValue(v.CanBuy, ROLE_DETECTIVE) then
+            for i, excludedWep in ipairs(WEPS.ExcludeWeapons[ROLE_DETECTIVE]) do
+                if classname == excludedWep then
+                    included = false
+                end
+            end
+        end
+
+        if included then
+            net.Start("Randomat_SendDetectiveEquipmentName")
+            net.WriteString(v.PrintName .. "," .. classname)
+            net.WriteBool(error)
+            net.SendToServer()
         end
     end
 
@@ -30,16 +47,37 @@ end)
 
 net.Receive("RandomatTraitorWeaponsList", function()
     local error = false
+    local excludeWepsExist = istable(WEPS.ExcludeWeapons)
+    local includeWepsExist = istable(WEPS.BuyableWeapons)
 
-    --first check if a weapons is on the SWEP list
+    --when player buys an item, first check if its on the SWEP list
     for k, v in pairs(weapons.GetList()) do
-        if isstring(v.ClassName) then
-            if table.HasValue(v.CanBuy, ROLE_TRAITOR) then
-                net.Start("Randomat_SendTraitorEquipmentName")
-                net.WriteString(v.PrintName .. "," .. v.ClassName)
-                net.WriteBool(error)
-                net.SendToServer()
+        local classname = v.ClassName
+        if not isstring(classname) then continue end
+        local included = false
+
+        -- Also take into account the weapon exclude and include lists from Custom Roles, if they exist
+        if includeWepsExist then
+            for i, includedWep in ipairs(WEPS.BuyableWeapons[ROLE_TRAITOR]) do
+                if classname == includedWep then
+                    included = true
+                end
             end
+        end
+
+        if not included and excludeWepsExist and table.HasValue(v.CanBuy, ROLE_TRAITOR) then
+            for i, excludedWep in ipairs(WEPS.ExcludeWeapons[ROLE_TRAITOR]) do
+                if classname == excludedWep then
+                    included = false
+                end
+            end
+        end
+
+        if included then
+            net.Start("Randomat_SendTraitorEquipmentName")
+            net.WriteString(v.PrintName .. "," .. classname)
+            net.WriteBool(error)
+            net.SendToServer()
         end
     end
 
@@ -54,6 +92,5 @@ net.Receive("RandomatTraitorWeaponsList", function()
     end
 end)
 
---Catches any randomats trying to register on both the client and server, rather than just the server, to prevent console errors
 function Randomat:register(tbl)
 end
