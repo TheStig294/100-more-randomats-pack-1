@@ -17,13 +17,17 @@ EVENT.id = "whoa"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 function EVENT:Begin()
-    for k, ply in pairs(player.GetAll()) do
+    for i, ply in ipairs(self:GetAlivePlayers()) do
         -- Convert all independent guys to innocents so we don't have to worry about fighting damage penalty logic
         if Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply) or Randomat:IsJesterTeam(ply) then
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
         end
+    end
 
+    SendFullStateUpdate()
+
+    for k, ply in pairs(player.GetAll()) do
         if modelExists then
             -- bots do not have the following command, so it's unnecessary
             if not ply:IsBot() then
@@ -47,8 +51,6 @@ function EVENT:Begin()
             end)
         end
     end
-
-    SendFullStateUpdate()
 
     timer.Create("RandomatWhoaTimer", GetConVar("randomat_whoa_timer"):GetInt(), 0, function()
         local weaponid = GetConVar("randomat_whoa_weaponid"):GetString()
