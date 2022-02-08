@@ -11,6 +11,7 @@ function EVENT:Begin()
     -- Allow the initial trigger code to run
     local pistolsTriggerOnce = false
     local triggerShowdown = false
+    local triggerDelay = 1
 
     -- Transform all jesters/independents to innocents so we don't have to worry about special win logic
     for i, ply in ipairs(self:GetAlivePlayers()) do
@@ -27,7 +28,7 @@ function EVENT:Begin()
         if triggerShowdown then
             if pistolsTriggerOnce == false then
                 -- After 1 second, trigger a notification and let players see through walls if that randomat is added by another mod,
-                timer.Simple(1, function()
+                timer.Simple(triggerDelay, function()
                     self:SmallNotify("Pistols at dawn!")
                     net.Start("PistolsDrawHalos")
                     net.Broadcast()
@@ -35,7 +36,7 @@ function EVENT:Begin()
             end
 
             -- After 2 seconds, continually
-            timer.Simple(1, function()
+            timer.Simple(triggerDelay, function()
                 for i, ply in pairs(self:GetAlivePlayers()) do
                     -- Strip all credits
                     ply:SetCredits(0)
@@ -98,6 +99,7 @@ function EVENT:Begin()
                 end
 
                 timer.Simple(messageLength, function()
+                    triggerDelay = 0
                     triggerShowdown = true
 
                     if CR_VERSION then
@@ -114,6 +116,7 @@ function EVENT:Begin()
                     end
                 end
 
+                triggerDelay = 1
                 triggerShowdown = true
                 winBlocked = true
             end
