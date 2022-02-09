@@ -77,21 +77,18 @@ if SERVER then
 end
 
 if SERVER then
-    firstBegin = true
     detectiveBuyable = {}
     traitorBuyable = {}
 
     --At the start of the first round of a map, ask the first connected client for the printnames of all detective and traitor weapons
     --Used by randomats that use 'TTT Total Statistics'
     --Needed since 'TTT Total Statistics' stores weapon stats identifying weapons by printnames, not classnames
-    hook.Add("TTTBeginRound", "RandomatGetBuyMenuLists", function()
-        if firstBegin then
-            net.Start("RandomatDetectiveWeaponsList")
-            net.Send(Entity(1))
-            net.Start("RandomatTraitorWeaponsList")
-            net.Send(Entity(1))
-            firstBegin = false
-        end
+    hook.Add("TTTPrepareRound", "RandomatGetBuyMenuLists", function()
+        net.Start("RandomatDetectiveWeaponsList")
+        net.Send(Entity(1))
+        net.Start("RandomatTraitorWeaponsList")
+        net.Send(Entity(1))
+        hook.Remove("TTTPrepareRound", "RandomatGetBuyMenuLists")
     end)
 
     net.Receive("Randomat_SendDetectiveEquipmentName", function(len, ply)
