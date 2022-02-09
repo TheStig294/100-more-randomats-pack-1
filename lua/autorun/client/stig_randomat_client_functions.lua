@@ -1,7 +1,7 @@
 net.Receive("RandomatDetectiveWeaponsList", function()
     local error = false
-    local excludeWepsExist = istable(WEPS.ExcludeWeapons)
-    local includeWepsExist = istable(WEPS.BuyableWeapons)
+    local excludeWepsExist = istable(WEPS.ExcludeWeapons) and istable(WEPS.ExcludeWeapons[ROLE_DETECTIVE])
+    local includeWepsExist = istable(WEPS.BuyableWeapons) and istable(WEPS.BuyableWeapons[ROLE_DETECTIVE])
 
     --when player buys an item, first check if its on the SWEP list
     for k, v in pairs(weapons.GetList()) do
@@ -47,8 +47,8 @@ end)
 
 net.Receive("RandomatTraitorWeaponsList", function()
     local error = false
-    local excludeWepsExist = istable(WEPS.ExcludeWeapons)
-    local includeWepsExist = istable(WEPS.BuyableWeapons)
+    local excludeWepsExist = istable(WEPS.ExcludeWeapons) and istable(WEPS.ExcludeWeapons[ROLE_TRAITOR])
+    local includeWepsExist = istable(WEPS.BuyableWeapons) and istable(WEPS.BuyableWeapons[ROLE_TRAITOR])
 
     --when player buys an item, first check if its on the SWEP list
     for k, v in pairs(weapons.GetList()) do
