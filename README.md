@@ -151,10 +151,20 @@ When you buy something from a buy menu, you get a random item instead.\
 \
 _ttt_randomat_mix_ - Default: 1 - Whether this randomat is enabled
 
-## The OGs
-Everyone gets a random default TTT weapon.\
-\
-_ttt_randomat_ogs_ - Default: 1 - Whether this randomat is enabled
+## Back to Basics
+Strips everything back to base TTT, as much as possible.\
+
+- Only the original detective/traitor items can be bought
+- Everyone is changed to either a traitor, innocent or detective
+- Everyone is changed to a default TTT playermodel
+- All non-default weapons are replaced with default ones
+- All players that had buy menu items stripped from them have credits refunded
+- Sprinting and double-jumping is disabled
+- Everyone can inspect bodies
+- Fellow traitors are no longer highlighted with an outline around them
+- The round-end window now displays the old-school highlights tab, the usual summary tab is disabled
+
+_ttt_randomat_basics_ - Default: 1 - Whether this randomat is enabled
 
 ## Delayed Start
 Triggers a random randomat after a minute.\
