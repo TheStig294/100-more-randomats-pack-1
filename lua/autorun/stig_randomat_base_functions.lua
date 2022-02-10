@@ -183,3 +183,45 @@ function IsSameTeam(attacker, victim)
         return false
     end
 end
+
+function IsBuyableItem(role, wep, includeWepsExist, excludeWepsExist)
+    --when player buys an item, first check if its on the SWEP list
+    local classname = wep.ClassName
+    local id = wep.id
+
+    if isstring(classname) and wep.CanBuy then
+        -- Also take into account the weapon exclude and include lists from Custom Roles, if they exist
+        if includeWepsExist then
+            for i, includedWep in ipairs(WEPS.BuyableWeapons[role]) do
+                if classname == includedWep then return true end
+            end
+        end
+
+        if excludeWepsExist then
+            for i, excludedWep in ipairs(WEPS.ExcludeWeapons[role]) do
+                if classname == excludedWep then return false end
+            end
+        end
+
+        if table.HasValue(wep.CanBuy, role) then return true end
+        --if its not on the SWEP list, then check the equipment item menu for the role
+    elseif isnumber(id) then
+        id = tonumber(id)
+
+        if includeWepsExist then
+            for i, includedWep in ipairs(WEPS.BuyableWeapons[role]) do
+                if id == includedWep then return true end
+            end
+        end
+
+        if excludeWepsExist then
+            for i, excludedWep in ipairs(WEPS.ExcludeWeapons[role]) do
+                if id == excludedWep then return false end
+            end
+        end
+
+        return true
+    end
+
+    return false
+end
