@@ -5,7 +5,8 @@ _This is the first of my 4 randomat packs. These randomats don't require anythin
 _Words in italics_ are console commands.\
 Press ` or ~ in a game of TTT to open the console and type in _the words in italics_ (plus a space and a number) to change this mod’s settings. \
 \
-Alternatively, add the italic text to your server.cfg (for dedicated servers) or listenserver.cfg (for peer-to-peer servers).\
+Alternatively, add the italic text to your __server.cfg__ (for dedicated servers)\
+or __listenserver.cfg__ (for peer-to-peer servers)\
 \
 For example, to turn off randomats triggering at the start of a round of TTT, type in:\
 _ttt_randomat_auto 0_\
@@ -26,7 +27,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Noir - Makes the look of the game like a 50's detective film
 1. Blegh - People make a 'Blegh' sound when they die
 
-# The Grand List of Randomats
+# Randomats
 **Randomats that don't have credit were completely made by me**
 ## ... That's Lame.
 Nothing happens.\
@@ -104,12 +105,12 @@ _ttt_randomat_boomerang_ - Default: 1 - Whether this randomat is enabled\
 _randomat_boomerang_strip_ - Default: 1 - The event strips your other weapons\
 _randomat_boomerang_weaponid_ - Default: weapon_ttt_boomerang_randomat - ID of the weapon given\
 \
-Credits for the boomerang weapon:\
-Mineotopia for creating the shop icon.\
-RatchetMario for creating the boomerang model which can found in this pack\
-https://steamcommunity.com/sharedfiles/filedetails/?id=137719037\
-[TheBroomer](https://steamcommunity.com/sharedfiles/filedetails/?id=639521512) and [BocciardoLight](https://steamcommunity.com/sharedfiles/filedetails/?id=922438160) for the weapon and entity code\
-Me for cleaning up code and making fixes to make it work with the randomat
+Credits for the boomerang weapon:
+- Mineotopia for creating the shop icon.
+- RatchetMario for creating the boomerang model which can found in this pack\
+https://steamcommunity.com/sharedfiles/filedetails/?id=137719037
+- [TheBroomer](https://steamcommunity.com/sharedfiles/filedetails/?id=639521512) and [BocciardoLight](https://steamcommunity.com/sharedfiles/filedetails/?id=922438160) for the weapon and entity code
+- Me for cleaning up code and making fixes to make it work with the randomat
 
 ## Bouncy
 Bounce instead of taking fall damage\
@@ -131,6 +132,7 @@ _ttt_randomat_bullets_ - Default: 1 - Whether this randomat is enabled
 Killing others respawns them with your role.\
 \
 _ttt_randomat_contagiousmorality_ - Default: 1 - Whether this randomat is enabled\
+\
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
 
 ## Crab Walk
@@ -138,6 +140,7 @@ Everyone can only walk side-to-side\
 Original name in German, updated to be compatible with randomat 2.0\
 \
 _ttt_randomat_crabwalk_ - Default: 1 - Whether this randomat is enabled\
+\
 Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/?id=1394919304)
 
 ## Cremation
@@ -145,7 +148,7 @@ Bodies burn after a player dies. They cannot be checked, but can be put out afte
 Bodies disappear after a while, burning bodies make noise.\
 \
 _ttt_randomat_cremation_ - Default: 1 - Whether this randomat is enabled\
-
+\
 Fixed lua error if bodies were removed before they were removed by this randomat.\
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
 
@@ -158,6 +161,7 @@ _ttt_randomat_crowbarsonly_ - Default: 1 - Whether this randomat is enabled
 When someone dies, everyone is told what their role was\
 \
 _ttt_randomat_nolies_ - Default: 1 - Whether this randomat is enabled\
+\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
 
 ## Delayed Start
@@ -309,10 +313,10 @@ Everyone can only use an infinite ammo huge as their main weapon\
 _ttt_randomat_hugeproblem_ - Default: 1 - Whether this randomat is enabled
 
 ## I'm The Captain Now.
-The first time a detective kills someone on their side, they die, and their victim respawns as a detective with full health.
+The first time a detective kills someone on their side, they die, and their victim respawns as a detective with full health.\
 \
-_ttt_randomat_captain_ - Default: 1 - Whether this randomat is enabled
-
+_ttt_randomat_captain_ - Default: 1 - Whether this randomat is enabled\
+\
 Fixed compatibility with Custom Roles for TTT and added compatibility with Noxx’s Custom Roles for TTT.\
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
 
@@ -392,8 +396,8 @@ Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?
 (Basically, the code for making the screen black and white is Wasted's, but everything else I did)\
 
 Credit for the copyright-free music used:\
-Deadly Roulette, Walking Along and Bass Walker by Kevin MacLeod https://incompetech.com/\
-Promoted by MrSnooze https://youtu.be/iYOvAO1rAM0\
+Deadly Roulette, Walking Along and Bass Walker by Kevin MacLeod https://incompetech.com/ \
+Promoted by MrSnooze https://youtu.be/iYOvAO1rAM0 \
 License: CC BY 3.0 https://goo.gl/Yibru5
 
 ## Once more, with feeling!
@@ -430,6 +434,7 @@ Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails
 Last 2 (non-jester) players alive have a one-shot pistol showdown!\
 They are given 1-shot pistols, infinite ammo, and wallhacks.\
 All unspent credits are removed, no other guns/grenades/weapons other than the revolver can be used.\
+If innocents/traitors win, the winners have a free-for-all instead!\
 \
 _ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled
 ## Random jump height for everyone!
