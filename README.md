@@ -1,6 +1,5 @@
 _This is the first of my 4 randomat packs. These randomats don't require anything else to work, they work on their own!_
 
-
 # Settings/Options
 _Words in italics_ are console commands.\
 Press ` or ~ in a game of TTT to open the console and type in _the words in italics_ (plus a space and a number) to change this mod’s settings. \
