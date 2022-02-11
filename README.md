@@ -27,7 +27,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Blegh - People make a 'Blegh' sound when they die
 
 # The Grand List of Randomats
-**Randomats that don't have credit they were completely made by me**
+**Randomats that don't have credit were completely made by me**
 ## ... That's Lame.
 Nothing happens.\
 \
