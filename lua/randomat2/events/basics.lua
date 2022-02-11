@@ -85,9 +85,11 @@ function EVENT:Begin()
             wep.CanBuyOrig = wep.CanBuy
             wep.CanBuy = {}
 
-            if wep.BlockShopRandomization then
+            if wep.BlockShopRandomization ~= nil then
                 wep.BlockShopRandomizationOrig = wep.BlockShopRandomization
             end
+
+            wep.BlockShopRandomization = true
 
             for _, defaultWep in ipairs(defaultDetectiveItems) do
                 if classname == defaultWep then
@@ -136,6 +138,24 @@ function EVENT:Begin()
         end
     end)
 
+    -- Keeping track of how many credits players need to be refunded for active buy menu weapons, and what weapon they had selected
+    local credits = {}
+    local heldWepKinds = {}
+
+    for _, ply in pairs(player.GetAll()) do
+        credits[ply] = 0
+
+        if IsValid(ply:GetActiveWeapon()) then
+            heldWepKinds[ply] = ply:GetActiveWeapon().Kind
+        end
+
+        for _, wep in ipairs(ply:GetWeapons()) do
+            if wep.Kind == WEAPON_EQUIP1 or wep.Kind == WEAPON_EQUIP2 or wep.Kind > WEAPON_ROLE then
+                credits[ply] = credits[ply] + 1
+            end
+        end
+    end
+
     -- Tables of the default weapons/playermodels
     local defaultPistols = {"weapon_zm_revolver", "weapon_zm_pistol", "weapon_ttt_glock"}
 
@@ -145,119 +165,9 @@ function EVENT:Begin()
 
     local defaultModels = {"models/player/phoenix.mdl", "models/player/arctic.mdl", "models/player/guerilla.mdl", "models/player/leet.mdl"}
 
-    local standardHeightVector = Vector(0, 0, 64)
-    local standardCrouchedHeightVector = Vector(0, 0, 28)
-    -- Choosing a random default model for everyone
-    local chosenModel = defaultModels[math.random(1, #defaultModels)]
-
-    for _, ply in pairs(player.GetAll()) do
-        -- Removing all non-default held weapons
-        self:StripRoleWeapons(ply)
-        local credits = 0
-        local heldWepKind
-
-        if IsValid(ply:GetActiveWeapon()) then
-            heldWepKind = ply:GetActiveWeapon().Kind
-        end
-
-        timer.Simple(0.1, function()
-            if heldWepKind then
-                for _, wep in ipairs(ply:GetWeapons()) do
-                    if wep.Kind and wep.Kind == heldWepKind then
-                        ply:SelectWeapon(wep)
-                    end
-                end
-            end
-        end)
-
-        for _, wep in ipairs(ply:GetWeapons()) do
-            if wep.Kind == WEAPON_MELEE then
-                ply:StripWeapon(wep:GetClass())
-                ply:Give("weapon_zm_improvised")
-            elseif wep.Kind == WEAPON_PISTOL then
-                ply:StripWeapon(wep:GetClass())
-                ply:Give(defaultPistols[math.random(1, #defaultPistols)])
-            elseif wep.Kind == WEAPON_HEAVY then
-                ply:StripWeapon(wep:GetClass())
-                ply:Give(defaultHeavys[math.random(1, #defaultHeavys)])
-            elseif wep.Kind == WEAPON_NADE then
-                ply:StripWeapon(wep:GetClass())
-                ply:Give(defaultNades[math.random(1, #defaultNades)])
-            elseif wep.Kind == WEAPON_EQUIP1 or wep.Kind == WEAPON_EQUIP2 or wep.Kind > WEAPON_ROLE then
-                -- Keeping track of how many credits need to be refunded when removing buy menu items
-                credits = credits + 1
-                ply:StripWeapon(wep:GetClass())
-            end
-        end
-
-        -- Reset FOV to unscope
-        ply:SetFOV(0, 0.2)
-        -- Giving the magneto stick and "Holstered", just in case
-        ply:Give("weapon_zm_carry")
-        ply:Give("weapon_ttt_unarmed")
-
-        if Randomat:IsTraitorTeam(ply) or Randomat:IsGoodDetectiveLike(ply) then
-            -- Now stripping passive items
-            local i = 1
-            local equip = {}
-
-            while i <= EQUIP_MAX do
-                if ply:HasEquipmentItem(i) then
-                    -- Remove and refund non-default equipment items
-                    if i ~= EQUIP_ARMOR or i ~= EQUIP_RADAR or i ~= EQUIP_DISGUISE then
-                        credits = credits + 1
-                    else
-                        table.insert(equip, i)
-                    end
-                end
-
-                -- Double the index since this is a bit-mask
-                i = i * 2
-            end
-
-            -- Change everyone to basic detectives/traitors
-            if Randomat:IsTraitorTeam(ply) then
-                Randomat:SetRole(ply, ROLE_TRAITOR)
-            elseif Randomat:IsGoodDetectiveLike(ply) then
-                Randomat:SetRole(ply, ROLE_DETECTIVE)
-            end
-
-            -- Refund all credits spent on stripped buy menu items
-            ply:AddCredits(credits)
-            ply:ResetEquipment()
-
-            -- Add back all originally held default equipment items (since we only want to remove non-default items)
-            for _, id in ipairs(equip) do
-                ply:GiveEquipmentItem(id)
-            end
-        else
-            -- Set all non-detectives/traitors to innocents, and remove all credits they have, as they now can't use them
-            Randomat:SetRole(ply, ROLE_INNOCENT)
-            ply:ResetEquipment()
-            ply:SetCredits(0)
-        end
-
-        -- Command to stop Advanced Playermodel Selector from preventing playermodels from being changed
-        ply:ConCommand("cl_playermodel_selector_force 0")
-
-        -- Wait a second before giving everyone a default TTT playermodel as the "cl_playermodel_selector_force" command needs to be networked
-        timer.Simple(1, function()
-            if ply:GetViewOffset() ~= standardHeightVector then
-                ply:SetViewOffset(standardHeightVector)
-                ply:SetViewOffsetDucked(standardCrouchedHeightVector)
-            end
-
-            playerModels[ply] = ply:GetModel()
-            ply:SetModel(chosenModel)
-        end)
-    end
-
-    -- Updating everyone's roles in the bottom-left HUD box
-    SendFullStateUpdate()
-
-    -- Replacing all guns and grenades with default ones
+    -- Replacing all weapons with default ones, including ones players are holding
     for _, ent in ipairs(ents.GetAll()) do
-        if ent.AutoSpawnable and ent.Kind then
+        if ent.AutoSpawnable and ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE then
             local pos = ent:GetPos()
             local kind = ent.Kind
             local wepsTable = defaultPistols
@@ -274,8 +184,102 @@ function EVENT:Begin()
             local wep = ents.Create(wepsTable[math.random(1, #defaultPistols)])
             wep:SetPos(pos)
             wep:Spawn()
+        elseif ent:IsWeapon() and ent.Kind and (ent.Kind == WEAPON_MELEE or ent.Kind == WEAPON_ROLE or ent.Kind == WEAPON_EQUIP1 or ent.Kind == WEAPON_EQUIP2 or ent.Kind > WEAPON_ROLE) then
+            ent:Remove()
         end
     end
+
+    -- Choosing a random default model for everyone
+    local chosenModel = defaultModels[math.random(1, #defaultModels)]
+    local standardHeightVector = Vector(0, 0, 64)
+    local standardCrouchedHeightVector = Vector(0, 0, 28)
+
+    for _, ply in pairs(player.GetAll()) do
+        -- Removing passive items
+        if Randomat:IsTraitorTeam(ply) or Randomat:IsGoodDetectiveLike(ply) then
+            local i = 1
+            local equip = {}
+            local itemRemoved = false
+
+            while i <= EQUIP_MAX do
+                if ply:HasEquipmentItem(i) then
+                    -- Remove and refund non-default equipment items
+                    if i ~= EQUIP_ARMOR or i ~= EQUIP_RADAR or i ~= EQUIP_DISGUISE then
+                        credits[ply] = credits[ply] + 1
+                        itemRemoved = true
+                    else
+                        table.insert(equip, i)
+                    end
+                end
+
+                -- Double the index since this is a bit-mask
+                i = i * 2
+            end
+
+            if itemRemoved then
+                timer.Simple(5, function()
+                    ply:ChatPrint("Your passive items may still be active!\n(E.g. Bruh bunker)")
+                end)
+            end
+
+            -- Change everyone to basic detectives/traitors
+            if Randomat:IsTraitorTeam(ply) then
+                Randomat:SetRole(ply, ROLE_TRAITOR)
+            elseif Randomat:IsGoodDetectiveLike(ply) then
+                Randomat:SetRole(ply, ROLE_DETECTIVE)
+            end
+
+            -- Refund all credits spent on stripped buy menu items
+            ply:AddCredits(credits[ply])
+            ply:ResetEquipment()
+
+            -- Add back all originally held default equipment items (since we only want to remove non-default items)
+            for _, id in ipairs(equip) do
+                ply:GiveEquipmentItem(id)
+            end
+        else
+            -- Set all non-detectives/traitors to innocents, and remove all credits they have, as they now can't use them
+            Randomat:SetRole(ply, ROLE_INNOCENT)
+            ply:ResetEquipment()
+            ply:SetCredits(0)
+        end
+
+        -- Command to stop Advanced Playermodel Selector from preventing playermodels from being changed
+        ply:ConCommand("cl_playermodel_selector_force 0")
+        -- Reset FOV to unscope
+        ply:SetFOV(0, 0.2)
+
+        -- Changing roles interrupts weapon giving logic, so we wait a split second before trying to give players weapons
+        timer.Simple(0.1, function()
+            -- Giving the crowbar, magneto stick and "Holstered"
+            ply:Give("weapon_zm_improvised")
+            ply:Give("weapon_zm_carry")
+            ply:Give("weapon_ttt_unarmed")
+
+            -- Forcing the player to hold the same kind of weapon they were holding before weapons were stripped
+            if isnumber(heldWepKinds[ply]) then
+                for _, wep in ipairs(ply:GetWeapons()) do
+                    if wep.Kind and wep.Kind == heldWepKinds[ply] then
+                        ply:SelectWeapon(wep)
+                    end
+                end
+            end
+        end)
+
+        timer.Simple(1, function()
+            -- Wait a second before giving everyone a default TTT playermodel as the "cl_playermodel_selector_force" command needs to be networked
+            if ply:GetViewOffset() ~= standardHeightVector then
+                ply:SetViewOffset(standardHeightVector)
+                ply:SetViewOffsetDucked(standardCrouchedHeightVector)
+            end
+
+            playerModels[ply] = ply:GetModel()
+            ply:SetModel(chosenModel)
+        end)
+    end
+
+    -- Updating everyone's roles in the bottom-left HUD box
+    SendFullStateUpdate()
 
     -- Replacing the end-of-round summary of everyone's roles with the classic highlights tab
     if ConVarExists("ttt_round_summary_tabs") then
@@ -334,7 +338,7 @@ function EVENT:End()
                 local wep = weapons.GetStored(classname)
                 wep.CanBuy = wep.CanBuyOrig
 
-                if wep.BlockShopRandomizationOrig then
+                if wep.BlockShopRandomizationOrig ~= nil then
                     wep.BlockShopRandomization = wep.BlockShopRandomizationOrig
                 end
             end

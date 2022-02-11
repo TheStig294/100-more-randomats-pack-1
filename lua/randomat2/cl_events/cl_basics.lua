@@ -85,9 +85,11 @@ net.Receive("BasicsRandomatClientStart", function()
                 wep.CanBuyOrig = wep.CanBuy
                 wep.CanBuy = {}
 
-                if wep.BlockShopRandomization then
+                if wep.BlockShopRandomization ~= nil then
                     wep.BlockShopRandomizationOrig = wep.BlockShopRandomization
                 end
+
+                wep.BlockShopRandomization = true
 
                 for _, defaultWep in ipairs(defaultDetectiveItems) do
                     if classname == defaultWep then
@@ -127,7 +129,7 @@ net.Receive("BasicsRandomatClientEnd", function()
             local wep = weapons.GetStored(classname)
             wep.CanBuy = wep.CanBuyOrig
 
-            if wep.BlockShopRandomizationOrig then
+            if wep.BlockShopRandomizationOrig ~= nil then
                 wep.BlockShopRandomization = wep.BlockShopRandomizationOrig
             end
         end
