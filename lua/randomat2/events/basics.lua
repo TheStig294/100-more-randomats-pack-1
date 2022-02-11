@@ -85,7 +85,9 @@ function EVENT:Begin()
             wep.CanBuyOrig = wep.CanBuy
             wep.CanBuy = {}
 
-            if wep.BlockShopRandomization ~= nil then
+            if wep.BlockShopRandomization == nil then
+                wep.BlockShopRandomizationOrig = false
+            else
                 wep.BlockShopRandomizationOrig = wep.BlockShopRandomization
             end
 
@@ -337,10 +339,7 @@ function EVENT:End()
             if istable(wepCopy.CanBuy) and isstring(classname) then
                 local wep = weapons.GetStored(classname)
                 wep.CanBuy = wep.CanBuyOrig
-
-                if wep.BlockShopRandomizationOrig ~= nil then
-                    wep.BlockShopRandomization = wep.BlockShopRandomizationOrig
-                end
+                wep.BlockShopRandomization = wep.BlockShopRandomizationOrig
             end
         end
 
