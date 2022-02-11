@@ -15,14 +15,25 @@ local summaryTabs = "summary,hilite,events,scores"
 local orginalJumps = 1
 local detectiveOnlySearch = true
 local traitorHalos = true
+local excludeWepsExistDetective = false
+local excludeWepsExistTraitor = false
 
 function EVENT:Begin()
     eventTriggered = true
     -- First, save the current passive items detectives/traitors have
     detectiveEquipmentItems = EquipmentItems[ROLE_DETECTIVE]
     traitorEquipmentItems = EquipmentItems[ROLE_TRAITOR]
-    detectiveExcludeWeapons = WEPS.ExcludeWeapons[ROLE_DETECTIVE]
-    traitorExcludeWeapons = WEPS.ExcludeWeapons[ROLE_TRAITOR]
+    excludeWepsExistDetective = istable(WEPS.ExcludeWeapons) and istable(WEPS.ExcludeWeapons[ROLE_DETECTIVE])
+    excludeWepsExistTraitor = istable(WEPS.ExcludeWeapons) and istable(WEPS.ExcludeWeapons[ROLE_TRAITOR])
+
+    if excludeWepsExistDetective then
+        detectiveExcludeWeapons = WEPS.ExcludeWeapons[ROLE_DETECTIVE]
+    end
+
+    if excludeWepsExistTraitor then
+        traitorExcludeWeapons = WEPS.ExcludeWeapons[ROLE_TRAITOR]
+    end
+
     -- Now, add just the default passive items for the detective/traitor
     local mat_dir = "vgui/ttt/"
 
@@ -74,8 +85,13 @@ function EVENT:Begin()
 
     local defaultTraitorItems = {"weapon_ttt_flaregun", "weapon_ttt_knife", "weapon_ttt_teleport", "weapon_ttt_radio", "weapon_ttt_push", "weapon_ttt_sipistol", "weapon_ttt_decoy", "weapon_ttt_c4", "weapon_ttt_phammer"}
 
-    WEPS.ExcludeWeapons[ROLE_DETECTIVE] = {}
-    WEPS.ExcludeWeapons[ROLE_TRAITOR] = {}
+    if excludeWepsExistDetective then
+        WEPS.ExcludeWeapons[ROLE_DETECTIVE] = {}
+    end
+
+    if excludeWepsExistTraitor then
+        WEPS.ExcludeWeapons[ROLE_TRAITOR] = {}
+    end
 
     for _, wepCopy in ipairs(weapons.GetList()) do
         local classname = WEPS.GetClass(wepCopy)
@@ -325,11 +341,11 @@ function EVENT:End()
         EquipmentItems[ROLE_DETECTIVE] = detectiveEquipmentItems
         EquipmentItems[ROLE_TRAITOR] = traitorEquipmentItems
 
-        if detectiveExcludeWeapons then
+        if excludeWepsExistDetective then
             WEPS.ExcludeWeapons[ROLE_DETECTIVE] = detectiveExcludeWeapons
         end
 
-        if traitorExcludeWeapons then
+        if excludeWepsExistTraitor then
             WEPS.ExcludeWeapons[ROLE_TRAITOR] = traitorExcludeWeapons
         end
 
