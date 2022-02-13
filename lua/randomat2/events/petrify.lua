@@ -43,6 +43,14 @@ function EVENT:Begin()
             ply:StopSound("physics\\concrete\\concrete_scrape_smooth_loop1.wav")
         end
     end)
+
+    -- Sets someone's playermodel again when respawning, as force playermodel is off
+    self:AddHook("PlayerSpawn", function(ply)
+        timer.Simple(1, function()
+            petrify(ply)
+            ply.soundPlaying = false
+        end)
+    end)
 end
 
 function EVENT:End()
