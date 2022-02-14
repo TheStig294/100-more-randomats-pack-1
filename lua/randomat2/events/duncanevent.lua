@@ -16,22 +16,31 @@
 -- Overhauled and maintained by The Stig
 --
 --]]
-local EVENT = {}
 util.AddNetworkString("DuncanEventRandomatHideNames")
 util.AddNetworkString("DuncanEventRandomatEnd")
 
 CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Hide player names")
 
+local function GetDescription()
+    local description = "Everyone has the same playermodel"
+
+    if GetConVar("randomat_duncanevent_disguise"):GetBool() then
+        description = description .. ", names are hidden"
+    end
+
+    description = description .. "!"
+
+    return description
+end
+
+local EVENT = {}
 EVENT.Title = ""
 EVENT.id = "duncanevent"
-EVENT.Description = "Everyone has the same playermodel!"
+EVENT.Description = GetDescription()
 EVENT.AltTitle = "It's ..."
 
 function EVENT:Begin()
-    if GetConVar("randomat_duncanevent_disguise"):GetBool() then
-        self.Description = self.Description .. " Names are hidden"
-    end
-
+    self.Description = GetDescription()
     local randomPly = table.Random(self:GetAlivePlayers())
     local chosenModel = randomPly:GetModel()
     local chosenViewOffset = randomPly:GetViewOffset()
