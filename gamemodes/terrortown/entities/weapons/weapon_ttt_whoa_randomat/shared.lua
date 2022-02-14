@@ -97,7 +97,7 @@ end
 function SWEP:Deploy()
     local owner = self:GetOwner()
 
-    if IsValid(owner) then
+    if IsPlayer(owner) then
         owner:DrawWorldModel(false)
     end
 
