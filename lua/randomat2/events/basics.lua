@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Back to Basics"
-EVENT.Description = "Strips everything back to original TTT"
+EVENT.Description = "It's time for a round of original TTT!"
 EVENT.id = "basics"
 util.AddNetworkString("BasicsRandomatClientStart")
 util.AddNetworkString("BasicsRandomatClientEnd")
