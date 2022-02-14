@@ -8,12 +8,32 @@ CreateConVar("randomat_whoa_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event
 
 CreateConVar("randomat_whoa_weaponid", "weapon_ttt_whoa_randomat", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
 
+local function GetDescription()
+    local description = "Everyone"
+
+    if modelExists then
+        description = description .. " is changed into Crash Bandicoot, and"
+    end
+
+    description = description .. " can"
+
+    if GetConVar("randomat_whoa_strip"):GetBool() then
+        description = description .. " only"
+    end
+
+    description = description .. " spin attack!"
+
+    return description
+end
+
 EVENT.Title = "Whoa!"
-EVENT.Description = "Everyone can only spin attack!"
+EVENT.Description = GetDescription()
 EVENT.id = "whoa"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 function EVENT:Begin()
+    self.Description = GetDescription()
+
     for i, ply in ipairs(self:GetAlivePlayers()) do
         -- Convert all independent guys to innocents so we don't have to worry about fighting damage penalty logic
         if Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply) or Randomat:IsJesterTeam(ply) then
