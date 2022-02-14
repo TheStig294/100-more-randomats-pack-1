@@ -3,24 +3,10 @@ EVENT.Title = "Petrify!"
 EVENT.Description = "Turns players into a stone like figure, playing a quite annoying sound when they move."
 EVENT.id = "petrify"
 
--- Turn player to stone
-local function petrify(ply)
-    if IsPlayer(ply) and ply:Alive() then
-        FindMetaTable("Entity").SetModel(ply, "models/player.mdl")
-    end
-end
-
 function EVENT:Begin()
-    self:AddHook("PlayerSpawn", function(ply)
-        -- Petrify on spawn
-        if ply then
-            timer.Simple(0.5, petrify, ply)
-        end
-    end)
-
     -- Petrify all players
-    for i, ply in pairs(self:GetPlayers()) do
-        petrify(ply)
+    for i, ply in pairs(self:GetAlivePlayers()) do
+        ForceSetPlayermodel(ply, "models/player.mdl")
         ply.soundPlaying = false
     end
 
@@ -44,10 +30,10 @@ function EVENT:Begin()
         end
     end)
 
-    -- Sets someone's playermodel again when respawning, as force playermodel is off
+    -- Sets someone's playermodel again when respawning
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            petrify(ply)
+            ForceSetPlayermodel(ply, "models/player.mdl")
             ply.soundPlaying = false
         end)
     end)
@@ -58,6 +44,8 @@ function EVENT:End()
     for i, ply in ipairs(self:GetPlayers()) do
         ply:StopSound("physics\\concrete\\concrete_scrape_smooth_loop1.wav")
     end
+
+    ForceResetAllPlayermodels()
 end
 
 Randomat:register(EVENT)

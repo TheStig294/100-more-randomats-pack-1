@@ -14,43 +14,17 @@ local sndTabIdle = {"chickens/idle1.mp3", "chickens/idle2.mp3", "chickens/idle3.
 
 local sndTabPain = {"chickens/pain1.mp3", "chickens/pain2.mp3", "chickens/pain3.mp3"}
 
-local playerModels = {}
-local offsets = {}
-local offsets_ducked = {}
+local maxHealth = {}
 
 function EVENT:Begin()
-    playerModels = {}
     local hp = GetConVar("randomat_chickens_hp"):GetInt()
     local sc = GetConVar("randomat_chickens_sc"):GetFloat()
     local sp = GetConVar("randomat_chickens_sp"):GetFloat()
-
-    for _, ply in pairs(self:GetAlivePlayers()) do
-        -- If the player's stored viewheight is null, store their viewheight
-        if not offsets[ply:SteamID64()] then
-            offsets[ply:SteamID64()] = ply:GetViewOffset()
-        end
-
-        -- If the player's crouched viewheight is null, store their crouched viewheight
-        if not offsets_ducked[ply:SteamID64()] then
-            offsets_ducked[ply:SteamID64()] = ply:GetViewOffsetDucked()
-        end
-    end
+    maxHealth = {}
 
     for k, ply in pairs(self:GetAlivePlayers()) do
-        -- Bots do not have the following command, so it's unnecessary
-        if (not ply:IsBot()) then
-            -- We need to disable cl_playermodel_selector_force, because it messes with SetModel, we'll reset it when the event ends
-            ply:ConCommand("cl_playermodel_selector_force 0")
-        end
-
-        -- we need  to wait a second for cl_playermodel_selector_force to take effect (and THEN change model)
-        timer.Simple(1, function()
-            -- Set player number K (in the table) to their respective model
-            playerModels[k] = ply:GetModel()
-            -- Sets their model to a full-sized chicken playermodel
-            -- The chicken playermodel is giant, and is shrunk down to chicken size below
-            ply:SetModel("models/xtra_randos/chicken/chicken3.mdl")
-        end)
+        ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
+        maxHealth[ply] = ply:GetMaxHealth()
     end
 
     self:AddHook("Think", function()
@@ -69,7 +43,7 @@ function EVENT:Begin()
     end)
 
     -- Scales the player speed on clients
-    for k, ply in pairs(self:GetPlayers()) do
+    for k, ply in pairs(player.GetAll()) do
         net.Start("RdmtSetSpeedMultiplier")
         net.WriteFloat(sp)
         net.WriteString("RdmtChickensSpeed")
@@ -121,32 +95,15 @@ function EVENT:Begin()
     end)
 
     -- Sets a player's model to a chicken if they respawn
-    self:AddHook("PlayerSpawn", function(ply, transition)
+    self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            ply:SetModel("models/xtra_randos/chicken/chicken3.mdl")
+            ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
         end)
     end)
 end
 
 function EVENT:End()
-    -- loop through all players
-    for k, ply in pairs(self:GetPlayers()) do
-        -- if the index k in the table playermodels has a model, then...
-        if (playerModels[k] ~= nil) then
-            -- we set the player v to the playermodel with index k in the table
-            -- this should invoke the viewheight script from the models and fix viewoffsets (e.g. Zoey's model) 
-            -- this does however first reset their viewmodel in the preparing phase (when they respawn)
-            -- might be glitchy with pointshop items that allow you to get a viewoffset
-            ply:SetModel(playerModels[k])
-        end
-
-        -- we reset the cl_playermodel_selector_force to 1, otherwise TTT will reset their playermodels on a new round start (to default models!)
-        ply:ConCommand("cl_playermodel_selector_force 1")
-        ply:ConCommand("playermodel_apply")
-        -- clear the model table to avoid setting wrong models (e.g. disconnected players)
-        table.Empty(playerModels)
-    end
-
+    ForceResetAllPlayermodels()
     timer.Remove("RdmtChickenIdleSounds")
     timer.Remove("RdmtChickenHp")
     -- Reset the player speed on the client
@@ -155,37 +112,16 @@ function EVENT:End()
     net.Broadcast()
 
     -- Reset all players
-    for k, ply in pairs(self:GetPlayers()) do
-        local offset = nil
-
-        -- Clearing player offset table
-        if offsets[ply:SteamID64()] then
-            offset = offsets[ply:SteamID64()]
-            offsets[ply:SteamID64()] = nil
-        end
-
-        -- Resetting player viewheight
-        if offset or not ply.ec_ViewChanged then
-            ply:SetViewOffset(offset or Vector(0, 0, 64))
-        end
-
-        local offset_ducked = nil
-
-        -- Clearing player crouching offset table
-        if offsets_ducked[ply:SteamID64()] then
-            offset_ducked = offsets_ducked[ply:SteamID64()]
-            offsets_ducked[ply:SteamID64()] = nil
-        end
-
-        -- Resetting player crouching viewheight
-        if offset_ducked or not ply.ec_ViewChanged then
-            ply:SetViewOffsetDucked(offset_ducked or Vector(0, 0, 28))
-        end
-
+    for k, ply in pairs(player.GetAll()) do
         -- Resetting player size, hitbox, and ability to climb stairs...
         ply:SetModelScale(1, 0)
         ply:ResetHull()
         ply:SetStepSize(18)
+
+        if maxHealth[ply] then
+            ply:SetMaxHealth(maxHealth[ply])
+            ply:SetHealth(maxHealth[ply])
+        end
     end
 end
 

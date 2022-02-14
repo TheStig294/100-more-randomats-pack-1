@@ -10,7 +10,6 @@ local detectiveEquipmentItems
 local traitorEquipmentItems
 local detectiveExcludeWeapons
 local traitorExcludeWeapons
-local playerModels = {}
 local summaryTabs = "summary,hilite,events,scores"
 local orginalJumps = 1
 local detectiveOnlySearch = true
@@ -209,10 +208,17 @@ function EVENT:Begin()
 
     -- Choosing a random default model for everyone
     local chosenModel = defaultModels[math.random(1, #defaultModels)]
-    local standardHeightVector = Vector(0, 0, 64)
-    local standardCrouchedHeightVector = Vector(0, 0, 28)
+
+    -- Sets someone's playermodel again when respawning
+    self:AddHook("PlayerSpawn", function(ply)
+        timer.Simple(1, function()
+            ForceSetPlayermodel(ply, chosenModel)
+        end)
+    end)
 
     for _, ply in pairs(player.GetAll()) do
+        ForceSetPlayermodel(ply, chosenModel)
+
         -- Removing passive items
         if Randomat:IsTraitorTeam(ply) or Randomat:IsGoodDetectiveLike(ply) then
             local i = 1
@@ -262,8 +268,6 @@ function EVENT:Begin()
             ply:SetCredits(0)
         end
 
-        -- Command to stop Advanced Playermodel Selector from preventing playermodels from being changed
-        ply:ConCommand("cl_playermodel_selector_force 0")
         -- Reset FOV to unscope
         ply:SetFOV(0, 0.2)
 
@@ -282,17 +286,6 @@ function EVENT:Begin()
                     end
                 end
             end
-        end)
-
-        timer.Simple(1, function()
-            -- Wait a second before giving everyone a default TTT playermodel as the "cl_playermodel_selector_force" command needs to be networked
-            if ply:GetViewOffset() ~= standardHeightVector then
-                ply:SetViewOffset(standardHeightVector)
-                ply:SetViewOffsetDucked(standardCrouchedHeightVector)
-            end
-
-            playerModels[ply] = ply:GetModel()
-            ply:SetModel(chosenModel)
         end)
     end
 
@@ -359,14 +352,7 @@ function EVENT:End()
             end
         end
 
-        for _, ply in pairs(player.GetAll()) do
-            if playerModels[ply] ~= nil then
-                ply:SetModel(playerModels[ply])
-            end
-
-            ply:ConCommand("cl_playermodel_selector_force 1")
-            table.Empty(playerModels)
-        end
+        ForceResetAllPlayermodels()
 
         if ConVarExists("ttt_round_summary_tabs") then
             GetConVar("ttt_round_summary_tabs"):SetString(summaryTabs)

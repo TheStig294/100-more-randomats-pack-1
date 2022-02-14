@@ -225,3 +225,49 @@ function IsBuyableItem(role, wep, includeWepsExist, excludeWepsExist)
 
     return false
 end
+
+-- Function to set/reset playermodels without having to deal with networking
+-- Other than avoiding jankyness with the timing of net messages, 
+-- this function ensures playermodel changing randomats reset players to their actual playermodels
+-- when multiple playermodel changing randomats trigger in one round
+local playermodels = {}
+local viewOffsets = {}
+local viewOffsetsDucked = {}
+
+hook.Add("TTTBeginRound", "RandomatGetBeginPlayermodels", function()
+    for _, ply in ipairs(player.GetAll()) do
+        playermodels[ply] = ply:GetModel()
+        viewOffsets[ply] = ply:GetViewOffset()
+        viewOffsetsDucked[ply] = ply:GetViewOffsetDucked()
+    end
+end)
+
+function ForceSetPlayermodel(ply, model, viewOffset, viewOffsetDucked)
+    if IsPlayer(ply) then
+        if util.IsValidModel(model) then
+            FindMetaTable("Entity").SetModel(ply, model)
+        end
+
+        timer.Simple(0, function()
+            if viewOffset then
+                ply:SetViewOffset(viewOffset)
+            else
+                ply:SetViewOffset(Vector(0, 0, 64))
+            end
+
+            if viewOffsetDucked then
+                ply:SetViewOffsetDucked(viewOffsetDucked)
+            else
+                ply:SetViewOffsetDucked(Vector(0, 0, 28))
+            end
+        end)
+    end
+end
+
+function ForceResetAllPlayermodels()
+    for _, ply in ipairs(player.GetAll()) do
+        if playermodels[ply] then
+            ForceSetPlayermodel(ply, playermodels[ply], viewOffsets[ply], viewOffsetsDucked[ply])
+        end
+    end
+end

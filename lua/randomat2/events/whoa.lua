@@ -1,6 +1,3 @@
-local standardHeightVector = Vector(0, 0, 64)
-local standardCrouchedHeightVector = Vector(0, 0, 28)
-local playerModels = {}
 local modelExists = util.IsValidModel("models/bandicoot/bandicoot.mdl")
 util.PrecacheSound("whoa/whoa.mp3")
 local EVENT = {}
@@ -29,26 +26,7 @@ function EVENT:Begin()
 
     for k, ply in pairs(player.GetAll()) do
         if modelExists then
-            -- bots do not have the following command, so it's unnecessary
-            if not ply:IsBot() then
-                -- We need to disable cl_playermodel_selector_force, because it messes with SetModel, we'll reset it when the event ends
-                ply:ConCommand("cl_playermodel_selector_force 0")
-            end
-
-            -- we need  to wait a second for cl_playermodel_selector_force to take effect (and THEN change model)
-            timer.Simple(1, function()
-                -- if the player's viewoffset is different than the standard, then...
-                if ply:GetViewOffset() ~= standardHeightVector then
-                    -- So we set their new heights to the default values
-                    ply:SetViewOffset(standardHeightVector)
-                    ply:SetViewOffsetDucked(standardCrouchedHeightVector)
-                end
-
-                -- Set player number K (in the table) to their respective model
-                playerModels[k] = ply:GetModel()
-                -- Sets their model to chosenModel
-                ply:SetModel("models/bandicoot/bandicoot.mdl")
-            end)
+            ForceSetPlayermodel(ply, "models/bandicoot/bandicoot.mdl")
         end
     end
 
@@ -85,7 +63,7 @@ function EVENT:Begin()
     if modelExists then
         self:AddHook("PlayerSpawn", function(ply)
             timer.Simple(1, function()
-                ply:SetModel("models/bandicoot/bandicoot.mdl")
+                ForceSetPlayermodel(ply, "models/bandicoot/bandicoot.mdl")
             end)
         end)
     end
@@ -99,25 +77,7 @@ end
 
 function EVENT:End()
     timer.Remove("RandomatWhoaTimer")
-
-    if modelExists then
-        -- loop through all players
-        for k, ply in pairs(player.GetAll()) do
-            -- if the index k in the table playermodels has a model, then...
-            if (playerModels[k] ~= nil) then
-                -- we set the player ply to the playermodel with index k in the table
-                -- this should invoke the viewheight script from the models and fix viewoffsets (e.g. Zoey's model) 
-                -- this does however first reset their viewmodel in the preparing phase (when they respawn)
-                -- might be glitchy with pointshop items that allow you to get a viewoffset
-                ply:SetModel(playerModels[k])
-            end
-
-            -- we reset the cl_playermodel_selector_force to 1, otherwise TTT will reset their playermodels on a new round start (to default models!)
-            ply:ConCommand("cl_playermodel_selector_force 1")
-            -- clear the model table to avoid setting wrong models (e.g. disconnected players)
-            table.Empty(playerModels)
-        end
-    end
+    ForceResetAllPlayermodels()
 end
 
 function EVENT:Condition()
