@@ -6,19 +6,14 @@ EVENT.id = "nobody"
 function EVENT:Begin()
     self:AddHook("TTTOnCorpseCreated", function(corpse)
         timer.Simple(0.1, function()
+            local pos = corpse:GetPos()
             corpse:Remove()
+            -- Creates a "poof" smoke cloud when a body disappears
+            local effectdata = EffectData()
+            effectdata:SetOrigin(pos)
+            util.Effect("AntlionGib", effectdata)
         end)
     end)
-
-    if CR_VERSION then
-        util.AddNetworkString("NobodyRandomatDeathConfetti")
-
-        self:AddHook("DoPlayerDeath", function(ply)
-            net.Start("NobodyRandomatDeathConfetti")
-            net.WriteEntity(ply)
-            net.Broadcast()
-        end)
-    end
 end
 
 Randomat:register(EVENT)
