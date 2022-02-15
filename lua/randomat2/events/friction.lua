@@ -23,8 +23,14 @@ function EVENT:Begin()
     -- Removing prop damage as props can easily unintentionally kill you while friction is set to 0, by default
     if GetConVar("randomat_friction_nopropdmg"):GetBool() then
         self:AddHook("EntityTakeDamage", function(ent, dmginfo)
-            -- If we make people immune to damage from the barnacle, the last players alive could get stuck, so also let barnacle damage through
-            if IsPlayer(ent) and dmginfo:IsDamageType(DMG_CRUSH) and IsValid(dmginfo:GetInflictor()) and dmginfo:GetInflictor():GetClass() ~= "npc_barnacle" then return true end
+            if IsPlayer(ent) and dmginfo:IsDamageType(DMG_CRUSH) then
+                -- If we make people immune to damage from the barnacle, the last players alive could get stuck, so also let barnacle damage through
+                if IsValid(dmginfo:GetInflictor()) and dmginfo:GetInflictor():GetClass() == "npc_barnacle" then
+                    return
+                else
+                    return true
+                end
+            end
         end)
     end
 
