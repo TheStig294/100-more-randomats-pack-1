@@ -18,8 +18,8 @@ function EVENT:Begin()
             table.insert(roles, ply:GetRole())
         end
 
-        -- Set everyone's roles, shuffle the player table again for extra randomness
-        for i, ply in ipairs(self:GetAlivePlayers(true)) do
+        -- Set everyone's roles
+        for i, ply in ipairs(self:GetAlivePlayers()) do
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, roles[i])
         end
