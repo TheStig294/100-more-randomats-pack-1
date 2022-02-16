@@ -5,8 +5,8 @@ EVENT.id = "bleghsound"
 util.AddNetworkString("RandomatBleghSound")
 local bleghSounds = {}
 
-for i = 1, 17 do
-    table.insert(bleghSounds, Sound("bleghsound/blegh" .. i .. ".mp3"))
+for i, soundFile in ipairs(file.Find("sound/bleghsound/*.mp3", "GAME")) do
+    table.insert(bleghSounds, Sound("bleghsound/" .. soundFile))
 end
 
 function EVENT:Begin()
