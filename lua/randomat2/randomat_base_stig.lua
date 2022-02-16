@@ -45,16 +45,6 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     --
     Randomat.EventHistory = Randomat.EventHistory or {}
 
-    local function IsEventInHistory(event)
-        if type(event) ~= "table" then
-            event = Randomat.Events[event]
-        end
-
-        if event == nil then return end
-
-        return table.HasValue(Randomat.EventHistory, event.Id)
-    end
-
     local function TruncateEventHistory(count)
         if count <= 0 then return end
 
@@ -97,21 +87,6 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         return true
     end
 
-    local function AddEventToHistory(event)
-        local count = GetConVar("ttt_randomat_event_history"):GetInt()
-        if count <= 0 then return end
-        if not CheckEventHistoryFile() then return end
-
-        if type(event) ~= "table" then
-            event = Randomat.Events[event]
-        end
-
-        if event == nil then return end
-        table.insert(Randomat.EventHistory, event.Id)
-        TruncateEventHistory(count)
-        SaveEventHistory()
-    end
-
     local function LoadEventHistory()
         local count = GetConVar("ttt_randomat_event_history"):GetInt()
         if count <= 0 then return end
@@ -130,6 +105,31 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     LoadEventHistory()
+
+    function Randomat:IsEventInHistory(event)
+        if type(event) ~= "table" then
+            event = Randomat.Events[event]
+        end
+
+        if event == nil then return end
+
+        return table.HasValue(Randomat.EventHistory, event.Id)
+    end
+
+    function Randomat:AddEventToHistory(event)
+        local count = GetConVar("ttt_randomat_event_history"):GetInt()
+        if count <= 0 then return end
+        if not CheckEventHistoryFile() then return end
+
+        if type(event) ~= "table" then
+            event = Randomat.Events[event]
+        end
+
+        if event == nil then return end
+        table.insert(Randomat.EventHistory, event.Id)
+        TruncateEventHistory(count)
+        SaveEventHistory()
+    end
 
     concommand.Add("ttt_randomat_clearhistory", function()
         table.Empty(Randomat.EventHistory)
@@ -283,19 +283,20 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         return Randomat:GetPlayers(true, true)[1]
     end
 
-    function Randomat:SetRole(ply, role)
-        -- Reset the Veteran damage bonus
-        if ply:GetRole() == ROLE_VETERAN and role ~= ROLE_VETERAN then
-            ply:SetNWBool("VeteranActive", false)
+    function Randomat:SetRole(ply, role, set_max_hp)
+        local old_role = ply:GetRole()
+        ply:SetRole(role)
+
+        -- Set the player's max HP for their new role (Defaults to true)
+        if set_max_hp ~= false and SetRoleMaxHealth then
+            SetRoleMaxHealth(ply)
         end
 
         -- Heal the Old Man back to full when they are converted
-        if ply:GetRole() == ROLE_OLDMAN and role ~= ROLE_OLDMAN then
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
+        if old_role == ROLE_OLDMAN and role ~= ROLE_OLDMAN and SetRoleStartingHealth then
+            SetRoleStartingHealth(ply)
         end
 
-        ply:SetRole(role)
         net.Start("TTT_RoleChanged")
         net.WriteString(ply:SteamID64())
 
@@ -385,7 +386,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         -- Don't allow single use events to run twice
         if event.SingleUse and Randomat:IsEventActive(event.Id) then return false, "Single use event is already running" end
         -- Don't use the same events over and over again
-        if not ignore_history and IsEventInHistory(event) then return false, "Event is in recent history" end
+        if not ignore_history and Randomat:IsEventInHistory(event) then return false, "Event is in recent history" end
 
         -- Don't allow multiple events of the same type to run at once
         if event.Type ~= EVENT_TYPE_DEFAULT then
@@ -464,7 +465,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
         -- Only add randomly selected events to the history so specifically-triggered events don't get tracked
         if not skip_history then
-            AddEventToHistory(event)
+            Randomat:AddEventToHistory(event)
         end
 
         return event
@@ -591,6 +592,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             end
         end
 
+        if #tbl == 0 then return nil, nil, nil end
         table.Shuffle(tbl)
         local item = table.Random(tbl)
         local item_id = tonumber(item.id)
@@ -611,7 +613,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
         if item_id then
             -- If this is an item and we shouldn't get players items or the player already has this item, try again
-            if not include_equipment or ply:HasEquipmentItem(item_id) then
+            if not include_equipment or not ply or ply:HasEquipmentItem(item_id) then
                 -- Otherwise return it
                 return Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tracking, settrackingvar, droppable_only)
             else
@@ -621,7 +623,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             end
         elseif swep_table then
             -- If this player can use this weapon, give it to them
-            if ply:CanCarryWeapon(swep_table) then
+            if not ply or ply:CanCarryWeapon(swep_table) then
                 settrackingvar(0)
                 -- Otherwise try again
 
@@ -630,8 +632,9 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
                 return Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tracking, settrackingvar, droppable_only)
             end
         end
+        -- If nothing valid was found, try again
 
-        return nil, nil, nil
+        return Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tracking, settrackingvar, droppable_only)
     end
 
     local function GiveWep(ply, roles, blocklist, include_equipment, tracking, settrackingvar, onitemgiven, droppable_only)

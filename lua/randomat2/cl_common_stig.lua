@@ -98,7 +98,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
     function Randomat:GetWeaponName(item)
         for _, v in ipairs(weapons.GetList()) do
-            if item == v.ClassName then return LANG.TryTranslation(v.PrintName) end
+            if item == WEPS.GetClass(v) then return LANG.TryTranslation(v.PrintName) end
         end
 
         return item
