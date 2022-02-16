@@ -1,91 +1,152 @@
 local EVENT = {}
 EVENT.Title = "Simon Says"
-EVENT.Description = "Everyone is forced to use the gun the chosen person has out"
+EVENT.Description = "Everyone's forced to use the weapon the chosen person has out"
 EVENT.id = "simonsays"
 EVENT.leader = nil
+EVENT.leaders = {}
 EVENT.weapons = {}
 EVENT.activeWeapon = nil
--- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
+EVENT.givenWeapons = {}
+-- This stops other "Weapon Override" randomats from triggering
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
--- Allow players to hold the crowbar, magneto stick and 'holstered' even if the chosen player is holding something different
-EVENT.whitelist = {"weapon_zm_improvised", "weapon_zm_carry", "weapon_ttt_unarmed"}
+-- Weapons that aren't allowed during this event
+EVENT.blacklist = {"weapon_zm_improvised", "weapon_zm_carry", "weapon_ttt_unarmed"}
+
+-- Default guns to give out if the leader doesn't have one
+EVENT.defaultHeavys = {"weapon_zm_sledge", "weapon_zm_shotgun", "weapon_zm_rifle", "weapon_zm_mac10", "weapon_ttt_m16"}
 
 function EVENT:Begin()
-    -- After 5 seconds,
-    timer.Simple(5, function()
-        -- Choose the 'leader'
+    timer.Create("SimonSaysInitialTriggerTimer", 5, 1, function()
+        -- Remove all grenades as they cause players to be able to throw them infinitely
+        -- Also remove everyone's crowbar, magneto stick and unarmed
+        for _, ent in ipairs(ents.GetAll()) do
+            if not IsValid(ent) then continue end
+
+            if ent.Kind and (ent.Kind == WEAPON_NADE or ent.Kind == WEAPON_MELEE) then
+                ent:Remove()
+            elseif ent:GetClass() == "weapon_zm_carry" or ent:GetClass() == "weapon_ttt_unarmed" then
+                ent:Remove()
+            end
+        end
+
         self:SelectLeader()
 
-        -- And force everyone else to hold what they are holding
-        timer.Create("RandomatCopyGuns", 0.1, 0, function()
+        -- Forces everyone else to hold what the leader is holding 
+        timer.Create("SimonSaysCopyGuns", 0.1, 0, function()
             self:CopyGuns()
         end)
-    end)
 
-    -- Whenever a player walks over a weapon,
-    self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
-        -- If there is a leader and they aren't the leader,
-        if self.leader ~= nil and ply ~= self.leader then
-            local allowPickup = false
+        -- Select a new leader every 60 seconds
+        timer.Create("SimonSaysSelectLeaderTimer", 60, 0, function()
+            self:SelectLeader()
+        end)
 
-            -- If they're trying to pick up the leader's weapon then let them
-            for _, leaderWeapon in pairs(self.weapons) do
-                if wep.ClassName == leaderWeapon.cl then
-                    allowPickup = true
-                    break
+        -- Whenever a player walks over a weapon,
+        self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+            -- If there is a leader and they aren't the leader,
+            if self.leader ~= nil and ply ~= self.leader then
+                local allowPickup = false
+
+                -- If they're trying to pick up the leader's weapon then let them
+                for _, leaderWeapon in pairs(self.weapons) do
+                    if wep.ClassName == leaderWeapon.cl then
+                        allowPickup = true
+                        break
+                    end
                 end
+
+                -- Else, stop them from picking it up
+                if not allowPickup then return false end
             end
+        end)
 
-            -- Else, stop them from picking it up
-            if not allowPickup then return false end
-        end
-    end)
-
-    -- If someone dies,
-    self:AddHook("PostPlayerDeath", function(ply)
-        -- And they're the leader,
-        if ply == self.leader then
-            -- After a second,
-            timer.Simple(1, function()
-                -- Select a new leader
+        -- If the leader dies, select a new leader
+        self:AddHook("PostPlayerDeath", function(ply)
+            if ply == self.leader then
                 self:SelectLeader()
-            end)
-        end
+            end
+        end)
+
+        -- If we're switching from a TFA weapon to the disguiser while it's running, JUST DO IT!
+        -- The holster animation causes a delay where the client is not allowed to switch weapons
+        -- This means if we tell the user to select a weapon and then block the user from switching weapons immediately after,
+        -- the holster animation delay will cause the player to not select the weapon we told them to
+        self:AddHook("TFA_PreHolster", function(wep, target)
+            if not IsValid(wep) or not IsValid(target) then return end
+            local owner = wep:GetOwner()
+            if not IsPlayer(owner) then return end
+            local weapon = WEPS.GetClass(target)
+            if weapon == self.activeWeapon then return true end
+        end)
+
+        -- Reset their given weapons when players respawn
+        self:AddHook("PlayerSpawn", function(ply)
+            self.givenWeapons[ply] = {}
+        end)
     end)
 end
 
 function EVENT:End()
     -- Stop forcing everyone to use the leader's guns
-    timer.Remove("RandomatCopyGuns")
-    self:CleanUpHooks()
+    timer.Remove("SimonSaysInitialTriggerTimer")
+    timer.Remove("SimonSaysCopyGuns")
+    timer.Remove("SimonSaysSelectLeaderTimer")
+    self.leader = nil
+    self.leaders = {}
+    self.weapons = {}
+    self.activeWeapon = nil
+    self.givenWeapons = {}
 end
 
 function EVENT:SelectLeader()
+    self.givenWeapons = {}
     -- For all alive players,
-    local plys = self:GetAlivePlayers(true)
+    local alivePlayers = self:GetAlivePlayers(true)
 
-    for _, ply in pairs(plys) do
-        -- If there isn't already a leader,
-        if self.leader == nil then
-            -- Randomly pick a new one
-            self.leader = table.Random(plys)
-            break
-        else
-            -- If there is a leader, ensure the same person isn't chosen
-            if ply ~= self.leader then
-                self.leader = table.Random(plys)
+    -- If there isn't already a leader,
+    if self.leader == nil then
+        -- Randomly pick a new one,
+        self.leader = alivePlayers[1]
+
+        -- but always start with a detective as the leader if there is one
+        for _, ply in pairs(alivePlayers) do
+            if Randomat:IsGoodDetectiveLike(ply) then
+                self.leader = ply
                 break
             end
+        end
+    else
+        -- If there is a leader, ensure someone who hasn't been picked before is chosen
+        for _, pastLeader in ipairs(self.leaders) do
+            table.RemoveByValue(alivePlayers, pastLeader)
+        end
+
+        -- But if everyone's been picked before then let everyone have a chance to be picked again
+        if table.IsEmpty(alivePlayers) then
+            alivePlayers = self:GetAlivePlayers(true)
+            self.leaders = {}
+        end
+
+        for _, ply in ipairs(alivePlayers) do
+            self.leader = ply
+            table.insert(self.leaders, self.leader)
+            break
         end
     end
 
     -- Let everyone know there is a new leader
-    self:SmallNotify("You can only use the gun " .. self.leader:Nick() .. " is using.")
+    self:SmallNotify("You can only use the weapon " .. self.leader:Nick() .. " is using.")
     -- Let the new leader drop their guns again
     self:UnlockGuns()
-    -- Force everyone else to use the new leader's guns
-    self:CopyGuns()
+    -- Remove the leader's crowbar, magneto stick and holstered weapons
+    self:StripBlacklistedWeapons(self.leader)
+
+    -- If the leader doesn't have any guns, give them a random default one
+    if table.IsEmpty(self.leader:GetWeapons()) then
+        local wep = self.leader:Give(self.defaultHeavys[math.random(1, #self.defaultHeavys)])
+        self.leader:SelectWeapon(wep)
+    end
 end
 
 function EVENT:CopyGuns()
@@ -99,16 +160,17 @@ function EVENT:CopyGuns()
             })
         end
 
-        -- Active weapon,
         self.activeWeapon = self.leader:GetActiveWeapon().ClassName
-        -- And them them drop guns
+        -- And let them drop guns
         self:UnlockGuns()
     end
 
-    -- For everyone other than the leader,
-    local plys = self:GetAlivePlayers()
+    local alivePlayers = self:GetAlivePlayers()
 
-    for _, ply in pairs(plys) do
+    for _, ply in pairs(alivePlayers) do
+        self:StripBlacklistedWeapons(ply)
+
+        -- For everyone other than the leader,
         if ply ~= self.leader then
             -- Remove all weapons they have that the leader doesn't
             for _, CurrentWeapon in pairs(ply:GetWeapons()) do
@@ -116,7 +178,8 @@ function EVENT:CopyGuns()
                 local delete = true
 
                 for k, weapon in pairs(self.weapons or {}) do
-                    if wepCl == weapon.cl then
+                    -- Except if it is a role weapon!
+                    if wepCl == weapon.cl or (CurrentWeapon.Kind and CurrentWeapon.Kind == WEAPON_ROLE) then
                         delete = false
                         break
                     end
@@ -130,30 +193,40 @@ function EVENT:CopyGuns()
             -- Unscope them so their fov isn't permenantly zoomed in if they were scoped
             ply:SetFOV(0, 0.2)
 
+            -- If a player has already received a weapon, don't give it to them again
+            -- This prevents weapons like grenades or the read matter bomb from being thrown infinite times if the leader holds it but doesn't throw it
+            if self.givenWeapons[ply] == nil then
+                self.givenWeapons[ply] = {}
+            end
+
             -- Give them the leader's weapons and prevent them from dropping them
             for k, weapon in pairs(self.weapons) do
-                local wep = ply:Give(weapon.cl)
-                wep.AllowDrop = false
+                -- Skip weapons already given before
+                local alreadyGiven = false
+                local classname = weapon.cl
+
+                for _, givenWeapon in ipairs(self.givenWeapons[ply]) do
+                    if classname == givenWeapon then
+                        alreadyGiven = true
+                        break
+                    end
+                end
+
+                if not alreadyGiven then
+                    local wep = ply:Give(classname)
+                    wep.AllowDrop = false
+                    table.insert(self.givenWeapons[ply], classname)
+                end
             end
 
             -- If the weapon they're holding isn't what the leader is holding,
             local wepCl = ply:GetActiveWeapon().ClassName
 
-            if wepCl ~= self.activeWeapon then
-                local whitelisted = false
-
-                -- And it isn't one of the whitelisted weapons, (crowbar, magneto stick, holstered)
-                for _, whitelistWeapon in pairs(self.whitelist) do
-                    if wepCl == whitelistWeapon then
-                        whitelisted = true
-                        break
-                    end
-                end
-
+            -- Or if the player isn't holding a role weapon 
+            if self.activeWeapon ~= nil and wepCl ~= self.activeWeapon and not (ply:GetActiveWeapon().Kind and ply:GetActiveWeapon().Kind == WEAPON_ROLE) then
                 -- Force them to hold the leader's weapon
-                if not whitelisted then
-                    ply:SelectWeapon(self.activeWeapon)
-                end
+                -- This will do nothing if the player has used the single-use item the leader has used
+                ply:SelectWeapon(self.activeWeapon)
             end
         end
     end
@@ -163,6 +236,15 @@ end
 function EVENT:UnlockGuns()
     for _, wep in pairs(self.leader:GetWeapons()) do
         wep.AllowDrop = true
+    end
+end
+
+-- Removes the weapons from the blacklist from a player
+function EVENT:StripBlacklistedWeapons(ply)
+    for _, classname in ipairs(self.blacklist) do
+        if ply:HasWeapon(classname) then
+            ply:StripWeapon(classname)
+        end
     end
 end
 
