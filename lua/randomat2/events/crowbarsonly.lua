@@ -26,33 +26,27 @@ function EVENT:Begin()
         end
     end)
 
-    -- For all alive players,
+    -- Give out crowbars in case players don't have one
     for i, ply in pairs(self:GetAlivePlayers()) do
+        if IsMeleeDamageRole(ply) then
+            self:StripRoleWeapons(ply)
+            SetToBasicRole(ply)
+        end
+
         timer.Simple(0.1, function()
             ply:SetFOV(0, 0.2)
-
-            -- If someone is a killer, give them the killer's special crowbar
-            if ply:GetRole() == ROLE_KILLER then
-                ply:Give("weapon_kil_crowbar")
-                ply:SelectWeapon("weapon_kil_crowbar")
-            else
-                -- Else, give a normal crowbar
-                ply:Give("weapon_zm_improvised")
-                ply:SelectWeapon("weapon_zm_improvised")
-            end
+            ply:Give("weapon_zm_improvised")
+            ply:SelectWeapon("weapon_zm_improvised")
         end)
     end
 
+    SendFullStateUpdate()
     -- Buff the crowbar
     crowbarPushForce = GetConVar("ttt_crowbar_pushforce"):GetFloat()
     RunConsoleCommand("ttt_crowbar_pushforce", 20 * GetConVar("ttt_crowbar_pushforce"):GetFloat())
 
     for i, ply in ipairs(player.GetAll()) do
         local crowbar = ply:GetWeapon("weapon_zm_improvised")
-
-        if IsValid(crowbar) == false then
-            crowbar = ply:GetWeapon("weapon_kil_crowbar")
-        end
 
         if IsValid(crowbar) then
             crowbar.Primary.Damage = crowbar.Primary.Damage * 2.5
@@ -64,6 +58,20 @@ function EVENT:End()
     if crowbarPushForce then
         RunConsoleCommand("ttt_crowbar_pushforce", crowbarPushForce)
     end
+end
+
+-- Checking if someone is a melee damage role and if it isn't at the start of the round, prevent the event from running
+function EVENT:Condition()
+    local meleeDamageRoleExists = false
+
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if IsMeleeDamageRole(ply) then
+            meleeDamageRoleExists = true
+            break
+        end
+    end
+
+    return Randomat:GetRoundCompletePercent() < 5 or not meleeDamageRoleExists
 end
 
 Randomat:register(EVENT)

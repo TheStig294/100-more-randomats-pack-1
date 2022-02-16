@@ -11,6 +11,15 @@ local function findcorpse(v)
 end
 
 function EVENT:Begin()
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if IsBodyDependentRole(ply) then
+            self:StripRoleWeapons(ply)
+            SetToBasicRole(ply)
+        end
+    end
+
+    SendFullStateUpdate()
+
     -- After a player dies
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
         -- After 2 seconds
@@ -37,6 +46,20 @@ function EVENT:Begin()
             end)
         end)
     end)
+end
+
+-- Checking if someone is a body dependent role and if it isn't at the start of the round, prevent the event from running
+function EVENT:Condition()
+    local bodyDependentRoleExists = false
+
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if IsBodyDependentRole(ply) then
+            bodyDependentRoleExists = true
+            break
+        end
+    end
+
+    return Randomat:GetRoundCompletePercent() < 5 or not bodyDependentRoleExists
 end
 
 Randomat:register(EVENT)

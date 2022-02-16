@@ -271,3 +271,37 @@ function ForceResetAllPlayermodels()
         end
     end
 end
+
+function SetToBasicRole(ply)
+    if Randomat:IsTraitorTeam(ply) then
+        -- The third argument here sets the max HP of the player to the max HP of their new role
+        Randomat:SetRole(ply, ROLE_TRAITOR, true)
+    elseif Randomat:IsGoodDetectiveLike(ply) then
+        Randomat:SetRole(ply, ROLE_DETECTIVE, true)
+    else
+        Randomat:SetRole(ply, ROLE_INNOCENT, true)
+    end
+
+    ply:Give("weapon_zm_improvised")
+    ply:Give("weapon_zm_carry")
+    ply:Give("weapon_ttt_unarmed")
+end
+
+function IsBodyDependentRole(ply)
+    local role = ply:GetRole()
+    if role == ROLE_PARASITE and ConVarExists("ttt_parasite_respawn_mode") and GetConVar("ttt_parasite_respawn_mode"):GetInt() == 1 then return true end
+
+    return role == ROLE_MADSCIENTIST or role == ROLE_HYPNOTIST or role == ROLE_BODYSNATCHER or role == ROLE_PARAMEDIC or role == ROLE_PHANTOM or role == ROLE_TAXIDERMIST
+end
+
+function IsMeleeDamageRole(ply)
+    local role = ply:GetRole()
+
+    return role == ROLE_ZOMBIE or role == ROLE_KILLER or role == ROLE_MADSCIENTIST
+end
+
+function IsKillCommandSensitiveRole(ply)
+    local role = ply:GetRole()
+
+    return role == ROLE_MADSCIENTIST or role == ROLE_ZOMBIE or role == ROLE_PARASITE or role == ROLE_REVENGER or role == ROLE_PHANTOM
+end

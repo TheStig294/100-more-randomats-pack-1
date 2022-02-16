@@ -25,7 +25,14 @@ function EVENT:Begin()
     for k, ply in pairs(self:GetAlivePlayers()) do
         ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
         maxHealth[ply] = ply:GetMaxHealth()
+
+        if IsBodyDependentRole(ply) then
+            self:StripRoleWeapons(ply)
+            SetToBasicRole(ply)
+        end
     end
+
+    SendFullStateUpdate()
 
     self:AddHook("Think", function()
         for k, ply in pairs(self:GetAlivePlayers()) do
@@ -123,6 +130,20 @@ function EVENT:End()
             ply:SetHealth(maxHealth[ply])
         end
     end
+end
+
+-- Checking if someone is a body dependent role and if it isn't at the start of the round, prevent the event from running
+function EVENT:Condition()
+    local bodyDependentRoleExists = false
+
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if IsBodyDependentRole(ply) then
+            bodyDependentRoleExists = true
+            break
+        end
+    end
+
+    return Randomat:GetRoundCompletePercent() < 5 or not bodyDependentRoleExists
 end
 
 function EVENT:GetConVars()
