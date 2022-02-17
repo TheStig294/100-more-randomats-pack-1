@@ -274,12 +274,11 @@ end
 
 function SetToBasicRole(ply)
     if Randomat:IsTraitorTeam(ply) then
-        -- The third argument here sets the max HP of the player to the max HP of their new role
-        Randomat:SetRole(ply, ROLE_TRAITOR, true)
+        Randomat:SetRole(ply, ROLE_TRAITOR)
     elseif Randomat:IsGoodDetectiveLike(ply) then
-        Randomat:SetRole(ply, ROLE_DETECTIVE, true)
+        Randomat:SetRole(ply, ROLE_DETECTIVE)
     else
-        Randomat:SetRole(ply, ROLE_INNOCENT, true)
+        Randomat:SetRole(ply, ROLE_INNOCENT)
     end
 
     ply:Give("weapon_zm_improvised")
