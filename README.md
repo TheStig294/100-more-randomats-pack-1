@@ -484,9 +484,11 @@ _ttt_randomat_sahmin_ - Default: 1 - Whether this randomat is enabled
 ## Simon Says
 Everyone copies someone's loadout. Everyone can only use a gun if the chosen person has theirs out.\
 \
-_ttt_randomat_simonsays_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_simonsays_ - Default: 1 - Whether this randomat is enabled\
+_randomat_simonsays_strip_basic_weapons_ - Default: 1 - Whether weapons like the crowbar and magneto stick are removed\
+_randomat_simonsays_timer_ - Default: 45 - Seconds until the leader changes, if set to 0, the leader only changes after they die
 
-Changed name from "Simon Says", changed the "leader" to only be picked once, or after the leader dies\
+Changed name to "Simon Says", changed the "leader" to only be picked once, or after the leader dies\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
 
 ## Speedrun!
