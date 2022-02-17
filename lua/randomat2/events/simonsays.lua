@@ -11,10 +11,14 @@ EVENT.givenWeapons = {}
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 -- Weapons that aren't allowed during this event
-EVENT.blacklist = {"weapon_zm_improvised", "weapon_zm_carry", "weapon_ttt_unarmed"}
+EVENT.blocklist = {"weapon_zm_improvised", "weapon_zm_carry", "weapon_ttt_unarmed"}
 
 -- Default guns to give out if the leader doesn't have one
 EVENT.defaultHeavys = {"weapon_zm_sledge", "weapon_zm_shotgun", "weapon_zm_rifle", "weapon_zm_mac10", "weapon_ttt_m16"}
+
+CreateConVar("randomat_simonsays_strip_basic_weapons", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether weapons like the crowbar and magneto stick are removed", 0, 1)
+
+CreateConVar("randomat_simonsays_timer", "45", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until leader changes, set to 0 disable", 0, 120)
 
 function EVENT:Begin()
     timer.Create("SimonSaysInitialTriggerTimer", 5, 1, function()
@@ -23,9 +27,9 @@ function EVENT:Begin()
         for _, ent in ipairs(ents.GetAll()) do
             if not IsValid(ent) then continue end
 
-            if ent.Kind and (ent.Kind == WEAPON_NADE or ent.Kind == WEAPON_MELEE) then
+            if ent.Kind and (ent.Kind == WEAPON_NADE or (ent.Kind == WEAPON_MELEE and ent:GetClass() ~= "weapon_zm_improvised")) then
                 ent:Remove()
-            elseif ent:GetClass() == "weapon_zm_carry" or ent:GetClass() == "weapon_ttt_unarmed" then
+            elseif (ent:GetClass() == "weapon_zm_carry" or ent:GetClass() == "weapon_ttt_unarmed" or ent:GetClass() == "weapon_zm_improvised") and GetConVar("randomat_simonsays_strip_basic_weapons"):GetBool() then
                 ent:Remove()
             end
         end
@@ -37,9 +41,11 @@ function EVENT:Begin()
             self:CopyGuns()
         end)
 
-        -- Select a new leader every 60 seconds
-        timer.Create("SimonSaysSelectLeaderTimer", 60, 0, function()
-            self:SelectLeader()
+        -- Select a new leader every 45 seconds
+        timer.Create("SimonSaysSelectLeaderTimer", GetConVar("randomat_simonsays_timer"):GetInt(), 0, function()
+            if GetConVar("randomat_simonsays_timer"):GetInt() ~= 0 then
+                self:SelectLeader()
+            end
         end)
 
         -- Whenever a player walks over a weapon,
@@ -63,7 +69,8 @@ function EVENT:Begin()
 
         -- If the leader dies, select a new leader
         self:AddHook("PostPlayerDeath", function(ply)
-            if ply == self.leader then
+            if ply == self.leader and #self:GetAlivePlayers() ~= 0 then
+                timer.Start("SimonSaysSelectLeaderTimer")
                 self:SelectLeader()
             end
         end)
@@ -140,7 +147,7 @@ function EVENT:SelectLeader()
     -- Let the new leader drop their guns again
     self:UnlockGuns()
     -- Remove the leader's crowbar, magneto stick and holstered weapons
-    self:StripBlacklistedWeapons(self.leader)
+    self:StripBlocklistedWeapons(self.leader)
 
     -- If the leader doesn't have any guns, give them a random default one
     if table.IsEmpty(self.leader:GetWeapons()) then
@@ -168,7 +175,7 @@ function EVENT:CopyGuns()
     local alivePlayers = self:GetAlivePlayers()
 
     for _, ply in pairs(alivePlayers) do
-        self:StripBlacklistedWeapons(ply)
+        self:StripBlocklistedWeapons(ply)
 
         -- For everyone other than the leader,
         if ply ~= self.leader then
@@ -239,13 +246,55 @@ function EVENT:UnlockGuns()
     end
 end
 
--- Removes the weapons from the blacklist from a player
-function EVENT:StripBlacklistedWeapons(ply)
-    for _, classname in ipairs(self.blacklist) do
-        if ply:HasWeapon(classname) then
-            ply:StripWeapon(classname)
+-- Removes the weapons from the blocklist from a player
+function EVENT:StripBlocklistedWeapons(ply)
+    if GetConVar("randomat_simonsays_strip_basic_weapons"):GetBool() then
+        for _, classname in ipairs(self.blocklist) do
+            if ply:HasWeapon(classname) then
+                ply:StripWeapon(classname)
+            end
         end
     end
+end
+
+function EVENT:GetConVars()
+    local sliders = {}
+
+    for _, v in pairs({"timer"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(sliders, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 0
+            })
+        end
+    end
+
+    local checkboxes = {}
+
+    for _, v in pairs({"strip_basic_weapons"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checkboxes, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 0
+            })
+        end
+    end
+
+    return sliders, checkboxes
 end
 
 Randomat:register(EVENT)
