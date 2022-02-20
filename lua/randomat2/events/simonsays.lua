@@ -7,6 +7,7 @@ EVENT.leaders = {}
 EVENT.weapons = {}
 EVENT.activeWeapon = nil
 EVENT.givenWeapons = {}
+EVENT.leaderSelectCount = 0
 -- This stops other "Weapon Override" randomats from triggering
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
@@ -21,6 +22,8 @@ CreateConVar("randomat_simonsays_strip_basic_weapons", "1", {FCVAR_ARCHIVE, FCVA
 CreateConVar("randomat_simonsays_timer", "45", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until leader changes, set to 0 disable", 0, 120)
 
 function EVENT:Begin()
+    self.leaderSelectCount = 0
+
     timer.Create("SimonSaysInitialTriggerTimer", 5, 1, function()
         -- Remove all grenades as they cause players to be able to throw them infinitely
         -- Also remove everyone's crowbar, magneto stick and unarmed
@@ -115,14 +118,6 @@ function EVENT:SelectLeader()
     if self.leader == nil then
         -- Randomly pick a new one,
         self.leader = alivePlayers[1]
-
-        -- but always start with a detective as the leader if there is one
-        for _, ply in pairs(alivePlayers) do
-            if Randomat:IsGoodDetectiveLike(ply) then
-                self.leader = ply
-                break
-            end
-        end
     else
         -- If there is a leader, ensure someone who hasn't been picked before is chosen
         for _, pastLeader in ipairs(self.leaders) do
@@ -142,8 +137,6 @@ function EVENT:SelectLeader()
         end
     end
 
-    -- Let everyone know there is a new leader
-    self:SmallNotify("You can only use the weapon " .. self.leader:Nick() .. " is using.")
     -- Let the new leader drop their guns again
     self:UnlockGuns()
     -- Remove the leader's crowbar, magneto stick and holstered weapons
@@ -153,6 +146,11 @@ function EVENT:SelectLeader()
     if table.IsEmpty(self.leader:GetWeapons()) then
         local wep = self.leader:Give(self.defaultHeavys[math.random(1, #self.defaultHeavys)])
         self.leader:SelectWeapon(wep)
+    end
+
+    -- Let everyone know there is a new leader, unless they're a zombie as they'll soon not be the leader anymore
+    if self.leader:GetRole() ~= ROLE_ZOMBIE then
+        self:SmallNotify("You can only use the weapon " .. self.leader:Nick() .. " is using.")
     end
 end
 
@@ -170,6 +168,23 @@ function EVENT:CopyGuns()
         self.activeWeapon = self.leader:GetActiveWeapon().ClassName
         -- And let them drop guns
         self:UnlockGuns()
+    end
+
+    -- If the leader turns into a zombie, change the leader
+    if self.leader:GetRole() == ROLE_ZOMBIE then
+        self.leaderSelectCount = self.leaderSelectCount + 1
+
+        -- If everyone is a zombie, end the event
+        if self.leaderSelectCount > 30 then
+            self:SmallNotify(self.Title .. " has ended.")
+            self:End()
+
+            return
+        end
+
+        self:SelectLeader()
+
+        return
     end
 
     local alivePlayers = self:GetAlivePlayers()
