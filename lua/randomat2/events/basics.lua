@@ -16,6 +16,7 @@ local detectiveOnlySearch = true
 local traitorHalos = true
 local excludeWepsExistDetective = false
 local excludeWepsExistTraitor = false
+local floorWeaponsGiver = false
 
 function EVENT:Begin()
     eventTriggered = true
@@ -326,6 +327,41 @@ function EVENT:Begin()
     -- Disabling sprinting and removing non-default buy menu items on the client
     net.Start("BasicsRandomatClientStart")
     net.Broadcast()
+
+    -- Blocking anyone from getting non-default weapons in their inventory
+    timer.Simple(0.2, function()
+        self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+            local pickupWeaponClass = WEPS.GetClass(wep)
+            if not pickupWeaponClass then return false end
+
+            for _, classname in ipairs(defaultDetectiveItems) do
+                if classname == pickupWeaponClass then return end
+            end
+
+            for _, classname in ipairs(defaultTraitorItems) do
+                if classname == pickupWeaponClass then return end
+            end
+
+            for _, classname in ipairs(defaultHeavys) do
+                if classname == pickupWeaponClass then return end
+            end
+
+            for _, classname in ipairs(defaultPistols) do
+                if classname == pickupWeaponClass then return end
+            end
+
+            for _, classname in ipairs(defaultNades) do
+                if classname == pickupWeaponClass then return end
+            end
+
+            return false
+        end)
+    end)
+
+    if ConVarExists("ttt_floor_weapons_giver") and GetConVar("ttt_floor_weapons_giver"):GetBool() then
+        floorWeaponsGiver = true
+        GetConVar("ttt_floor_weapons_giver"):SetBool(false)
+    end
 end
 
 function EVENT:End()
@@ -375,6 +411,10 @@ function EVENT:End()
 
         net.Start("BasicsRandomatClientEnd")
         net.Broadcast()
+
+        if floorWeaponsGiver then
+            GetConVar("ttt_floor_weapons_giver"):SetBool(true)
+        end
     end
 end
 
