@@ -304,3 +304,9 @@ function IsKillCommandSensitiveRole(ply)
 
     return role == ROLE_MADSCIENTIST or role == ROLE_ZOMBIE or role == ROLE_PARASITE or role == ROLE_REVENGER or role == ROLE_PHANTOM
 end
+
+function MapHasProps()
+    local propCount = table.Count(ents.FindByClass("prop_physics*")) + table.Count(ents.FindByClass("prop_dynamic"))
+
+    return propCount > 5
+end

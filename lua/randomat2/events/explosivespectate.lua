@@ -34,8 +34,7 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    -- Only run this if there are actual props
-    return table.Count(ents.FindByClass("prop_physics*")) ~= 0 or table.Count(ents.FindByClass("prop_dynamic")) ~= 0
+    return MapHasProps()
 end
 
 Randomat:register(EVENT)
