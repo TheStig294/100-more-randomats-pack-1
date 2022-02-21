@@ -248,7 +248,7 @@ function ForceSetPlayermodel(ply, model, viewOffset, viewOffsetDucked)
             FindMetaTable("Entity").SetModel(ply, model)
         end
 
-        timer.Simple(0, function()
+        timer.Simple(0.1, function()
             if viewOffset then
                 ply:SetViewOffset(viewOffset)
             else
