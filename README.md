@@ -29,7 +29,15 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Blegh - People make a 'Blegh' sound when they die
 
 # Randomats
+
 __Randomats that don't have credit were completely made by me__
+
+## 100% Detective Winrate
+
+Whoever has the highest detective winrate is turned into a detective!\
+If they were a traitor, someone else is changed into a traitor.\
+\
+_ttt_randomat_detectivewinrate_ - Default: 1 - Whether this randomat is enabled
 
 ## ... That's Lame
 
@@ -246,6 +254,13 @@ _randomat_flair_zombie_mystery_box_laugh.mp3_- Default: 1 - Whether this sound c
 _randomat_flair_zombie_zombies_round_end.mp3_- Default: 1 - Whether this sound can play\
 _randomat_flair_zombie_zombies_round_start.mp3_ - Default: 1 - Whether this sound can play
 
+## Everyone has their favourites
+
+Gives everyone their 2 most bought items\
+\
+_ttt_randomat_favourites_ - Default: 1 - Whether this randomat is enabled\
+_randomat_favourites_given_items_count_ - Default: 2 - How many most bought items to give out
+
 ## Everyone with a karma damage penalty will explode in ... seconds
 
 Explodes all players with a damage penalty from karma, a set amount of seconds after activation.\
@@ -309,6 +324,15 @@ Changed name from "Troll Prop"\
 \
 _ttt_randomat_revenge_ - Default: 1 - Whether this randomat is enabled\
 _randomat_revenge_multiplier_ - Default: 4 - Multiplier to all prop possession stats
+
+## Gotta buy 'em all
+
+Gives everyone 2 items they haven't bought before.
+If someone has bought all detective AND traitor items at least once, they get to choose a randomat at the start of every round for the rest of the map!\
+If multiple players have bought all items, they take turns in choosing randomats.\
+\
+_ttt_randomat_buyemall_ - Default: 1 - Whether this randomat is enabled\
+_randomat_buyemall_given_items_count_ - Default: 2 - How many items to give out
 
 ## Gun Game 2.0
 
@@ -515,6 +539,12 @@ _randomat_recoil_mul_ - Default: 6 - Recoil velocity multiplier
 
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
 
+## Redemption Time
+
+Puts someone with their worst traitor partner.\
+\
+_ttt_randomat_redemption_ - Default: 1 - Whether this randomat is enabled
+
 ## Role Call
 
 Announces a random player's role every 60 seconds\
@@ -537,6 +567,12 @@ Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/
 Gun sounds are replaced with "Sahmin".\
 \
 _ttt_randomat_sahmin_ - Default: 1 - Whether this randomat is enabled
+
+## Sharky and Palp
+
+Puts someone with their best traitor partner.\
+\
+_ttt_randomat_sharky_ - Default: 1 - Whether this randomat is enabled
 
 ## Simon Says
 
@@ -609,6 +645,14 @@ randomat_pockets_blocklist - Default: "" - A list of weapon IDs, separated by co
 
 Changed name from "What did I find in my pocket?", chooses a random weapon to give to everyone instead.\
 Originally made by [Malivil](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086)
+
+## What it's like to be [player name]
+
+Gives everyone someone's playermodel and 2 most bought items.\
+\
+_ttt_randomat_whatitslike_ - Default: 1 - Whether this randomat is enabled\
+_randomat_whatitslike_disguise_ - Default: 0 - Hide each player’s name\
+_randomat_whatitslike_given_items_count_ - Default: 2 - How many most bought items to give out
 
 ## Who's Who?
 

@@ -50,6 +50,8 @@ local function RenameWeps(name)
         return "Radar"
     elseif name == "item_armor" then
         return "Body Armor"
+    elseif name == "item_disg" then
+        return "Disguiser"
     elseif name == "dragon_elites_name" then
         return "Dragon Elites"
     elseif name == "silenced_m4a1_name" then
@@ -68,51 +70,49 @@ local function RenameWeps(name)
     end
 end
 
---Net messages for the randomats relying on 'TTT Total Statistics'
 if SERVER then
     util.AddNetworkString("RandomatDetectiveWeaponsList")
     util.AddNetworkString("RandomatTraitorWeaponsList")
     util.AddNetworkString("Randomat_SendDetectiveEquipmentName")
     util.AddNetworkString("Randomat_SendTraitorEquipmentName")
-end
-
-if SERVER then
+    util.AddNetworkString("Randomat_DoneSendingDetectiveItems")
+    util.AddNetworkString("Randomat_DoneSendingTraitorItems")
     detectiveBuyable = {}
     traitorBuyable = {}
 
     --At the start of the first round of a map, ask the first connected client for the printnames of all detective and traitor weapons
     --Used by randomats that use 'TTT Total Statistics'
     --Needed since 'TTT Total Statistics' stores weapon stats identifying weapons by printnames, not classnames
-    hook.Add("TTTPrepareRound", "RandomatGetBuyMenuLists", function()
+    hook.Add("TTTBeginRound", "RandomatGetBuyMenuLists", function()
         net.Start("RandomatDetectiveWeaponsList")
         net.Send(Entity(1))
         net.Start("RandomatTraitorWeaponsList")
         net.Send(Entity(1))
-        hook.Remove("TTTPrepareRound", "RandomatGetBuyMenuLists")
+        hook.Remove("TTTBeginRound", "RandomatGetBuyMenuLists")
     end)
+
+    local doneDetectiveItems = false
 
     net.Receive("Randomat_SendDetectiveEquipmentName", function(len, ply)
         tbl = string.Split(net.ReadString(), ",")
         local name = RenameWeps(tbl[1])
-        local error = net.ReadBool()
-
-        if error then
-            print("Failed to find equipment (" .. name .. ") for 'Gotta Buy 'em all!' randomat")
-        else
-            detectiveBuyable[tbl[2]] = name
-        end
+        detectiveBuyable[tbl[2]] = name
     end)
+
+    net.Receive("Randomat_DoneSendingDetectiveItems", function()
+        doneDetectiveItems = true
+    end)
+
+    local doneTraitorItems = false
 
     net.Receive("Randomat_SendTraitorEquipmentName", function(len, ply)
         tbl = string.Split(net.ReadString(), ",")
         local name = RenameWeps(tbl[1])
-        local error = net.ReadBool()
+        traitorBuyable[tbl[2]] = name
+    end)
 
-        if error then
-            print("Failed to find equipment (" .. name .. ") for 'Gotta Buy 'em all!' randomat")
-        else
-            traitorBuyable[tbl[2]] = name
-        end
+    net.Receive("Randomat_DoneSendingTraitorItems", function()
+        doneTraitorItems = true
     end)
 
     function GetDetectiveBuyable()
@@ -122,51 +122,9 @@ if SERVER then
     function GetTraitorBuyable()
         return traitorBuyable
     end
-end
 
---Gives a weapon by its print name
---Only supports items installed on the first connected client, available to either the detective or traitor (for passive items they must also have a valid id)
---Used by randomats reading stats data from 'TTT Total Statistics', e.g. 'Everyone has their favourites'
-function PrintToGive(name, ply)
-    local traitorWeapon = table.KeyFromValue(traitorBuyable, name)
-    local detectiveWeapon = table.KeyFromValue(detectiveBuyable, name)
-
-    -- First try giving the equipment as a weapon, if the ID found isn't a number (and therefore isn't an equipment ID)
-    if traitorWeapon ~= nil and not isnumber(tonumber(traitorWeapon)) then
-        ply:Give(traitorWeapon)
-        Randomat:CallShopHooks(false, traitorWeapon, ply)
-    elseif detectiveWeapon ~= nil and not isnumber(tonumber(detectiveWeapon)) then
-        ply:Give(detectiveWeapon)
-        Randomat:CallShopHooks(false, detectiveWeapon, ply)
-    else
-        -- Else try giving the weapon as a passive item in the detective or traitor buy menus
-        local itemFound = false
-
-        for _, equ in ipairs(EquipmentItems[ROLE_TRAITOR]) do
-            if equ.name == name and isnumber(tonumber(equ.id)) then
-                id = equ.id
-                ply:GiveEquipmentItem(tonumber(id))
-                Randomat:CallShopHooks(true, id, ply)
-                itemFound = true
-                break
-            end
-        end
-
-        if itemFound then return end
-
-        for _, equ in ipairs(EquipmentItems[ROLE_DETECTIVE]) do
-            if equ.name == name and isnumber(tonumber(equ.id)) then
-                id = equ.id
-                ply:GiveEquipmentItem(tonumber(id))
-                Randomat:CallShopHooks(true, id, ply)
-                itemFound = true
-                break
-            end
-        end
-
-        if itemFound then return end
-        -- If that fails, simply print a message in chat to the player
-        ply:ChatPrint("The equipment '" .. name .. "' you were supposed to be given wasn't found...")
+    function DoneSendingDetectiveTraitorBuyable()
+        return doneDetectiveItems and doneTraitorItems
     end
 end
 
@@ -309,4 +267,68 @@ function MapHasProps()
     local propCount = table.Count(ents.FindByClass("prop_physics*")) + table.Count(ents.FindByClass("prop_dynamic"))
 
     return propCount > 5
+end
+
+function GiveEquipmentByIdOrClass(ply, equipment, wepKind)
+    local weapon = weapons.Get(equipment)
+    local is_item = not weapon
+
+    if is_item then
+        local detectiveItem = false
+        local traitorItem = false
+
+        for _, equ in ipairs(EquipmentItems[ROLE_DETECTIVE]) do
+            if equ.name == equipment then
+                if equ.id then
+                    detectiveItem = true
+                    equipment = equ.id
+                end
+
+                break
+            end
+        end
+
+        if not detectiveItem then
+            for _, equ in ipairs(EquipmentItems[ROLE_TRAITOR]) do
+                if equ.name == equipment then
+                    if equ.id then
+                        traitorItem = true
+                        equipment = equ.id
+                    end
+
+                    break
+                end
+            end
+        end
+
+        -- If the item can't be found, give them a radar as a fallback
+        if not (detectiveItem or traitorItem) then
+            equipment = EQUIP_RADAR
+        end
+
+        equipment = math.floor(tonumber(equipment))
+        ply:GiveEquipmentItem(equipment)
+    else
+        -- If a weapon is already taking up the slot of the weapon we're trying to give, change the slot it takes up! (If we want that, i.e. wepKind is defined)
+        if wepKind then
+            for _, wep in ipairs(ply:GetWeapons()) do
+                if wep.Kind and weapon.Kind and wep.Kind == weapon.Kind then
+                    wep.Kind = wepKind
+                end
+            end
+        end
+
+        ply:Give(equipment)
+    end
+
+    timer.Simple(0.1, function()
+        -- Calls all expected shop hooks for things like automatically starting the radar if a player was given one,
+        -- and greying out icons in the player's shop
+        Randomat:CallShopHooks(is_item, equipment, ply)
+        -- Number indexes in non-sequential tables are actually strings, so we need to convert passive item IDs to strings
+        -- if we are to use the detective/traitor buyable tables from lua/autorun/stig_randomat_base_functions.lua
+        equipment = tostring(equipment)
+        local name = detectiveBuyable[equipment] or traitorBuyable[equipment] or "item"
+        ply:ChatPrint("You received a " .. name .. "!")
+    end)
 end
