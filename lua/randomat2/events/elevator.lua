@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Instant Elevator"
-EVENT.Description = "Teleport up/down flat walls and obstacles by walking off/into them!"
+EVENT.Description = "Teleport up and down flat walls and obstacles by walking into or off them!"
 EVENT.id = "elevator"
 
 function EVENT:Begin()
@@ -12,16 +12,16 @@ function EVENT:Begin()
         end)
     end
 
-    -- Move the player ever so slightly off the ground when they teleport a big distance,
+    -- Move the player's camera up a bit when they teleport a big distance,
     -- so their camera instantly updates to their new position,
-    -- rather than awkwardly slowly going through a wall
+    -- rather than awkwardly going through a wall
     self:AddHook("PlayerPostThink", function(ply)
         local posZ = ply:GetPos().z
 
         if ply.ElevatorRandomatLastZPos and math.abs(ply.ElevatorRandomatLastZPos - posZ) > 100 then
-            local newPos = ply:GetPos()
-            newPos.z = posZ + 2
-            ply:SetPos(newPos)
+            local currentOffset = ply:GetCurrentViewOffset()
+            currentOffset.z = currentOffset.z + 20
+            ply:SetCurrentViewOffset(currentOffset)
         end
 
         ply.ElevatorRandomatLastZPos = posZ
