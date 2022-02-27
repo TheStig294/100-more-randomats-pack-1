@@ -40,7 +40,13 @@ function EVENT:Begin()
             local item = tonumber(equipment)
 
             if item then
-                local name = GetEquipmentItemById(math.floor(item)).name
+                item = math.floor(item)
+                local itemTable = GetEquipmentItem(item, ROLE_DETECTIVE) or GetEquipmentItem(item, ROLE_TRAITOR)
+                local name
+
+                if itemTable then
+                    name = itemTable.name
+                end
 
                 if name then
                     unboughtEquipment[i] = name

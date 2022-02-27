@@ -55,7 +55,21 @@ hook.Add("TTTOrderedEquipment", "RandomatStatsOrderedEquipment", function(ply, e
 
     -- Passive items are indexed by their print name, if it exists
     if is_item then
-        local itemName = GetEquipmentItemById(equipment).name
+        equipment = tonumber(equipment)
+
+        if equipment then
+            equipment = math.floor(equipment)
+        else
+            -- If is_item is truthy but the passed equipment failed to be converted to a number then something went wrong here
+            return
+        end
+
+        local itemTable = GetEquipmentItem(equipment, ROLE_DETECTIVE) or GetEquipmentItem(equipment, ROLE_TRAITOR)
+        local itemName
+
+        if itemTable then
+            itemName = itemTable.name
+        end
 
         if itemName then
             local equipmentCount = randomatPlayerStats[ID]["EquipmentItems"][itemName]
