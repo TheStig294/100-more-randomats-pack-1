@@ -475,7 +475,7 @@ _ttt_randomat_oncemore_ - Default: 1 - Whether this randomat is enabled
 
 ## Oof
 
-When players are hurt, they hear the Roblox "Oof" sound effect\
+Players make a Roblox 'oof' sound effect after being damaged\
 \
 _ttt_randomat_oof_ - Default: 1 - Whether this randomat is enabled
 
