@@ -28,7 +28,9 @@ net.Receive("RandomatBattleRoyaleBegin", function()
     if playMusic then
         hook.Add("TTTEndRound", "RandomatVictoryRoyaleMusic", function(result)
             timer.Simple(0.3, function()
-                surface.PlaySound("battleroyale/fortnite_victory_royale.mp3")
+                for i = 1, 2 do
+                    surface.PlaySound("battleroyale/fortnite_victory_royale.mp3")
+                end
             end)
         end)
     end
