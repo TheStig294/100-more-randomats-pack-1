@@ -1,15 +1,15 @@
 local EVENT = {}
 EVENT.Title = "Oof"
-EVENT.Description = "Replaces death sound with Roblox oof"
+EVENT.Description = "Whenever you are hurt, you hear an 'oof' sound"
 EVENT.id = "oof"
+util.AddNetworkString("OofRandomatSound")
 
 function EVENT:Begin()
-    -- Whenever a player dies
-    self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
-        -- Silence their usual death noise
-        dmginfo:SetDamageType(DMG_SLASH)
-        -- And play the Roblox oof instead
-        sound.Play("oof/oof.mp3", ply:GetShootPos(), 90, 100, 1)
+    self:AddHook("PostEntityTakeDamage", function(ent, dmginfo, took)
+        if IsPlayer(ent) and took then
+            net.Start("OofRandomatSound")
+            net.Send(ent)
+        end
     end)
 end
 

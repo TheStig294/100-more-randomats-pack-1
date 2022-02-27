@@ -475,7 +475,7 @@ _ttt_randomat_oncemore_ - Default: 1 - Whether this randomat is enabled
 
 ## Oof
 
-Replaces the death noise with the Roblox oof.\
+When players are hurt, they hear the Roblox "Oof" sound effect\
 \
 _ttt_randomat_oof_ - Default: 1 - Whether this randomat is enabled
 

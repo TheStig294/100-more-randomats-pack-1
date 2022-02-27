@@ -1,0 +1,5 @@
+net.Receive("OofRandomatSound", function()
+    timer.Create("OofRandomatSoundCooldown", 0.1, 1, function()
+        surface.PlaySound("oof/oof.mp3")
+    end)
+end)
