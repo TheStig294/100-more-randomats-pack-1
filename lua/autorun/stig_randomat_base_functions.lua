@@ -77,8 +77,8 @@ if SERVER then
     util.AddNetworkString("Randomat_SendTraitorEquipmentName")
     util.AddNetworkString("Randomat_DoneSendingDetectiveItems")
     util.AddNetworkString("Randomat_DoneSendingTraitorItems")
-    detectiveBuyable = {}
-    traitorBuyable = {}
+    local detectiveBuyable = {}
+    local traitorBuyable = {}
 
     --At the start of the first round of a map, ask the first connected client for the printnames of all detective and traitor weapons
     --Used by randomats that use 'TTT Total Statistics'
@@ -321,13 +321,18 @@ function GiveEquipmentByIdOrClass(ply, equipment, wepKind)
         ply:Give(equipment)
     end
 
-    timer.Simple(0.1, function()
+    timer.Simple(1, function()
         -- Calls all expected shop hooks for things like automatically starting the radar if a player was given one,
         -- and greying out icons in the player's shop
         Randomat:CallShopHooks(is_item, equipment, ply)
+    end)
+
+    timer.Simple(5, function()
         -- Number indexes in non-sequential tables are actually strings, so we need to convert passive item IDs to strings
         -- if we are to use the detective/traitor buyable tables from lua/autorun/stig_randomat_base_functions.lua
         equipment = tostring(equipment)
+        local detectiveBuyable = GetDetectiveBuyable()
+        local traitorBuyable = GetTraitorBuyable()
         local name = detectiveBuyable[equipment] or traitorBuyable[equipment] or "item"
         ply:ChatPrint("You received a " .. name .. "!")
     end)
