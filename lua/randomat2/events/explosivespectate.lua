@@ -3,6 +3,8 @@ EVENT.Title = "Explosive Spectating"
 EVENT.Description = "Left-click while prop-possessing to explode!"
 EVENT.id = "explosivespectate"
 
+EVENT.Categories = {"spectator", "biased", "moderateimpact"}
+
 function EVENT:Begin()
     -- Whenever someone left-clicks,
     self:AddHook("PlayerButtonDown", function(ply, button)

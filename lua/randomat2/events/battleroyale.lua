@@ -7,6 +7,9 @@ CreateConVar("randomat_battleroyale_music", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "P
 EVENT.Title = "LAST ONE STANDING WINS! BATTLE ROYALE!"
 EVENT.Description = ""
 EVENT.id = "battleroyale"
+
+EVENT.Categories = {"gamemode", "largeimpact"}
+
 local alertSound = Sound("battleroyale/alert.mp3")
 local roundEndSounds = false
 local endingFlairSounds = false

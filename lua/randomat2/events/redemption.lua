@@ -3,6 +3,8 @@ EVENT.Title = "Redemption Time"
 EVENT.Description = "Puts someone with their worst traitor partner"
 EVENT.id = "redemption"
 
+EVENT.Categories = {"stats", "biased", "rolechange", "largeimpact"}
+
 function EVENT:Begin()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua
     local stats = randomatPlayerStats

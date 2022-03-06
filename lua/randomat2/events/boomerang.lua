@@ -8,6 +8,8 @@ EVENT.Title = "Boomerang Fu!"
 EVENT.Description = "\"They're a one-shot if it hits you twice\""
 EVENT.id = "boomerang"
 
+EVENT.Categories = {"gamemode", "largeimpact"}
+
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
 if GetConVar("randomat_boomerang_strip"):GetBool() then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE

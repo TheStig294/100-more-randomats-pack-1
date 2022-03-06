@@ -8,6 +8,8 @@ EVENT.Title = "Realistic Recoil"
 EVENT.Description = "Shooting pushes you backwards"
 EVENT.id = "recoil"
 
+EVENT.Categories = {"smallimpact"}
+
 function EVENT:Begin()
     -- Whenever an entity fires a bullet,
     self:AddHook("EntityFireBullets", function(ent, data)

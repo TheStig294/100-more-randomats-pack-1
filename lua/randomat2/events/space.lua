@@ -2,6 +2,8 @@ local EVENT = {}
 EVENT.Title = "Hold Space To Slow Down"
 EVENT.id = "space"
 
+EVENT.Categories = {"smallimpact"}
+
 function EVENT:Begin()
     -- When a player holds the spacebar,
     self:AddHook("PlayerButtonDown", function(ply, button)

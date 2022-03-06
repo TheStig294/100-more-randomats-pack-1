@@ -3,6 +3,8 @@ EVENT.Title = "Petrify!"
 EVENT.Description = "Turns players into a stone like figure, playing a quite annoying sound when they move."
 EVENT.id = "petrify"
 
+EVENT.Categories = {"fun", "moderateimpact"}
+
 function EVENT:Begin()
     -- Petrify all players
     for i, ply in pairs(self:GetAlivePlayers()) do

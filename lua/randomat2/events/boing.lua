@@ -6,6 +6,8 @@ EVENT.Title = "Boing"
 EVENT.Description = "Everyone can jump much higher"
 EVENT.id = "boing"
 
+EVENT.Categories = {"smallimpact"}
+
 function EVENT:Begin()
     --Adds the set jump power to all player's jump power
     for i, ply in pairs(self:GetPlayers()) do

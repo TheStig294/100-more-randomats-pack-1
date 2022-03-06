@@ -3,6 +3,8 @@ EVENT.Title = "What did WE find in our pockets?"
 EVENT.Description = "Gives everyone the same random buyable weapon"
 EVENT.id = "pockets"
 
+EVENT.Categories = {"item", "moderateimpact"}
+
 CreateConVar("randomat_pockets_blocklist", "", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The comma-separated list of weapon IDs to not give out")
 
 function EVENT:Begin()

@@ -39,6 +39,8 @@ EVENT.id = "duncanevent"
 EVENT.Description = GetDescription()
 EVENT.AltTitle = "It's ..."
 
+EVENT.Categories = {"largeimpact"}
+
 function EVENT:Begin()
     self.Description = GetDescription()
     local randomPly = table.Random(self:GetAlivePlayers())

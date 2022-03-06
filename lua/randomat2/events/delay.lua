@@ -6,6 +6,8 @@ EVENT.Title = "Delayed Start"
 EVENT.Description = "Triggers a randomat after " .. GetConVar("randomat_delay_time"):GetInt() .. " seconds"
 EVENT.id = "delay"
 
+EVENT.Categories = {"eventtrigger", "smallimpact"}
+
 function EVENT:Begin()
     self.Description = "Triggers a randomat after " .. GetConVar("randomat_delay_time"):GetInt() .. " seconds"
 

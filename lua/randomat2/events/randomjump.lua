@@ -5,6 +5,8 @@ CreateConVar("randomat_randomjump_max_multiplier", 3.0, {FCVAR_ARCHIVE, FCVAR_NO
 EVENT.Title = "Random jump height for everyone!"
 EVENT.id = "randomjump"
 
+EVENT.Categories = {"moderateimpact"}
+
 function EVENT:Begin()
     -- Set everyone's jump height to a random amount
     for k, ply in pairs(self:GetPlayers()) do

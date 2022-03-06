@@ -2,6 +2,9 @@ local EVENT = {}
 EVENT.Title = "Back to Basics"
 EVENT.Description = "It's time for a round of original TTT!"
 EVENT.id = "basics"
+
+EVENT.Categories = {"rolechange", "gamemode", "largeimpact"}
+
 util.AddNetworkString("BasicsRandomatClientStart")
 util.AddNetworkString("BasicsRandomatClientEnd")
 local eventTriggered = false

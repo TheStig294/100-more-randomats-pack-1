@@ -3,6 +3,8 @@ EVENT.Title = "Cremation"
 EVENT.Description = "Bodies burn after a player dies"
 EVENT.id = "cremation"
 
+EVENT.Categories = {"deathtrigger", "smallimpact"}
+
 -- Takes any dead player and returns their ragdoll, else returns false
 local function findcorpse(v)
     for _, ent in pairs(ents.FindByClass("prop_ragdoll")) do

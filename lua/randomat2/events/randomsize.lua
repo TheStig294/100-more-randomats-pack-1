@@ -6,6 +6,9 @@ CreateConVar("randomat_randomsize_max", 100, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Max
 
 EVENT.Title = "Random sizes for everyone!"
 EVENT.id = "randomsize"
+
+EVENT.Categories = {"fun", "moderateimpact"}
+
 local offsets = {}
 local offsets_ducked = {}
 

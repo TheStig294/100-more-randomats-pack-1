@@ -6,6 +6,8 @@ EVENT.Title = "Pinball People"
 EVENT.Description = "When two players collide, they will be sent flying in opposite directions."
 EVENT.id = "pinball"
 
+EVENT.Categories = {"moderateimpact"}
+
 function EVENT:Begin()
     -- Allow us to use the following hook on all players
     for i, ply in pairs(self:GetPlayers()) do

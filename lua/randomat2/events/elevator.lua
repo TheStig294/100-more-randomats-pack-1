@@ -3,6 +3,8 @@ EVENT.Title = "Instant Elevator"
 EVENT.Description = "Teleport up and down flat walls and obstacles by walking into or off them!"
 EVENT.id = "elevator"
 
+EVENT.Categories = {"moderateimpact"}
+
 function EVENT:Begin()
     for i, ply in pairs(self:GetPlayers()) do
         timer.Simple(0.1, function()

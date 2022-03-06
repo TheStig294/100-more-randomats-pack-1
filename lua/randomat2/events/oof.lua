@@ -3,6 +3,8 @@ EVENT.Title = "Oof"
 EVENT.Description = "After taking damage, you make a Roblox 'oof' sound"
 EVENT.id = "oof"
 
+EVENT.Categories = {"fun", "smallimpact"}
+
 function EVENT:Begin()
     self:AddHook("PostEntityTakeDamage", function(ent, dmginfo, took)
         if IsPlayer(ent) and took then

@@ -8,6 +8,8 @@ EVENT.Title = "Don't Miss..."
 EVENT.Description = "Take damage for missing shots, gain health for hitting"
 EVENT.id = "dontmiss"
 
+EVENT.Categories = {"moderateimpact"}
+
 function EVENT:Begin()
     -- Create variables to keep track of whether the player has shot a
     -- bullet, and whether they have hit a player. This is used between

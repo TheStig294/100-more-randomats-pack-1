@@ -2,6 +2,9 @@ local EVENT = {}
 EVENT.Title = "Who's Who?"
 EVENT.Description = "Everyone swaps playermodels"
 EVENT.id = "whoswho"
+
+EVENT.Categories = {"fun", "largeimpact"}
+
 local swapModels = {}
 local playerModels = {}
 local remainingModels = {}

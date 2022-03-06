@@ -2,6 +2,9 @@ local EVENT = {}
 EVENT.Title = "Sahmin"
 EVENT.Description = "Gun sounds are replaced with 'Sahmin'"
 EVENT.id = "sahmin"
+
+EVENT.Categories = {"fun", "smallimpact"}
+
 -- Going to need to mute regular shooting sounds on the client
 util.AddNetworkString("TriggerSahmin")
 util.AddNetworkString("EndSahmin")

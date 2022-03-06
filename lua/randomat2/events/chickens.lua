@@ -10,6 +10,8 @@ EVENT.Title = "BAWK!"
 EVENT.Description = "Transforms everyone into chickens!"
 EVENT.id = "chickens"
 
+EVENT.Categories = {"fun", "largeimpact"}
+
 local sndTabIdle = {"chickens/idle1.mp3", "chickens/idle2.mp3", "chickens/idle3.mp3", "chickens/alert.mp3"}
 
 local sndTabPain = {"chickens/pain1.mp3", "chickens/pain2.mp3", "chickens/pain3.mp3"}

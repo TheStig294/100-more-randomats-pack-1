@@ -3,6 +3,8 @@ EVENT.Title = "Unconventional Healing"
 EVENT.Description = "Fire, explosion and fall damage heals!"
 EVENT.id = "unconventional"
 
+EVENT.Categories = {"biased", "moderateimpact"}
+
 function EVENT:Begin()
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
         -- Don't affect negative damage sources, else this hook will lower a player's health

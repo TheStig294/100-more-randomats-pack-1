@@ -5,6 +5,9 @@ CreateConVar("randomat_guilt_time", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds a
 EVENT.Title = "Unbelievable Guilt"
 EVENT.Description = "Killing someone on your team forces your head down for " .. GetConVar("randomat_guilt_time"):GetInt() .. " seconds"
 EVENT.id = "guilt"
+
+EVENT.Categories = {"deathtrigger", "smallimpact"}
+
 util.AddNetworkString("GuiltyRandomatTrigger")
 
 function EVENT:Begin()

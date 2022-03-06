@@ -41,6 +41,8 @@ EVENT.Description = GetEventDescription()
 EVENT.id = "ban"
 EVENT.Type = EVENT_TYPE_VOTING
 
+EVENT.Categories = {"eventtrigger", "smallimpact"}
+
 function EVENT:Begin()
     banRandomat = true
     owner = self.owner

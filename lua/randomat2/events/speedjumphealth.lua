@@ -4,6 +4,9 @@ CreateConVar("randomat_speedjumphealth_multiplier", 50, {FCVAR_NOTIFY, FCVAR_ARC
 
 EVENT.Title = GetConVar("randomat_speedjumphealth_multiplier"):GetInt() .. "% More Speed, Jump Height and Health for everyone!"
 EVENT.id = "speedjumphealth"
+
+EVENT.Categories = {"smallimpact"}
+
 util.AddNetworkString("SpeedJumpHealthBegin")
 util.AddNetworkString("SpeedJumpHealthEnd")
 

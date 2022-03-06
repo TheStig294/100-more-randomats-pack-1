@@ -3,6 +3,8 @@ EVENT.Title = "Contagious Morality"
 EVENT.Description = "Killing someone respawns them with your role!"
 EVENT.id = "contagiousmorality"
 
+EVENT.Categories = {"gamemode", "largeimpact", "deathtrigger"}
+
 -- Used in removecorpse
 local function findcorpse(v)
     for _, ent in pairs(ents.FindByClass("prop_ragdoll")) do

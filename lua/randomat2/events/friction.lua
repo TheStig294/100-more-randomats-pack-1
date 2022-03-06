@@ -8,6 +8,8 @@ EVENT.Title = "Zero friction!"
 EVENT.Description = ""
 EVENT.id = "friction"
 
+EVENT.Categories = {"largeimpact"}
+
 function EVENT:Begin()
     bananaRandomat = true
 

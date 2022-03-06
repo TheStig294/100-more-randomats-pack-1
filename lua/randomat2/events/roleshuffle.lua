@@ -6,6 +6,8 @@ EVENT.Title = "Role shuffle!"
 EVENT.Description = "Everyone swaps roles in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
 EVENT.id = "roleshuffle"
 
+EVENT.Categories = {"rolechange", "moderateimpact"}
+
 function EVENT:Begin()
     self.Description = "Everyone swaps roles in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
 

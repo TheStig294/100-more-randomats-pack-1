@@ -3,6 +3,8 @@ EVENT.Title = "Outcome? Prop go boom."
 EVENT.Description = "Props explode when destroyed"
 EVENT.id = "goboom"
 
+EVENT.Categories = {"smallimpact"}
+
 function EVENT:Begin()
     self:AddHook("PropBreak", function(ply, prop)
         local explosion = ents.Create("env_explosion")

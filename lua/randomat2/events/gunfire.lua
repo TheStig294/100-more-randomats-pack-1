@@ -5,6 +5,9 @@ CreateConVar("randomat_gunfire_timer", 20, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Secon
 EVENT.Title = "Gunfire"
 EVENT.Description = "Not shooting for too long sets you on fire!"
 EVENT.id = "gunfire"
+
+EVENT.Categories = {"moderateimpact"}
+
 util.AddNetworkString("GunfireRandomatClientBegin")
 util.AddNetworkString("GunfireRandomatClientClickExtinguish")
 util.AddNetworkString("GunfireRandomatClientEnd")

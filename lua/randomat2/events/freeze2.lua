@@ -28,6 +28,8 @@ EVENT.Title = ""
 EVENT.AltTitle = "Freeze (Randomat Puns)"
 EVENT.id = "freeze2"
 
+EVENT.Categories = {"biased", "moderateimpact"}
+
 function EVENT:Begin()
     -- Picking a random name
     EVENT.Title = table.Random(eventnames)

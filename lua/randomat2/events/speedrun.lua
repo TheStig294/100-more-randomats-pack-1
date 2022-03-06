@@ -5,6 +5,9 @@ CreateConVar("randomat_speedrun_time", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Time 
 EVENT.Title = "Speedrun!"
 EVENT.Description = GetConVar("randomat_speedrun_time"):GetInt() .. " second round"
 EVENT.id = "speedrun"
+
+EVENT.Categories = {"biased", "largeimpact"}
+
 local speedrunRandomat = false
 local hasteMode = false
 local hasteMinutes = 0.5

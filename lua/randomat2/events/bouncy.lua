@@ -6,6 +6,8 @@ EVENT.Title = "Bouncy"
 EVENT.Description = "Bounce instead of taking fall damage"
 EVENT.id = "bouncy"
 
+EVENT.Categories = {"smallimpact"}
+
 function EVENT:Begin()
     --On taking damage from falling,
     self:AddHook("GetFallDamage", function(ply, speed)

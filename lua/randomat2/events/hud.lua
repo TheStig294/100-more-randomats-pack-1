@@ -2,6 +2,9 @@ local EVENT = {}
 EVENT.Title = "Heads Up Dismay"
 EVENT.Description = "Hides the HUD"
 EVENT.id = "hud"
+
+EVENT.Categories = {"largeimpact"}
+
 util.AddNetworkString("HUDRandomat")
 util.AddNetworkString("HUDRandomatHint")
 util.AddNetworkString("HUDRandomatEnd")

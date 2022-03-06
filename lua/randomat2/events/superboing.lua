@@ -2,6 +2,9 @@ local EVENT = {}
 EVENT.Title = "Super Boing"
 EVENT.Description = "Super jump, high gravity, no fall damage"
 EVENT.id = "superboing"
+
+EVENT.Categories = {"fun", "moderateimpact"}
+
 local superBoingRandomat = false
 local gravity
 local gombaSound = Sound("superboing/gomba_stomp.mp3")

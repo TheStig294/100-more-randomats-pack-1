@@ -3,6 +3,8 @@ EVENT.Title = "Team Deathmatch"
 EVENT.Description = "1/2 detectives, 1/2 traitors"
 EVENT.id = "deathmatch"
 
+EVENT.Categories = {"gamemode", "rolechange", "largeimpact"}
+
 function EVENT:Begin()
     -- Randomly for all alive players,
     for i, ply in pairs(self:GetAlivePlayers(true)) do

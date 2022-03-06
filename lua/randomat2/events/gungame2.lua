@@ -4,6 +4,9 @@ EVENT.Description = "Change weapons when someone dies"
 EVENT.id = "gungame2"
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+
+EVENT.Categories = {"deathtrigger", "biased", "largeimpact"}
+
 local weps = {}
 
 local function GiveNewWeapon(ply)

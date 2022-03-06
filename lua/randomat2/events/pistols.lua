@@ -3,6 +3,9 @@ EVENT.Title = "Pistols at dawn"
 EVENT.Description = "The last players alive have a one-shot pistol showdown!"
 EVENT.id = "pistols"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+
+EVENT.Categories = {"gamemode", "largeimpact"}
+
 util.AddNetworkString("PistolsDrawHalos")
 util.AddNetworkString("PistolsRandomatWinTitle")
 util.AddNetworkString("PistolsRemoveHalos")

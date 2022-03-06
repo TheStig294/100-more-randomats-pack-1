@@ -3,6 +3,8 @@ EVENT.Title = "Boing Warp"
 EVENT.Description = "Stronger jumping over time"
 EVENT.id = "boingwarp"
 
+EVENT.Categories = {"smallimpact"}
+
 function EVENT:Begin()
     --Grab the time the round is set to end
     local roundEndTime = GetGlobalFloat("ttt_round_end")

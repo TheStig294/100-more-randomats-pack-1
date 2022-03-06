@@ -6,6 +6,8 @@ EVENT.Title = "I'm sworn to carry your burdens"
 EVENT.Description = "Less weapons, move faster. More weapons, move slower."
 EVENT.id = "burdens"
 
+EVENT.Categories = {"smallimpact"}
+
 function EVENT:Begin()
     -- Players have default speed at 6 weapons, 1/3 speed at 8 weapons and x2 speed at 3 weapons
     self:AddHook("Think", function()

@@ -3,6 +3,8 @@ EVENT.Title = "Don't RDM..."
 EVENT.Description = "The 1st person to RDM dies instead"
 EVENT.id = "dontrdm"
 
+EVENT.Categories = {"biased", "deathtrigger", "moderateimpact"}
+
 -- Used in removecorpse.
 local function findcorpse(v)
     for _, ent in pairs(ents.FindByClass("prop_ragdoll")) do

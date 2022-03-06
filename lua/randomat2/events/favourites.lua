@@ -16,6 +16,8 @@ EVENT.Title = "Everyone has their favourites"
 EVENT.Description = GetDescription()
 EVENT.id = "favourites"
 
+EVENT.Categories = {"stats", "item", "moderateimpact"}
+
 function EVENT:Begin()
     self.Description = GetDescription()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua

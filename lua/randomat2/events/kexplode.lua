@@ -6,6 +6,8 @@ EVENT.Title = ""
 EVENT.AltTitle = "Everyone with a karma damage penalty will explode in " .. GetConVar("randomat_kexplode_timer"):GetInt() .. " seconds!"
 EVENT.id = "kexplode"
 
+EVENT.Categories = {"stats", "eventtrigger", "smallimpact"}
+
 function EVENT:Begin()
     -- Dynamically change the name of this randomat as the convar is changed
     Randomat:EventNotifySilent("Everyone with a karma damage penalty will explode in " .. GetConVar("randomat_kexplode_timer"):GetInt() .. " seconds!")

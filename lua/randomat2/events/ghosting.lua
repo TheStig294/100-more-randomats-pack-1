@@ -3,6 +3,8 @@ EVENT.Title = "Stop Ghosting!"
 EVENT.Description = "T-Posing ghosts follow spectators"
 EVENT.id = "ghosting"
 
+EVENT.Categories = {"spectator", "biased", "moderateimpact"}
+
 function EVENT:Begin()
     local ghostents = {}
 

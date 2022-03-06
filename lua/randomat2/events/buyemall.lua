@@ -15,6 +15,9 @@ end
 EVENT.Title = "Gotta buy 'em all!"
 EVENT.Description = GetDescription()
 EVENT.id = "buyemall"
+
+EVENT.Categories = {"stats", "eventtrigger", "item", "moderateimpact"}
+
 -- Let this randomat trigger again at the start of a new map
 local eventTriggered = false
 

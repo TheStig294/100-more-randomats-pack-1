@@ -13,6 +13,9 @@ local EVENT = {}
 EVENT.Title = ""
 EVENT.AltTitle = "Noir"
 EVENT.id = "noir"
+
+EVENT.Categories = {"fun", "largeimpact", "item"}
+
 util.AddNetworkString("randomat_noir")
 util.AddNetworkString("randomat_noir_end")
 

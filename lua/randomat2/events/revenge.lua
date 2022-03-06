@@ -3,6 +3,8 @@ EVENT.Title = "Ghostly Revenge"
 EVENT.Description = "Prop possession is massively buffed!"
 EVENT.id = "revenge"
 
+EVENT.Categories = {"spectator", "biased", "moderateimpact"}
+
 local randomat_revenge_multiplier = CreateConVar("randomat_revenge_multiplier", 4.0, {FCVAR_ARCHIVE}, "Multiplier to all prop possession stats")
 
 local prop_base

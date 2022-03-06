@@ -5,6 +5,8 @@ EVENT.id = "bullets"
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
+EVENT.Categories = {"biased", "moderateimpact"}
+
 function EVENT:Begin()
     for _, ply in ipairs(self:GetAlivePlayers()) do
         if IsMeleeDamageRole(ply) then

@@ -11,6 +11,8 @@ EVENT.leaderSelectCount = 0
 -- This stops other "Weapon Override" randomats from triggering
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
+EVENT.Categories = {"item", "largeimpact"}
+
 -- Weapons that aren't allowed during this event
 EVENT.blocklist = {"weapon_zm_improvised", "weapon_zm_carry", "weapon_ttt_unarmed"}
 

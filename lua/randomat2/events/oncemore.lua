@@ -4,6 +4,8 @@ EVENT.Title = "Once more, with feeling!"
 EVENT.Description = "Repeats the last randomat"
 EVENT.id = "oncemore"
 
+EVENT.Categories = {"eventtrigger", "moderateimpact"}
+
 hook.Add("TTTRandomatTriggered", "OnceMoreRandomatGetRandomatID", function(id, owner)
     -- If this event is not enabled, or this event is the one that is triggering, we don't need to bother with this hook
     if not GetConVar("ttt_randomat_" .. EVENT.id):GetBool() or id == EVENT.id then return end

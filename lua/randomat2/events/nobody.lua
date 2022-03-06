@@ -3,6 +3,8 @@ EVENT.Title = "Nobody"
 EVENT.Description = "Anyone killed doesn't leave behind a body"
 EVENT.id = "nobody"
 
+EVENT.Categories = {"deathtrigger", "smallimpact"}
+
 function EVENT:Begin()
     for _, ply in ipairs(self:GetAlivePlayers()) do
         if IsBodyDependentRole(ply) then
