@@ -3,7 +3,7 @@ EVENT.Title = "Let's mix it up..."
 EVENT.Description = "When you buy something, you get a random item instead"
 EVENT.id = "mix"
 
-EVENT.Categories = {"item", "biased", "largeimpact"}
+EVENT.Categories = {"item", "biased_innocent", "biased", "largeimpact"}
 
 function EVENT:Begin()
     -- TTT by default uses 8 different slots for weapons, if you're using TTT2 or something that adds more weapon slots where slots 100 and above become meaningful, this might cause unexpected behaviour... (But the randomat event itself should still work)

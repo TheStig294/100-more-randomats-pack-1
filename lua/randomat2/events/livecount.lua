@@ -6,7 +6,7 @@ EVENT.Title = "Live Count"
 EVENT.Description = "Counts no. of alive players every " .. GetConVar("randomat_livecount_timer"):GetInt() .. " seconds"
 EVENT.id = "livecount"
 
-EVENT.Categories = {"biased", "smallimpact"}
+EVENT.Categories = {"biased_innocent", "biased", "smallimpact"}
 
 function EVENT:Begin()
     self.Description = "Counts no. of alive players every " .. GetConVar("randomat_livecount_timer"):GetInt() .. " seconds"

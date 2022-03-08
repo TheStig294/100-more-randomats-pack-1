@@ -3,7 +3,7 @@ EVENT.Title = "I'm The Captain Now."
 EVENT.Description = "The 1st time a detective RDMs, they die instead, and the victim becomes a detective"
 EVENT.id = "captain"
 
-EVENT.Categories = {"biased", "rolechange", "deathtrigger", "smallimpact"}
+EVENT.Categories = {"biased_innocent", "biased", "rolechange", "deathtrigger", "smallimpact"}
 
 -- Used in removecorpse.
 local function findcorpse(v)

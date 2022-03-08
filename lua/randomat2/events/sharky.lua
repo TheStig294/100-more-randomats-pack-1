@@ -3,7 +3,7 @@ EVENT.Title = "Sharky and Palp!"
 EVENT.Description = "Puts someone with their best traitor partner!"
 EVENT.id = "sharky"
 
-EVENT.Categories = {"stats", "rolechange", "moderateimpact"}
+EVENT.Categories = {"stats", "rolechange", "moderateimpact", "biased_traitor", "biased"}
 
 function EVENT:Begin()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua

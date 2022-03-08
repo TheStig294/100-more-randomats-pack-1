@@ -3,7 +3,7 @@ EVENT.Title = "Blegh"
 EVENT.Description = "When someone dies, everyone hears a random 'Blegh!' sound"
 EVENT.id = "bleghsound"
 
-EVENT.Categories = {"deathtrigger", "smallimpact", "biased"}
+EVENT.Categories = {"deathtrigger", "smallimpact", "biased_innocent", "biased"}
 
 util.AddNetworkString("RandomatBleghSound")
 local bleghSounds = {}

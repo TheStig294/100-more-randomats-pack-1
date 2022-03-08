@@ -6,7 +6,7 @@ EVENT.Title = "Role Call"
 EVENT.Description = "Announces a random player's role every " .. GetConVar("randomat_rolecall_time"):GetInt() .. " seconds"
 EVENT.id = "rolecall"
 
-EVENT.Categories = {"biased", "moderateimpact"}
+EVENT.Categories = {"biased_innocent", "biased", "moderateimpact"}
 
 function EVENT:Begin()
     self.Description = "Announces a random player's role every " .. GetConVar("randomat_rolecall_time"):GetInt() .. " seconds"

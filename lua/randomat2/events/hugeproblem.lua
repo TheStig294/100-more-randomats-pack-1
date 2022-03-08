@@ -5,7 +5,7 @@ EVENT.id = "hugeproblem"
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
-EVENT.Categories = {"item", "largeimpact"}
+EVENT.Categories = {"item", "largeimpact", "biased_traitor", "biased"}
 
 function EVENT:Begin()
     -- Remove all auto-spawned weapons, but not grenades

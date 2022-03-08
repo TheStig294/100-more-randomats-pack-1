@@ -3,7 +3,7 @@ EVENT.Title = "100% Detective Winrate"
 EVENT.Description = "Whoever has the highest detective winrate is now the detective!"
 EVENT.id = "detectivewinrate"
 
-EVENT.Categories = {"biased", "stats", "smallimpact"}
+EVENT.Categories = {"biased_innocent", "biased", "stats", "smallimpact"}
 
 function EVENT:Begin()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua

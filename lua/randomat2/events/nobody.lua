@@ -3,7 +3,7 @@ EVENT.Title = "Nobody"
 EVENT.Description = "Anyone killed doesn't leave behind a body"
 EVENT.id = "nobody"
 
-EVENT.Categories = {"deathtrigger", "smallimpact"}
+EVENT.Categories = {"deathtrigger", "smallimpact", "biased_traitor", "biased"}
 
 function EVENT:Begin()
     for _, ply in ipairs(self:GetAlivePlayers()) do

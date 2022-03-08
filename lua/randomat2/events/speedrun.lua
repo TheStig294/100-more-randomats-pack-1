@@ -6,7 +6,7 @@ EVENT.Title = "Speedrun!"
 EVENT.Description = GetConVar("randomat_speedrun_time"):GetInt() .. " second round"
 EVENT.id = "speedrun"
 
-EVENT.Categories = {"biased", "largeimpact"}
+EVENT.Categories = {"biased_innocent", "biased", "largeimpact"}
 
 local speedrunRandomat = false
 local hasteMode = false

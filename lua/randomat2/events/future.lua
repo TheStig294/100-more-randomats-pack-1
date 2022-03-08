@@ -3,7 +3,7 @@ EVENT.Title = "Future Proofing"
 EVENT.Description = "Buy menu items aren't given until the next round"
 EVENT.id = "future"
 
-EVENT.Categories = {"biased", "item", "largeimpact"}
+EVENT.Categories = {"biased_innocent", "biased", "item", "largeimpact"}
 
 local futureRandomatEquipment = {}
 

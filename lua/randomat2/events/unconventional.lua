@@ -3,7 +3,7 @@ EVENT.Title = "Unconventional Healing"
 EVENT.Description = "Fire, explosion and fall damage heals!"
 EVENT.id = "unconventional"
 
-EVENT.Categories = {"biased", "moderateimpact"}
+EVENT.Categories = {"biased_innocent", "biased", "moderateimpact"}
 
 function EVENT:Begin()
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
