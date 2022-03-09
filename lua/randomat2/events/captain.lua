@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "I'm The Captain Now."
 EVENT.Description = "The 1st time a detective RDMs, they die instead, and the victim becomes a detective"
 EVENT.id = "captain"
+EVENT.Type = EVENT_TYPE_RESPAWN
 
 EVENT.Categories = {"biased_innocent", "biased", "rolechange", "deathtrigger", "smallimpact"}
 

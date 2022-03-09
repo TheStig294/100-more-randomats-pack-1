@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Don't RDM..."
 EVENT.Description = "The 1st person to RDM dies instead"
 EVENT.id = "dontrdm"
+EVENT.Type = EVENT_TYPE_RESPAWN
 
 EVENT.Categories = {"biased_innocent", "biased", "deathtrigger", "moderateimpact"}
 

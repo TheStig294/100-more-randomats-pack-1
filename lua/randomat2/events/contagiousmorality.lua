@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Contagious Morality"
 EVENT.Description = "Killing someone respawns them with your role!"
 EVENT.id = "contagiousmorality"
+EVENT.Type = EVENT_TYPE_RESPAWN
 
 EVENT.Categories = {"gamemode", "largeimpact", "deathtrigger"}
 
