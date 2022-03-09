@@ -264,12 +264,12 @@ _randomat_favourites_given_items_count_ - Default: 2 - How many most bought item
 ## Everyone with a karma damage penalty will explode in ... seconds
 
 Explodes all players with a damage penalty from karma, a set amount of seconds after activation.\
+If no players have a karma damage penalty, everyone is given the same random buyable weapon as a reward!\
 \
 _ttt_randomat_kexplode_ - Default: 1 - Whether this randomat is enabled\
 _randomat_kexplode_timer_ - Default: 60 - The time until imperfect karma players explode
 
-Changed name from "A Random Person will explode every ... seconds! Watch out! (EXCEPT DETECTIVES)", not random anymore and only targets players with karma penalties, notifies when time is up rather than who exploded\
-Originally made by [HagenSNKL](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819)
+The explosion creation code was originally made by [HagenSNKL](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819), from the event: "_A Random Person will explode every ... seconds! Watch out! (EXCEPT DETECTIVES)_"
 
 ## Explosive spectating
 

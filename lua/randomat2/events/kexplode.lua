@@ -29,11 +29,7 @@ function EVENT:Begin()
             self:SmallNotify("But all of you have high karma, so here's a reward for being good...")
 
             timer.Simple(5, function()
-                if Randomat:CanEventRun("communist") then
-                    Randomat:TriggerEvent("communist")
-                else
-                    Randomat:TriggerEvent("pockets")
-                end
+                Randomat:TriggerEvent("pockets")
             end)
         end)
     else
