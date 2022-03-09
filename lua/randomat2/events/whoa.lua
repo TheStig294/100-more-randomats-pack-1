@@ -31,7 +31,7 @@ EVENT.Description = GetDescription()
 EVENT.id = "whoa"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
-EVENT.Categories = {"item", "largeimpact"}
+EVENT.Categories = {"item", "largeimpact", "deathtrigger"}
 
 function EVENT:Begin()
     self.Description = GetDescription()
