@@ -7,6 +7,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     EVENT_TYPE_VOTING = 2
     EVENT_TYPE_SMOKING = 3
     EVENT_TYPE_SPECTATOR_UI = 4
+    EVENT_TYPE_RESPAWN = 5
 
     -- String Functions
     function Randomat:Capitalize(msg, skip_lower)
@@ -448,7 +449,21 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     -- Round Functions
-    function Randomat:GetRoundCompletePercent()
-        return ((CurTime() - GAMEMODE.RoundStartTime) / (GetGlobalFloat("ttt_round_end", CurTime()) - GAMEMODE.RoundStartTime)) * 100
+    if SERVER then
+        function Randomat:GetRoundCompletePercent()
+            return ((CurTime() - GAMEMODE.RoundStartTime) / (GetGlobalFloat("ttt_round_end", CurTime()) - GAMEMODE.RoundStartTime)) * 100
+        end
+
+        function Randomat:GetRoundLimit()
+            return GetConVar("ttt_round_limit"):GetInt()
+        end
+
+        function Randomat:GetRoundsComplete()
+            return Randomat:GetRoundLimit() - Randomat:GetRoundsLeft()
+        end
+
+        function Randomat:GetRoundsLeft()
+            return math.max(0, GetGlobalInt("ttt_rounds_left", Randomat:GetRoundLimit()))
+        end
     end
 end
