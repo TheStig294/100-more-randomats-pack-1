@@ -48,7 +48,7 @@ function EVENT:Begin()
     for _, wep in ipairs(weapons.GetList()) do
         local classname = WEPS.GetClass(wep)
 
-        if wep.AutoSpawnable and (wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL) and wep.Primary.Damage > 0 and classname then
+        if classname and wep.AutoSpawnable and wep.Kind and wep.Primary.Damage and (wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL) and wep.Primary.Damage > 0 then
             table.insert(weps, classname)
         end
     end
