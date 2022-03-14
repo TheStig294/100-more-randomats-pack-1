@@ -675,9 +675,9 @@ _randomat_whoa_weaponid_ - Default: weapon_ttt_whoa_randomat - Id of the weapon 
 Removes friction and gives prop damage immunity, which prevents you from dying if you touch a prop. (Blame Gmod physics...)\
 All explosive barrels are also removed from the map, to prevent unexpectedly dying if you bump into one.\
 \
-_ttt_randomat_friction_ - Default: 1 - Whether this randomat is enabled
-_randomat_friction_friction_ - Default: 0 - Friction amount that is set
-_randomat_friction_nopropdmg_ - Default: 1 - Whether everyone becomes immune to prop damage, else you might die from touching props
-
+_ttt_randomat_friction_ - Default: 1 - Whether this randomat is enabled\
+_randomat_friction_friction_ - Default: 0 - Friction amount that is set\
+_randomat_friction_nopropdmg_ - Default: 1 - Whether everyone becomes immune to prop damage, else you might die from touching props\
+\
 Changed name from "Trouble in Terrorist Town: On Ice", converted to work with randomat 2.0 rather than TTT2, fixed prop damage immunity not working, now removes explosive barrels\
 Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
