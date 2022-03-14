@@ -836,6 +836,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             return "Death Trigger"
         elseif category == "gamemode" then
             return "Game Mode"
+        elseif category == "entityspawn" then
+            return "Entity Spawn"
         elseif string.StartWith(category, "biased_") then
             local parts = string.Explode("_", category)
 
