@@ -17,14 +17,9 @@ end
 local function removecorpse(corpse)
     CORPSE.SetFound(corpse, false)
 
-    if string.find(corpse:GetModel(), "zm_", 6, true) then
+    if string.find(corpse:GetModel(), "zm_", 6, true) or corpse.player_ragdoll then
         player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
         corpse:Remove()
-        SendFullStateUpdate()
-    elseif corpse.player_ragdoll then
-        player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
-        corpse:Remove()
-        SendFullStateUpdate()
     end
 end
 
@@ -59,6 +54,7 @@ function EVENT:Begin()
                 end
 
                 SendFullStateUpdate()
+                hook.Run("UpdatePlayerLoadouts")
 
                 --Stop trying to spawn the victim once they are alive
                 if victim:Alive() then

@@ -61,10 +61,11 @@ function EVENT:Begin()
 
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
-            SendFullStateUpdate()
         end)
     end
 
+    SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
     net.Start("RandomatBattleRoyaleBegin")
     net.WriteBool(CR_VERSION ~= nil)
     net.WriteBool(GetConVar("randomat_battleroyale_music"):GetBool())

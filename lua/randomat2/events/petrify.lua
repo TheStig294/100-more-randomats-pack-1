@@ -18,6 +18,7 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
 
     -- Player sound when moving
     self:AddHook("Move", function(ply, mv)

@@ -17,14 +17,9 @@ end
 local function removecorpse(corpse)
     CORPSE.SetFound(corpse, false)
 
-    if string.find(corpse:GetModel(), "zm_", 6, true) then
+    if string.find(corpse:GetModel(), "zm_", 6, true) or corpse.player_ragdoll then
         player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
         corpse:Remove()
-        SendFullStateUpdate()
-    elseif corpse.player_ragdoll then
-        player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
-        corpse:Remove()
-        SendFullStateUpdate()
     end
 end
 
@@ -42,6 +37,7 @@ function EVENT:Begin()
 
     -- Let the end-of-round scoreboard know roles have changed (Else, old roles will be displayed)
     SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
 
     -- When a player dies,
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
@@ -68,6 +64,7 @@ function EVENT:Begin()
                 end
 
                 SendFullStateUpdate()
+                hook.Run("UpdatePlayerLoadouts")
 
                 -- Once the player is alive, stop running this respawn code
                 if ply:Alive() then

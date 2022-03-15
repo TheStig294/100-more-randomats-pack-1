@@ -44,6 +44,7 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
     -- Buff the crowbar
     crowbarPushForce = GetConVar("ttt_crowbar_pushforce"):GetFloat()
     RunConsoleCommand("ttt_crowbar_pushforce", 20 * GetConVar("ttt_crowbar_pushforce"):GetFloat())

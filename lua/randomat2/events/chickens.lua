@@ -35,6 +35,7 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
 
     self:AddHook("Think", function()
         for k, ply in pairs(self:GetAlivePlayers()) do

@@ -16,6 +16,7 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
 
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
         if IsPlayer(ent) and dmginfo:IsBulletDamage() == false then

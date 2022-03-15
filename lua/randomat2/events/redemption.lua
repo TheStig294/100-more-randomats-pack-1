@@ -50,6 +50,7 @@ function EVENT:Begin()
 
     -- Updating everyone's displayed roles
     SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
 
     -- Displaying the traitors' winrate
     timer.Simple(5, function()

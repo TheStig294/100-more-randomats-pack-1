@@ -14,6 +14,7 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
 
     self:AddHook("TTTOnCorpseCreated", function(corpse)
         timer.Simple(0.1, function()

@@ -24,6 +24,7 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
 end
 
 Randomat:register(EVENT)
