@@ -25,8 +25,8 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 # Newly added randomats
 
 1. Back to Basics - Strips everything back to base TTT
-1. Noir - Makes the look of the game like a 50's detective film
-1. Blegh - People make a 'Blegh' sound when they die
+2. Noir - Makes the look of the game like a 50's detective film
+3. Blegh - People make a 'Blegh' sound when they die
 
 # Randomats
 
@@ -47,7 +47,7 @@ _ttt_randomat_lame_ - Default: 1 - Whether this randomat is enabled
 
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
 
-## __% More Speed, Jump Height and Health for everyone
+## ...% More Speed, Jump Height and Health for everyone!
 
 Increases speed, jump height, and current health for everyone by a set percentage\
 \
@@ -56,7 +56,7 @@ _randomat_speedjumphealth_multiplier_ - Default: 50 - Percent multiplier to stat
 
 Originally made by [HagenSNKL](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819)
 
-## BAWK
+## BAWK!
 
 Turns everyone's models into chickens, corpses disappear on death, a set amount of health, and everyone makes chicken noises.\
 \
@@ -84,7 +84,7 @@ Strips everything back to base TTT, as much as possible.
 
 _ttt_randomat_basics_ - Default: 1 - Whether this randomat is enabled
 
-## Ban a Randomat
+## Ban a Randomat!
 
 Presents 5 randomats, one of which to be banned by vote. Randomat is banned until this is triggered again.\
 \
@@ -116,7 +116,7 @@ Increases everyone's jump power over time\
 \
 _ttt_randomat_boingwarp_ - Default: 1 - Whether this randomat is enabled
 
-## Boomerang Fu
+## Boomerang Fu!
 
 Continually gives everyone boomerangs, and removes all other weapons.\
 \
@@ -142,7 +142,7 @@ _randomat_bouncy_speed_retain_ - Default: 0.75 - % of speed retained between bou
 Converted to work with randomat 2.0 rather than TTT2\
 Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
 
-## Bullets, my only weakness
+## Bullets, my only weakness!
 
 Bullet damage only, everyone is immune to any other form of damage\
 \
@@ -175,7 +175,7 @@ _ttt_randomat_cremation_ - Default: 1 - Whether this randomat is enabled\
 Fixed lua error if bodies were removed before they were removed by this randomat.\
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
 
-## Crowbars Only
+## Crowbars Only!
 
 Can only use, or be damaged by, a buffed crowbar.\
 \
@@ -196,7 +196,7 @@ Triggers a random randomat after a minute.\
 _ttt_randomat_delay_ - Default: 1 - Whether this randomat is enabled\
 _randomat_delay_time_ - Default: 60 - Seconds before randomat is triggered
 
-## Don't Miss
+## Don't Miss...
 
 If you miss a shot, you take damage, but if you hit, then you gain health. Everyone is set to 100 health and 200 max health, so players can heal by being accurate with their shots. Everyone will appear to be injured when this randomat triggers.\
 \
@@ -204,7 +204,7 @@ _ttt_randomat_dontmiss_ - Default: 1 - Whether this randomat is enabled\
 _randomat_dontmiss_damage_ - Default: 5 - Damage dealt for missing\
 _randomat_dontmiss_heal_ - Default: 5 - Health gained for healing
 
-## Don’t RDM
+## Don’t RDM...
 
 The first person to kill someone on their side dies, and their victim respawns at full health.\
 \
@@ -261,7 +261,7 @@ Gives everyone their 2 most bought items\
 _ttt_randomat_favourites_ - Default: 1 - Whether this randomat is enabled\
 _randomat_favourites_given_items_count_ - Default: 2 - How many most bought items to give out
 
-## Everyone with a karma damage penalty will explode in ... seconds
+## Everyone with a karma damage penalty will explode in ... seconds!
 
 Explodes all players with a damage penalty from karma, a set amount of seconds after activation.\
 If no players have a karma damage penalty, everyone is given the same random buyable weapon as a reward!\
@@ -273,7 +273,7 @@ The explosion creation code was originally made by [HagenSNKL](https://steamcomm
 
 ## Explosive spectating
 
-Spectators can explode props they posses (left click)\
+Spectators can explode props they posses by pressing left-click.\
 \
 _ttt_randomat_explosivespectate_ - Default: 1 - Whether this randomat is enabled\
 
@@ -391,7 +391,7 @@ Everyone can teleport up and down walls and obstacles by walking into/off them a
 \
 _ttt_randomat_elevator_ - Default: 1 - Whether this randomat is enabled
 
-## It's [player name]
+## It's [player]!
 
 Changes everyone's playermodel to someone's on the server\
 \
@@ -401,7 +401,7 @@ _randomat_duncanevent_disguise_ - Default: 1 - Hide player names or not (1 = on,
 Added description, fixed not hiding names of players properly and not hiding names for traitors\
 Originally made by [Legendahkiin](https://steamcommunity.com/sharedfiles/filedetails/?id=2007014855)
 
-## LAST ONE STANDING WINS! BATTLE ROYALE
+## LAST ONE STANDING WINS! BATTLE ROYALE!
 
 Turns the round into a battle royale!\
 Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool if it’s installed, last one alive wins.\
@@ -411,7 +411,7 @@ _ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
 _randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar\
 randomat_battleroyale_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
-## Let's mix it up
+## Let's mix it up...
 
 When anyone buys something, instead of getting what you bought, you get a random item instead.\
 \
@@ -427,7 +427,7 @@ _randomat_livecount_timer_ - Default: 30 - Time between live counts\
 Changed name from "Live Check!"\
 Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)
 
-## No more of your little tricks
+## No more of your little tricks...
 
 Disables all traitor traps or anything that relies on a traitor button\
 \
@@ -458,16 +458,14 @@ This randomat's name is a randomly chosen noir film trope:
 _ttt_randomat_noir_ - Default: 1 - Whether this randomat is enabled\
 _ttt_randomat_noir_music_ - Default: 1 - Whether this randomat plays music
 
-Changed name from "Greyscale", added music, revolver, names, and letterbox, converted to work with randomat 2.0 rather than TTT2.\
-Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)\
-(Basically, the code for making the screen black and white is Wasted's, but everything else I did)\
-
+The code that applies the black and white filter was originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)\
+\
 Credit for the copyright-free music used:\
 Deadly Roulette, Walking Along and Bass Walker by Kevin MacLeod <https://incompetech.com/> \
 Promoted by MrSnooze <https://youtu.be/iYOvAO1rAM0> \
 License: CC BY 3.0 <https://goo.gl/Yibru5>
 
-## Once more, with feeling
+## Once more, with feeling!
 
 Repeats the last randomat that triggered, other than this one\
 \
@@ -479,13 +477,13 @@ Players make a Roblox 'oof' sound effect after being damaged\
 \
 _ttt_randomat_oof_ - Default: 1 - Whether this randomat is enabled
 
-## Outcome? Prop go boom
+## Outcome? Prop go boom.
 
 Makes props explode when they are destroyed.\
 \
 _ttt_randomat_goboom_ - Default: 1 - Whether this randomat is enabled
 
-## Petrify
+## Petrify!
 
 Turns players into a stone like figure, playing a stone-dragging sound when they move.\
 \
@@ -511,14 +509,14 @@ If innocents/traitors win, the winners have a free-for-all instead!\
 \
 _ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled
 
-## Random jump height for everyone
+## Random jump height for everyone!
 
 Randomly sets the jump height of every player from 0 up to 3x as high as default\
 \
 _ttt_randomat_randomjump_ - Default: 1 - Whether this randomat is enabled\
 _randomat_randomjump_max_multiplier_ - Default: 3.0 - Max multiplier to jump height
 
-## Random sizes for everyone
+## Random sizes for everyone!
 
 Everyone becomes a random smaller size, and has corresponding health. The smaller the size, the less health you are set to.\
 \
@@ -552,7 +550,7 @@ Announces a random player's role every 60 seconds\
 _ttt_randomat_rolecall_ - Default: 1 - Whether this randomat is enabled\
 _randomat_rolecall_time_ - Default: 60 - Time between role announcements
 
-## Role shuffle in __ seconds
+## Role shuffle in ... seconds!
 
 Swaps everyone's roles around, by default 60 seconds after this randomat triggers.\
 \
@@ -568,7 +566,7 @@ Gun sounds are replaced with "Sahmin".\
 \
 _ttt_randomat_sahmin_ - Default: 1 - Whether this randomat is enabled
 
-## Sharky and Palp
+## Sharky and Palp!
 
 Puts someone with their best traitor partner.\
 \
@@ -585,14 +583,14 @@ _randomat_simonsays_timer_ - Default: 45 - Seconds until the leader changes, if 
 Changed name to "Simon Says", changed the "leader" to only be picked once, or after the leader dies\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
 
-## Speedrun
+## Speedrun!
 
 Cuts the round time down to 1 minute!\
 \
 _ttt_randomat_speedrun_ - Default: 1 - Whether this randomat is enabled\
 _randomat_speedrun_time_ - Default: 60 - Time in seconds the round will last
 
-## Stop Ghosting
+## Stop Ghosting!
 
 Ghostly t-posing models follow spectators\
 \
@@ -646,9 +644,9 @@ randomat_pockets_blocklist - Default: "" - A list of weapon IDs, separated by co
 Changed name from "What did I find in my pocket?", chooses a random weapon to give to everyone instead.\
 Originally made by [Malivil](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086)
 
-## What it's like to be [player name]
+## What it's like to be [player]...
 
-Gives everyone someone's playermodel and 2 most bought items.\
+Everyone gets someone's playermodel and their 2 most bought items.\
 \
 _ttt_randomat_whatitslike_ - Default: 1 - Whether this randomat is enabled\
 _randomat_whatitslike_disguise_ - Default: 0 - Hide each player’s name\
@@ -663,7 +661,7 @@ _ttt_randomat_whoswho_ - Default: 1 - Whether this randomat is enabled
 Changed name from "Guess Who!", fixed depreciated code that broke this randomat, properly set everyone's playermodels back once round is over, fixed to always swap everyone's models and work with odd amounts of players.\
 Originally made by: [Guardain954](https://steamcommunity.com/sharedfiles/filedetails/?id=2068742309)
 
-## Whoa
+## Whoa!
 
 Everyone is changed to a Crash Bandicoot playermodel (if installed: [PS1's Crash Bandicoot P.M.](https://steamcommunity.com/sharedfiles/filedetails/?id=1009092087)) and is forced to use a "Spin Attack" weapon.\
 \
@@ -672,13 +670,14 @@ _randomat_whoa_timer_ - Default: 3 - Time between being given spin attacks\
 _randomat_whoa_strip_ - Default: 1 - The event strips your other weapons\
 _randomat_whoa_weaponid_ - Default: weapon_ttt_whoa_randomat - Id of the weapon given
 
-## Zero Friction
+## Zero Friction!
 
-Removes friction and gives prop damage immunity, else you would die if you touched a prop ‘cause gmod physics...\
+Removes friction and gives prop damage immunity, which prevents you from dying if you touch a prop. (Blame Gmod physics...)\
+All explosive barrels are also removed from the map, to prevent unexpectedly dying if you bump into one.\
 \
-_ttt_randomat_friction_ - Default: 1 - Whether this randomat is enabled
-_randomat_friction_friction_ - Default: 0 - Friction amount that is set
-_randomat_friction_nopropdmg_ - Default: 1 - Whether everyone becomes immune to prop damage, else you might die from touching props
-
-Changed name from "Trouble in Terrorist Town: On Ice", converted to work with randomat 2.0 rather than TTT2, fixed prop damage immunity not working, mow removes all explosive barrels from the map to prevent unexpected deaths.\
+_ttt_randomat_friction_ - Default: 1 - Whether this randomat is enabled\
+_randomat_friction_friction_ - Default: 0 - Friction amount that is set\
+_randomat_friction_nopropdmg_ - Default: 1 - Whether everyone becomes immune to prop damage, else you might die from touching props\
+\
+Changed name from "Trouble in Terrorist Town: On Ice", converted to work with randomat 2.0 rather than TTT2, fixed prop damage immunity not working, now removes explosive barrels\
 Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
