@@ -137,7 +137,7 @@ Credits for the boomerang weapon:
 Bounce instead of taking fall damage\
 \
 _ttt_randomat_bouncy_ - Default: 1 - Whether this randomat is enabled\
-_randomat_bouncy_speed_retain_ - Default: 0.75 - % of speed retained between bounces\
+_randomat_bouncy_speed_retain_ - Default: 0.95 - % of speed retained between bounces\
 \
 Converted to work with randomat 2.0 rather than TTT2\
 Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
