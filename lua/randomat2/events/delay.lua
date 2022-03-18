@@ -11,13 +11,18 @@ EVENT.Categories = {"eventtrigger", "smallimpact"}
 function EVENT:Begin()
     self.Description = "Triggers a randomat after " .. GetConVar("randomat_delay_time"):GetInt() .. " seconds"
 
-    timer.Simple(GetConVar("randomat_delay_time"):GetInt(), function()
+    timer.Create("DelayedStartRandomat", GetConVar("randomat_delay_time"):GetInt(), 1, function()
         self:SmallNotify("And now for the 'Delayed Start' randomat...")
 
-        timer.Simple(5, function()
+        timer.Create("DelayedStartRandomatNotification", 5, 1, function()
             Randomat:TriggerRandomEvent(self.owner)
         end)
     end)
+end
+
+function EVENT:End()
+    timer.Remove("DelayedStartRandomat")
+    timer.Remove("DelayedStartRandomatNotification")
 end
 
 function EVENT:GetConVars()
