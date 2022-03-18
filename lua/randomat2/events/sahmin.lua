@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Sahmin"
 EVENT.Description = "Gun sounds are replaced with 'Sahmin'"
 EVENT.id = "sahmin"
+EVENT.Type = EVENT_TYPE_GUNSOUNDS
 
 EVENT.Categories = {"fun", "smallimpact"}
 
