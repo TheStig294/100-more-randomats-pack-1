@@ -5,6 +5,7 @@ CreateConVar("randomat_randomsize_min", 25, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Mini
 CreateConVar("randomat_randomsize_max", 100, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Maximum possible size", 10, 100)
 
 EVENT.Title = "Random sizes for everyone!"
+EVENT.ExtDescription = "Everyone is shrunk down to a random unique size"
 EVENT.id = "randomsize"
 
 EVENT.Categories = {"fun", "moderateimpact"}

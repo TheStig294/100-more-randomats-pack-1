@@ -6,6 +6,7 @@ CreateConVar("randomat_battleroyale_music", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "P
 
 EVENT.Title = "LAST ONE STANDING WINS! BATTLE ROYALE!"
 EVENT.Description = ""
+EVENT.ExtDescription = "Everyone is turned into an innocent, and turns the game into a free-for-all!"
 EVENT.id = "battleroyale"
 
 EVENT.Categories = {"gamemode", "largeimpact"}

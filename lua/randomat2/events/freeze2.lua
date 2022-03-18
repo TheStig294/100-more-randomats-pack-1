@@ -26,7 +26,7 @@ table.insert(eventnames, "Sudden Freeze!")
 table.insert(eventnames, "There are more than " .. #eventnames .. " different freeze randomat names")
 EVENT.Title = ""
 EVENT.AltTitle = "Freeze (Randomat Puns)"
-EVENT.AltDescription = "All Innocents will Freeze (and become immune) every " .. GetConVar("randomat_freeze2_timer"):GetInt() .. " seconds"
+EVENT.ExtDescription = "All Innocents will Freeze (and become immune) every " .. GetConVar("randomat_freeze2_timer"):GetInt() .. " seconds"
 EVENT.id = "freeze2"
 
 EVENT.Categories = {"biased_innocent", "biased", "moderateimpact"}

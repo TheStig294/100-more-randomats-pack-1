@@ -1,5 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Hold Space To Slow Down"
+EVENT.ExtDescription = "While the spacebar is pressed, you move slowly and are immune to fall damage"
 EVENT.id = "space"
 
 EVENT.Categories = {"smallimpact"}

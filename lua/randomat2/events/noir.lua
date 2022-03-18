@@ -12,7 +12,7 @@ table.insert(eventnames, "I saw him standing in the cold alleyway...")
 local EVENT = {}
 EVENT.Title = ""
 EVENT.AltTitle = "Noir"
-EVENT.AltDescription = "Makes the game look like a 50's detective film!"
+EVENT.ExtDescription = "Makes the game look like a 50's detective film!"
 EVENT.id = "noir"
 
 EVENT.Categories = {"fun", "largeimpact", "item"}

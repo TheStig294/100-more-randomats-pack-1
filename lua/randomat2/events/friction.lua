@@ -6,6 +6,7 @@ CreateConVar("randomat_friction_nopropdmg", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, 
 
 EVENT.Title = "Zero friction!"
 EVENT.Description = ""
+EVENT.ExtDescription = "Everyone slides around, and must build momentum to move"
 EVENT.id = "friction"
 
 EVENT.Categories = {"largeimpact"}
