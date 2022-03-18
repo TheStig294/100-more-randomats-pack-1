@@ -362,9 +362,34 @@ function EVENT:Begin()
         end)
     end)
 
+    -- Turning off the floor weapons giver mod, if enabled
     if ConVarExists("ttt_floor_weapons_giver") and GetConVar("ttt_floor_weapons_giver"):GetBool() then
         floorWeaponsGiver = true
         GetConVar("ttt_floor_weapons_giver"):SetBool(false)
+    end
+
+    -- Preventing any other randomats from triggering for the rest of the round
+    self:AddHook("TTTRandomatCanEventRun", function() return false, self.Title .. " has triggered, no other events can run for the rest of the round" end)
+
+    -- This is just copied from the base code, ends all randomat events other than this one
+    if Randomat.ActiveEvents ~= {} then
+        for _, evt in pairs(Randomat.ActiveEvents) do
+            if evt ~= self then
+                evt:CleanUpHooks()
+
+                local function End()
+                    evt:End()
+                end
+
+                local function Catch(err)
+                    ErrorNoHalt("WARNING: Randomat event '" .. evt.Id .. "' caused an error when it was being Ended. Please report to the addon developer with the following error:\n", err, "\n")
+                end
+
+                xpcall(End, Catch)
+            end
+        end
+
+        Randomat.ActiveEvents = {self}
     end
 end
 
