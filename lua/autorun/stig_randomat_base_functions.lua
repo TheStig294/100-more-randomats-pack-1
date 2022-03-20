@@ -77,18 +77,25 @@ if SERVER then
     util.AddNetworkString("Randomat_SendTraitorEquipmentName")
     util.AddNetworkString("Randomat_DoneSendingDetectiveItems")
     util.AddNetworkString("Randomat_DoneSendingTraitorItems")
+    util.AddNetworkString("Randomat_PlayermodelSelectorInstalled")
     local detectiveBuyable = {}
     local traitorBuyable = {}
 
     --At the start of the first round of a map, ask the first connected client for the printnames of all detective and traitor weapons
     --Used by randomats that use 'TTT Total Statistics'
     --Needed since 'TTT Total Statistics' stores weapon stats identifying weapons by printnames, not classnames
-    hook.Add("TTTBeginRound", "RandomatGetBuyMenuLists", function()
+    hook.Add("TTTBeginRound", "RandomatInitialClientQueries", function()
         net.Start("RandomatDetectiveWeaponsList")
         net.Send(Entity(1))
         net.Start("RandomatTraitorWeaponsList")
         net.Send(Entity(1))
-        hook.Remove("TTTBeginRound", "RandomatGetBuyMenuLists")
+        net.Start("Randomat_PlayermodelSelectorInstalled")
+        net.Broadcast()
+        hook.Remove("TTTBeginRound", "RandomatInitialClientQueries")
+    end)
+
+    net.Receive("Randomat_PlayermodelSelectorInstalled", function(len, ply)
+        ply:SetNWBool("PlayermodelSelectorInstalled", true)
     end)
 
     local doneDetectiveItems = false
@@ -191,19 +198,45 @@ end
 local playermodels = {}
 local viewOffsets = {}
 local viewOffsetsDucked = {}
+local playerColours = {}
+local bodygroups = {}
+local skins = {}
 
 hook.Add("TTTBeginRound", "RandomatGetBeginPlayermodels", function()
     for _, ply in ipairs(player.GetAll()) do
         playermodels[ply] = ply:GetModel()
         viewOffsets[ply] = ply:GetViewOffset()
         viewOffsetsDucked[ply] = ply:GetViewOffsetDucked()
+        playerColours[ply] = ply:GetPlayerColor()
+
+        if ply:GetNWBool("PlayermodelSelectorInstalled") then
+            bodygroups[ply] = ply:GetInfo("cl_playerbodygroups")
+            skins[ply] = ply:GetInfo("cl_playerskin")
+        end
     end
 end)
 
-function ForceSetPlayermodel(ply, model, viewOffset, viewOffsetDucked)
+function ForceSetPlayermodel(ply, model, viewOffset, viewOffsetDucked, playerColour, bodygroup, skin)
     if IsPlayer(ply) then
         if util.IsValidModel(model) then
             FindMetaTable("Entity").SetModel(ply, model)
+        end
+
+        if playerColour then
+            ply:SetPlayerColor(playerColour)
+        end
+
+        if bodygroup then
+            local groups = string.Explode(" ", bodygroup) or ""
+
+            for k = 0, ply:GetNumBodyGroups() - 1 do
+                local v = tonumber(groups[k + 1]) or 0
+                FindMetaTable("Entity").SetBodygroup(ply, k, v)
+            end
+        end
+
+        if skin then
+            FindMetaTable("Entity").SetSkin(ply, skin)
         end
 
         timer.Simple(0.1, function()
@@ -225,7 +258,7 @@ end
 function ForceResetAllPlayermodels()
     for _, ply in ipairs(player.GetAll()) do
         if playermodels[ply] then
-            ForceSetPlayermodel(ply, playermodels[ply], viewOffsets[ply], viewOffsetsDucked[ply])
+            ForceSetPlayermodel(ply, playermodels[ply], viewOffsets[ply], viewOffsetsDucked[ply], playerColours[ply], bodygroups[ply], skins[ply])
         end
     end
 end

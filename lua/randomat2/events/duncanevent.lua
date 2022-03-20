@@ -47,10 +47,19 @@ function EVENT:Begin()
     local chosenModel = randomPly:GetModel()
     local chosenViewOffset = randomPly:GetViewOffset()
     local chosenViewOffsetDucked = randomPly:GetViewOffsetDucked()
+    local chosenPlayerColour = randomPly:GetPlayerColor()
+    local chosenBodyGroup
+    local chosenSkin
+
+    if randomPly:GetNWBool("PlayermodelSelectorInstalled") then
+        chosenBodyGroup = randomPly:GetInfo("cl_playerbodygroups")
+        chosenSkin = randomPly:GetInfo("cl_playerskin")
+    end
+
     Randomat:EventNotifySilent("It's " .. randomPly:Nick() .. "!")
 
     for k, ply in pairs(self:GetAlivePlayers()) do
-        ForceSetPlayermodel(ply, chosenModel, chosenViewOffset, chosenViewOffsetDucked)
+        ForceSetPlayermodel(ply, chosenModel, chosenViewOffset, chosenViewOffsetDucked, chosenPlayerColour, chosenBodyGroup, chosenSkin)
 
         -- if name disguising is enabled...
         if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
