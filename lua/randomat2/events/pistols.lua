@@ -24,7 +24,6 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
-    hook.Run("UpdatePlayerLoadouts")
 
     -- Continually,
     self:AddHook("Think", function()

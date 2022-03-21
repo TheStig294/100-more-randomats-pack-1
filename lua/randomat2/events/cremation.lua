@@ -21,7 +21,6 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
-    hook.Run("UpdatePlayerLoadouts")
 
     -- After a player dies
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)

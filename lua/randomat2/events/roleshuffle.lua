@@ -27,7 +27,6 @@ function EVENT:Begin()
         end
 
         SendFullStateUpdate()
-        hook.Run("UpdatePlayerLoadouts")
         -- Notify everyone when the role shuffle happens
         self:SmallNotify("Role shuffle!")
     end)

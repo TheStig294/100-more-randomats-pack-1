@@ -37,7 +37,6 @@ function EVENT:Begin()
 
     -- Let the end-of-round scoreboard know roles have changed (Else, old roles will be displayed)
     SendFullStateUpdate()
-    hook.Run("UpdatePlayerLoadouts")
 
     -- When a player dies,
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
@@ -64,7 +63,6 @@ function EVENT:Begin()
                 end
 
                 SendFullStateUpdate()
-                hook.Run("UpdatePlayerLoadouts")
 
                 -- Once the player is alive, stop running this respawn code
                 if ply:Alive() then

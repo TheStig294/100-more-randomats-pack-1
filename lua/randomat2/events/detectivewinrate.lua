@@ -86,7 +86,6 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
-    hook.Run("UpdatePlayerLoadouts")
     local winrate
 
     if zylusEasterEgg then

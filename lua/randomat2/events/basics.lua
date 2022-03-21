@@ -295,7 +295,6 @@ function EVENT:Begin()
 
     -- Updating everyone's roles in the bottom-left HUD box
     SendFullStateUpdate()
-    hook.Run("UpdatePlayerLoadouts")
 
     -- Replacing the end-of-round summary of everyone's roles with the classic highlights tab
     if ConVarExists("ttt_round_summary_tabs") then

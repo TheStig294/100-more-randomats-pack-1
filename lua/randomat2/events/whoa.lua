@@ -45,7 +45,6 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
-    hook.Run("UpdatePlayerLoadouts")
 
     for k, ply in pairs(player.GetAll()) do
         if modelExists then

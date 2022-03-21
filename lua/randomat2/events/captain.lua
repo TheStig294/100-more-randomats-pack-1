@@ -54,7 +54,6 @@ function EVENT:Begin()
                 end
 
                 SendFullStateUpdate()
-                hook.Run("UpdatePlayerLoadouts")
 
                 --Stop trying to spawn the victim once they are alive
                 if victim:Alive() then

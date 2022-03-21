@@ -44,7 +44,6 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
-    hook.Run("UpdatePlayerLoadouts")
 
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
