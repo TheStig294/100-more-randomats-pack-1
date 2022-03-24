@@ -43,8 +43,7 @@ EVENT.Categories = {"largeimpact"}
 
 function EVENT:Begin()
     self.Description = GetDescription()
-    -- local chosenPly = table.Random(self:GetAlivePlayers())
-    local chosenPly = Entity(1)
+    local chosenPly = table.Random(self:GetAlivePlayers())
     local chosenPlyModelData = GetPlayerModelData(chosenPly)
 
     for k, ply in pairs(self:GetAlivePlayers()) do
