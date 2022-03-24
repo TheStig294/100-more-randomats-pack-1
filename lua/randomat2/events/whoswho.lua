@@ -58,7 +58,7 @@ function EVENT:Begin()
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
             if swapModels[ply] ~= nil then
-                ForceSetPlayermodel(ply, swapModels[ply], viewOffsets[swapModels[ply]], viewOffsetsDucked[swapModels[ply]])
+                ForceSetPlayermodel(ply, playermodelData[swapModels[ply]])
             end
         end)
     end)

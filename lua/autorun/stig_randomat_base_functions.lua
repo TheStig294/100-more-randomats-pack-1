@@ -215,6 +215,15 @@ end)
 
 function ForceSetPlayermodel(ply, data)
     if IsPlayer(ply) then
+        -- If just a model by itself is passed, just set the model and leave it at that
+        if not istable(data) then
+            if (not isstring(data)) or not util.IsValidModel(data) then return end
+            FindMetaTable("Entity").SetModel(ply, data)
+
+            return
+        end
+
+        -- Else, set everything that's in the data table
         if util.IsValidModel(data["model"]) then
             FindMetaTable("Entity").SetModel(ply, data["model"])
         end

@@ -44,15 +44,12 @@ function EVENT:Begin()
         equipmentStats[mostBoughtItem] = 0
     end
 
-    -- Get the model and viewheight of the chosen player
-    local chosenModel = randomPly:GetModel()
-    local chosenViewOffset = randomPly:GetViewOffset()
-    local chosenViewOffsetDucked = randomPly:GetViewOffsetDucked()
     local wepKind = 10
+    local playermodelData = GetPlayerModelData(randomPly)
 
     for _, ply in pairs(self:GetAlivePlayers()) do
         -- Set playermodels and hide names
-        ForceSetPlayermodel(ply, chosenModel, chosenViewOffset, chosenViewOffsetDucked)
+        ForceSetPlayermodel(ply, playermodelData)
 
         if not CR_VERSION and GetConVar("randomat_whatitslike_disguise"):GetBool() then
             -- Traitors still see names if CR is not installed
@@ -74,7 +71,7 @@ function EVENT:Begin()
     -- Sets someone's playermodel again when respawning
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            ForceSetPlayermodel(ply, chosenModel, chosenViewOffset, chosenViewOffsetDucked)
+            ForceSetPlayermodel(ply, playermodelData)
 
             if not CR_VERSION and GetConVar("randomat_whatitslike_disguise"):GetBool() then
                 ply:SetNWBool("disguised", true)
