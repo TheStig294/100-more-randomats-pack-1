@@ -190,16 +190,16 @@ end
 -- when multiple playermodel changing randomats trigger in one round
 function GetPlayerModelData(ply)
     local data = {}
-    data["model"] = ply:GetModel()
-    data["viewOffset"] = ply:GetViewOffset()
-    data["viewOffsetDucked"] = ply:GetViewOffsetDucked()
-    data["playerColor"] = ply:GetPlayerColor()
-    data["skin"] = ply:GetSkin()
-    data["bodyGroups"] = ply:GetBodyGroups()
-    data["bodygroupValues"] = {}
+    data.model = ply:GetModel()
+    data.viewOffset = ply:GetViewOffset()
+    data.viewOffsetDucked = ply:GetViewOffsetDucked()
+    data.playerColor = ply:GetPlayerColor()
+    data.skin = ply:GetSkin()
+    data.bodyGroups = ply:GetBodyGroups()
+    data.bodygroupValues = {}
 
     for _, value in ipairs(ply:GetBodyGroups()) do
-        data["bodygroupValues"][value.id] = ply:GetBodygroup(value.id)
+        data.bodygroupValues[value.id] = ply:GetBodygroup(value.id)
     end
 
     return data
@@ -224,33 +224,33 @@ function ForceSetPlayermodel(ply, data)
         end
 
         -- Else, set everything that's in the data table
-        if util.IsValidModel(data["model"]) then
-            FindMetaTable("Entity").SetModel(ply, data["model"])
+        if util.IsValidModel(data.model) then
+            FindMetaTable("Entity").SetModel(ply, data.model)
         end
 
-        if data["playerColor"] then
-            ply:SetPlayerColor(data["playerColor"])
+        if data.playerColor then
+            ply:SetPlayerColor(data.playerColor)
         end
 
-        if data["skin"] then
-            ply:SetSkin(data["skin"])
+        if data.skin then
+            ply:SetSkin(data.skin)
         end
 
-        if data["bodyGroups"] then
-            for _, value in pairs(data["bodyGroups"]) do
-                ply:SetBodygroup(value.id, data["bodygroupValues"][value.id])
+        if data.bodyGroups then
+            for _, value in pairs(data.bodyGroups) do
+                ply:SetBodygroup(value.id, data.bodygroupValues[value.id])
             end
         end
 
         timer.Simple(0.1, function()
-            if data["viewOffset"] then
-                ply:SetViewOffset(data["viewOffset"])
+            if data.viewOffset then
+                ply:SetViewOffset(data.viewOffset)
             else
                 ply:SetViewOffset(Vector(0, 0, 64))
             end
 
-            if data["viewOffsetDucked"] then
-                ply:SetViewOffsetDucked(data["viewOffsetDucked"])
+            if data.viewOffsetDucked then
+                ply:SetViewOffsetDucked(data.viewOffsetDucked)
             else
                 ply:SetViewOffsetDucked(Vector(0, 0, 28))
             end
