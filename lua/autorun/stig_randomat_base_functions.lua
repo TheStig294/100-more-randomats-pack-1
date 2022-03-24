@@ -77,7 +77,6 @@ if SERVER then
     util.AddNetworkString("Randomat_SendTraitorEquipmentName")
     util.AddNetworkString("Randomat_DoneSendingDetectiveItems")
     util.AddNetworkString("Randomat_DoneSendingTraitorItems")
-    util.AddNetworkString("Randomat_PlayermodelSelectorInstalled")
     local detectiveBuyable = {}
     local traitorBuyable = {}
 
@@ -89,13 +88,7 @@ if SERVER then
         net.Send(Entity(1))
         net.Start("RandomatTraitorWeaponsList")
         net.Send(Entity(1))
-        net.Start("Randomat_PlayermodelSelectorInstalled")
-        net.Broadcast()
         hook.Remove("TTTBeginRound", "RandomatInitialClientQueries")
-    end)
-
-    net.Receive("Randomat_PlayermodelSelectorInstalled", function(len, ply)
-        ply:SetNWBool("PlayermodelSelectorInstalled", true)
     end)
 
     local doneDetectiveItems = false
@@ -199,8 +192,9 @@ local playermodels = {}
 local viewOffsets = {}
 local viewOffsetsDucked = {}
 local playerColours = {}
-local bodygroups = {}
 local skins = {}
+local bodygroups = {}
+local bodygroupValues = {}
 
 hook.Add("TTTBeginRound", "RandomatGetBeginPlayermodels", function()
     for _, ply in ipairs(player.GetAll()) do
@@ -208,15 +202,17 @@ hook.Add("TTTBeginRound", "RandomatGetBeginPlayermodels", function()
         viewOffsets[ply] = ply:GetViewOffset()
         viewOffsetsDucked[ply] = ply:GetViewOffsetDucked()
         playerColours[ply] = ply:GetPlayerColor()
+        skins[ply] = ply:GetSkin()
+        bodygroups[ply] = ply:GetBodyGroups()
+        bodygroupValues[ply] = {}
 
-        if ply:GetNWBool("PlayermodelSelectorInstalled") then
-            bodygroups[ply] = ply:GetInfo("cl_playerbodygroups")
-            skins[ply] = ply:GetInfo("cl_playerskin")
+        for _, value in ipairs(bodygroups[ply]) do
+            bodygroupValues[ply][value] = ply:GetBodygroup(value.id)
         end
     end
 end)
 
-function ForceSetPlayermodel(ply, model, viewOffset, viewOffsetDucked, playerColour, bodygroup, skin)
+function ForceSetPlayermodel(ply, model, viewOffset, viewOffsetDucked, playerColour, skin, bodygroup, bodygroupValue)
     if IsPlayer(ply) then
         if util.IsValidModel(model) then
             FindMetaTable("Entity").SetModel(ply, model)
@@ -226,17 +222,14 @@ function ForceSetPlayermodel(ply, model, viewOffset, viewOffsetDucked, playerCol
             ply:SetPlayerColor(playerColour)
         end
 
-        if bodygroup then
-            local groups = string.Explode(" ", bodygroup) or ""
-
-            for k = 0, ply:GetNumBodyGroups() - 1 do
-                local v = tonumber(groups[k + 1]) or 0
-                FindMetaTable("Entity").SetBodygroup(ply, k, v)
-            end
+        if skin then
+            ply:SetSkin(skin)
         end
 
-        if skin then
-            FindMetaTable("Entity").SetSkin(ply, skin)
+        if bodygroup then
+            for _, value in pairs(bodygroup) do
+                ply:SetBodygroup(value.id, bodygroupValue[value])
+            end
         end
 
         timer.Simple(0.1, function()
@@ -258,7 +251,7 @@ end
 function ForceResetAllPlayermodels()
     for _, ply in ipairs(player.GetAll()) do
         if playermodels[ply] then
-            ForceSetPlayermodel(ply, playermodels[ply], viewOffsets[ply], viewOffsetsDucked[ply], playerColours[ply], bodygroups[ply], skins[ply])
+            ForceSetPlayermodel(ply, playermodels[ply], viewOffsets[ply], viewOffsetsDucked[ply], playerColours[ply], skins[ply], bodygroups[ply], bodygroupValues[ply])
         end
     end
 end

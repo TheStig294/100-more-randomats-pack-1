@@ -43,23 +43,21 @@ EVENT.Categories = {"largeimpact"}
 
 function EVENT:Begin()
     self.Description = GetDescription()
-    local randomPly = table.Random(self:GetAlivePlayers())
-    local chosenModel = randomPly:GetModel()
-    local chosenViewOffset = randomPly:GetViewOffset()
-    local chosenViewOffsetDucked = randomPly:GetViewOffsetDucked()
-    local chosenPlayerColour = randomPly:GetPlayerColor()
-    local chosenBodyGroup
-    local chosenSkin
+    local chosenPly = table.Random(self:GetAlivePlayers())
+    local chosenModel = chosenPly:GetModel()
+    local chosenViewOffset = chosenPly:GetViewOffset()
+    local chosenViewOffsetDucked = chosenPly:GetViewOffsetDucked()
+    local chosenPlayerColour = chosenPly:GetPlayerColor()
+    local chosenSkin = chosenPly:GetSkin()
+    local chosenBodyGroups = chosenPly:GetBodyGroups()
+    local chosenBodyGroupValues = {}
 
-    if randomPly:GetNWBool("PlayermodelSelectorInstalled") then
-        chosenBodyGroup = randomPly:GetInfo("cl_playerbodygroups")
-        chosenSkin = randomPly:GetInfo("cl_playerskin")
+    for _, value in ipairs(chosenBodyGroups) do
+        chosenBodyGroupValues[value] = chosenPly:GetBodygroup(value.id)
     end
 
-    Randomat:EventNotifySilent("It's " .. randomPly:Nick() .. "!")
-
     for k, ply in pairs(self:GetAlivePlayers()) do
-        ForceSetPlayermodel(ply, chosenModel, chosenViewOffset, chosenViewOffsetDucked, chosenPlayerColour, chosenBodyGroup, chosenSkin)
+        ForceSetPlayermodel(ply, chosenModel, chosenViewOffset, chosenViewOffsetDucked, chosenPlayerColour, chosenSkin, chosenBodyGroups, chosenBodyGroupValues)
 
         -- if name disguising is enabled...
         if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
@@ -67,6 +65,8 @@ function EVENT:Begin()
             ply:SetNWBool("disguised", true)
         end
     end
+
+    Randomat:EventNotifySilent("It's " .. chosenPly:Nick() .. "!")
 
     if CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
         net.Start("DuncanEventRandomatHideNames")
@@ -76,7 +76,7 @@ function EVENT:Begin()
     -- Sets someone's playermodel again when respawning
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            ForceSetPlayermodel(ply, chosenModel)
+            ForceSetPlayermodel(ply, chosenModel, chosenViewOffset, chosenViewOffsetDucked, chosenPlayerColour, chosenSkin, chosenBodyGroup, chosenPly)
 
             if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
                 ply:SetNWBool("disguised", true)

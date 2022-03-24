@@ -52,11 +52,5 @@ net.Receive("RandomatTraitorWeaponsList", function()
     net.SendToServer()
 end)
 
-net.Receive("Randomat_PlayermodelSelectorInstalled", function()
-    net.Start("Randomat_PlayermodelSelectorInstalled")
-    net.WriteBool(ConVarExists("cl_playerbodygroups"))
-    net.SendToServer()
-end)
-
 function Randomat:register(tbl)
 end
