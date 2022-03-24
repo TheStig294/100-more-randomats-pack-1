@@ -184,63 +184,64 @@ function IsBuyableItem(role, wep, includeWepsExist, excludeWepsExist)
     return false
 end
 
--- Function to set/reset playermodels without having to deal with networking
+-- Functions to set/reset playermodels without having to deal with networking
 -- Other than avoiding jankyness with the timing of net messages, 
 -- this function ensures playermodel changing randomats reset players to their actual playermodels
 -- when multiple playermodel changing randomats trigger in one round
-local playermodels = {}
-local viewOffsets = {}
-local viewOffsetsDucked = {}
-local playerColours = {}
-local skins = {}
-local bodygroups = {}
-local bodygroupValues = {}
+function GetPlayerModelData(ply)
+    local data = {}
+    data["model"] = ply:GetModel()
+    data["viewOffset"] = ply:GetViewOffset()
+    data["viewOffsetDucked"] = ply:GetViewOffsetDucked()
+    data["playerColor"] = ply:GetPlayerColor()
+    data["skin"] = ply:GetSkin()
+    data["bodyGroups"] = ply:GetBodyGroups()
+    data["bodygroupValues"] = {}
+
+    for _, value in ipairs(ply:GetBodyGroups()) do
+        data["bodygroupValues"][value.id] = ply:GetBodygroup(value.id)
+    end
+
+    return data
+end
+
+local playermodelData = {}
 
 hook.Add("TTTBeginRound", "RandomatGetBeginPlayermodels", function()
     for _, ply in ipairs(player.GetAll()) do
-        playermodels[ply] = ply:GetModel()
-        viewOffsets[ply] = ply:GetViewOffset()
-        viewOffsetsDucked[ply] = ply:GetViewOffsetDucked()
-        playerColours[ply] = ply:GetPlayerColor()
-        skins[ply] = ply:GetSkin()
-        bodygroups[ply] = ply:GetBodyGroups()
-        bodygroupValues[ply] = {}
-
-        for _, value in ipairs(bodygroups[ply]) do
-            bodygroupValues[ply][value] = ply:GetBodygroup(value.id)
-        end
+        playermodelData[ply] = GetPlayerModelData(ply)
     end
 end)
 
-function ForceSetPlayermodel(ply, model, viewOffset, viewOffsetDucked, playerColour, skin, bodygroup, bodygroupValue)
+function ForceSetPlayermodel(ply, data)
     if IsPlayer(ply) then
-        if util.IsValidModel(model) then
-            FindMetaTable("Entity").SetModel(ply, model)
+        if util.IsValidModel(data["model"]) then
+            FindMetaTable("Entity").SetModel(ply, data["model"])
         end
 
-        if playerColour then
-            ply:SetPlayerColor(playerColour)
+        if data["playerColor"] then
+            ply:SetPlayerColor(data["playerColor"])
         end
 
-        if skin then
-            ply:SetSkin(skin)
+        if data["skin"] then
+            ply:SetSkin(data["skin"])
         end
 
-        if bodygroup then
-            for _, value in pairs(bodygroup) do
-                ply:SetBodygroup(value.id, bodygroupValue[value])
+        if data["bodyGroups"] then
+            for _, value in pairs(data["bodyGroups"]) do
+                ply:SetBodygroup(value.id, data["bodygroupValues"][value.id])
             end
         end
 
         timer.Simple(0.1, function()
-            if viewOffset then
-                ply:SetViewOffset(viewOffset)
+            if data["viewOffset"] then
+                ply:SetViewOffset(data["viewOffset"])
             else
                 ply:SetViewOffset(Vector(0, 0, 64))
             end
 
-            if viewOffsetDucked then
-                ply:SetViewOffsetDucked(viewOffsetDucked)
+            if data["viewOffsetDucked"] then
+                ply:SetViewOffsetDucked(data["viewOffsetDucked"])
             else
                 ply:SetViewOffsetDucked(Vector(0, 0, 28))
             end
@@ -250,8 +251,8 @@ end
 
 function ForceResetAllPlayermodels()
     for _, ply in ipairs(player.GetAll()) do
-        if playermodels[ply] then
-            ForceSetPlayermodel(ply, playermodels[ply], viewOffsets[ply], viewOffsetsDucked[ply], playerColours[ply], skins[ply], bodygroups[ply], bodygroupValues[ply])
+        if playermodelData[ply] then
+            ForceSetPlayermodel(ply, playermodelData[ply])
         end
     end
 end
