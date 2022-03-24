@@ -8,14 +8,12 @@ EVENT.Categories = {"fun", "largeimpact"}
 local swapModels = {}
 local playerModels = {}
 local remainingModels = {}
-local viewOffsets = {}
-local viewOffsetsDucked = {}
+local playermodelData = {}
 
 function EVENT:Begin()
     for _, ply in pairs(self:GetAlivePlayers()) do
         playerModels[ply] = ply:GetModel()
-        viewOffsets[ply:GetModel()] = ply:GetViewOffset()
-        viewOffsetsDucked[ply:GetModel()] = ply:GetViewOffsetDucked()
+        playermodelData[ply:GetModel()] = GetPlayerModelData(ply)
     end
 
     -- Initially add all player's models to the pool of models not yet picked
@@ -35,14 +33,8 @@ function EVENT:Begin()
         if table.IsEmpty(remainingModels) then
             for _, rdmply in ipairs(self:GetAlivePlayers(true)) do
                 if ply ~= rdmply then
-                    local randomModel = rdmply:GetModel()
-                    local randomViewOffset = rdmply:GetViewOffset()
-                    local randomViewOffsetDucked = rdmply:GetViewOffsetDucked()
-                    local lastPlayerModel = ply:GetModel()
-                    local lastPlayerViewOffset = ply:GetViewOffset()
-                    local lastPlayerViewOffsetDucked = ply:GetViewOffsetDucked()
-                    ForceSetPlayermodel(rdmply, lastPlayerModel, lastPlayerViewOffset, lastPlayerViewOffsetDucked)
-                    ForceSetPlayermodel(ply, randomModel, randomViewOffset, randomViewOffsetDucked)
+                    ForceSetPlayermodel(rdmply, GetPlayerModelData(ply))
+                    ForceSetPlayermodel(ply, GetPlayerModelData(rdmply))
                     break
                 end
             end
@@ -50,7 +42,7 @@ function EVENT:Begin()
             -- Randomly choose a playermodel that hasn't yet been chosen
             local chosenModel = table.Random(remainingModels)
             -- Set them to that model
-            ForceSetPlayermodel(ply, chosenModel, viewOffsets[chosenModel], viewOffsetsDucked[chosenModel])
+            ForceSetPlayermodel(ply, playermodelData[chosenModel])
             -- Keep track of who received that playermodel
             swapModels[ply] = chosenModel
             -- And remove that model from the pool of possible playermodels
@@ -77,8 +69,7 @@ function EVENT:End()
     table.Empty(swapModels)
     table.Empty(remainingModels)
     table.Empty(playerModels)
-    table.Empty(viewOffsets)
-    table.Empty(viewOffsetsDucked)
+    table.Empty(playermodelData)
     ForceResetAllPlayermodels()
 end
 
