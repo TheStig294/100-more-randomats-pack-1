@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Crab Walk"
 EVENT.Description = "You can only walk sideways"
 EVENT.id = "crabwalk"
+EVENT.Type = EVENT_TYPE_JUMPING
 
 EVENT.Categories = {"largeimpact"}
 

@@ -5,6 +5,7 @@ CreateConVar("randomat_randomjump_max_multiplier", 3.0, {FCVAR_ARCHIVE, FCVAR_NO
 EVENT.Title = "Random jump height for everyone!"
 EVENT.ExtDescription = "Everyone is given a unique random jump height"
 EVENT.id = "randomjump"
+EVENT.Type = EVENT_TYPE_JUMPING
 
 EVENT.Categories = {"moderateimpact"}
 
