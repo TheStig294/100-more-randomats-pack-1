@@ -550,9 +550,9 @@ Announces a random player's role every 60 seconds\
 _ttt_randomat_rolecall_ - Default: 1 - Whether this randomat is enabled\
 _randomat_rolecall_time_ - Default: 60 - Time between role announcements
 
-## Role shuffle in ... seconds!
+## Everyone swaps roles in 60 seconds!
 
-Swaps everyone's roles around, by default 60 seconds after this randomat triggers.\
+Swaps everyone's roles, role weapons and credits around, by default 60 seconds after this randomat triggers.\
 \
 _ttt_randomat_roleshuffle_ - Default: 1 - Whether this randomat is enabled\
 _randomat_roleshuffle_time_ - Default: 60 - How long in seconds until roles are shuffled

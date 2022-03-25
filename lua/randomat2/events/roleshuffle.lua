@@ -2,28 +2,77 @@ local EVENT = {}
 
 CreateConVar("randomat_roleshuffle_time", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How long in seconds until roles are shuffled", 5, 300)
 
-EVENT.Title = "Role shuffle!"
-EVENT.Description = "Everyone swaps roles in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
+EVENT.Title = "Everyone swaps roles in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
+EVENT.AltTitle = "Role Shuffle!"
 EVENT.id = "roleshuffle"
 
 EVENT.Categories = {"rolechange", "moderateimpact"}
 
+local function SetPlayerData(ply, data)
+    ply:SetCredits(data.credits)
+    Randomat:SetRole(ply, data.role)
+
+    for _, weapon in ipairs(ply:GetWeapons()) do
+        if weapon.Kind and weapon.Kind == WEAPON_ROLE then
+            weapon:Remove()
+        end
+    end
+
+    for _, weapon in ipairs(data.weapons) do
+        ply:Give(weapon)
+    end
+end
+
 function EVENT:Begin()
-    self.Description = "Everyone swaps roles in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
+    self.Title = "Everyone swaps roles in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
 
     -- Create a full timer that doesn't repeat, so it can be stopped if the round ends before it triggers
     timer.Create("RoleShuffleRandomatTimer", GetConVar("randomat_roleshuffle_time"):GetInt(), 1, function()
-        local roles = {}
+        local playerData = {}
+        local alivePlayers = self:GetAlivePlayers(true)
+        local remainingPlayers = {}
 
-        -- Get everyone's current roles, randomly
-        for i, ply in ipairs(self:GetAlivePlayers(true)) do
-            table.insert(roles, ply:GetRole())
+        -- Get everyone's credits, roles and weapons
+        for _, ply in ipairs(alivePlayers) do
+            local ID = ply:SteamID64()
+            table.insert(remainingPlayers, ID)
+            playerData[ID] = {}
+            playerData[ID].credits = ply:GetCredits()
+            playerData[ID].role = ply:GetRole()
+            playerData[ID].weapons = {}
+
+            for _, weapon in ipairs(ply:GetWeapons()) do
+                if weapon.Kind and weapon.Kind == WEAPON_ROLE then
+                    table.insert(playerData[ID].weapons, weapon:GetClass())
+                end
+            end
         end
 
-        -- Set everyone's roles
-        for i, ply in ipairs(self:GetAlivePlayers()) do
-            self:StripRoleWeapons(ply)
-            Randomat:SetRole(ply, roles[i])
+        -- Swap everyone's credits, roles and weapons around!
+        for i, ply in ipairs(alivePlayers) do
+            local ID = ply:SteamID64()
+            local plyRemoved = table.RemoveByValue(remainingPlayers, ID)
+
+            -- If the last player selected has noone to swap with (odd no. of alive players) then they swap with a random player
+            if table.IsEmpty(remainingPlayers) then
+                for _, rdmply in ipairs(alivePlayers) do
+                    if ply ~= rdmply then
+                        SetPlayerData(rdmply, playerData[ply:SteamID64()])
+                        SetPlayerData(ply, playerData[rdmply:SteamID64()])
+                        break
+                    end
+                end
+            else
+                -- Randomly choose a player that hasn't yet been chosen, remainingPlayers table was shuffled at the start
+                local chosenID = remainingPlayers[1]
+                SetPlayerData(ply, playerData[chosenID])
+                -- And remove that player from the pool of possible players
+                table.RemoveByValue(remainingPlayers, chosenID)
+
+                if plyRemoved then
+                    table.insert(remainingPlayers, ID)
+                end
+            end
         end
 
         SendFullStateUpdate()
