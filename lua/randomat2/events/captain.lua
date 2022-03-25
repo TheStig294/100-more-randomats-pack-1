@@ -29,10 +29,19 @@ function EVENT:Begin()
         -- If the attacker was a detective and the victim was any kind of innocent,
         if attacker.IsPlayer() and attacker ~= victim and Randomat:IsGoodDetectiveLike(attacker) and Randomat:IsInnocentTeam(victim, false) then
             self:RemoveHook("PlayerDeath")
+            local role = attacker:GetRole()
+            local credits = attacker:GetCredits()
+            local attackerWeapons = {}
+
+            for _, weapon in ipairs(attacker:GetWeapons()) do
+                table.insert(attackerWeapons, weapon:GetClass())
+            end
+
+            attacker:StripWeapons()
+            attacker:SetCredits(0)
             attacker:Kill() -- Kill the detective,
             attacker:PrintMessage(HUD_PRINTCENTER, "You RDMed!")
             attacker:PrintMessage(HUD_PRINTTALK, "'" .. self.Title .. "' is active!\n" .. self.Description)
-            local role = attacker:GetRole()
 
             --Repeatedly try to respawn the victim
             timer.Create("respawndelay", 0.1, 0, function()
@@ -41,11 +50,6 @@ function EVENT:Begin()
                 victim:SpawnForRound(true)
                 victim:SetRole(role)
                 victim:SetHealth(100)
-
-                --Give the new detective the default amount of detective credits
-                timer.Simple(0.5, function()
-                    victim:SetDefaultCredits()
-                end)
 
                 -- Remove his corpse
                 if corpse then
@@ -58,6 +62,15 @@ function EVENT:Begin()
                 --Stop trying to spawn the victim once they are alive
                 if victim:Alive() then
                     timer.Remove("respawndelay")
+                    victim:StripWeapons()
+
+                    for _, weapon in ipairs(attackerWeapons) do
+                        victim:Give(weapon)
+                    end
+
+                    victim:SetCredits(credits)
+                    victim:PrintMessage(HUD_PRINTCENTER, "You were killed by a detective!")
+                    victim:PrintMessage(HUD_PRINTTALK, "'" .. self.Title .. "' is active!\n" .. self.Description)
 
                     return
                 end

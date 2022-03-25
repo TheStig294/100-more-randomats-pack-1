@@ -370,7 +370,7 @@ _ttt_randomat_hugeproblem_ - Default: 1 - Whether this randomat is enabled
 
 ## I'm The Captain Now
 
-The first time a detective kills someone on their side, they die, and their victim respawns as a detective with full health.\
+The first time a detective kills someone on their side, they die, and their victim respawns with their role, weapons and at full health.\
 \
 _ttt_randomat_captain_ - Default: 1 - Whether this randomat is enabled\
 \
