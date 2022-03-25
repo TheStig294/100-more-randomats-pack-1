@@ -61,6 +61,19 @@ if file.Exists("randomat/future.txt", "DATA") then
 end
 
 function EVENT:Begin()
+    -- If it is at the start of the round, turn any beggar into a jester, if enabled, else turn them into an innocent
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if ply.IsBeggar and ply:IsBeggar() then
+            if GetConVar("ttt_jester_enabled"):GetBool() then
+                Randomat:SetRole(ply, ROLE_JESTER)
+            else
+                Randomat:SetRole(ply, ROLE_INNOCENT)
+            end
+        end
+    end
+
+    SendFullStateUpdate()
+
     -- Add bought equipment to the table and remove it from the player
     self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
         if is_item then
@@ -93,6 +106,20 @@ function EVENT:Begin()
     timer.Simple(0.5, function()
         SetWeaponGiveHook()
     end)
+end
+
+-- Checking if no-one is a beggar or if it is the start of the round, let the event run
+function EVENT:Condition()
+    local beggar = false
+
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if ply.IsBeggar and ply:IsBeggar() then
+            beggar = true
+            break
+        end
+    end
+
+    return Randomat:GetRoundCompletePercent() < 5 or not beggar
 end
 
 Randomat:register(EVENT)
