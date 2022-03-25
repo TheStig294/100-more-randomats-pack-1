@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "I'm The Captain Now."
-EVENT.Description = "The 1st time a detective RDMs, they die instead, and the victim becomes a detective"
+EVENT.Description = "If the detective RDMs, they swap roles and weapons with the victim, and the detective dies instead"
 EVENT.id = "captain"
 EVENT.Type = EVENT_TYPE_RESPAWN
 
@@ -34,11 +34,10 @@ function EVENT:Begin()
             local attackerWeapons = {}
 
             for _, weapon in ipairs(attacker:GetWeapons()) do
-                if weapon.Kind and weapon.Kind == WEAPON_ROLE then
-                    table.insert(attackerWeapons, weapon:GetClass())
-                end
+                table.insert(attackerWeapons, weapon:GetClass())
             end
 
+            attacker:StripWeapons()
             attacker:SetCredits(0)
             attacker:Kill() -- Kill the detective,
             attacker:PrintMessage(HUD_PRINTCENTER, "You RDMed!")
@@ -63,7 +62,7 @@ function EVENT:Begin()
                 --Stop trying to spawn the victim once they are alive
                 if victim:Alive() then
                     timer.Remove("respawndelay")
-                    self:StripRoleWeapons(victim)
+                    victim:StripWeapons()
 
                     for _, weapon in ipairs(attackerWeapons) do
                         victim:Give(weapon)

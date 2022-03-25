@@ -2,7 +2,7 @@ local EVENT = {}
 
 CreateConVar("randomat_roleshuffle_time", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How long in seconds until roles are shuffled", 5, 300)
 
-EVENT.Title = "Everyone swaps roles in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
+EVENT.Title = "Everyone swaps roles and weapons in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
 EVENT.AltTitle = "Role Shuffle!"
 EVENT.id = "roleshuffle"
 
@@ -11,12 +11,7 @@ EVENT.Categories = {"rolechange", "moderateimpact"}
 local function SetPlayerData(ply, data)
     ply:SetCredits(data.credits)
     Randomat:SetRole(ply, data.role)
-
-    for _, weapon in ipairs(ply:GetWeapons()) do
-        if weapon.Kind and weapon.Kind == WEAPON_ROLE then
-            weapon:Remove()
-        end
-    end
+    ply:StripWeapons()
 
     for _, weapon in ipairs(data.weapons) do
         ply:Give(weapon)
@@ -24,7 +19,7 @@ local function SetPlayerData(ply, data)
 end
 
 function EVENT:Begin()
-    self.Title = "Everyone swaps roles in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
+    self.Title = "Everyone swaps roles and weapons in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
 
     -- Create a full timer that doesn't repeat, so it can be stopped if the round ends before it triggers
     timer.Create("RoleShuffleRandomatTimer", GetConVar("randomat_roleshuffle_time"):GetInt(), 1, function()
@@ -42,9 +37,7 @@ function EVENT:Begin()
             playerData[ID].weapons = {}
 
             for _, weapon in ipairs(ply:GetWeapons()) do
-                if weapon.Kind and weapon.Kind == WEAPON_ROLE then
-                    table.insert(playerData[ID].weapons, weapon:GetClass())
-                end
+                table.insert(playerData[ID].weapons, weapon:GetClass())
             end
         end
 
