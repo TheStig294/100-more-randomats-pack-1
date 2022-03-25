@@ -34,10 +34,11 @@ function EVENT:Begin()
             local attackerWeapons = {}
 
             for _, weapon in ipairs(attacker:GetWeapons()) do
-                table.insert(attackerWeapons, weapon:GetClass())
+                if weapon.Kind and weapon.Kind == WEAPON_ROLE then
+                    table.insert(attackerWeapons, weapon:GetClass())
+                end
             end
 
-            attacker:StripWeapons()
             attacker:SetCredits(0)
             attacker:Kill() -- Kill the detective,
             attacker:PrintMessage(HUD_PRINTCENTER, "You RDMed!")
@@ -62,7 +63,7 @@ function EVENT:Begin()
                 --Stop trying to spawn the victim once they are alive
                 if victim:Alive() then
                     timer.Remove("respawndelay")
-                    victim:StripWeapons()
+                    self:StripRoleWeapons(victim)
 
                     for _, weapon in ipairs(attackerWeapons) do
                         victim:Give(weapon)
