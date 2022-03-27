@@ -34,13 +34,12 @@ function EVENT:Begin()
             if ent.hitShotBullet then
                 ent.hitShotBullet = false
 
-                if not ((ent:Health() + 5) > ent:GetMaxHealth()) then
+                -- They hit
+                if (ent:Health() + 5) <= ent:GetMaxHealth() then
                     ent:SetHealth(ent:Health() + 5)
-                else
-                    ent:SetHealth(ent:GetMaxHealth())
                 end
-                -- They missed
             else
+                -- They missed
                 ent:TakeDamage(5)
             end
         end)
