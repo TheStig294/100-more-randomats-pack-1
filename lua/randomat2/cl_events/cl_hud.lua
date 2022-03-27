@@ -10,12 +10,12 @@ end)
 
 net.Receive("HUDRandomat", function()
     --The magic hook that does all the work! (Hiding the HUD)
-    hook.Add("HUDShouldDraw", "RandomatHideAllHUD", function(name)
+    hook.Add("HUDShouldDraw", "HUDRandomatHideAllHUD", function(name)
         if name ~= "CHudGMod" then return false end
     end)
 
     --Disable the scoreboard as well
-    hook.Add("PlayerBindPress", "WhoAmIDisableScorboard", function(ply, bind, pressed)
+    hook.Add("PlayerBindPress", "HUDRandomatDisableScoreboard", function(ply, bind, pressed)
         if (string.find(bind, "+showscores")) then return true end
     end)
 end)
@@ -24,6 +24,6 @@ net.Receive("HUDRandomatEnd", function()
     --Reset the role hint popup time to what it was
     GetConVar("ttt_startpopup_duration"):SetInt(popupTime)
     --Re-enable HUD and scoreboard once we're done
-    hook.Remove("HUDShouldDraw", "RandomatHideAllHUD", function() return false end)
-    hook.Remove("PlayerBindPress", "WhoAmIDisableScorboard")
+    hook.Remove("HUDShouldDraw", "HUDRandomatHideAllHUD")
+    hook.Remove("PlayerBindPress", "HUDRandomatDisableScoreboard")
 end)

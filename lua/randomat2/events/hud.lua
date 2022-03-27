@@ -15,13 +15,24 @@ function EVENT:Begin()
     net.Broadcast()
 
     -- Hides the rest of the HUD, including the scoreboard
-    timer.Simple(5, function()
+    timer.Create("HUDRandomatStart", 5, 1, function()
         net.Start("HUDRandomat")
         net.Broadcast()
+
+        self:AddHook("PostPlayerDeath", function(ply)
+            net.Start("HUDRandomatEnd")
+            net.Send(ply)
+        end)
+
+        self:AddHook("PlayerSpawn", function(ply, transition)
+            net.Start("HUDRandomat")
+            net.Send(ply)
+        end)
     end)
 end
 
 function EVENT:End()
+    timer.Remove("HUDRandomatStart")
     -- Removes the client-side HUD-hiding hooks for all players
     net.Start("HUDRandomatEnd")
     net.Broadcast()
