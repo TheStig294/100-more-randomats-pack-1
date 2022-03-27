@@ -8,6 +8,7 @@ EVENT.Categories = {"rolechange", "gamemode", "largeimpact"}
 util.AddNetworkString("BasicsRandomatClientStart")
 util.AddNetworkString("BasicsRandomatClientEnd")
 local eventTriggered = false
+local eventActive = false
 -- All the things we're changing that are going to need to be reset once the event ends
 local detectiveEquipmentItems
 local traitorEquipmentItems
@@ -23,6 +24,7 @@ local floorWeaponsGiver = false
 
 function EVENT:Begin()
     eventTriggered = true
+    eventActive = true
 
     -- This is just copied from the base code, ends all randomat events other than this one
     if Randomat.ActiveEvents ~= {} then
@@ -393,8 +395,9 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    -- Only reset everything if this randomat actually triggered
-    if eventTriggered then
+    -- Only reset everything at the end of the round this event triggers
+    if eventActive then
+        eventActive = false
         EquipmentItems[ROLE_DETECTIVE] = detectiveEquipmentItems
         EquipmentItems[ROLE_TRAITOR] = traitorEquipmentItems
 
@@ -447,7 +450,15 @@ function EVENT:End()
 end
 
 function EVENT:Condition()
-    return not eventTriggered
+    -- If this event has triggered before during the same map, prevent it from triggering until the next one
+    if eventTriggered then return false end
+
+    -- Preventing this event from triggering during Random x5 or Randomness Intensifies
+    for _, event in ipairs(Randomat.ActiveEvents) do
+        if event.id == "intensifies" or event.id == "randomxn" then return false end
+    end
+
+    return true
 end
 
 Randomat:register(EVENT)
