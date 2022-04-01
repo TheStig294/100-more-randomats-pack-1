@@ -35,8 +35,31 @@ net.Receive("FrenchRandomatBegin", function()
     ROLE_STRINGS[ROLE_VAMPIRE] = "Vampire"
     ROLE_STRINGS[ROLE_VETERAN] = "Vétéran"
     ROLE_STRINGS[ROLE_ZOMBIE] = "Zombi"
-    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.origDesc = weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc
-    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc = "Bleb"
+
+    for _, SWEPCopy in ipairs(weapons.GetList()) do
+        local classname = WEPS.GetClass(SWEPCopy)
+
+        if classname then
+            local SWEP = weapons.GetStored(classname)
+
+            if SWEP.PrintName then
+                SWEP.origPrintName = SWEP.PrintName
+            end
+
+            if SWEP.EquipMenuData and SWEP.EquipMenuData.type then
+                SWEP.EquipMenuData.origType = SWEP.EquipMenuData.type
+            end
+
+            if SWEP.EquipMenuData and SWEP.EquipMenuData.desc then
+                SWEP.EquipMenuData.origDesc = SWEP.EquipMenuData.desc
+            end
+        end
+    end
+
+    weapons.GetStored("weapon_ttt_randomat").PrintName = "Machine Aléatoire"
+    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.type = "item_weapon"
+    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc = "La machine aléatoire fera quelque chose d'aléatoire!\nQui a deviné ça!"
+    RunConsoleCommand("ttt_reset_weapons_cache")
 end)
 
 net.Receive("FrenchRandomatEnd", function()
@@ -76,5 +99,26 @@ net.Receive("FrenchRandomatEnd", function()
     ROLE_STRINGS[ROLE_VAMPIRE] = "Vampire"
     ROLE_STRINGS[ROLE_VETERAN] = "Veteran"
     ROLE_STRINGS[ROLE_ZOMBIE] = "Zombie"
-    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc = weapons.GetStored("weapon_ttt_randomat").EquipMenuData.origDesc
+
+    for _, SWEPCopy in ipairs(weapons.GetList()) do
+        local classname = WEPS.GetClass(SWEPCopy)
+
+        if classname then
+            local SWEP = weapons.GetStored(classname)
+
+            if SWEP.origPrintName then
+                SWEP.PrintName = SWEP.origPrintName
+            end
+
+            if SWEP.EquipMenuData and SWEP.EquipMenuData.origType then
+                SWEP.EquipMenuData.type = SWEP.EquipMenuData.origType
+            end
+
+            if SWEP.EquipMenuData and SWEP.EquipMenuData.origDesc then
+                SWEP.EquipMenuData.desc = SWEP.EquipMenuData.origDesc
+            end
+        end
+    end
+
+    RunConsoleCommand("ttt_reset_weapons_cache")
 end)
