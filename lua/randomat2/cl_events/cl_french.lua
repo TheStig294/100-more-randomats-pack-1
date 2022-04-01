@@ -35,6 +35,8 @@ net.Receive("FrenchRandomatBegin", function()
     ROLE_STRINGS[ROLE_VAMPIRE] = "Vampire"
     ROLE_STRINGS[ROLE_VETERAN] = "Vétéran"
     ROLE_STRINGS[ROLE_ZOMBIE] = "Zombi"
+    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.origDesc = weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc
+    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc = "Bleb"
 end)
 
 net.Receive("FrenchRandomatEnd", function()
@@ -74,4 +76,5 @@ net.Receive("FrenchRandomatEnd", function()
     ROLE_STRINGS[ROLE_VAMPIRE] = "Vampire"
     ROLE_STRINGS[ROLE_VETERAN] = "Veteran"
     ROLE_STRINGS[ROLE_ZOMBIE] = "Zombie"
+    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc = weapons.GetStored("weapon_ttt_randomat").EquipMenuData.origDesc
 end)

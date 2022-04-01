@@ -9,8 +9,11 @@ EVENT.Categories = {"fun", "smallimpact"}
 
 util.AddNetworkString("FrenchRandomatBegin")
 util.AddNetworkString("FrenchRandomatEnd")
+local eventRun = false
 
 function EVENT:Begin()
+    eventRun = true
+
     for _, ply in ipairs(player.GetAll()) do
         ply:ConCommand("ttt_language FrançaisRandomat")
     end
@@ -20,12 +23,16 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    for _, ply in ipairs(player.GetAll()) do
-        ply:ConCommand("ttt_language auto")
-    end
+    if eventRun then
+        eventRun = false
 
-    net.Start("FrenchRandomatEnd")
-    net.Broadcast()
+        for _, ply in ipairs(player.GetAll()) do
+            ply:ConCommand("ttt_language auto")
+        end
+
+        net.Start("FrenchRandomatEnd")
+        net.Broadcast()
+    end
 end
 
 Randomat:register(EVENT)
