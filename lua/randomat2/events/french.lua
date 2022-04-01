@@ -11,21 +11,21 @@ util.AddNetworkString("FrenchRandomatBegin")
 util.AddNetworkString("FrenchRandomatEnd")
 
 function EVENT:Begin()
-    net.Start("FrenchRandomatBegin")
-    net.Broadcast()
-
     for _, ply in ipairs(player.GetAll()) do
         ply:ConCommand("ttt_language FrançaisRandomat")
     end
+
+    net.Start("FrenchRandomatBegin")
+    net.Broadcast()
 end
 
 function EVENT:End()
-    net.Start("FrenchRandomatEnd")
-    net.Broadcast()
-
     for _, ply in ipairs(player.GetAll()) do
         ply:ConCommand("ttt_language auto")
     end
+
+    net.Start("FrenchRandomatEnd")
+    net.Broadcast()
 end
 
 Randomat:register(EVENT)
