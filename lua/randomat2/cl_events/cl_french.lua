@@ -1,6 +1,7 @@
 local roleStringsOrig = {}
 local roleStringsExtOrig = {}
 local roleStringsPluralOrig = {}
+local customPassiveItemsOrig = {}
 
 net.Receive("FrenchRandomatBegin", function()
     RunConsoleCommand("ttt_language", "FrançaisRandomat")
@@ -125,6 +126,26 @@ net.Receive("FrenchRandomatBegin", function()
         ROLE_STRINGS_PLURAL[ROLE_ZOMBIE] = "Zombis"
     end
 
+    if not istable(SHOP_ROLES) then
+        SHOP_ROLES = {ROLE_DETECTIVE, ROLE_TRAITOR}
+    end
+
+    for role = 1, ROLE_MAX do
+        if SHOP_ROLES[role] then
+            for _, equ in pairs(EquipmentItems[role]) do
+                if equ.id and EQUIP_ASC and equ.id == EQUIP_ASC then
+                    customPassiveItemsOrig[EQUIP_ASC] = equ
+                    equ.name = "Un Deuxième Chance"
+                    equ.desc = "Petite chance d'être ressuscité à la mort. \n\nAprès avoir tué quelqu'un, les chances augmentent."
+                elseif equ.id and EQUIP_DEMONIC_POSSESSION and equ.id == EQUIP_DEMONIC_POSSESSION then
+                    customPassiveItemsOrig[EQUIP_DEMONIC_POSSESSION] = equ
+                    equ.name = "Possession démoniaque"
+                    equ.desc = "Permet un contrôle limité sur quelqu'un après sa mort. \n\nUne fois spectateur, faites un clic droit pour faire défiler les joueurs vivants.\n\nAppuyez sur R pour commencer à les manipuler."
+                end
+            end
+        end
+    end
+
     for _, SWEPCopy in ipairs(weapons.GetList()) do
         local classname = WEPS.GetClass(SWEPCopy)
 
@@ -156,6 +177,18 @@ net.Receive("FrenchRandomatEnd", function()
     ROLE_STRINGS = roleStringsOrig
     ROLE_STRINGS_EXT = roleStringsExtOrig
     ROLE_STRINGS_PLURAL = roleStringsPluralOrig
+
+    for role = 1, ROLE_MAX do
+        if SHOP_ROLES[role] then
+            for _, equ in pairs(EquipmentItems[role]) do
+                if equ.id and EQUIP_ASC and equ.id == EQUIP_ASC then
+                    equ = customPassiveItemsOrig[EQUIP_ASC]
+                elseif equ.id and EQUIP_DEMONIC_POSSESSION and equ.id == EQUIP_DEMONIC_POSSESSION then
+                    equ = customPassiveItemsOrig[EQUIP_DEMONIC_POSSESSION]
+                end
+            end
+        end
+    end
 
     for _, SWEPCopy in ipairs(weapons.GetList()) do
         local classname = WEPS.GetClass(SWEPCopy)
