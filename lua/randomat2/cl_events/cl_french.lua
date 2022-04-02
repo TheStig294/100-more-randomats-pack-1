@@ -1,9 +1,11 @@
 local roleStringsOrig = {}
+local roleStringsExtOrig = {}
+local roleStringsPluralOrig = {}
 
 net.Receive("FrenchRandomatBegin", function()
     if istable(ROLE_STRINGS) then
         roleStringsOrig = table.Copy(ROLE_STRINGS)
-        ROLE_STRINGS[ROLE_BEGGAR] = "Gueux"
+        ROLE_STRINGS[ROLE_BEGGAR] = "Mendiant"
         ROLE_STRINGS[ROLE_BODYSNATCHER] = "Voleur De Corps"
         ROLE_STRINGS[ROLE_BOXER] = "Boxeur"
         ROLE_STRINGS[ROLE_CLOWN] = "Pitre"
@@ -41,6 +43,86 @@ net.Receive("FrenchRandomatBegin", function()
         ROLE_STRINGS[ROLE_ZOMBIE] = "Zombi"
     end
 
+    if istable(ROLE_STRINGS_EXT) then
+        roleStringsExtOrig = table.Copy(ROLE_STRINGS_EXT)
+        ROLE_STRINGS_EXT[ROLE_BEGGAR] = "Un Mendiant"
+        ROLE_STRINGS_EXT[ROLE_BODYSNATCHER] = "Un Voleur De Corps"
+        ROLE_STRINGS_EXT[ROLE_BOXER] = "Un Boxeur"
+        ROLE_STRINGS_EXT[ROLE_CLOWN] = "Un Pitre"
+        ROLE_STRINGS_EXT[ROLE_COMMUNIST] = "Un Communiste"
+        ROLE_STRINGS_EXT[ROLE_DEPUTY] = "Un Adjoint"
+        ROLE_STRINGS_EXT[ROLE_DETECTIVE] = "Un Détective"
+        ROLE_STRINGS_EXT[ROLE_DOCTOR] = "Un Médecin"
+        ROLE_STRINGS_EXT[ROLE_DRUNK] = "Un Ivre"
+        ROLE_STRINGS_EXT[ROLE_GLITCH] = "Un Bug Informatique"
+        ROLE_STRINGS_EXT[ROLE_HYPNOTIST] = "Un Hypnotiseur"
+        ROLE_STRINGS_EXT[ROLE_IMPERSONATOR] = "Un Imitateur"
+        ROLE_STRINGS_EXT[ROLE_INNOCENT] = "Un Innocente"
+        ROLE_STRINGS_EXT[ROLE_JESTER] = "Un Bouffon"
+        ROLE_STRINGS_EXT[ROLE_KILLER] = "Un Tueur"
+        ROLE_STRINGS_EXT[ROLE_LOOTGOBLIN] = "Un Butin Gobelin"
+        ROLE_STRINGS_EXT[ROLE_MADSCIENTIST] = "Un Scientifique Fou"
+        ROLE_STRINGS_EXT[ROLE_MEDIUM] = "Un Voyante"
+        ROLE_STRINGS_EXT[ROLE_MERCENARY] = "Un Mercenaire"
+        ROLE_STRINGS_EXT[ROLE_OLDMAN] = "Un Vieil Homme"
+        ROLE_STRINGS_EXT[ROLE_PALADIN] = "Un Paladin"
+        ROLE_STRINGS_EXT[ROLE_PARAMEDIC] = "Un Paramédical"
+        ROLE_STRINGS_EXT[ROLE_PARASITE] = "Un Parasite"
+        ROLE_STRINGS_EXT[ROLE_PHANTOM] = "Un Fantôme"
+        ROLE_STRINGS_EXT[ROLE_QUACK] = "Un Charlatane"
+        ROLE_STRINGS_EXT[ROLE_RANDOMAN] = "Un Homme Aléatoire"
+        ROLE_STRINGS_EXT[ROLE_REVENGER] = "Un Vengeur"
+        ROLE_STRINGS_EXT[ROLE_SANTA] = "Un Père Noël"
+        ROLE_STRINGS_EXT[ROLE_SWAPPER] = "Un Échangeur"
+        ROLE_STRINGS_EXT[ROLE_TAXIDERMIST] = "Un Taxidermiste"
+        ROLE_STRINGS_EXT[ROLE_TRACKER] = "Un Traqueur"
+        ROLE_STRINGS_EXT[ROLE_TRAITOR] = "Un Traitre"
+        ROLE_STRINGS_EXT[ROLE_TRICKSTER] = "Un Filou"
+        ROLE_STRINGS_EXT[ROLE_VAMPIRE] = "Un Vampire"
+        ROLE_STRINGS_EXT[ROLE_VETERAN] = "Un Vétéran"
+        ROLE_STRINGS_EXT[ROLE_ZOMBIE] = "Un Zombi"
+    end
+
+    if istable(ROLE_STRINGS_PLURAL) then
+        roleStringsPluralOrig = table.Copy(ROLE_STRINGS_PLURAL)
+        ROLE_STRINGS_PLURAL[ROLE_BEGGAR] = "Mendiants"
+        ROLE_STRINGS_PLURAL[ROLE_BODYSNATCHER] = "Voleurs de corps"
+        ROLE_STRINGS_PLURAL[ROLE_BOXER] = "Boxeurs"
+        ROLE_STRINGS_PLURAL[ROLE_CLOWN] = "Pitres"
+        ROLE_STRINGS_PLURAL[ROLE_COMMUNIST] = "Communistes"
+        ROLE_STRINGS_PLURAL[ROLE_DEPUTY] = "Adjoints"
+        ROLE_STRINGS_PLURAL[ROLE_DETECTIVE] = "Détectives"
+        ROLE_STRINGS_PLURAL[ROLE_DOCTOR] = "Médecins"
+        ROLE_STRINGS_PLURAL[ROLE_DRUNK] = "Ivres"
+        ROLE_STRINGS_PLURAL[ROLE_GLITCH] = "Bugs Informatique"
+        ROLE_STRINGS_PLURAL[ROLE_HYPNOTIST] = "Hypnotiseurs"
+        ROLE_STRINGS_PLURAL[ROLE_IMPERSONATOR] = "Imitateurs"
+        ROLE_STRINGS_PLURAL[ROLE_INNOCENT] = "Innocentes"
+        ROLE_STRINGS_PLURAL[ROLE_JESTER] = "Bouffons"
+        ROLE_STRINGS_PLURAL[ROLE_KILLER] = "Tueurs"
+        ROLE_STRINGS_PLURAL[ROLE_LOOTGOBLIN] = "Butin Gobelins"
+        ROLE_STRINGS_PLURAL[ROLE_MADSCIENTIST] = "Scientifiques Fou"
+        ROLE_STRINGS_PLURAL[ROLE_MEDIUM] = "Voyantes"
+        ROLE_STRINGS_PLURAL[ROLE_MERCENARY] = "Mercenaires"
+        ROLE_STRINGS_PLURAL[ROLE_OLDMAN] = "Vieil Hommes"
+        ROLE_STRINGS_PLURAL[ROLE_PALADIN] = "Paladins"
+        ROLE_STRINGS_PLURAL[ROLE_PARAMEDIC] = "Paramédicals"
+        ROLE_STRINGS_PLURAL[ROLE_PARASITE] = "Parasites"
+        ROLE_STRINGS_PLURAL[ROLE_PHANTOM] = "Fantômes"
+        ROLE_STRINGS_PLURAL[ROLE_QUACK] = "Charlatanes"
+        ROLE_STRINGS_PLURAL[ROLE_RANDOMAN] = "Hommes Aléatoires"
+        ROLE_STRINGS_PLURAL[ROLE_REVENGER] = "Vengeurs"
+        ROLE_STRINGS_PLURAL[ROLE_SANTA] = "Père Noëls"
+        ROLE_STRINGS_PLURAL[ROLE_SWAPPER] = "Échangeurs"
+        ROLE_STRINGS_PLURAL[ROLE_TAXIDERMIST] = "Taxidermistes"
+        ROLE_STRINGS_PLURAL[ROLE_TRACKER] = "Traqueurs"
+        ROLE_STRINGS_PLURAL[ROLE_TRAITOR] = "Traitres"
+        ROLE_STRINGS_PLURAL[ROLE_TRICKSTER] = "Filous"
+        ROLE_STRINGS_PLURAL[ROLE_VAMPIRE] = "Vampires"
+        ROLE_STRINGS_PLURAL[ROLE_VETERAN] = "Vétérans"
+        ROLE_STRINGS_PLURAL[ROLE_ZOMBIE] = "Zombis"
+    end
+
     for _, SWEPCopy in ipairs(weapons.GetList()) do
         local classname = WEPS.GetClass(SWEPCopy)
 
@@ -69,6 +151,8 @@ end)
 
 net.Receive("FrenchRandomatEnd", function()
     ROLE_STRINGS = roleStringsOrig
+    ROLE_STRINGS_EXT = roleStringsExtOrig
+    ROLE_STRINGS_PLURAL = roleStringsPluralOrig
 
     for _, SWEPCopy in ipairs(weapons.GetList()) do
         local classname = WEPS.GetClass(SWEPCopy)
