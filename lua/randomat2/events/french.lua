@@ -13,11 +13,6 @@ local eventRun = false
 
 function EVENT:Begin()
     eventRun = true
-
-    for _, ply in ipairs(player.GetAll()) do
-        ply:ConCommand("ttt_language FrançaisRandomat")
-    end
-
     net.Start("FrenchRandomatBegin")
     net.Broadcast()
 end
@@ -25,11 +20,6 @@ end
 function EVENT:End()
     if eventRun then
         eventRun = false
-
-        for _, ply in ipairs(player.GetAll()) do
-            ply:ConCommand("ttt_language auto")
-        end
-
         net.Start("FrenchRandomatEnd")
         net.Broadcast()
     end

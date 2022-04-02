@@ -3,6 +3,8 @@ local roleStringsExtOrig = {}
 local roleStringsPluralOrig = {}
 
 net.Receive("FrenchRandomatBegin", function()
+    RunConsoleCommand("ttt_language", "FrançaisRandomat")
+
     if istable(ROLE_STRINGS) then
         roleStringsOrig = table.Copy(ROLE_STRINGS)
         ROLE_STRINGS[ROLE_BEGGAR] = "Mendiant"
@@ -150,6 +152,7 @@ net.Receive("FrenchRandomatBegin", function()
 end)
 
 net.Receive("FrenchRandomatEnd", function()
+    RunConsoleCommand("ttt_language", "auto")
     ROLE_STRINGS = roleStringsOrig
     ROLE_STRINGS_EXT = roleStringsExtOrig
     ROLE_STRINGS_PLURAL = roleStringsPluralOrig
