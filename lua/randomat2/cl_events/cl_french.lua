@@ -155,13 +155,13 @@ net.Receive("FrenchRandomatBegin", function()
 
     for role = 1, ROLE_MAX do
         if SHOP_ROLES[role] then
+            customPassiveItemsOrig[role] = table.Copy(EquipmentItems[role])
+
             for _, equ in pairs(EquipmentItems[role]) do
                 if equ.id and EQUIP_ASC and equ.id == EQUIP_ASC then
-                    customPassiveItemsOrig[EQUIP_ASC] = equ
                     equ.name = "Un Deuxième Chance"
                     equ.desc = "Petite chance d'être ressuscité à la mort. \n\nAprès avoir tué quelqu'un, les chances augmentent."
                 elseif equ.id and EQUIP_DEMONIC_POSSESSION and equ.id == EQUIP_DEMONIC_POSSESSION then
-                    customPassiveItemsOrig[EQUIP_DEMONIC_POSSESSION] = equ
                     equ.name = "Possession démoniaque"
                     equ.desc = "Permet un contrôle limité sur quelqu'un après sa mort. \n\nUne fois spectateur, faites un clic droit pour faire défiler les joueurs vivants.\n\nAppuyez sur R pour commencer à les manipuler."
                 end
@@ -203,13 +203,7 @@ net.Receive("FrenchRandomatEnd", function()
 
     for role = 1, ROLE_MAX do
         if SHOP_ROLES[role] then
-            for i, equ in ipairs(EquipmentItems[role]) do
-                if equ.id and EQUIP_ASC and equ.id == EQUIP_ASC then
-                    EquipmentItems[role][i] = customPassiveItemsOrig[EQUIP_ASC]
-                elseif equ.id and EQUIP_DEMONIC_POSSESSION and equ.id == EQUIP_DEMONIC_POSSESSION then
-                    EquipmentItems[role][i] = customPassiveItemsOrig[EQUIP_DEMONIC_POSSESSION]
-                end
-            end
+            EquipmentItems[role] = customPassiveItemsOrig[role]
         end
     end
 
