@@ -1024,3 +1024,28 @@ Utilisez vos compétences pour garder un œil sur où les joueurs ont été.
 Appuyez sur {menukey} pour recevoir votre équipement!]]
 L.info_popup_traitor = [[Vous êtes {role}! {comrades}
 Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.info_popup_trickster = [[Vous êtes {role}! Vous êtes {aninnocent} qui pouvez voir et
+utilisez des pièges {traitor} sur toute la carte. S'amuser!]]
+L.win_vampires = "Le {role} a pris le dessus!"
+L.ev_win_vampire = "Le {role} a aspiré la vie de tout le monde!"
+L.ev_vampi = "{victim} a été transformée en {vampire}"
+L.ev_vampi_revert_converted = "Le dernier {vampire} Prime ({prime}) a été tué et tous leurs esclaves ont retrouvé leur humanité"
+L.ev_vampi_kill_converted = "Le dernier {vampire} Prime ({prime}) a été tué et a emporté tous ses esclaves avec lui"
+L.vam_fangs_help_pri = "Hold {primaryfire} to suck blood"
+L.vam_fangs_help_sec = "Press {secondaryfire} to fade from view"
+L.info_popup_vampire = [[Vous êtes {role}! {comrades}
+Vous pouvez utiliser vos crocs (maintenez le clic gauche) pour boire du sang et recharger votre santé ou pour disparaître de la vue (clic droit).
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.info_popup_veteran = [[Vous êtes {role}! Vous travaillez mieux sous pression.
+Si vous êtes le dernier joueur {innocent} en vie, vous
+inflige des dégâts supplémentaires.]]
+L.win_zombies = "Le {role} a pris le dessus!"
+L.ev_win_zombie = "L'infection {role} a conquis le monde!"
+L.ev_zombi = "{victim} a été transformée en {zombie}"
+L.info_popup_zombie = [[Vous êtes {role}! {comrades}
+Tous les dégâts que vous infligez avec des armes à feu sont réduits.
+Tuer quelqu'un avec vos griffes le transformera en {azombie}.
+Appuyez sur la {menukey} pour recevoir votre équipement spécial!]]
+L.zom_claws_help_pri = "Appuyez sur {primaryfire} pour attaquer."
+L.zom_claws_help_sec = "Appuyez sur {secondfire} pour sauter. Appuyez sur {reload} pour cracher."
