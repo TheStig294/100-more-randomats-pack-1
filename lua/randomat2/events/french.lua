@@ -25,7 +25,8 @@ function EVENT:Begin()
             if IsPlayer(attacker) and attacker:IsAssassin() and ply ~= attacker then
                 -- Overriding the usual assassin messages with nonsense ones.
                 -- But they're in French, no one will be able to tell right?
-                -- If CR used the TTT language system for everything then I could actually translate these messages properly
+                -- CR can't use the TTT language system for everything, anything server-side would need to be networked, so I can't actually translate these messages properly
+                -- Also, it's just a thing in Gmod that HUD_PRINTCENTER does nothing client-side so :P
                 attacker:PrintMessage(HUD_PRINTCENTER, "Vous avez tué quelqu'un en tant qu'assassin. Bravo.")
 
                 if assassinMessageDelay > 0 then
