@@ -192,8 +192,15 @@ net.Receive("FrenchRandomatBegin", function()
     weapons.GetStored("weapon_ttt_randomat").PrintName = "Machine Aléatoire"
     weapons.GetStored("weapon_ttt_randomat").EquipMenuData.type = "item_weapon"
     weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc = "La machine aléatoire fera quelque chose d'aléatoire!\nQui a deviné ça!"
-    LANG.AddToLanguage("english", "possess_press_r", "Press R (Reload) to possess {ply}!")
     RunConsoleCommand("ttt_reset_weapons_cache")
+    -- Support for some custom weapon UIs
+    LANG.AddToLanguage("english", "possess_press_r", "Press R (Reload) to possess {ply}!")
+    LANG.AddToLanguage("english", "possess_no_longer_possessing", "[Demonic Possession] You are no longer possessing {ply}.")
+    LANG.AddToLanguage("english", "possess_start_observing", "Start observing a player to take control over them!")
+    LANG.AddToLanguage("english", "possess_available_commands", "Available Commands")
+    LANG.AddToLanguage("english", "possess_move_keys", "Move Keys")
+    LANG.AddToLanguage("english", "possess_camera", "Move and control the camera")
+    LANG.AddToLanguage("english", "possess_click", "Left Click")
 end)
 
 net.Receive("FrenchRandomatEnd", function()

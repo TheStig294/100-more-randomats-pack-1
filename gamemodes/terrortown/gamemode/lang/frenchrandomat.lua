@@ -1050,4 +1050,10 @@ Appuyez sur la {menukey} pour recevoir votre équipement spécial!]]
 L.zom_claws_help_pri = "Appuyez sur {primaryfire} pour attaquer."
 L.zom_claws_help_sec = "Appuyez sur {secondfire} pour sauter. Appuyez sur {reload} pour cracher."
 -- Some custom weapon support
+L.possess_no_longer_possessing = "[Possession démoniaque] Vous ne possédez plus {ply}."
 L.possess_press_r = "Appuyez sur R (Recharger) pour posséder {ply}!"
+L.possess_start_observing = "Commencez à observer un joueur pour en prendre le contrôle!"
+L.possess_available_commands = "Commandes Disponibles"
+L.possess_move_keys = "Déplacer les clés"
+L.possess_camera = "Déplacez et contrôlez la caméra"
+L.possess_click = "Click gauche"
