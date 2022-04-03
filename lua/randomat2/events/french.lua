@@ -15,6 +15,27 @@ function EVENT:Begin()
     eventRun = true
     net.Start("FrenchRandomatBegin")
     net.Broadcast()
+
+    if CR_VERSION then
+        local assassinMessageDelay = GetConVar("ttt_assassin_next_target_delay"):GetInt()
+
+        self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
+            if not IsValid(ply) then return end
+
+            if IsPlayer(attacker) and attacker:IsAssassin() and ply ~= attacker then
+                -- Overriding the usual assassin messages with nonsense ones.
+                -- But they're in French, no one will be able to tell right?
+                -- If CR used the TTT language system for everything then I could actually translate these messages properly
+                attacker:PrintMessage(HUD_PRINTCENTER, "Vous avez tué quelqu'un en tant qu'assassin. Bravo.")
+
+                if assassinMessageDelay > 0 then
+                    timer.Simple(assassinMessageDelay + 0.1, function()
+                        attacker:PrintMessage(HUD_PRINTCENTER, "Vous avez peut-être reçu votre prochaine cible.")
+                    end)
+                end
+            end
+        end)
+    end
 end
 
 function EVENT:End()
