@@ -5,129 +5,152 @@ local customPassiveItemsOrig = {}
 
 net.Receive("FrenchRandomatBegin", function()
     RunConsoleCommand("ttt_language", "FrançaisRandomat")
+    local translatedRoles = {}
+    translatedRoles["Mendiant"] = ROLE_BEGGAR
+    translatedRoles["Voleur De Corps"] = ROLE_BODYSNATCHER
+    translatedRoles["Boxeur"] = ROLE_BOXER
+    translatedRoles["Pitre"] = ROLE_CLOWN
+    translatedRoles["Communiste"] = ROLE_COMMUNIST
+    translatedRoles["Adjoint"] = ROLE_DEPUTY
+    translatedRoles["Détective"] = ROLE_DETECTIVE
+    translatedRoles["Médecin"] = ROLE_DOCTOR
+    translatedRoles["Ivre"] = ROLE_DRUNK
+    translatedRoles["Bug Informatique"] = ROLE_GLITCH
+    translatedRoles["Hypnotiseur"] = ROLE_HYPNOTIST
+    translatedRoles["Imitateur"] = ROLE_IMPERSONATOR
+    translatedRoles["Innocente"] = ROLE_INNOCENT
+    translatedRoles["Bouffon"] = ROLE_JESTER
+    translatedRoles["Tueur"] = ROLE_KILLER
+    translatedRoles["Butin Gobelin"] = ROLE_LOOTGOBLIN
+    translatedRoles["Scientifique Fou"] = ROLE_MADSCIENTIST
+    translatedRoles["Voyante"] = ROLE_MEDIUM
+    translatedRoles["Mercenaire"] = ROLE_MERCENARY
+    translatedRoles["Vieil Homme"] = ROLE_OLDMAN
+    translatedRoles["Paladin"] = ROLE_PALADIN
+    translatedRoles["Paramédical"] = ROLE_PARAMEDIC
+    translatedRoles["Parasite"] = ROLE_PARASITE
+    translatedRoles["Fantôme"] = ROLE_PHANTOM
+    translatedRoles["Charlatane"] = ROLE_QUACK
+    translatedRoles["Homme Aléatoire"] = ROLE_RANDOMAN
+    translatedRoles["Vengeur"] = ROLE_REVENGER
+    translatedRoles["Père Noël"] = ROLE_SANTA
+    translatedRoles["Échangeur"] = ROLE_SWAPPER
+    translatedRoles["Taxidermiste"] = ROLE_TAXIDERMIST
+    translatedRoles["Traqueur"] = ROLE_TRACKER
+    translatedRoles["Traitre"] = ROLE_TRAITOR
+    translatedRoles["Filou"] = ROLE_TRICKSTER
+    translatedRoles["Vampire"] = ROLE_VAMPIRE
+    translatedRoles["Vétéran"] = ROLE_VETERAN
+    translatedRoles["Zombi"] = ROLE_ZOMBIE
 
     if istable(ROLE_STRINGS) then
         roleStringsOrig = table.Copy(ROLE_STRINGS)
-        ROLE_STRINGS[ROLE_BEGGAR] = "Mendiant"
-        ROLE_STRINGS[ROLE_BODYSNATCHER] = "Voleur De Corps"
-        ROLE_STRINGS[ROLE_BOXER] = "Boxeur"
-        ROLE_STRINGS[ROLE_CLOWN] = "Pitre"
-        ROLE_STRINGS[ROLE_COMMUNIST] = "Communiste"
-        ROLE_STRINGS[ROLE_DEPUTY] = "Adjoint"
-        ROLE_STRINGS[ROLE_DETECTIVE] = "Détective"
-        ROLE_STRINGS[ROLE_DOCTOR] = "Médecin"
-        ROLE_STRINGS[ROLE_DRUNK] = "Ivre"
-        ROLE_STRINGS[ROLE_GLITCH] = "Bug Informatique"
-        ROLE_STRINGS[ROLE_HYPNOTIST] = "Hypnotiseur"
-        ROLE_STRINGS[ROLE_IMPERSONATOR] = "Imitateur"
-        ROLE_STRINGS[ROLE_INNOCENT] = "Innocente"
-        ROLE_STRINGS[ROLE_JESTER] = "Bouffon"
-        ROLE_STRINGS[ROLE_KILLER] = "Tueur"
-        ROLE_STRINGS[ROLE_LOOTGOBLIN] = "Butin Gobelin"
-        ROLE_STRINGS[ROLE_MADSCIENTIST] = "Scientifique Fou"
-        ROLE_STRINGS[ROLE_MEDIUM] = "Voyante"
-        ROLE_STRINGS[ROLE_MERCENARY] = "Mercenaire"
-        ROLE_STRINGS[ROLE_OLDMAN] = "Vieil Homme"
-        ROLE_STRINGS[ROLE_PALADIN] = "Paladin"
-        ROLE_STRINGS[ROLE_PARAMEDIC] = "Paramédical"
-        ROLE_STRINGS[ROLE_PARASITE] = "Parasite"
-        ROLE_STRINGS[ROLE_PHANTOM] = "Fantôme"
-        ROLE_STRINGS[ROLE_QUACK] = "Charlatane"
-        ROLE_STRINGS[ROLE_RANDOMAN] = "Homme Aléatoire"
-        ROLE_STRINGS[ROLE_REVENGER] = "Vengeur"
-        ROLE_STRINGS[ROLE_SANTA] = "Père Noël"
-        ROLE_STRINGS[ROLE_SWAPPER] = "Échangeur"
-        ROLE_STRINGS[ROLE_TAXIDERMIST] = "Taxidermiste"
-        ROLE_STRINGS[ROLE_TRACKER] = "Traqueur"
-        ROLE_STRINGS[ROLE_TRAITOR] = "Traitre"
-        ROLE_STRINGS[ROLE_TRICKSTER] = "Filou"
-        ROLE_STRINGS[ROLE_VAMPIRE] = "Vampire"
-        ROLE_STRINGS[ROLE_VETERAN] = "Vétéran"
-        ROLE_STRINGS[ROLE_ZOMBIE] = "Zombi"
+
+        for roleName, roleID in pairs(translatedRoles) do
+            ROLE_STRINGS[roleID] = roleName
+        end
     end
+
+    table.Empty(translatedRoles)
+    translatedRoles["Un Mendiant"] = ROLE_BEGGAR
+    translatedRoles["Un Voleur De Corps"] = ROLE_BODYSNATCHER
+    translatedRoles["Un Boxeur"] = ROLE_BOXER
+    translatedRoles["Un Pitre"] = ROLE_CLOWN
+    translatedRoles["Un Communiste"] = ROLE_COMMUNIST
+    translatedRoles["Un Adjoint"] = ROLE_DEPUTY
+    translatedRoles["Un Détective"] = ROLE_DETECTIVE
+    translatedRoles["Un Médecin"] = ROLE_DOCTOR
+    translatedRoles["Un Ivre"] = ROLE_DRUNK
+    translatedRoles["Un Bug Informatique"] = ROLE_GLITCH
+    translatedRoles["Un Hypnotiseur"] = ROLE_HYPNOTIST
+    translatedRoles["Un Imitateur"] = ROLE_IMPERSONATOR
+    translatedRoles["Un Innocente"] = ROLE_INNOCENT
+    translatedRoles["Un Bouffon"] = ROLE_JESTER
+    translatedRoles["Un Tueur"] = ROLE_KILLER
+    translatedRoles["Un Butin Gobelin"] = ROLE_LOOTGOBLIN
+    translatedRoles["Un Scientifique Fou"] = ROLE_MADSCIENTIST
+    translatedRoles["Un Voyante"] = ROLE_MEDIUM
+    translatedRoles["Un Mercenaire"] = ROLE_MERCENARY
+    translatedRoles["Un Vieil Homme"] = ROLE_OLDMAN
+    translatedRoles["Un Paladin"] = ROLE_PALADIN
+    translatedRoles["Un Paramédical"] = ROLE_PARAMEDIC
+    translatedRoles["Un Parasite"] = ROLE_PARASITE
+    translatedRoles["Un Fantôme"] = ROLE_PHANTOM
+    translatedRoles["Un Charlatane"] = ROLE_QUACK
+    translatedRoles["Un Homme Aléatoire"] = ROLE_RANDOMAN
+    translatedRoles["Un Vengeur"] = ROLE_REVENGER
+    translatedRoles["Un Père Noël"] = ROLE_SANTA
+    translatedRoles["Un Échangeur"] = ROLE_SWAPPER
+    translatedRoles["Un Taxidermiste"] = ROLE_TAXIDERMIST
+    translatedRoles["Un Traqueur"] = ROLE_TRACKER
+    translatedRoles["Un Traitre"] = ROLE_TRAITOR
+    translatedRoles["Un Filou"] = ROLE_TRICKSTER
+    translatedRoles["Un Vampire"] = ROLE_VAMPIRE
+    translatedRoles["Un Vétéran"] = ROLE_VETERAN
+    translatedRoles["Un Zombi"] = ROLE_ZOMBIE
 
     if istable(ROLE_STRINGS_EXT) then
         roleStringsExtOrig = table.Copy(ROLE_STRINGS_EXT)
-        ROLE_STRINGS_EXT[ROLE_BEGGAR] = "Un Mendiant"
-        ROLE_STRINGS_EXT[ROLE_BODYSNATCHER] = "Un Voleur De Corps"
-        ROLE_STRINGS_EXT[ROLE_BOXER] = "Un Boxeur"
-        ROLE_STRINGS_EXT[ROLE_CLOWN] = "Un Pitre"
-        ROLE_STRINGS_EXT[ROLE_COMMUNIST] = "Un Communiste"
-        ROLE_STRINGS_EXT[ROLE_DEPUTY] = "Un Adjoint"
-        ROLE_STRINGS_EXT[ROLE_DETECTIVE] = "Un Détective"
-        ROLE_STRINGS_EXT[ROLE_DOCTOR] = "Un Médecin"
-        ROLE_STRINGS_EXT[ROLE_DRUNK] = "Un Ivre"
-        ROLE_STRINGS_EXT[ROLE_GLITCH] = "Un Bug Informatique"
-        ROLE_STRINGS_EXT[ROLE_HYPNOTIST] = "Un Hypnotiseur"
-        ROLE_STRINGS_EXT[ROLE_IMPERSONATOR] = "Un Imitateur"
-        ROLE_STRINGS_EXT[ROLE_INNOCENT] = "Un Innocente"
-        ROLE_STRINGS_EXT[ROLE_JESTER] = "Un Bouffon"
-        ROLE_STRINGS_EXT[ROLE_KILLER] = "Un Tueur"
-        ROLE_STRINGS_EXT[ROLE_LOOTGOBLIN] = "Un Butin Gobelin"
-        ROLE_STRINGS_EXT[ROLE_MADSCIENTIST] = "Un Scientifique Fou"
-        ROLE_STRINGS_EXT[ROLE_MEDIUM] = "Un Voyante"
-        ROLE_STRINGS_EXT[ROLE_MERCENARY] = "Un Mercenaire"
-        ROLE_STRINGS_EXT[ROLE_OLDMAN] = "Un Vieil Homme"
-        ROLE_STRINGS_EXT[ROLE_PALADIN] = "Un Paladin"
-        ROLE_STRINGS_EXT[ROLE_PARAMEDIC] = "Un Paramédical"
-        ROLE_STRINGS_EXT[ROLE_PARASITE] = "Un Parasite"
-        ROLE_STRINGS_EXT[ROLE_PHANTOM] = "Un Fantôme"
-        ROLE_STRINGS_EXT[ROLE_QUACK] = "Un Charlatane"
-        ROLE_STRINGS_EXT[ROLE_RANDOMAN] = "Un Homme Aléatoire"
-        ROLE_STRINGS_EXT[ROLE_REVENGER] = "Un Vengeur"
-        ROLE_STRINGS_EXT[ROLE_SANTA] = "Un Père Noël"
-        ROLE_STRINGS_EXT[ROLE_SWAPPER] = "Un Échangeur"
-        ROLE_STRINGS_EXT[ROLE_TAXIDERMIST] = "Un Taxidermiste"
-        ROLE_STRINGS_EXT[ROLE_TRACKER] = "Un Traqueur"
-        ROLE_STRINGS_EXT[ROLE_TRAITOR] = "Un Traitre"
-        ROLE_STRINGS_EXT[ROLE_TRICKSTER] = "Un Filou"
-        ROLE_STRINGS_EXT[ROLE_VAMPIRE] = "Un Vampire"
-        ROLE_STRINGS_EXT[ROLE_VETERAN] = "Un Vétéran"
-        ROLE_STRINGS_EXT[ROLE_ZOMBIE] = "Un Zombi"
+
+        for roleName, roleID in pairs(translatedRoles) do
+            ROLE_STRINGS_EXT[roleID] = roleName
+        end
     end
+
+    table.Empty(translatedRoles)
+    translatedRoles["Mendiants"] = ROLE_BEGGAR
+    translatedRoles["Voleurs De Corps"] = ROLE_BODYSNATCHER
+    translatedRoles["Boxeurs"] = ROLE_BOXER
+    translatedRoles["Pitres"] = ROLE_CLOWN
+    translatedRoles["Communistes"] = ROLE_COMMUNIST
+    translatedRoles["Adjoints"] = ROLE_DEPUTY
+    translatedRoles["Détectives"] = ROLE_DETECTIVE
+    translatedRoles["Médecins"] = ROLE_DOCTOR
+    translatedRoles["Ivres"] = ROLE_DRUNK
+    translatedRoles["Bugs Informatique"] = ROLE_GLITCH
+    translatedRoles["Hypnotiseurs"] = ROLE_HYPNOTIST
+    translatedRoles["Imitateurs"] = ROLE_IMPERSONATOR
+    translatedRoles["Innocentes"] = ROLE_INNOCENT
+    translatedRoles["Bouffons"] = ROLE_JESTER
+    translatedRoles["Tueurs"] = ROLE_KILLER
+    translatedRoles["Butin Gobelins"] = ROLE_LOOTGOBLIN
+    translatedRoles["Scientifiques Fou"] = ROLE_MADSCIENTIST
+    translatedRoles["Voyantes"] = ROLE_MEDIUM
+    translatedRoles["Mercenaires"] = ROLE_MERCENARY
+    translatedRoles["Vieil Hommes"] = ROLE_OLDMAN
+    translatedRoles["Paladins"] = ROLE_PALADIN
+    translatedRoles["Paramédicals"] = ROLE_PARAMEDIC
+    translatedRoles["Parasites"] = ROLE_PARASITE
+    translatedRoles["Fantômes"] = ROLE_PHANTOM
+    translatedRoles["Charlatanes"] = ROLE_QUACK
+    translatedRoles["Hommes Aléatoire"] = ROLE_RANDOMAN
+    translatedRoles["Vengeurs"] = ROLE_REVENGER
+    translatedRoles["Père Noëls"] = ROLE_SANTA
+    translatedRoles["Échangeurs"] = ROLE_SWAPPER
+    translatedRoles["Taxidermistes"] = ROLE_TAXIDERMIST
+    translatedRoles["Traqueurs"] = ROLE_TRACKER
+    translatedRoles["Traitres"] = ROLE_TRAITOR
+    translatedRoles["Filous"] = ROLE_TRICKSTER
+    translatedRoles["Vampires"] = ROLE_VAMPIRE
+    translatedRoles["Vétérans"] = ROLE_VETERAN
+    translatedRoles["Zombis"] = ROLE_ZOMBIE
 
     if istable(ROLE_STRINGS_PLURAL) then
         roleStringsPluralOrig = table.Copy(ROLE_STRINGS_PLURAL)
-        ROLE_STRINGS_PLURAL[ROLE_BEGGAR] = "Mendiants"
-        ROLE_STRINGS_PLURAL[ROLE_BODYSNATCHER] = "Voleurs de corps"
-        ROLE_STRINGS_PLURAL[ROLE_BOXER] = "Boxeurs"
-        ROLE_STRINGS_PLURAL[ROLE_CLOWN] = "Pitres"
-        ROLE_STRINGS_PLURAL[ROLE_COMMUNIST] = "Communistes"
-        ROLE_STRINGS_PLURAL[ROLE_DEPUTY] = "Adjoints"
-        ROLE_STRINGS_PLURAL[ROLE_DETECTIVE] = "Détectives"
-        ROLE_STRINGS_PLURAL[ROLE_DOCTOR] = "Médecins"
-        ROLE_STRINGS_PLURAL[ROLE_DRUNK] = "Ivres"
-        ROLE_STRINGS_PLURAL[ROLE_GLITCH] = "Bugs Informatique"
-        ROLE_STRINGS_PLURAL[ROLE_HYPNOTIST] = "Hypnotiseurs"
-        ROLE_STRINGS_PLURAL[ROLE_IMPERSONATOR] = "Imitateurs"
-        ROLE_STRINGS_PLURAL[ROLE_INNOCENT] = "Innocentes"
-        ROLE_STRINGS_PLURAL[ROLE_JESTER] = "Bouffons"
-        ROLE_STRINGS_PLURAL[ROLE_KILLER] = "Tueurs"
-        ROLE_STRINGS_PLURAL[ROLE_LOOTGOBLIN] = "Butin Gobelins"
-        ROLE_STRINGS_PLURAL[ROLE_MADSCIENTIST] = "Scientifiques Fou"
-        ROLE_STRINGS_PLURAL[ROLE_MEDIUM] = "Voyantes"
-        ROLE_STRINGS_PLURAL[ROLE_MERCENARY] = "Mercenaires"
-        ROLE_STRINGS_PLURAL[ROLE_OLDMAN] = "Vieil Hommes"
-        ROLE_STRINGS_PLURAL[ROLE_PALADIN] = "Paladins"
-        ROLE_STRINGS_PLURAL[ROLE_PARAMEDIC] = "Paramédicals"
-        ROLE_STRINGS_PLURAL[ROLE_PARASITE] = "Parasites"
-        ROLE_STRINGS_PLURAL[ROLE_PHANTOM] = "Fantômes"
-        ROLE_STRINGS_PLURAL[ROLE_QUACK] = "Charlatanes"
-        ROLE_STRINGS_PLURAL[ROLE_RANDOMAN] = "Hommes Aléatoires"
-        ROLE_STRINGS_PLURAL[ROLE_REVENGER] = "Vengeurs"
-        ROLE_STRINGS_PLURAL[ROLE_SANTA] = "Père Noëls"
-        ROLE_STRINGS_PLURAL[ROLE_SWAPPER] = "Échangeurs"
-        ROLE_STRINGS_PLURAL[ROLE_TAXIDERMIST] = "Taxidermistes"
-        ROLE_STRINGS_PLURAL[ROLE_TRACKER] = "Traqueurs"
-        ROLE_STRINGS_PLURAL[ROLE_TRAITOR] = "Traitres"
-        ROLE_STRINGS_PLURAL[ROLE_TRICKSTER] = "Filous"
-        ROLE_STRINGS_PLURAL[ROLE_VAMPIRE] = "Vampires"
-        ROLE_STRINGS_PLURAL[ROLE_VETERAN] = "Vétérans"
-        ROLE_STRINGS_PLURAL[ROLE_ZOMBIE] = "Zombis"
+
+        for roleName, roleID in pairs(translatedRoles) do
+            ROLE_STRINGS_PLURAL[roleID] = roleName
+        end
     end
 
     if not istable(SHOP_ROLES) then
-        SHOP_ROLES = {ROLE_DETECTIVE, ROLE_TRAITOR}
+        SHOP_ROLES = {}
+        SHOP_ROLES[ROLE_DETECTIVE] = true
+        SHOP_ROLES[ROLE_TRAITOR] = true
+    end
+
+    if not isnumber(ROLE_MAX) then
+        ROLE_MAX = 2
     end
 
     for role = 1, ROLE_MAX do
@@ -180,11 +203,11 @@ net.Receive("FrenchRandomatEnd", function()
 
     for role = 1, ROLE_MAX do
         if SHOP_ROLES[role] then
-            for _, equ in pairs(EquipmentItems[role]) do
+            for i, equ in ipairs(EquipmentItems[role]) do
                 if equ.id and EQUIP_ASC and equ.id == EQUIP_ASC then
-                    equ = customPassiveItemsOrig[EQUIP_ASC]
+                    EquipmentItems[role][i] = customPassiveItemsOrig[EQUIP_ASC]
                 elseif equ.id and EQUIP_DEMONIC_POSSESSION and equ.id == EQUIP_DEMONIC_POSSESSION then
-                    equ = customPassiveItemsOrig[EQUIP_DEMONIC_POSSESSION]
+                    EquipmentItems[role][i] = customPassiveItemsOrig[EQUIP_DEMONIC_POSSESSION]
                 end
             end
         end
