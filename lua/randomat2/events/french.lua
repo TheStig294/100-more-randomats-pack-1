@@ -1,8 +1,8 @@
 local EVENT = {}
 EVENT.Title = "Événement Aléatoire" -- "Random Event"
 EVENT.AltTitle = "French Randomat"
-EVENT.Description = "Parlez-vous Français?" -- "Do you speak French?"
-EVENT.ExtDescription = "Changes the game language to French"
+EVENT.Description = "Change la majeure partie du jeu en français"
+EVENT.ExtDescription = "Changes most of the game to French"
 EVENT.id = "french"
 
 EVENT.Categories = {"fun", "smallimpact"}
