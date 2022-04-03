@@ -1049,3 +1049,5 @@ Tuer quelqu'un avec vos griffes le transformera en {azombie}.
 Appuyez sur la {menukey} pour recevoir votre équipement spécial!]]
 L.zom_claws_help_pri = "Appuyez sur {primaryfire} pour attaquer."
 L.zom_claws_help_sec = "Appuyez sur {secondfire} pour sauter. Appuyez sur {reload} pour cracher."
+-- Some custom weapon support
+L.possess_press_r = "Appuyez sur R (Recharger) pour posséder {ply}!"

@@ -192,6 +192,7 @@ net.Receive("FrenchRandomatBegin", function()
     weapons.GetStored("weapon_ttt_randomat").PrintName = "Machine Aléatoire"
     weapons.GetStored("weapon_ttt_randomat").EquipMenuData.type = "item_weapon"
     weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc = "La machine aléatoire fera quelque chose d'aléatoire!\nQui a deviné ça!"
+    LANG.AddToLanguage("english", "possess_press_r", "Press R (Reload) to possess {ply}!")
     RunConsoleCommand("ttt_reset_weapons_cache")
 end)
 
