@@ -855,3 +855,172 @@ L.roleweapons_select_searchrole = "-Rôle de recherche-"
 L.roleweapons_select_searchrole_tooltip = "Dans quel magasin de rôle rechercher"
 L.roleweapons_select_saverole = "-Enregistrer le rôle-"
 L.roleweapons_select_saverole_tooltip = "Quelle boutique de rôles affecter par ces changements de configuration"
+-- Custom Roles sneaky in-built translations
+L.target_assassin_target = "CIBLE"
+L.target_assassin_target_team = "CIBLE de {player}"
+L.target_current_target = "CIBLE ACTUELLE"
+L.info_popup_assassin = [[Vous êtes {role}! {comrades}
+
+Votre premier objectif est:
+{assassintarget}
+
+Vous infligerez plus à votre cible et moins de dégâts
+à tous les autres joueurs. Mais prends soin de tuer le mal
+joueur vous fera perdre votre bonus de dégâts et
+peut-être même souffrir d'une pénalité!
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.ev_beggar_converted = "Le {beggar} ({victim}) a été converti en {team} par {attacker}"
+L.ev_beggar_killed = "Le {beggar} ({victim}) a été tué par {attacker} mais a réapparu"
+L.ev_beggar_killed_delay = "Le {beggar} ({victim}) a été tué par {attacker} mais réapparaîtra dans {delay} secondes"
+L.beggar_hidden_all_hud = "Vous apparaissez toujours comme {beggar} pour les autres"
+L.beggar_hidden_innocent_hud = "Vous apparaissez toujours comme {beggar} pour {innocents}"
+L.beggar_hidden_traitor_hud = "Vous apparaissez toujours comme {beggar} pour {traitors}"
+L.info_popup_beggar = [[Vous êtes {role}! {traitors} pensent que vous êtes {ajester} et vous
+n'inflige aucun dégât. Cependant, si vous pouvez convaincre quelqu'un de donner
+vous un article de la boutique, vous rejoindrez leur équipe.]]
+L.ev_bodysnatch = "{attacker} arraché au corps {role}, {victim}"
+L.ev_bodysnatch_killed = "Le {bodysnatch} ({victim}) a été tué par {attacker} mais a réapparu"
+L.ev_bodysnatch_killed_delay = "Le {bodysnatch} ({victim}) a été tué par {attacker} mais réapparaîtra dans {delay} secondes"
+L.bodysnatcher_hidden_all_hud = "Vous apparaissez toujours comme {bodysnatcher} pour les autres"
+L.bodysnatcher_hidden_team_hud = "Seule votre équipe sait que vous n'êtes plus {bodysnatcher}"
+L.info_popup_bodysnatcher = [[Vous êtes {role}! {traitors} pensent que vous êtes {ajester} et vous
+n'inflige aucun dégât. Utilisez votre dispositif d'arrachage de corps sur un cadavre
+pour prendre leur rôle et rejoindre le combat!]]
+L.ev_clown = "Le clown, {player}, s'est déchaîné"
+L.win_clown = "Le {role} vous a tous assassiné!"
+L.ev_win_clown = "Le {role} vicieux a remporté la manche!"
+L.info_popup_clown = [[Vous êtes {role}! {traitors} pensent que vous êtes {ajester} et vous
+n'inflige aucun dégât. Cependant, si une équipe gagnait la manche à la place, vous
+deviennent hostiles, sont révélés à tous les joueurs et peuvent infliger des dégâts
+Ordinaire. Soyez le dernier joueur debout à gagner.]]
+L.info_popup_deputy = [[Vous êtes {role}! Si le {detective} meurt, vous prendrez
+et obtenez la possibilité d'acheter des articles de magasin et de rechercher des corps.]]
+L.info_popup_detective = [[Vous êtes {role}! Le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Utilisez-les pour aider les {innocents} à survivre, mais soyez prudent:
+les {traitors} chercheront à vous abattre en premier!
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+L.ev_promote = "{player} a été promu {detective}"
+L.detective_promotion_hud = "Vous avez été promu {detective}"
+L.detective_special_hidden_hud = "Vous apparaissez comme {detective} pour les autres"
+L.info_popup_doctor = [[Vous êtes {role}! Vous êtes ici pour garder vos coéquipiers en vie.
+Utilisez vos outils pour garder vos compagnons {innocents} dans le combat!
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.drunk_hud = "Vous serez dégrisé dans: {time}"
+L.ev_drunk = "{player} s'est souvenu qu'il était {team}"
+L.info_popup_drunk = [[Vous êtes {role}! Vous avez oublié dans quelle équipe vous êtes !
+Attendez d'être sobre et rappelez-vous. Essayez de faire profil bas en attendant.]]
+L.info_popup_glitch = [[Vous êtes {role}! Les {traitors} pensent que vous êtes l'un d'entre eux.
+Essayez de vous fondre dans la masse et ne vous trahissez pas.]]
+L.brainwash_help_pri = "Maintenez {primaryfire} pour faire revivre le cadavre."
+L.brainwash_help_sec = "Le joueur ressuscité deviendra un traître."
+L.ev_hypno = "{victim} a été hypnotisée"
+L.info_popup_hypnotist = [[Vous êtes {role}! {comrades}
+Vous pouvez utiliser votre appareil de lavage de cerveau sur un cadavre pour le faire revivre en tant que {atraitor}.
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.info_popup_impersonator = [[Vous êtes {role}! {comrades}
+
+Si le {detective} meurt, vous semblerez devenir un nouveau {detective} et gagnerez leur
+capacités tout comme le {deputy}. Cependant, vous travaillez toujours pour les {traitors}.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.info_popup_innocent = [[Vous êtes {role}! Mais il y a des {traitors} autour...
+À qui pouvez-vous faire confiance et qui est là pour vous remplir de balles?
+
+Surveillez vos arrières et travaillez avec vos camarades pour vous en sortir vivant!]]
+L.win_jester = "Le {role} vous a tous trompés!"
+L.ev_win_jester = "Le {role} délicat a remporté la manche!"
+L.info_popup_jester = [[Vous êtes {role}! Tu veux mourir mais toi
+n'inflige aucun dégât, vous devez donc être tué par quelqu'un d'autre.]]
+L.win_killer = "Le {role} vous a tous assassiné!"
+L.ev_win_killer = "Le boucher {role} a remporté la manche!"
+L.info_popup_killer = [[Vous êtes {role}! Essayez de tuer tout le monde et soyez le dernier debout!
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.ev_win_lootgoblin = "Le {role} s'est échappé et a également remporté la manche!"
+L.lootgoblin_hud = "Tu vas te transformer en: {time}"
+L.info_popup_lootgoblin = [[Vous êtes {role}! Tout ce que vous voulez faire, c'est thésauriser votre
+butin! Mais attention... Tout le monde veut tuer
+vous et le voler pour eux-mêmes!]]
+L.zombificator_help_pri = "Maintenez {primaryfire} pour zombifier un cadavre."
+L.zombificator_help_sec = "Le joueur ressuscité deviendra un zombie."
+L.info_popup_madscientist = [[Vous êtes {role}! Essayez de propager votre virus à
+toutes les personnes! Utiliser votre appareil de zombification sur un mort
+corps les fera revivre comme {azombie}.]]
+L.info_popup_medium = [[Vous êtes {role}! En tant qu'{adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Vous pouvez voir les esprits des morts. Suivez les esprits
+pour découvrir des secrets emportés dans la tombe.
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+L.info_popup_mercenary = [[Vous êtes {role}! Essayez de survivre et aidez vos amis {innocents}!
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+L.ev_win_oldman = "Le {role} a en quelque sorte survécu et a également remporté la manche!"
+L.info_popup_oldman = [[Vous êtes {role}! La moindre brise pourrait tuer
+vous si vous ne faites pas attention. Vous ne vous souciez pas de qui gagne aussi longtemps
+tant que vous êtes vivant à la fin du tour.]]
+L.info_popup_paladin = [[Vous êtes {role}! En tant qu'{adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Vous avez une aura de guérison qui est visible pour tout le monde.
+Gardez vos amis près de vous, mais ne laissez surtout pas vos ennemis s'approcher!
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+L.defibrillator_help_pri = "Tenez {primaryfire} pour faire revivre le cadavre."
+L.defibrillator_help_sec = "The revived player will be respawned at their body's location."
+L.info_popup_paramedic = [[Vous êtes {role}! Vous pouvez donner à vos camarades {innocents}
+une seconde chance avec votre défibrillateur. Reste en vie
+et ramenez le joueur le plus fort de votre équipe.]]
+L.cure_help_pri = "{primaryfire} pour soigner un autre joueur."
+L.cure_help_sec = "{secondfire} pour vous guérir."
+L.cure_desc = [[Utiliser sur un joueur pour le soigner des {parasites}.
+L'utiliser sur un joueur qui n'est pas infecté le tuera!]]
+L.target_infected = "INFECTÉ PAR UN PARASITE"
+L.infect_title = "L' INFECTION"
+L.infect_help = "Vous réapparaîtrez lorsque la barre d'infection sera pleine."
+L.ev_infect = "{victim} a infecté {attacker}"
+L.info_popup_parasite = [[Vous êtes {role}! {comrades}
+Infectez ceux qui vous tuent et attendez patiemment une chance de prendre le contrôle.
+Assurez-vous de rester discret car votre hôte doit rester en vie pour que vous puissiez
+réapparaître. Essayez d'éviter qu'ils soient guéris ou tués!
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.haunt_title = "VOLONTÉ"
+L.haunt_move = "DÉPLACER LES CLÉS: Déplacer (coût: {num}%)"
+L.haunt_jump = "ESPACE: Sauter (Coût: {num}%)"
+L.haunt_drop = "CLIC DROIT: Drop (Coût: {num}%)"
+L.haunt_attack = "CLIC GAUCHE: Attaque (Coût: {num}%)"
+L.ev_haunt = "{victim} a commencé à hanter {attacker}"
+L.exor_help_pri = "{primaryfire} pour nettoyer un autre joueur."
+L.exor_help_sec = "{secondfire} pour vous purifier."
+L.exor_desc = "Utiliser sur un joueur pour exorciser un {phantom}"
+L.info_popup_phantom = [[Vous êtes {role}! Essayez de survivre et aidez vos amis {innocent}!
+Vous allez hanter le joueur qui vous tue en faisant apparaître de la fumée noire.
+Si le joueur que vous hantez meurt, vous serez réapparu!]]
+L.fake_cure_desc = "À utiliser sur un joueur pour lui faire croire que vous avez guéri le {parasite}."
+L.bstation_name = "Station de bombes"
+L.bstation_hint = "Appuyez sur {usekey pour simuler la réception de la santé. Charge: {num}."
+L.bstation_broken = "Votre station de bombardement a été détruite!"
+L.bstation_help = "{primaryfire} place la station de bombes."
+L.bstation_desc = [[
+Apparaît comme une station de santé pour les non-{traitors}.
+   
+Explose lorsqu'il est utilisé par un non-{traitor}.
+{traitors} peuvent utiliser pour épuiser la fausse charge.]]
+L.stationb_name = "Gare à la bombe"
+L.stationb_help = "Maintenez {primaryfire} pour ajouter une bombe à une station de santé."
+L.stationb_desc = [[
+Convertit un {healthstation}
+dans une {bombstation}.]]
+L.info_popup_quack = [[Vous êtes {role}! {comrades}
+Essayez de convaincre les autres que vous êtes un vrai {doctor}! Cependant, vos outils nuisent
+au lieu de guérir. Vous savez que le meilleur remède à tout mal est la mort.
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.target_revenger_lover = "VOTRE ÂME SOEUR"
+L.info_popup_revenger = [[Vous êtes {role}! Vous êtes désespérément amoureux de {lover}.
+Faites tout ce que vous pouvez pour les protéger. S'ils meurent, vous
+être en mesure de retrouver leur meurtrier et d'obtenir votre vengeance.]]
+L.ev_swap = "{victim} échangé avec {attacker}"
+L.info_popup_swapper = [[Vous êtes {role}! {traitors} pensent que vous êtes {ajester} et vous
+n'inflige aucun dégât cependant, si quelqu'un vous tue, il devient
+le {swapper} et vous prenez leur rôle et pouvez rejoindre le combat.]]
+L.info_popup_tracker = [[Vous êtes {role}! En tant qu'{adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Vous pouvez voir les pas des joueurs et suivre leurs traces.
+Utilisez vos compétences pour garder un œil sur où les joueurs ont été.
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+L.info_popup_traitor = [[Vous êtes {role}! {comrades}
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
