@@ -8,6 +8,7 @@ EVENT.weapons = {}
 EVENT.activeWeapon = nil
 EVENT.givenWeapons = {}
 EVENT.leaderSelectCount = 0
+EVENT.leaderWeaponPickups = 0
 -- This stops other "Weapon Override" randomats from triggering
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
@@ -25,15 +26,18 @@ CreateConVar("randomat_simonsays_timer", "45", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "S
 
 function EVENT:Begin()
     self.leaderSelectCount = 0
+    self.leaderWeaponPickups = 0
 
     timer.Create("SimonSaysInitialTriggerTimer", 5, 1, function()
-        -- Remove all grenades as they cause players to be able to throw them infinitely
-        -- Also remove everyone's crowbar, magneto stick and unarmed
+        -- Remove all grenades as players will expect to be able to hold them infinitely.
+        -- When a nade is thrown, the player isn't given a new one even if the leader is still holding one, instead they can use their weapons freely
+        -- This will still happen for weapons like the red matter bomb, but players tend to use shop items quickly
         for _, ent in ipairs(ents.GetAll()) do
             if not IsValid(ent) then continue end
 
             if ent.Kind and (ent.Kind == WEAPON_NADE or (ent.Kind == WEAPON_MELEE and ent:GetClass() ~= "weapon_zm_improvised")) then
                 ent:Remove()
+                -- Also remove everyone's crowbar, magneto stick and unarmed if configured to
             elseif (ent:GetClass() == "weapon_zm_carry" or ent:GetClass() == "weapon_ttt_unarmed" or ent:GetClass() == "weapon_zm_improvised") and GetConVar("randomat_simonsays_strip_basic_weapons"):GetBool() then
                 ent:Remove()
             end
@@ -95,6 +99,17 @@ function EVENT:Begin()
         -- Reset their given weapons when players respawn
         self:AddHook("PlayerSpawn", function(ply)
             self.givenWeapons[ply] = {}
+        end)
+
+        -- Count the amount of times the leader picks up a weapon, and change leader if they do it too many times
+        self:AddHook("WeaponEquip", function(weapon, owner)
+            if owner ~= self.leader then return end
+            self.leaderWeaponPickups = self.leaderWeaponPickups + 1
+
+            if self.leaderWeaponPickups > 10 then
+                self.leaderWeaponPickups = 0
+                self:SelectLeader()
+            end
         end)
     end)
 end
