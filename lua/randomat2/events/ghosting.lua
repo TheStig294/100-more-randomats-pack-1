@@ -5,27 +5,41 @@ EVENT.id = "ghosting"
 
 EVENT.Categories = {"spectator", "fun", "biased_innocent", "biased", "moderateimpact"}
 
+local ghostents = {}
+local eventActive = false
+
+local function SpawnGhost(ply)
+    if not eventActive then return end
+    -- Create the ghost entity using the player's model
+    ghostents[ply:Nick()] = ents.Create("npc_kleiner")
+    local ghostent = ghostents[ply:Nick()]
+    ghostent:SetModel(ply:GetModel())
+    -- Spawn it on the player
+    ghostent:SetPos(ply:GetPos())
+    ghostent:Spawn()
+    -- Make it non-solid
+    ghostent:SetNotSolid(true)
+    -- Make it ghostly
+    ghostent:SetColor(Color(245, 245, 245, 100))
+    ghostent:SetRenderMode(RENDERMODE_GLOW)
+    -- Make it invincible
+    ghostent:SetNWBool("IsSpookyInv", true)
+    ply:SetNWBool("IsSpooky", true)
+end
+
 function EVENT:Begin()
-    local ghostents = {}
+    eventActive = true
+
+    for _, ply in ipairs(player.GetAll()) do
+        if ply:IsSpec() then
+            SpawnGhost(ply)
+        end
+    end
 
     self:AddHook("PostPlayerDeath", function(ply)
         -- After the player has finished spectating,
         timer.Simple(3, function()
-            -- Create the ghost entity using the player's model
-            ghostents[ply:Nick()] = ents.Create("npc_kleiner")
-            local ghostent = ghostents[ply:Nick()]
-            ghostent:SetModel(ply:GetModel())
-            -- Spawn it on the player
-            ghostent:SetPos(ply:GetPos())
-            ghostent:Spawn()
-            -- Make it non-solid
-            ghostent:SetNotSolid(true)
-            -- Make it ghostly
-            ghostent:SetColor(Color(245, 245, 245, 100))
-            ghostent:SetRenderMode(RENDERMODE_GLOW)
-            -- Make it invincible
-            ghostent:SetNWBool("IsSpookyInv", true)
-            ply:SetNWBool("IsSpooky", true)
+            SpawnGhost(ply)
         end)
     end)
 
@@ -37,7 +51,7 @@ function EVENT:Begin()
             local ply = plys[i]
 
             -- That is alive, remove their ghost
-            if ply:Alive() or not ply:IsSpec() then
+            if not ply:IsSpec() then
                 if IsValid(ghostents[ply:Nick()]) then
                     ghostent = ghostents[ply:Nick()]
                     ghostent:Remove()
@@ -53,9 +67,9 @@ function EVENT:Begin()
 
             -- Check it's valid and update the ghost's position
             if IsValid(ghostent) then
-                ghostent:SetPos(ply:GetPos())
-                -- ghostent:SetAngles(ply:GetAngles())
-                ghostent:SetAngles(ply:EyeAngles())
+                local pos = ply:GetPos()
+                ghostent:SetPos(pos)
+                ghostent:SetAngles(ply:GetAngles())
             end
         end
     end)
@@ -73,11 +87,18 @@ end
 -- Remove the ghost position update hook and remove the spooky tag from all players,
 -- which signifies the player has a ghost spawned on them
 function EVENT:End()
+    eventActive = false
     hook.Remove("Think", "ghostRandomatUpdate")
 
     for i, ply in pairs(player.GetAll()) do
         ply:SetNWBool("IsSpooky", false)
     end
+
+    for _, ent in pairs(ghostents) do
+        SafeRemoveEntity(ent)
+    end
+
+    table.Empty(ghostents)
 end
 
 Randomat:register(EVENT)
