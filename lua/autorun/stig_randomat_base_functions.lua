@@ -373,3 +373,17 @@ function GiveEquipmentByIdOrClass(ply, equipment, wepKind)
         ply:ChatPrint("You received a " .. name .. "!")
     end)
 end
+
+function SpectatorRandomatAlert(ply, EVENT)
+    ply:PrintMessage(HUD_PRINTCENTER, "Spectator Randomat Active!")
+    local desc = EVENT.Description or ""
+    ply:PrintMessage(HUD_PRINTTALK, "'" .. EVENT.Title .. "' is active!\n" .. desc)
+
+    timer.Simple(2, function()
+        ply:PrintMessage(HUD_PRINTCENTER, "Spectator Randomat Active!")
+
+        timer.Create("SpectatorRandomatAlert" .. ply:SteamID64(), 2, 2, function()
+            ply:PrintMessage(HUD_PRINTCENTER, desc)
+        end)
+    end)
+end

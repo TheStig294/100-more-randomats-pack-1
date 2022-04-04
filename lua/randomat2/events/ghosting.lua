@@ -37,7 +37,9 @@ function EVENT:Begin()
     end
 
     self:AddHook("PostPlayerDeath", function(ply)
-        -- After the player has finished spectating,
+        SpectatorRandomatAlert(ply, EVENT)
+
+        -- After the player has finished spectating, spawn their ghost
         timer.Simple(3, function()
             SpawnGhost(ply)
         end)

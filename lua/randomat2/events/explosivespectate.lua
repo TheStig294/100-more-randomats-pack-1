@@ -29,9 +29,7 @@ function EVENT:Begin()
     end)
 
     self:AddHook("PostPlayerDeath", function(ply)
-        timer.Simple(3, function()
-            ply:ChatPrint("'" .. self.Title .. "' is active!\n" .. self.Description)
-        end)
+        SpectatorRandomatAlert(ply, EVENT)
     end)
 end
 

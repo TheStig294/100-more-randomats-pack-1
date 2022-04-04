@@ -29,9 +29,7 @@ function EVENT:Begin()
         RunConsoleCommand("ttt_spec_prop_rechargetime", prop_recharge / randomat_revenge_multiplier:GetFloat())
 
         self:AddHook("PostPlayerDeath", function(ply)
-            timer.Simple(3, function()
-                ply:ChatPrint("'" .. self.Title .. "' is active!\n" .. self.Description)
-            end)
+            SpectatorRandomatAlert(ply, EVENT)
         end)
     end
 end
