@@ -12,7 +12,7 @@ CreateConVar("randomat_ban_vote", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Allows all 
 
 CreateConVar("randomat_ban_votetimer", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How long players have to vote on the event", 5, 60)
 
-CreateConVar("randomat_ban_deadvoters", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Dead people can vote")
+CreateConVar("randomat_ban_deadvotes", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Dead people can vote")
 
 --Stores the last banned randomat so it can be restored after this randomat is triggered again
 CreateConVar("randomat_ban_last_banned_randomat", "", FCVAR_ARCHIVE, "The last randomat that was banned, (don't touch), used for the 'Ban an event!' randomat")

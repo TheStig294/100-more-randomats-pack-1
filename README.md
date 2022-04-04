@@ -92,7 +92,7 @@ _ttt_randomat_ban_ - Default: 1 - Whether this randomat is enabled\
 _randomat_ban_choices_ - Default: 5 - Number of events you can choose from to ban\
 _randomat_ban_vote_ - Default: 1 - Allows all players to vote on the event\
 _randomat_ban_votetimer_ - Default: 10 - How long players have to vote on the event\
-_randomat_ban_deadvoters_ - Default: 0 - Allow dead people to vote\
+_randomat_ban_deadvotes_ - Default: 1 - Allow dead people to vote\
 \
 Changed name from "Choose an Event!", now presents 5 choices and everyone votes by default. Bans rather than triggers the chosen randomat.\
 Originally made by [Dem](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)
