@@ -10,26 +10,20 @@ table.insert(eventnames, "What's this one? Oh, it's the freeze randomat...")
 table.insert(eventnames, "This is a new one! Wait, it's a freeze randomat...")
 table.insert(eventnames, "It's snowing on Mt. Fuji")
 table.insert(eventnames, "Bing Chilling")
-table.insert(eventnames, "Icy dead people")
 table.insert(eventnames, "Freezing people to find traitors? Is it really worth it...")
 table.insert(eventnames, "What? Freeze randomat on Earth?")
-table.insert(eventnames, "Unconventional Freezing")
-table.insert(eventnames, "We learned how to freeze over time, it's hard, but definitely possible...")
 table.insert(eventnames, "Shh... It's a Freeze Randomat!")
-table.insert(eventnames, "There's this game my father taught me years ago, it's called \"Freeze\"")
-table.insert(eventnames, "Everyone will freeze every 30 seconds! Watch out! (EXCEPT TRAITORS)")
 table.insert(eventnames, "Freeze randomat! Time to learn how to keep moving...")
-table.insert(eventnames, "We've updated our freezing policy.")
-table.insert(eventnames, "Random Freeze for everyone!")
+table.insert(eventnames, "Random freezes for everyone!")
 table.insert(eventnames, "Honey, I froze the terrorists")
-table.insert(eventnames, "Sudden Freeze!")
+table.insert(eventnames, "Icicle-ful strategy, is to keep moving!")
 table.insert(eventnames, "There are more than " .. #eventnames .. " different freeze randomat names")
 EVENT.Title = ""
-EVENT.AltTitle = "Freeze (Randomat Puns)"
+EVENT.AltTitle = "Freeze (More Names)"
 EVENT.ExtDescription = "All Innocents will Freeze (and become immune) every " .. GetConVar("randomat_freeze2_timer"):GetInt() .. " seconds"
 EVENT.id = "freeze2"
 
-EVENT.Categories = {"biased_innocent", "biased", "moderateimpact"}
+EVENT.Categories = {"biased_traitor", "biased", "moderateimpact"}
 
 function EVENT:Begin()
     -- Picking a random name

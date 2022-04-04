@@ -285,24 +285,18 @@ Originally made by [Arch](https://steamcommunity.com/sharedfiles/filedetails/?id
 All Innocents Freeze and become immune to damage every 30 seconds.\
 Has a different name each time it’s triggered, there are over 16 different names!
 
-- It's snowing on Mt. Fuji
-- Freezing people to find traitors? Is it really worth it...
-- What? Freeze randomat on Earth?
-- Unconventional Freezing
-- We learned how to freeze over time, it's hard, but definitely possible...
-- Shh... It's a Freeze Randomat!
-- There's this game my father taught me years ago, it's called "Freeze"
-- Everyone will freeze every 30 seconds! Watch out! (EXCEPT TRAITORS)
-- Freeze randomat! Time to learn how to keep moving...
-- We've updated our freezing policy.
-- Random Freeze for everyone!
-- Honey, I froze the terrorists
-- Sudden Freeze!
-- Icy dead people
 - What's this one? Oh, it's the freeze randomat...
 - This is a new one! Wait, it's a freeze randomat...
+- It's snowing on Mt. Fuji
 - Bing Chilling
-- There are more than 17 different freeze randomat names
+- Freezing people to find traitors? Is it really worth it...
+- What? Freeze randomat on Earth?
+- Shh... It's a Freeze Randomat!
+- Freeze randomat! Time to learn how to keep moving...
+- Random freezes for everyone!
+- Honey, I froze the terrorists
+- Icicle-ful strategy, is to keep moving!
+- There are more than 12 different freeze randomat names
 
 _ttt_randomat_freeze2_ - Default: 1 - Whether this randomat is enabled\
 _randomat_freeze2_duration_ - Default: 5 - Duration of the Freeze (in seconds)\
