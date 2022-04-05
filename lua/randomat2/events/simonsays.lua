@@ -26,7 +26,6 @@ CreateConVar("randomat_simonsays_timer", "45", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "S
 
 function EVENT:Begin()
     self.leaderSelectCount = 0
-    self.leaderWeaponPickups = 0
 
     timer.Create("SimonSaysInitialTriggerTimer", 5, 1, function()
         -- Remove all grenades as players will expect to be able to hold them infinitely.
@@ -107,7 +106,6 @@ function EVENT:Begin()
             self.leaderWeaponPickups = self.leaderWeaponPickups + 1
 
             if self.leaderWeaponPickups > 10 then
-                self.leaderWeaponPickups = 0
                 self:SelectLeader()
             end
         end)
@@ -128,6 +126,7 @@ end
 
 function EVENT:SelectLeader()
     self.givenWeapons = {}
+    self.leaderWeaponPickups = 0
     -- For all alive players,
     local alivePlayers = self:GetAlivePlayers(true)
 
