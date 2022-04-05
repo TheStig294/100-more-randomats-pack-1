@@ -20,9 +20,9 @@ function EVENT:Begin()
         local assassinMessageDelay = GetConVar("ttt_assassin_next_target_delay"):GetInt()
 
         self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
-            if not IsValid(ply) then return end
+            if (not (IsPlayer(ply) and IsPlayer(attacker))) or ply == attacker then return end
 
-            if IsPlayer(attacker) and attacker:IsAssassin() and ply ~= attacker then
+            if attacker:IsAssassin() then
                 -- Overriding the usual assassin messages with nonsense ones.
                 -- But they're in French, no one will be able to tell right?
                 -- CR can't use the TTT language system for everything, anything server-side would need to be networked, so I can't actually translate these messages properly
@@ -35,6 +35,14 @@ function EVENT:Begin()
                     end)
                 end
             end
+
+            timer.simple(0.1, function()
+                -- More nonsence French, this time when you kill or are killed as the phantom, or roles like it
+                if attacker:GetNWBool("Haunted") then
+                    attacker:PrintMessage(HUD_PRINTCENTER, "Vous avez tué et êtes hanté")
+                    ply:PrintMessage(HUD_PRINTCENTER, "Votre tueur est hanté par quelqu'un.")
+                end
+            end)
         end)
     end
 end
