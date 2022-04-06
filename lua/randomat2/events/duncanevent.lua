@@ -49,9 +49,9 @@ function EVENT:Begin()
     for k, ply in pairs(self:GetAlivePlayers()) do
         ForceSetPlayermodel(ply, chosenPlyModelData)
 
-        -- if name disguising is enabled...
         if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
-            -- Remove their names! Traitors still see names though!				
+            -- If CR is not installed, use the fallback method of hiding names by using TTT's in-built disguiser functionality
+            -- Unfortunately, this will mean that traitors can still see everyone's names, as that's how the disguiser works
             ply:SetNWBool("disguised", true)
         end
     end
