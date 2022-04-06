@@ -57,6 +57,7 @@ function EVENT:End()
         net.Start("randomat_noir_end")
         net.Broadcast()
 
+        -- Remove all given revolvers in time with the end music
         timer.Simple(4, function()
             for _, ent in ipairs(ents.FindByClass("weapon_ttt_revolver_randomat")) do
                 ent:Remove()

@@ -4,6 +4,7 @@ local barFrame2
 local playMusic = true
 
 net.Receive("randomat_noir", function()
+    -- Adds a near-black-and-white filter to the screen
     color_tbl = {
         ["$pp_colour_addr"] = 0,
         ["$pp_colour_addg"] = 0,
@@ -16,8 +17,6 @@ net.Receive("randomat_noir", function()
         ["$pp_colour_mulb"] = 0
     }
 
-    playMusic = net.ReadBool()
-
     hook.Add("RenderScreenspaceEffects", "NoirRandomatGreyscaleEffect", function()
         DrawColorModify(color_tbl)
         cam.Start3D(EyePos(), EyeAngles())
@@ -27,13 +26,16 @@ net.Receive("randomat_noir", function()
         cam.End3D()
     end)
 
+    -- Plays a noir jazz song if enabled
+    playMusic = net.ReadBool()
+
     if playMusic then
         for i = 1, 2 do
             surface.PlaySound("noir/deadly_roulette.mp3")
         end
     end
 
-    -- Draws a lettebox on the screen
+    -- Draws 2 black bars on the screen, to make a cinematic letterbox effect
     barFrame = vgui.Create("DFrame")
     barFrame:SetSize(ScrW(), ScrH() / 7)
     barFrame:SetPos(0, 0)
@@ -64,6 +66,7 @@ net.Receive("randomat_noir", function()
 end)
 
 net.Receive("randomat_noir_end", function()
+    -- Plays ending sound
     if playMusic then
         RunConsoleCommand("stopsound")
 
@@ -74,6 +77,7 @@ net.Receive("randomat_noir_end", function()
         end)
     end
 
+    -- Fades in colour and moves black bars off the screen over 3 seconds
     timer.Simple(4, function()
         timer.Create("NoirRandomatFadeIn", 0.01, 200, function()
             if color_tbl["$pp_colour_colour"] + 0.005 <= 1 then
@@ -86,6 +90,7 @@ net.Receive("randomat_noir_end", function()
         end)
     end)
 
+    -- After a 4 second wait, and a 3 second animation, completely remove the black bars and greyscale effect hook altogether
     timer.Simple(9, function()
         hook.Remove("RenderScreenspaceEffects", "NoirRandomatGreyscaleEffect")
 
