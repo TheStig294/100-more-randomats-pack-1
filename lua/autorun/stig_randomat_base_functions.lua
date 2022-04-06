@@ -376,8 +376,9 @@ end
 
 function SpectatorRandomatAlert(ply, EVENT)
     ply:PrintMessage(HUD_PRINTCENTER, "Spectator Randomat Active!")
-    local desc = EVENT.Description or ""
-    ply:PrintMessage(HUD_PRINTTALK, "'" .. EVENT.Title .. "' is active!\n" .. desc)
+    local title = EVENT.Title or EVENT.AltTitle or "A spectator randomat"
+    local desc = EVENT.Description or EVENT.ExtDescription or ""
+    ply:PrintMessage(HUD_PRINTTALK, "'" .. title .. "' is active!\n" .. desc)
 
     timer.Simple(2, function()
         ply:PrintMessage(HUD_PRINTCENTER, "Spectator Randomat Active!")
