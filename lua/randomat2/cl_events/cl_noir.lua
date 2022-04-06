@@ -1,24 +1,24 @@
-local color_tbl = {
-    ["$pp_colour_addr"] = 0,
-    ["$pp_colour_addg"] = 0,
-    ["$pp_colour_addb"] = 0,
-    ["$pp_colour_brightness"] = 0,
-    ["$pp_colour_contrast"] = 1,
-    ["$pp_colour_colour"] = 0,
-    ["$pp_colour_mulr"] = 0.05,
-    ["$pp_colour_mulg"] = 0.05,
-    ["$pp_colour_mulb"] = 0.05
-}
-
-local upgradeFrame
-local upgradeFrame2
+local color_tbl = {}
+local barFrame
+local barFrame2
+local playMusic = true
 
 net.Receive("randomat_noir", function()
-    local playMusic = net.ReadBool()
+    color_tbl = {
+        ["$pp_colour_addr"] = 0,
+        ["$pp_colour_addg"] = 0,
+        ["$pp_colour_addb"] = 0,
+        ["$pp_colour_brightness"] = 0,
+        ["$pp_colour_contrast"] = 1,
+        ["$pp_colour_colour"] = 0,
+        ["$pp_colour_mulr"] = 0,
+        ["$pp_colour_mulg"] = 0,
+        ["$pp_colour_mulb"] = 0
+    }
 
-    hook.Add("RenderScreenspaceEffects", "GrayscaleRandomatEffect", function()
-        local client = LocalPlayer()
-        -- if not client:Alive() or client:IsSpec() then return end
+    playMusic = net.ReadBool()
+
+    hook.Add("RenderScreenspaceEffects", "NoirRandomatGreyscaleEffect", function()
         DrawColorModify(color_tbl)
         cam.Start3D(EyePos(), EyeAngles())
         render.SuppressEngineLighting(true)
@@ -34,45 +34,69 @@ net.Receive("randomat_noir", function()
     end
 
     -- Draws a lettebox on the screen
-    upgradeFrame = vgui.Create("DFrame")
-    upgradeFrame:SetSize(ScrW(), ScrH() / 7)
-    upgradeFrame:SetPos(0, 0)
-    upgradeFrame:SetTitle("")
-    upgradeFrame:SetDraggable(false)
-    upgradeFrame:ShowCloseButton(false)
-    upgradeFrame:SetVisible(true)
-    upgradeFrame:SetDeleteOnClose(true)
-    upgradeFrame:SetZPos(-32768)
+    barFrame = vgui.Create("DFrame")
+    barFrame:SetSize(ScrW(), ScrH() / 7)
+    barFrame:SetPos(0, 0)
+    barFrame:SetTitle("")
+    barFrame:SetDraggable(false)
+    barFrame:ShowCloseButton(false)
+    barFrame:SetVisible(true)
+    barFrame:SetDeleteOnClose(true)
+    barFrame:SetZPos(-32768)
 
-    upgradeFrame.Paint = function(self, w, h)
+    barFrame.Paint = function(self, w, h)
         draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
     end
 
-    upgradeFrame2 = vgui.Create("DFrame")
-    upgradeFrame2:SetSize(ScrW(), ScrH() / 6)
-    upgradeFrame2:SetPos(0, ScrH() - (ScrH() / 7))
-    upgradeFrame2:SetTitle("")
-    upgradeFrame2:SetDraggable(false)
-    upgradeFrame2:ShowCloseButton(false)
-    upgradeFrame2:SetVisible(true)
-    upgradeFrame2:SetDeleteOnClose(true)
-    upgradeFrame2:SetZPos(-32768)
+    barFrame2 = vgui.Create("DFrame")
+    barFrame2:SetSize(ScrW(), ScrH() / 6)
+    barFrame2:SetPos(0, ScrH() - (ScrH() / 7))
+    barFrame2:SetTitle("")
+    barFrame2:SetDraggable(false)
+    barFrame2:ShowCloseButton(false)
+    barFrame2:SetVisible(true)
+    barFrame2:SetDeleteOnClose(true)
+    barFrame2:SetZPos(-32768)
 
-    upgradeFrame2.Paint = function(self, w, h)
+    barFrame2.Paint = function(self, w, h)
         draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
     end
 end)
 
 net.Receive("randomat_noir_end", function()
-    hook.Remove("RenderScreenspaceEffects", "GrayscaleRandomatEffect")
+    if playMusic then
+        RunConsoleCommand("stopsound")
 
-    if upgradeFrame ~= nil then
-        upgradeFrame:Close()
-        upgradeFrame = nil
+        timer.Simple(0.1, function()
+            for i = 1, 2 do
+                surface.PlaySound("noir/deadly_roulette_end.mp3")
+            end
+        end)
     end
 
-    if upgradeFrame2 ~= nil then
-        upgradeFrame2:Close()
-        upgradeFrame2 = nil
-    end
+    timer.Simple(4, function()
+        timer.Create("NoirRandomatFadeIn", 0.01, 200, function()
+            if color_tbl["$pp_colour_colour"] + 0.005 <= 1 then
+                color_tbl["$pp_colour_colour"] = color_tbl["$pp_colour_colour"] + 0.005
+            end
+
+            local width, height = barFrame:GetSize()
+            barFrame:SetHeight(height - 1)
+            barFrame2:SetY(barFrame2:GetY() + 1)
+        end)
+    end)
+
+    timer.Simple(9, function()
+        hook.Remove("RenderScreenspaceEffects", "NoirRandomatGreyscaleEffect")
+
+        if barFrame ~= nil then
+            barFrame:Close()
+            barFrame = nil
+        end
+
+        if barFrame2 ~= nil then
+            barFrame2:Close()
+            barFrame2 = nil
+        end
+    end)
 end)

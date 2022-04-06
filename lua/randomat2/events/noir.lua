@@ -53,8 +53,15 @@ end
 function EVENT:End()
     -- Checking if the randomat has run before trying to remove the greyscale effect, else causes an error
     if noirRandomat then
+        noirRandomat = false
         net.Start("randomat_noir_end")
         net.Broadcast()
+
+        timer.Simple(4, function()
+            for _, ent in ipairs(ents.FindByClass("weapon_ttt_revolver_randomat")) do
+                ent:Remove()
+            end
+        end)
     end
 
     EVENT.Title = ""
