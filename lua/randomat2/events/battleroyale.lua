@@ -54,15 +54,12 @@ function EVENT:Begin()
 
     -- Giving everyone a Fortnite building tool, if one of its convars is found, and turning everyone into an innocent
     for i, ply in pairs(self:GetAlivePlayers()) do
-        timer.Simple(0.1, function()
-            if fortniteToolExists then
-                ply:Give("weapon_ttt_fortnite_building")
-                Randomat:CallShopHooks(false, "weapon_ttt_fortnite_building", ply)
-            end
+        if fortniteToolExists then
+            ply:Give("weapon_ttt_fortnite_building")
+        end
 
-            self:StripRoleWeapons(ply)
-            Randomat:SetRole(ply, ROLE_INNOCENT)
-        end)
+        self:StripRoleWeapons(ply)
+        Randomat:SetRole(ply, ROLE_INNOCENT)
     end
 
     SendFullStateUpdate()
