@@ -20,8 +20,6 @@ EVENT.Categories = {"fun", "largeimpact", "item"}
 util.AddNetworkString("randomat_noir")
 util.AddNetworkString("randomat_noir_end")
 
-local noirMusic = {Sound("noir/deadly_roulette.mp3"), Sound("noir/walking_along.mp3"), Sound("noir/bass_walker.mp3")}
-
 CreateConVar("randomat_noir_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
 
 function EVENT:Begin()
@@ -46,11 +44,9 @@ function EVENT:Begin()
         end)
     end
 
-    local chosenMusic = noirMusic[math.random(1, #noirMusic)]
     -- Apply black-and-white filter and start music
     net.Start("randomat_noir")
     net.WriteBool(GetConVar("randomat_noir_music"):GetBool())
-    net.WriteString(chosenMusic)
     net.Broadcast()
 end
 

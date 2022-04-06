@@ -455,7 +455,7 @@ _ttt_randomat_noir_music_ - Default: 1 - Whether this randomat plays music
 The code that applies the black and white filter was originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)\
 \
 Credit for the copyright-free music used:\
-Deadly Roulette, Walking Along and Bass Walker by Kevin MacLeod <https://incompetech.com/> \
+Deadly Roulette by Kevin MacLeod <https://incompetech.com/> \
 Promoted by MrSnooze <https://youtu.be/iYOvAO1rAM0> \
 License: CC BY 3.0 <https://goo.gl/Yibru5>
 

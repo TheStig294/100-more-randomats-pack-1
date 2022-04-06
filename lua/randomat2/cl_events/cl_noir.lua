@@ -15,7 +15,6 @@ local upgradeFrame2
 
 net.Receive("randomat_noir", function()
     local playMusic = net.ReadBool()
-    local chosenMusic = net.ReadString()
 
     hook.Add("RenderScreenspaceEffects", "GrayscaleRandomatEffect", function()
         local client = LocalPlayer()
@@ -30,7 +29,7 @@ net.Receive("randomat_noir", function()
 
     if playMusic then
         for i = 1, 2 do
-            surface.PlaySound(chosenMusic)
+            surface.PlaySound("noir/deadly_roulette.mp3")
         end
     end
 
