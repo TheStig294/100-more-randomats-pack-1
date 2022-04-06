@@ -41,7 +41,14 @@ hook.Add("PlayerInitialSpawn", "RandomatStatsFillPlayerIDs", function(ply, trans
     end
 end)
 
-local boughtItemEvents = {"favourites", "buyemall", "whatitslike"}
+-- Any randomat that triggers that has both the "stats" and "item" categories will disable the hook below
+local boughtItemEvents = {}
+
+for _, EVENT in ipairs(Randomat:GetEventsByCategory("stats")) do
+    if table.HasValue(EVENT.Categories, "item") then
+        table.insert(boughtItemEvents, EVENT.id)
+    end
+end
 
 -- Keeps track of the number of times any player has bought any one buy menu item
 hook.Add("TTTOrderedEquipment", "RandomatStatsOrderedEquipment", function(ply, equipment, is_item)
