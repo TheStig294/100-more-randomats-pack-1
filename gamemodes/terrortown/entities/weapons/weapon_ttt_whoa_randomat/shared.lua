@@ -75,12 +75,13 @@ function SWEP:Think()
     -- Constantly check if self.Spinning is true
     if self.Spinning and SERVER then
         -- If so, spin the player around
-        self:GetOwner():SetEyeAngles(Angle(0, self:GetOwner():EyeAngles().y + 20, 0))
+        local owner = self:GetOwner()
+        owner:SetEyeAngles(Angle(0, owner:EyeAngles().y + 20, 0))
 
         -- And check if a player is close enough, alive and not the user of the weapon, then deal damage
         for i, ply in pairs(player.GetAll()) do
-            if (self:GetOwner():GetPos():DistToSqr(ply:GetPos()) < (200 * 200)) and (ply ~= self:GetOwner()) and ply:Alive() and not ply:IsSpec() then
-                ply:TakeDamage(5, self:GetOwner(), self)
+            if (ply ~= owner) and ply:Alive() and not ply:IsSpec() and (owner:GetPos():DistToSqr(ply:GetPos()) < (150 * 150)) then
+                ply:TakeDamage(5, owner, self)
             end
         end
     end
