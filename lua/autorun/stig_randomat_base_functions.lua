@@ -358,9 +358,14 @@ function GiveEquipmentByIdOrClass(ply, equipment, wepKind)
     end
 
     timer.Simple(1, function()
-        -- Calls all expected shop hooks for things like automatically starting the radar if a player was given one,
-        -- and greying out icons in the player's shop
+        -- Calls all expected shop hooks for things like greying out icons in the player's shop
         Randomat:CallShopHooks(is_item, equipment, ply)
+
+        -- For some reason this just does not get called when the radar is given...
+        -- So we're just going to call it here so the radar automatically starts scanning when given
+        if equipment == EQUIP_RADAR then
+            ply:ConCommand("ttt_radar_scan")
+        end
     end)
 
     timer.Simple(5, function()
