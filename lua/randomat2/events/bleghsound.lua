@@ -135,10 +135,20 @@ function EVENT:Begin()
             table.insert(playermodelSets, sharky7)
         end
 
+        local playermodelIDs = {}
+
         for _, ply in ipairs(self:GetAlivePlayers()) do
-            local playermodelData = playermodelSets[math.random(1, #playermodelSets)]
-            ForceSetPlayermodel(ply, playermodelData)
+            local playermodelID = math.random(1, #playermodelSets)
+            playermodelIDs[ply] = playermodelID
+            ForceSetPlayermodel(ply, playermodelSets[playermodelID])
         end
+
+        -- Sets someone's playermodel again when respawning
+        self:AddHook("PlayerSpawn", function(ply)
+            timer.Simple(1, function()
+                ForceSetPlayermodel(ply, playermodelSets[playermodelIDs[ply]])
+            end)
+        end)
     end
 end
 
