@@ -100,6 +100,7 @@ Originally made by [Dem](https://steamcommunity.com/sharedfiles/filedetails/?id=
 ## Blegh
 
 Whenever someone dies, everyone hears a random "Blegh!" sound.\
+Also gives everyone random plush sharky models, if installed: <https://steamcommunity.com/sharedfiles/filedetails/?id=2755239782>\
 \
 _ttt_randomat_bleghsound_ - Default: 1 - Whether this randomat is enabled
 

@@ -240,6 +240,10 @@ function ForceSetPlayermodel(ply, data)
             for _, value in pairs(data.bodyGroups) do
                 ply:SetBodygroup(value.id, data.bodygroupValues[value.id])
             end
+        elseif data.bodygroupValues then
+            for id = 0, #data.bodygroupValues do
+                ply:SetBodygroup(id, data.bodygroupValues[id])
+            end
         end
 
         timer.Simple(0.1, function()
