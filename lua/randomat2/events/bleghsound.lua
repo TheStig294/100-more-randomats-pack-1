@@ -1,6 +1,7 @@
 local EVENT = {}
 EVENT.Title = "Blegh"
 EVENT.Description = "Everyone hears a 'Blegh!' sound when someone dies"
+local plushSharkModel = "models/bradyjharty/yogscast/sharky.mdl"
 
 if util.IsValidModel(plushSharkModel) then
     EVENT.Description = "Make a 'Blegh!' sound when you die, everyone is sharky!"
@@ -26,7 +27,6 @@ function EVENT:Begin()
     end)
 
     -- Gives everyone a random sharky playermodel, if installed
-    local plushSharkModel = "models/bradyjharty/yogscast/sharky.mdl"
     local plushSharkOffset = Vector(0, 0, 40)
     local plushSharkOffsetDucked = Vector(0, 0, 28)
     local playermodelSets = {}
