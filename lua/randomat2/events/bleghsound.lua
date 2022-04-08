@@ -168,11 +168,6 @@ function EVENT:Begin()
 
             local modelData = table.Random(remainingPlayermodels)
             ForceSetPlayermodel(ply, modelData)
-
-            if modelData == rainbowSharky then
-                ply:SetNWBool("RainbowSharkyRandomat", true)
-            end
-
             -- Remove the selected model from the pool
             table.RemoveByValue(remainingPlayermodels, modelData)
             -- Keep track of who got what model so it can be set when they respawn
@@ -196,7 +191,7 @@ function EVENT:Begin()
 
         self:AddHook("Think", function()
             for _, ply in ipairs(self:GetAlivePlayers()) do
-                if ply:GetNWBool("RainbowSharkyRandomat") then
+                if chosenPlayermodels[ply] == rainbowSharky then
                     local vector = ply:GetPlayerColor()
 
                     if rainbowPhase == 1 then
@@ -252,10 +247,6 @@ end
 
 function EVENT:End()
     ForceResetAllPlayermodels()
-
-    for _, ply in ipairs(player.GetAll()) do
-        ply:SetNWBool("RainbowSharkyRandomat", false)
-    end
 end
 
 Randomat:register(EVENT)
