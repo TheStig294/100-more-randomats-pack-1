@@ -33,6 +33,12 @@ net.Receive("randomat_noir", function()
         for i = 1, 2 do
             surface.PlaySound("noir/deadly_roulette.mp3")
         end
+
+        timer.Create("NoirRandomatMusicLoop", 153, 0, function()
+            for i = 1, 2 do
+                surface.PlaySound("noir/deadly_roulette.mp3")
+            end
+        end)
     end
 
     -- Draws 2 black bars on the screen, to make a cinematic letterbox effect
@@ -66,6 +72,8 @@ net.Receive("randomat_noir", function()
 end)
 
 net.Receive("randomat_noir_end", function()
+    timer.Remove("NoirRandomatMusicLoop")
+
     -- Plays ending sound
     if playMusic then
         RunConsoleCommand("stopsound")

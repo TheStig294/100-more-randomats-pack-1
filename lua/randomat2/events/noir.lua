@@ -48,6 +48,11 @@ function EVENT:Begin()
     net.Start("randomat_noir")
     net.WriteBool(GetConVar("randomat_noir_music"):GetBool())
     net.Broadcast()
+
+    -- Disable round end sounds and 'Ending Flair' event so victory royale music can play
+    if GetConVar("randomat_noir_music"):GetBool() then
+        DisableRoundEndSounds()
+    end
 end
 
 function EVENT:End()

@@ -12,8 +12,6 @@ EVENT.id = "battleroyale"
 EVENT.Categories = {"gamemode", "largeimpact"}
 
 local alertSound = Sound("battleroyale/alert.mp3")
-local roundEndSounds = false
-local endingFlairSounds = false
 util.PrecacheSound("battleroyale/fortnite_victory_royale.mp3")
 util.AddNetworkString("RandomatBattleRoyaleBegin")
 util.AddNetworkString("RandomatBattleRoyaleEnd")
@@ -70,13 +68,7 @@ function EVENT:Begin()
 
     -- Disable round end sounds and 'Ending Flair' event so victory royale music can play
     if GetConVar("randomat_battleroyale_music"):GetBool() then
-        SetGlobalBool("StopEndingFlairRandomat", true)
-        endingFlairSounds = true
-
-        if ConVarExists("ttt_roundendsounds") and GetConVar("ttt_roundendsounds"):GetBool() then
-            GetConVar("ttt_roundendsounds"):SetBool(false)
-            roundEndSounds = true
-        end
+        DisableRoundEndSounds()
     end
 end
 
@@ -86,19 +78,6 @@ function EVENT:End()
     -- Also remove the win title hook, else the win title will always be "[Player] WINS!"
     net.Start("RandomatBattleRoyaleEnd")
     net.Broadcast()
-
-    -- Re-enable round end sounds and 'Ending Flair' event
-    timer.Simple(1, function()
-        if endingFlairSounds then
-            endingFlairSounds = false
-            SetGlobalBool("StopEndingFlairRandomat", false)
-        end
-
-        if roundEndSounds then
-            roundEndSounds = false
-            GetConVar("ttt_roundendsounds"):SetBool(true)
-        end
-    end)
 end
 
 function EVENT:GetConVars()
