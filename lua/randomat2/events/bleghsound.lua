@@ -4,7 +4,7 @@ EVENT.Description = "Everyone hears a 'Blegh!' sound when someone dies"
 local plushSharkModel = "models/bradyjharty/yogscast/sharky.mdl"
 
 if util.IsValidModel(plushSharkModel) then
-    EVENT.Description = "Make a 'Blegh!' sound when you die, everyone is a different sharky!"
+    EVENT.Description = "Make a 'Blegh!' sound when you die, everyone is a sharky!"
 end
 
 EVENT.id = "bleghsound"
@@ -13,17 +13,16 @@ EVENT.Categories = {"deathtrigger", "smallimpact", "biased_innocent", "biased"}
 
 function EVENT:Begin()
     -- Plays a randoman blegh sound whenever someone dies
-    util.AddNetworkString("RandomatBleghSound")
-
     local bleghSounds = {"bleghsound/blegh1.mp3", "bleghsound/blegh2.mp3", "bleghsound/blegh3.mp3", "bleghsound/blegh4.mp3", "bleghsound/blegh5.mp3", "bleghsound/blegh6.mp3", "bleghsound/blegh7.mp3"}
 
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
         -- Silence the usual death noise
         dmginfo:SetDamageType(DMG_SLASH)
         local deathSound = bleghSounds[math.random(1, #bleghSounds)]
-        net.Start("RandomatBleghSound")
-        net.WriteString(deathSound)
-        net.Broadcast()
+
+        for i = 1, 3 do
+            game.GetWorld():EmitSound(deathSound, 0)
+        end
     end)
 
     if util.IsValidModel(plushSharkModel) then
