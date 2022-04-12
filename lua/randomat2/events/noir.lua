@@ -56,6 +56,16 @@ function EVENT:Begin()
         for i = 1, 2 do
             game.GetWorld():EmitSound("noir/deadly_roulette.mp3", 0)
         end
+
+        timer.Create("NoirRandomatMusicLoop", 153, 0, function()
+            for i = 1, 2 do
+                game.GetWorld():StopSound("noir/deadly_roulette.mp3")
+            end
+
+            for i = 1, 2 do
+                game.GetWorld():EmitSound("noir/deadly_roulette.mp3", 0)
+            end
+        end)
     end
 end
 
@@ -66,6 +76,8 @@ function EVENT:End()
 
         -- Play the ending music if music is enabled
         if GetConVar("randomat_noir_music"):GetBool() then
+            timer.Remove("NoirRandomatMusicLoop")
+
             for i = 1, 2 do
                 game.GetWorld():StopSound("noir/deadly_roulette.mp3")
                 game.GetWorld():EmitSound("noir/deadly_roulette_end.mp3", 0)
