@@ -1,7 +1,6 @@
 local color_tbl = {}
 local barFrame
 local barFrame2
-local playMusic = true
 
 net.Receive("randomat_noir", function()
     -- Adds a near-black-and-white filter to the screen
@@ -25,21 +24,6 @@ net.Receive("randomat_noir", function()
         render.SuppressEngineLighting(false)
         cam.End3D()
     end)
-
-    -- Plays a noir jazz song if enabled
-    playMusic = net.ReadBool()
-
-    if playMusic then
-        for i = 1, 2 do
-            surface.PlaySound("noir/deadly_roulette.mp3")
-        end
-
-        timer.Create("NoirRandomatMusicLoop", 153, 0, function()
-            for i = 1, 2 do
-                surface.PlaySound("noir/deadly_roulette.mp3")
-            end
-        end)
-    end
 
     -- Draws 2 black bars on the screen, to make a cinematic letterbox effect
     barFrame = vgui.Create("DFrame")
@@ -72,19 +56,6 @@ net.Receive("randomat_noir", function()
 end)
 
 net.Receive("randomat_noir_end", function()
-    timer.Remove("NoirRandomatMusicLoop")
-
-    -- Plays ending sound
-    if playMusic then
-        RunConsoleCommand("stopsound")
-
-        timer.Simple(0.1, function()
-            for i = 1, 2 do
-                surface.PlaySound("noir/deadly_roulette_end.mp3")
-            end
-        end)
-    end
-
     -- Fades in colour and moves black bars off the screen over 3 seconds
     timer.Simple(4, function()
         timer.Create("NoirRandomatFadeIn", 0.01, 200, function()
