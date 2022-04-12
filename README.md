@@ -502,7 +502,12 @@ They are given 1-shot pistols, infinite ammo, and wallhacks.\
 All unspent credits are removed, no other guns/grenades/weapons other than the revolver can be used.\
 If innocents/traitors win, the winners have a free-for-all instead!\
 \
-_ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled\
+\
+Credit for the copyright-free music used:\
+Rattlesnake Railroad by Brett Van Donsel <https://incompetech.com/> \
+License: CC BY 4.0 <https://creativecommons.org/licenses/by/4.0> \
+YouTube Source: <https://www.youtube.com/watch?v=WizFTwM_J_8>
 
 ## Random jump height for everyone!
 
