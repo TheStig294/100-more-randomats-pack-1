@@ -6,17 +6,20 @@ EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 EVENT.Categories = {"gamemode", "largeimpact"}
 
-util.AddNetworkString("PistolsDrawHalos")
+util.AddNetworkString("PistolsPrepareShowdown")
+util.AddNetworkString("PistolsBeginShowdown")
 util.AddNetworkString("PistolsRandomatWinTitle")
-util.AddNetworkString("PistolsRemoveHalos")
+util.AddNetworkString("PistolsEndEvent")
+local eventTriggered = false
+local triggerShowdown = false
 
 function EVENT:Begin()
-    -- Allow the initial trigger code to run
     local pistolsTriggerOnce = false
-    local triggerShowdown = false
     local triggerDelay = 1
+    triggerShowdown = false
+    eventTriggered = true
 
-    -- Transform all jesters/independents to innocents so we don't have to worry about special win logic
+    -- Transform all jesters/independents to innocents so we know there can only be an innocent or traitor win
     for i, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsJesterTeam(ply) or Randomat:IsIndependentTeam(ply) then
             Randomat:SetRole(ply, ROLE_INNOCENT)
@@ -25,23 +28,27 @@ function EVENT:Begin()
 
     SendFullStateUpdate()
 
-    -- Continually,
     self:AddHook("Think", function()
-        -- At 2 players alive, initial trigger code runs once
+        -- Initial trigger code runs once
         if triggerShowdown then
             if pistolsTriggerOnce == false then
-                -- After 1 second, trigger a notification and let players see through walls if that randomat is added by another mod,
-                timer.Simple(triggerDelay, function()
-                    self:SmallNotify("Pistols at dawn!")
-                    net.Start("PistolsDrawHalos")
+                for i = 1, 2 do
+                    game.GetWorld():EmitSound("pistols/rattlesnake_railroad.mp3", 0)
+                end
+
+                net.Start("PistolsPrepareShowdown")
+                net.Broadcast()
+
+                -- After a delay, trigger a notification and let players see through walls if that randomat is added by another mod,
+                timer.Create("PistolsDrawHalos", triggerDelay, 1, function()
+                    self:SmallNotify("Draw!")
+                    net.Start("PistolsBeginShowdown")
                     net.Broadcast()
                 end)
             end
 
-            -- After 2 seconds, continually
             timer.Simple(triggerDelay, function()
                 for i, ply in pairs(self:GetAlivePlayers()) do
-                    -- Strip all credits
                     ply:SetCredits(0)
 
                     -- Give players ammo for the one-shot pistol if they have it
@@ -68,12 +75,11 @@ function EVENT:Begin()
     end)
 
     local winBlocked = false
-    local messageLength = 4
+    local messageDelay = 4
 
     self:AddHook("TTTCheckForWin", function()
         if not winBlocked then
             local alivePlayers = self:GetAlivePlayers()
-            -- Else, check there are only innocents or traitors remaining
             local traitorPlayers = {}
             local innocentPlayers = {}
 
@@ -85,13 +91,15 @@ function EVENT:Begin()
                 end
             end
 
-            if table.IsEmpty(traitorPlayers) or table.IsEmpty(innocentPlayers) then
+            if table.IsEmpty(traitorPlayers) or table.IsEmpty(innocentPlayers) or #alivePlayers == 2 then
                 winBlocked = true
 
                 if table.IsEmpty(traitorPlayers) then
-                    Randomat:SmallNotify("Innocents Win... But now it's a free-for-all!", messageLength)
+                    Randomat:SmallNotify("Innocents Win... But now it's a free-for-all!", messageDelay)
                 elseif table.IsEmpty(innocentPlayers) then
-                    Randomat:SmallNotify("Traitors Win... But now it's a free-for-all!", messageLength)
+                    Randomat:SmallNotify("Traitors Win... But now it's a free-for-all!", messageDelay)
+                elseif #alivePlayers == 2 then
+                    Randomat:SmallNotify("One innocent and traitor remain, it's time for a pistol showdown!", messageDelay)
                 end
 
                 -- Strip all weapons from the ground and players
@@ -101,8 +109,8 @@ function EVENT:Begin()
                     end
                 end
 
-                timer.Simple(messageLength, function()
-                    triggerDelay = 0
+                timer.Create("PistolsTriggerShowdown", messageDelay, 1, function()
+                    triggerDelay = 4
                     triggerShowdown = true
 
                     if CR_VERSION then
@@ -110,18 +118,6 @@ function EVENT:Begin()
                         net.Broadcast()
                     end
                 end)
-            elseif #alivePlayers == 2 then
-                -- If there are only 2 alive players then trigger the randomat
-                -- Strip all weapons from the ground and players
-                for _, ent in pairs(ents.GetAll()) do
-                    if (ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE or ent.Base == "weapon_tttbase") then
-                        ent:Remove()
-                    end
-                end
-
-                triggerDelay = 1
-                triggerShowdown = true
-                winBlocked = true
             end
         end
 
@@ -136,20 +132,22 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    net.Start("PistolsRemoveHalos")
-    net.Broadcast()
+    if eventTriggered then
+        eventTriggered = false
+        timer.Remove("PistolsTriggerShowdown")
+        net.Start("PistolsEndEvent")
+        net.Broadcast()
 
-    timer.Simple(2, function()
-        for i, ply in ipairs(self:GetAlivePlayers()) do
-            ply:Give("weapon_zm_improvised")
-            ply:Give("weapon_zm_carry")
-            ply:Give("weapon_ttt_unarmed")
-        end
+        if triggerShowdown then
+            timer.Remove("PistolsDrawHalos")
+            timer.Remove("PistolsGivePistols")
 
-        for i, ent in ipairs(ents.FindByClass("weapon_ttt_pistol_randomat")) do
-            ent:Remove()
+            for i = 1, 2 do
+                game.GetWorld():StopSound("pistols/rattlesnake_railroad.mp3")
+                game.GetWorld():EmitSound("pistols/rattlesnake_railroad_end.mp3", 0)
+            end
         end
-    end)
+    end
 end
 
 Randomat:register(EVENT)
