@@ -128,6 +128,11 @@ function EVENT:Begin()
         -- Prevent the round from ending while there is more than 1 player alive, and the timer has not run out
         if GetGlobalFloat("ttt_round_end") > CurTime() and #self:GetAlivePlayers() > 1 then return WIN_NONE end
     end)
+
+    -- Preventing karma from being lost during the showdown
+    self:AddHook("TTTKarmaGivePenalty", function()
+        if triggerShowdown then return true end
+    end)
 end
 
 function EVENT:End()
