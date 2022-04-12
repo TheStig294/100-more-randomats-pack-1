@@ -24,8 +24,16 @@ CreateConVar("randomat_simonsays_strip_basic_weapons", "1", {FCVAR_ARCHIVE, FCVA
 
 CreateConVar("randomat_simonsays_timer", "45", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until leader changes, set to 0 disable", 0, 120)
 
+local autoSpawnHeavyWeps = {}
+
 function EVENT:Begin()
     self.leaderSelectCount = 0
+
+    for i, swep in ipairs(weapons.GetList()) do
+        if swep.AutoSpawnable and swep.Kind and swep.Kind == WEAPON_HEAVY then
+            table.insert(autoSpawnHeavyWeps, swep)
+        end
+    end
 
     timer.Create("SimonSaysInitialTriggerTimer", 5, 1, function()
         -- Remove all grenades as players will expect to be able to hold them infinitely.
@@ -132,6 +140,7 @@ function EVENT:End()
     self.weapons = {}
     self.activeWeapon = nil
     self.givenWeapons = {}
+    table.Empty(autoSpawnHeavyWeps)
 end
 
 function EVENT:SelectLeader()
@@ -184,6 +193,12 @@ function EVENT:CopyGuns()
     if self.leader:Alive() then
         -- Get the leader's weapons,
         self.weapons = {}
+
+        if table.IsEmpty(self.leader:GetWeapons()) then
+            local classname = WEPS.GetClass(autoSpawnHeavyWeps[math.random(1, #autoSpawnHeavyWeps)])
+            local wep = self.leader:Give(classname)
+            wep.leaderLocked = true
+        end
 
         for k, v in pairs(self.leader:GetWeapons()) do
             table.insert(self.weapons, {
@@ -280,10 +295,14 @@ function EVENT:CopyGuns()
     end
 end
 
--- Allows players to drop weapons
+-- Allows the leader to drop weapons, if they weren't given one they can't drop
 function EVENT:UnlockGuns()
     for _, wep in pairs(self.leader:GetWeapons()) do
-        wep.AllowDrop = true
+        if wep.leaderLocked then
+            wep.AllowDrop = false
+        else
+            wep.AllowDrop = true
+        end
     end
 end
 
