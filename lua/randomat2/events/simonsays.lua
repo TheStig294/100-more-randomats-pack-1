@@ -109,6 +109,16 @@ function EVENT:Begin()
                 self:SelectLeader()
             end
         end)
+
+        -- Prevent non-leaders from buying non-passive items
+        self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+            if ply ~= self.leader and not is_item then
+                ply:PrintMessage(HUD_PRINTCENTER, "Not the leader, passive items only!")
+                ply:ChatPrint("You can only buy passive items while you are not the leader!")
+
+                return false
+            end
+        end)
     end)
 end
 
