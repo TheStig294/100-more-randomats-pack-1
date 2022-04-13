@@ -169,29 +169,44 @@ net.Receive("FrenchRandomatBegin", function()
         end
     end
 
+    local translatedWeapons = {
+        weapon_ttt_randomat = {
+            name = "Machine Aléatoire",
+            type = "item_weapon",
+            desc = "La machine aléatoire fera quelque chose d'aléatoire!\nQui a deviné ça!"
+        },
+        weapon_ttt_glock = {
+            name = "Pistolet-Mitrailleur"
+        }
+    }
+
     for _, SWEPCopy in ipairs(weapons.GetList()) do
         local classname = WEPS.GetClass(SWEPCopy)
 
-        if classname then
+        if translatedWeapons[classname] then
             local SWEP = weapons.GetStored(classname)
 
             if SWEP.PrintName then
                 SWEP.origPrintName = SWEP.PrintName
+                SWEP.PrintName = translatedWeapons[classname].name
             end
 
             if SWEP.EquipMenuData and SWEP.EquipMenuData.type then
                 SWEP.EquipMenuData.origType = SWEP.EquipMenuData.type
+                SWEP.EquipMenuData.type = translatedWeapons[classname].type
             end
 
             if SWEP.EquipMenuData and SWEP.EquipMenuData.desc then
                 SWEP.EquipMenuData.origDesc = SWEP.EquipMenuData.desc
+                SWEP.EquipMenuData.desc = translatedWeapons[classname].desc
+            end
+
+            for _, wep in ipairs(ents.FindByClass(classname)) do
+                wep.PrintName = translatedWeapons[classname].name
             end
         end
     end
 
-    weapons.GetStored("weapon_ttt_randomat").PrintName = "Machine Aléatoire"
-    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.type = "item_weapon"
-    weapons.GetStored("weapon_ttt_randomat").EquipMenuData.desc = "La machine aléatoire fera quelque chose d'aléatoire!\nQui a deviné ça!"
     RunConsoleCommand("ttt_reset_weapons_cache")
 end)
 
@@ -223,6 +238,10 @@ net.Receive("FrenchRandomatEnd", function()
 
             if SWEP.EquipMenuData and SWEP.EquipMenuData.origDesc then
                 SWEP.EquipMenuData.desc = SWEP.EquipMenuData.origDesc
+            end
+
+            for _, wep in ipairs(ents.FindByClass(classname)) do
+                wep.PrintName = SWEP.origPrintName
             end
         end
     end
