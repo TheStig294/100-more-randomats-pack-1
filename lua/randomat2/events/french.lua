@@ -36,7 +36,7 @@ function EVENT:Begin()
                 end
             end
 
-            timer.simple(0.1, function()
+            timer.Simple(0.1, function()
                 -- More nonsence French, this time when you kill or are killed as the phantom, or roles like it
                 if attacker:GetNWBool("Haunted") then
                     attacker:PrintMessage(HUD_PRINTCENTER, "Vous avez tué et êtes hanté")
