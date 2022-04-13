@@ -5,6 +5,7 @@ local customPassiveItemsOrig = {}
 
 net.Receive("FrenchRandomatBegin", function()
     RunConsoleCommand("ttt_language", "FrançaisRandomat")
+    -- Renaming roles
     local translatedRoles = {}
     translatedRoles["Mendiant"] = ROLE_BEGGAR
     translatedRoles["Voleur De Corps"] = ROLE_BODYSNATCHER
@@ -143,6 +144,7 @@ net.Receive("FrenchRandomatBegin", function()
         end
     end
 
+    -- Renaming custom passive shop items
     if not istable(SHOP_ROLES) then
         SHOP_ROLES = {}
         SHOP_ROLES[ROLE_DETECTIVE] = true
@@ -190,6 +192,7 @@ net.Receive("FrenchRandomatBegin", function()
         end
     end
 
+    -- Renaming weapons
     local translatedWeapons = {
         weapon_ttt_randomat = {
             name = "Machine Aléatoire",
@@ -221,10 +224,15 @@ net.Receive("FrenchRandomatBegin", function()
                 SWEP.EquipMenuData.origDesc = SWEP.EquipMenuData.desc
                 SWEP.EquipMenuData.desc = translatedWeapons[classname].desc
             end
+        end
+    end
 
-            for _, wep in ipairs(ents.FindByClass(classname)) do
-                wep.PrintName = translatedWeapons[classname].name
-            end
+    -- Sets the names of held weapons and ones on the ground
+    for _, ent in ipairs(ents.GetAll()) do
+        local classname = ent:GetClass()
+
+        if classname and translatedWeapons[classname] and translatedWeapons[classname].name then
+            wep.PrintName = translatedWeapons[classname].name
         end
     end
 
@@ -233,16 +241,19 @@ end)
 
 net.Receive("FrenchRandomatEnd", function()
     RunConsoleCommand("ttt_language", "auto")
+    -- Resets the names of roles
     ROLE_STRINGS = roleStringsOrig
     ROLE_STRINGS_EXT = roleStringsExtOrig
     ROLE_STRINGS_PLURAL = roleStringsPluralOrig
 
+    -- Resets the names of custom passive items
     for role = 1, ROLE_MAX do
         if SHOP_ROLES[role] then
             EquipmentItems[role] = customPassiveItemsOrig[role]
         end
     end
 
+    -- Resets the names of newly created weapons
     for _, SWEPCopy in ipairs(weapons.GetList()) do
         local classname = WEPS.GetClass(SWEPCopy)
 
@@ -260,10 +271,13 @@ net.Receive("FrenchRandomatEnd", function()
             if SWEP.EquipMenuData and SWEP.EquipMenuData.origDesc then
                 SWEP.EquipMenuData.desc = SWEP.EquipMenuData.origDesc
             end
+        end
+    end
 
-            for _, wep in ipairs(ents.FindByClass(classname)) do
-                wep.PrintName = SWEP.origPrintName
-            end
+    -- Resets the names of held weapons and ones on the ground
+    for _, ent in ipairs(ents.GetAll()) do
+        if ent.origPrintName then
+            wep.PrintName = ent.origPrintName
         end
     end
 
