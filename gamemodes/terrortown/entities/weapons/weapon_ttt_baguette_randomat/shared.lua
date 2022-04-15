@@ -49,7 +49,6 @@ end
 PrimaryAttack
 ---------------------------------------------------------]]
 function SWEP:PrimaryAttack()
-    if not IsFirstTimePredicted() then return end
     local owner = self:GetOwner()
     local tr = {}
     tr.start = owner:GetShootPos()
@@ -72,7 +71,10 @@ function SWEP:PrimaryAttack()
         bullet.Damage = self.Primary.Damage
         owner:FireBullets(bullet)
     else
-        self:EmitSound(self.MissSound, 100, math.random(90, 120))
+        if IsFirstTimePredicted() then
+            self:EmitSound(self.MissSound, 100, math.random(90, 120))
+        end
+
         self:SendWeaponAnim(ACT_VM_MISSCENTER)
     end
 end
