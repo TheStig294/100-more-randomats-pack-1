@@ -254,6 +254,12 @@ _randomat_flair_zombie_mystery_box_laugh.mp3_- Default: 1 - Whether this sound c
 _randomat_flair_zombie_zombies_round_end.mp3_- Default: 1 - Whether this sound can play\
 _randomat_flair_zombie_zombies_round_start.mp3_ - Default: 1 - Whether this sound can play
 
+## Événement Aléatoire
+
+Changes most of the game to French! A heck of a lot of custom translations come with this randomat to translate the most commonly used custom TTT weapons, but most of your custom weapons won't have their names translated (I can't translate the whole steam workshop :P).\
+Will also replace the crowbar with a baguette if you have the baguette SWEP installed: https://steamcommunity.com/sharedfiles/filedetails/?id=186267285
+\
+_ttt_randomat_french_ - Default: 1 - Whether this randomat is enabled
 ## Everyone has their favourites
 
 Gives everyone their 2 most bought items\
