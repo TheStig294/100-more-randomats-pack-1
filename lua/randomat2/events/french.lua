@@ -1,7 +1,7 @@
 local EVENT = {}
 EVENT.Title = "Événement Aléatoire" -- "Random Event"
 EVENT.AltTitle = "French Randomat"
-EVENT.Description = "Parlez-vous français?" -- Do you speak French?
+EVENT.Description = "Tout le monde a du pain invisible!" -- Everyone has invisible bread! (I don't know why the model for the baguette is going invisible...)
 EVENT.ExtDescription = "Changes most of the game to French"
 EVENT.id = "french"
 
