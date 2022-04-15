@@ -45,6 +45,39 @@ function EVENT:Begin()
             end)
         end)
     end
+
+    local SWEP = weapons.GetStored("gidzco_baguette")
+
+    if SWEP then
+        SWEP.Base = "weapon_tttbase"
+        SWEP.Kind = WEAPON_MELEE
+        SWEP.Slot = 0
+        SWEP.InLoadoutFor = nil
+        SWEP.AutoSpawnable = false
+        SWEP.AllowDrop = false
+
+        function SWEP:OnDrop()
+            self:Remove()
+        end
+
+        function SWEP:ShouldDropOnDie()
+            return false
+        end
+
+        for _, ply in ipairs(self:GetAlivePlayers()) do
+            ply:StripWeapon("weapon_zm_improvised")
+            ply:Give("gidzco_baguette")
+            ply:SelectWeapon("gidzco_baguette")
+        end
+
+        self:AddHook("PlayerSpawn", function(ply)
+            timer.Simple(1, function()
+                ply:StripWeapon("weapon_zm_improvised")
+                ply:Give("gidzco_baguette")
+                ply:SelectWeapon("gidzco_baguette")
+            end)
+        end)
+    end
 end
 
 function EVENT:End()
