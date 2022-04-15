@@ -16,6 +16,7 @@ function EVENT:Begin()
     net.Start("FrenchRandomatBegin")
     net.Broadcast()
 
+    -- Changes the centre screen alerts of some role from CR, if CR is installed
     if CR_VERSION then
         local assassinMessageDelay = GetConVar("ttt_assassin_next_target_delay"):GetInt()
 
@@ -46,6 +47,7 @@ function EVENT:Begin()
         end)
     end
 
+    -- Replaces the crowbar with a baguette, if the baguette SWEP is installed
     local SWEP = weapons.GetStored("gidzco_baguette")
 
     if SWEP then
