@@ -80,6 +80,12 @@ function EVENT:Begin()
             end)
         end)
     end
+
+    -- Play a random clip of a French soccer commentator when someone dies
+    self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
+        dmginfo:SetDamageType(DMG_SLASH) -- Slashing damage mutes the normal death sound
+        sound.Play("french/death" .. math.random(1, 6) .. ".mp3", ply:GetPos(), 90, 100, 1)
+    end)
 end
 
 function EVENT:End()
