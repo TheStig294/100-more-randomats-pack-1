@@ -47,39 +47,20 @@ function EVENT:Begin()
         end)
     end
 
-    -- Replaces the crowbar with a baguette, if the baguette SWEP is installed
-    local SWEP = weapons.GetStored("gidzco_baguette")
-
-    if SWEP then
-        SWEP.Base = "weapon_tttbase"
-        SWEP.Kind = WEAPON_MELEE
-        SWEP.Slot = 0
-        SWEP.InLoadoutFor = nil
-        SWEP.AutoSpawnable = false
-        SWEP.AllowDrop = false
-
-        function SWEP:OnDrop()
-            self:Remove()
-        end
-
-        function SWEP:ShouldDropOnDie()
-            return false
-        end
-
-        for _, ply in ipairs(self:GetAlivePlayers()) do
-            ply:StripWeapon("weapon_zm_improvised")
-            ply:Give("gidzco_baguette")
-            ply:SelectWeapon("gidzco_baguette")
-        end
-
-        self:AddHook("PlayerSpawn", function(ply)
-            timer.Simple(1, function()
-                ply:StripWeapon("weapon_zm_improvised")
-                ply:Give("gidzco_baguette")
-                ply:SelectWeapon("gidzco_baguette")
-            end)
-        end)
+    -- Replaces the crowbar with a baguette
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        ply:StripWeapon("weapon_zm_improvised")
+        ply:Give("weapon_ttt_baguette_randomat")
+        ply:SelectWeapon("weapon_ttt_baguette_randomat")
     end
+
+    self:AddHook("PlayerSpawn", function(ply)
+        timer.Simple(1, function()
+            ply:StripWeapon("weapon_zm_improvised")
+            ply:Give("weapon_ttt_baguette_randomat")
+            ply:SelectWeapon("weapon_ttt_baguette_randomat")
+        end)
+    end)
 
     -- Play a random clip of a French soccer commentator when someone dies
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
