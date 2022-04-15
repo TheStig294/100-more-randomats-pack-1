@@ -207,7 +207,7 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Un diffuseur pour la Remote Sticky Bomb]]
         },
         weapon_ttt_powerdeagle = {
-            name = "golden_deagle_name",
+            name = "Pistolet d'or",
             type = "item_weapon",
             desc = [[Tirez sur un traître, ils meurent,
             tirer sur un innocent, tu meurs,
@@ -301,7 +301,7 @@ net.Receive("FrenchRandomatBegin", function()
             Maintenez le clic gauche pour sélectionner un emplacement, le clic droit pour annuler.]]
         },
         weapon_ttt_slam = {
-            name = "slam_name",
+            name = "Claquer M4",
             type = "item_weapon",
             desc = [[Un explosif déclenché à distance.
 
@@ -345,7 +345,7 @@ net.Receive("FrenchRandomatBegin", function()
             Une chauve-souris qui emprisonne ceux que vous frappez dans une cage pendant quelques secondes.]]
         },
         weapon_ttt_timestop = {
-            name = "timestop_weapon_name",
+            name = "Arrêt Horaire",
             type = "item_weapon",
             desc = [[Fige le temps pendant quelques secondes.
             Vous pouvez en tuer d'autres pendant qu'ils sont gelés.
@@ -377,7 +377,7 @@ net.Receive("FrenchRandomatBegin", function()
             Clic gauche pour placer le piège au plafond, toute personne qui marche en dessous sera lentement tuée.]]
         },
         ttt_slappers = {
-            name = "Slappers",
+            name = "Gifles",
             type = "item_weapon",
             desc = [[La 1ère arme farce que vous achetez une partie est gratuite!
 
@@ -632,7 +632,7 @@ net.Receive("FrenchRandomatBegin", function()
             Sonne une alarme avant que le trou noir n'apparaisse.]]
         },
         weapon_ttt_dragon_elites = {
-            name = "dragon_elites_name",
+            name = "Dragons d'élite",
             type = "item_weapon",
             desc = [[Pistolets à double arme avec une recharge cool.]]
         },
@@ -1207,7 +1207,7 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_hyp_brainwash = {
             name = "Appareil de lavage de cerveau",
             type = "item_weapon",
-            desc = "Ranime un innocent comme un traître."
+            desc = "Ranime un innocent comme un tra��tre."
         },
         weapon_com_manifesto = {
             name = "Manifeste communiste",
