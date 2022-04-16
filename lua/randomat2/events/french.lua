@@ -53,6 +53,11 @@ function EVENT:Begin()
     for _, ply in ipairs(self:GetAlivePlayers()) do
         ply:StripWeapon("weapon_zm_improvised")
         ply:Give("weapon_ttt_baguette_randomat")
+
+        for _, wep in ipairs(ply:GetWeapons()) do
+            ply:SelectWeapon(wep)
+        end
+
         ply:SelectWeapon("weapon_ttt_baguette_randomat")
     end
 
