@@ -2,6 +2,7 @@ local roleStringsOrig = {}
 local roleStringsExtOrig = {}
 local roleStringsPluralOrig = {}
 local customPassiveItemsOrig = {}
+local flagPanelFrame
 
 net.Receive("FrenchRandomatBegin", function()
     -- Renaming weapons with TTT language support
@@ -1330,6 +1331,23 @@ net.Receive("FrenchRandomatBegin", function()
     end
 
     RunConsoleCommand("ttt_reset_weapons_cache")
+    -- Adding a French flag colours overlay
+    -- Draws 2 black bars on the screen, to make a cinematic letterbox effect
+    flagPanelFrame = vgui.Create("DFrame")
+    flagPanelFrame:SetSize(ScrW(), ScrH())
+    flagPanelFrame:SetPos(0, 0)
+    flagPanelFrame:SetTitle("")
+    flagPanelFrame:SetDraggable(false)
+    flagPanelFrame:ShowCloseButton(false)
+    flagPanelFrame:SetVisible(true)
+    flagPanelFrame:SetDeleteOnClose(true)
+    flagPanelFrame:SetZPos(-32768)
+
+    flagPanelFrame.Paint = function(self, w, h)
+        draw.RoundedBox(0, 0, 0, w * 1 / 3, h, Color(0, 36, 150, 10))
+        draw.RoundedBox(0, w * 1 / 3, 0, w * 1 / 3, h, Color(255, 255, 255, 10))
+        draw.RoundedBox(0, w * 2 / 3, 0, w * 1 / 3, h, Color(237, 40, 57, 10))
+    end
 end)
 
 net.Receive("FrenchRandomatEnd", function()
@@ -1375,4 +1393,12 @@ net.Receive("FrenchRandomatEnd", function()
     end
 
     RunConsoleCommand("ttt_reset_weapons_cache")
+
+    -- Remove the French flag overlay
+    timer.Simple(4, function()
+        if flagPanelFrame ~= nil then
+            flagPanelFrame:Close()
+            flagPanelFrame = nil
+        end
+    end)
 end)

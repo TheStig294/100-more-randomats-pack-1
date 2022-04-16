@@ -94,6 +94,8 @@ function EVENT:End()
 
         -- Play the ending music if music is enabled
         if GetConVar("randomat_french_music"):GetBool() then
+            timer.Remove("FrenchRandomatMusicStart")
+            timer.Remove("FrenchRandomatMusicLoop")
             game.GetWorld():StopSound("french/paris_music_intro.mp3")
             game.GetWorld():StopSound("french/paris_music.mp3")
             game.GetWorld():EmitSound("french/paris_music_end.mp3", 0)
