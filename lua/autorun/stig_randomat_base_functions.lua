@@ -240,6 +240,10 @@ function ForceSetPlayermodel(ply, data)
             for _, value in pairs(data.bodyGroups) do
                 ply:SetBodygroup(value.id, data.bodygroupValues[value.id])
             end
+        elseif data.bodygroupValues then
+            for id = 0, #data.bodygroupValues do
+                ply:SetBodygroup(id, data.bodygroupValues[id])
+            end
         end
 
         timer.Simple(0.1, function()
@@ -358,9 +362,14 @@ function GiveEquipmentByIdOrClass(ply, equipment, wepKind)
     end
 
     timer.Simple(1, function()
-        -- Calls all expected shop hooks for things like automatically starting the radar if a player was given one,
-        -- and greying out icons in the player's shop
+        -- Calls all expected shop hooks for things like greying out icons in the player's shop
         Randomat:CallShopHooks(is_item, equipment, ply)
+
+        -- For some reason this just does not get called when the radar is given...
+        -- So we're just going to call it here so the radar automatically starts scanning when given
+        if equipment == EQUIP_RADAR then
+            ply:ConCommand("ttt_radar_scan")
+        end
     end)
 
     timer.Simple(5, function()
@@ -371,5 +380,44 @@ function GiveEquipmentByIdOrClass(ply, equipment, wepKind)
         local traitorBuyable = GetTraitorBuyable()
         local name = detectiveBuyable[equipment] or traitorBuyable[equipment] or "item"
         ply:ChatPrint("You received a " .. name .. "!")
+    end)
+end
+
+function SpectatorRandomatAlert(ply, EVENT)
+    ply:PrintMessage(HUD_PRINTCENTER, "Spectator Randomat Active!")
+    local title = EVENT.Title or EVENT.AltTitle or "A spectator randomat"
+    local desc = EVENT.Description or EVENT.ExtDescription or ""
+    ply:PrintMessage(HUD_PRINTTALK, "'" .. title .. "' is active!\n" .. desc)
+
+    timer.Simple(2, function()
+        ply:PrintMessage(HUD_PRINTCENTER, "Spectator Randomat Active!")
+
+        timer.Create("SpectatorRandomatAlert" .. ply:SteamID64(), 2, 2, function()
+            ply:PrintMessage(HUD_PRINTCENTER, desc)
+        end)
+    end)
+end
+
+function DisableRoundEndSounds()
+    -- Disables round end sounds mod and 'Ending Flair' event
+    -- So events that that play sounds at the end of the round can do so without overlapping with other sounds/music
+    SetGlobalBool("StopEndingFlairRandomat", true)
+    local roundEndSounds = false
+
+    if ConVarExists("ttt_roundendsounds") and GetConVar("ttt_roundendsounds"):GetBool() then
+        GetConVar("ttt_roundendsounds"):SetBool(false)
+        roundEndSounds = true
+    end
+
+    hook.Add("TTTEndRound", "RandomatReenableRoundEndSounds", function()
+        -- Re-enable round end sounds and 'Ending Flair' event
+        timer.Simple(1, function()
+            SetGlobalBool("StopEndingFlairRandomat", false)
+
+            -- Don't turn on round end sounds if they weren't on already
+            if roundEndSounds then
+                GetConVar("ttt_roundendsounds"):SetBool(true)
+            end
+        end)
     end)
 end

@@ -7,6 +7,8 @@ EVENT.id = "french"
 
 EVENT.Categories = {"fun", "smallimpact"}
 
+CreateConVar("randomat_french_music", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether music should play", 0, 1)
+
 util.AddNetworkString("FrenchRandomatBegin")
 util.AddNetworkString("FrenchRandomatEnd")
 local eventRun = false
@@ -67,6 +69,21 @@ function EVENT:Begin()
         dmginfo:SetDamageType(DMG_SLASH) -- Slashing damage mutes the normal death sound
         sound.Play("french/death" .. math.random(1, 6) .. ".mp3", ply:GetPos(), 90, 100, 1)
     end)
+
+    if GetConVar("randomat_french_music"):GetBool() then
+        -- Disable round end sounds and 'Ending Flair' event so ending music can play
+        DisableRoundEndSounds()
+        game.GetWorld():EmitSound("french/paris_music_intro.mp3", 0)
+
+        timer.Create("FrenchRandomatMusicStart", 7.367, 1, function()
+            game.GetWorld():EmitSound("french/paris_music.mp3", 0)
+
+            timer.Create("FrenchRandomatMusicLoop", 118, 0, function()
+                game.GetWorld():StopSound("french/paris_music.mp3")
+                game.GetWorld():EmitSound("french/paris_music.mp3", 0)
+            end)
+        end)
+    end
 end
 
 function EVENT:End()
@@ -74,7 +91,36 @@ function EVENT:End()
         eventRun = false
         net.Start("FrenchRandomatEnd")
         net.Broadcast()
+
+        -- Play the ending music if music is enabled
+        if GetConVar("randomat_french_music"):GetBool() then
+            game.GetWorld():StopSound("french/paris_music_intro.mp3")
+            game.GetWorld():StopSound("french/paris_music.mp3")
+            game.GetWorld():EmitSound("french/paris_music_end.mp3", 0)
+        end
     end
+end
+
+function EVENT:GetConVars()
+    local checkboxes = {}
+
+    for _, v in pairs({"music"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checkboxes, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 0
+            })
+        end
+    end
+
+    return {}, checkboxes
 end
 
 Randomat:register(EVENT)

@@ -258,9 +258,14 @@ _randomat_flair_zombie_zombies_round_start.mp3_ - Default: 1 - Whether this soun
 
 Changes most of the game to French! A heck of a lot of custom translations come with this randomat to translate the most commonly used custom TTT weapons, but most of your custom weapons won't have their names translated (I can't translate the whole steam workshop :P).\
 Replaces the usual death sounds with a French soccer commentator screaming.\
-Also replaces the crowbar with a baguette. Model by Devieus and Pasgotti, fixed by me: <https://steamcommunity.com/sharedfiles/filedetails/?id=186267285>\
+Replaces the crowbar with a baguette. Model by Devieus and Pasgotti, fixed by me: <https://steamcommunity.com/sharedfiles/filedetails/?id=186267285>\
+Plays French themed background music.\
 \
-_ttt_randomat_french_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_french_ - Default: 1 - Whether this randomat is enabled\
+_randomat_french_music_ - Default: 1 - Whether french themed music plays
+
+Paris Music by MUSIC4VIDEO <https://www.youtube.com/watch?v=oNnWP1WoTRQ> \
+License: CC BY 3.0 <https://goo.gl/Yibru5>
 ## Everyone has their favourites
 
 Gives everyone their 2 most bought items\
