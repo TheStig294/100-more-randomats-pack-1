@@ -1301,8 +1301,9 @@ net.Receive("FrenchRandomatBegin", function()
     for _, SWEPCopy in ipairs(weapons.GetList()) do
         local classname = WEPS.GetClass(SWEPCopy)
 
-        if translatedWeapons[classname] then
+        if classname and translatedWeapons[classname] then
             local SWEP = weapons.GetStored(classname)
+            if not SWEP then continue end
 
             if SWEP.PrintName then
                 SWEP.origPrintName = SWEP.PrintName
@@ -1318,6 +1319,18 @@ net.Receive("FrenchRandomatBegin", function()
                 SWEP.EquipMenuData.origDesc = SWEP.EquipMenuData.desc
                 SWEP.EquipMenuData.desc = translatedWeapons[classname].desc
             end
+        elseif classname then
+            local SWEP = weapons.GetStored(classname)
+            if not SWEP then continue end
+
+            if SWEP.PrintName then
+                local placeholderName = string.find(SWEP.PrintName, "_")
+
+                if not placeholderName then
+                    SWEP.origPrintName = SWEP.PrintName
+                    SWEP.PrintName = "Le " .. SWEP.PrintName
+                end
+            end
         end
     end
 
@@ -1327,12 +1340,17 @@ net.Receive("FrenchRandomatBegin", function()
 
         if classname and translatedWeapons[classname] and translatedWeapons[classname].name then
             ent.PrintName = translatedWeapons[classname].name
+        elseif classname then
+            local SWEP = weapons.GetStored(classname)
+
+            if SWEP then
+                ent.PrintName = SWEP.PrintName
+            end
         end
     end
 
     RunConsoleCommand("ttt_reset_weapons_cache")
     -- Adding a French flag colours overlay
-    -- Draws 2 black bars on the screen, to make a cinematic letterbox effect
     flagPanelFrame = vgui.Create("DFrame")
     flagPanelFrame:SetSize(ScrW(), ScrH())
     flagPanelFrame:SetPos(0, 0)
