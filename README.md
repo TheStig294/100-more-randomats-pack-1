@@ -277,6 +277,8 @@ The explosion creation code was originally made by [HagenSNKL](https://steamcomm
 Spectators can explode props they posses by pressing left-click.\
 \
 _ttt_randomat_explosivespectate_ - Default: 1 - Whether this randomat is enabled\
+_randomat_explosivespectate_timer_ - Default: 0 - Seconds until the event activates\
+_randomat_explosivespectate_damage_ - Default: 100 - Explosion magnitude, scales damage based on distance. For ~20 damage if someone is standing right on top of a prop, set this to about 15\
 
 Changed name from "Pyro-possession - middle click to go boom!", updated to work with randomat 2.0\
 Originally made by [Arch](https://steamcommunity.com/sharedfiles/filedetails/?id=1461821324)
@@ -318,7 +320,8 @@ Buffs spectator prop possession a lot. Players can move props they possess quick
 Changed name from "Troll Prop"\
 \
 _ttt_randomat_revenge_ - Default: 1 - Whether this randomat is enabled\
-_randomat_revenge_multiplier_ - Default: 4 - Multiplier to all prop possession stats
+_randomat_revenge_multiplier_ - Default: 4 - Multiplier to all prop possession stats\
+_randomat_revenge_timer_ - Default: 0 - Seconds until this event activates
 
 ## Gotta buy 'em all
 
