@@ -1369,6 +1369,7 @@ net.Receive("FrenchRandomatBegin", function()
 end)
 
 net.Receive("FrenchRandomatEnd", function()
+    local endingTimer = net.ReadInt(8)
     RunConsoleCommand("ttt_language", "auto")
     -- Resets the names of roles
     ROLE_STRINGS = roleStringsOrig
@@ -1413,7 +1414,7 @@ net.Receive("FrenchRandomatEnd", function()
     RunConsoleCommand("ttt_reset_weapons_cache")
 
     -- Remove the French flag overlay
-    timer.Simple(4, function()
+    timer.Simple(endingTimer, function()
         if flagPanelFrame ~= nil then
             flagPanelFrame:Close()
             flagPanelFrame = nil

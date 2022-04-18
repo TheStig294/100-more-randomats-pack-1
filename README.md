@@ -267,7 +267,7 @@ Plays French themed background music.\
 _ttt_randomat_french_ - Default: 1 - Whether this randomat is enabled\
 _randomat_french_music_ - Default: 1 - Whether french themed music plays
 
-Paris Music by MUSIC4VIDEO <https://www.youtube.com/watch?v=oNnWP1WoTRQ> \
+Chic Magnet by Dar Golan <https://www.youtube.com/watch?v=BVEC-cQodf0> \
 License: CC BY 3.0 <https://goo.gl/Yibru5>
 ## Everyone has their favourites
 

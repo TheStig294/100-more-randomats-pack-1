@@ -78,15 +78,11 @@ function EVENT:Begin()
     if GetConVar("randomat_french_music"):GetBool() then
         -- Disable round end sounds and 'Ending Flair' event so ending music can play
         DisableRoundEndSounds()
-        game.GetWorld():EmitSound("french/paris_music_intro.mp3", 0)
+        game.GetWorld():EmitSound("french/chic_magnet.mp3", 0)
 
-        timer.Create("FrenchRandomatMusicStart", 7.367, 1, function()
-            game.GetWorld():EmitSound("french/paris_music.mp3", 0)
-
-            timer.Create("FrenchRandomatMusicLoop", 118, 0, function()
-                game.GetWorld():StopSound("french/paris_music.mp3")
-                game.GetWorld():EmitSound("french/paris_music.mp3", 0)
-            end)
+        timer.Create("FrenchRandomatMusicLoop", 61.7, 0, function()
+            game.GetWorld():StopSound("french/chic_magnet.mp3")
+            game.GetWorld():EmitSound("french/chic_magnet.mp3", 0)
         end)
     end
 end
@@ -94,17 +90,34 @@ end
 function EVENT:End()
     if eventRun then
         eventRun = false
-        net.Start("FrenchRandomatEnd")
-        net.Broadcast()
+        local endingTimer
 
         -- Play the ending music if music is enabled
         if GetConVar("randomat_french_music"):GetBool() then
             timer.Remove("FrenchRandomatMusicStart")
             timer.Remove("FrenchRandomatMusicLoop")
-            game.GetWorld():StopSound("french/paris_music_intro.mp3")
-            game.GetWorld():StopSound("french/paris_music.mp3")
-            game.GetWorld():EmitSound("french/paris_music_end.mp3", 0)
+            game.GetWorld():StopSound("french/chic_magnet.mp3")
+            game.GetWorld():EmitSound("french/chic_magnet_end.mp3", 0)
+            endingTimer = 9
+        else
+            endingTimer = 0
         end
+
+        net.Start("FrenchRandomatEnd")
+        net.WriteInt(endingTimer, 8)
+        net.Broadcast()
+
+        timer.Simple(endingTimer, function()
+            for _, ent in ipairs(ents.FindByClass("weapon_ttt_baguette_randomat")) do
+                ent:Remove()
+            end
+
+            timer.Simple(0.1, function()
+                for _, ply in ipairs(self:GetAlivePlayers()) do
+                    ply:Give("weapon_zm_improvised")
+                end
+            end)
+        end)
     end
 end
 
