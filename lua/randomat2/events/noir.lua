@@ -14,6 +14,7 @@ EVENT.Title = ""
 EVENT.AltTitle = "Noir"
 EVENT.ExtDescription = "Makes the game look like a 50's detective film!"
 EVENT.id = "noir"
+EVENT.Type = EVENT_TYPE_MUSIC
 
 EVENT.Categories = {"fun", "largeimpact", "item"}
 
@@ -89,6 +90,10 @@ function EVENT:End()
     end
 
     EVENT.Title = ""
+end
+
+function EVENT:Condition()
+    return not (Randomat:IsEventActive("french") or Randomat:IsEventActive("pistols"))
 end
 
 function EVENT:GetConVars()

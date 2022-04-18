@@ -255,6 +255,21 @@ _randomat_flair_zombie_mystery_box_laugh.mp3_- Default: 1 - Whether this sound c
 _randomat_flair_zombie_zombies_round_end.mp3_- Default: 1 - Whether this sound can play\
 _randomat_flair_zombie_zombies_round_start.mp3_ - Default: 1 - Whether this sound can play
 
+## Événement Aléatoire
+
+A French-themed randomat! Does a lot of things:
+
+Changes most of the game to French! A heck of a lot of custom translations come with this randomat to translate the most commonly used custom TTT weapons, but most of your custom weapons won't have their names translated (I can't translate the whole steam workshop :P).\
+Instead those weapons will just have "Le" put in front of their name.\
+Replaces the usual death sounds with a French soccer commentator screaming. Everyone can hear them, they are not location-based.\
+Replaces the crowbar with a baguette! Model by Devieus and Pasgotti, fixed by me: <https://steamcommunity.com/sharedfiles/filedetails/?id=186267285>\
+Plays French themed background music.\
+\
+_ttt_randomat_french_ - Default: 1 - Whether this randomat is enabled\
+_randomat_french_music_ - Default: 1 - Whether french themed music plays
+
+Chic Magnet by Dar Golan <https://www.youtube.com/watch?v=BVEC-cQodf0> \
+License: CC BY 3.0 <https://goo.gl/Yibru5>
 ## Everyone has their favourites
 
 Gives everyone their 2 most bought items\
