@@ -477,6 +477,11 @@ net.Receive("FrenchRandomatBegin", function()
             
             Tue tous ceux que vous avez verrouillés une fois que vous l'avez tiré.]]
         },
+        ttt_m9k_harpoon = {
+            name = "Hwapoun",
+            type = "item_weapon",
+            desc = [[Harpon jetable]]
+        },
         weapon_ttt_hwapoon = {
             name = "Hwapoun",
             type = "item_weapon",
@@ -804,6 +809,12 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Le pistolet de Noël",
             type = "item_weapon",
             desc = [[Tirez sur des cadeaux qui tuent en un seul coup]]
+        },
+        weapon_ttt_beenade = {
+            name = "Bénade",
+            type = "item_weapon",
+            desc = [[Grenade Abeille.
+            Libère une ruche remplie d'abeilles hostiles.]]
         },
         weapon_ttt_beenade2 = {
             name = "Bénade",
