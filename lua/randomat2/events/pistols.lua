@@ -2,7 +2,8 @@ local EVENT = {}
 EVENT.Title = "Pistols at dawn"
 EVENT.Description = "The last players alive have a one-shot pistol showdown!"
 EVENT.id = "pistols"
-EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+
+EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_MUSIC}
 
 EVENT.Categories = {"gamemode", "largeimpact"}
 
