@@ -148,4 +148,8 @@ function EVENT:End()
     end)
 end
 
+function EVENT:Condition()
+    return not (Randomat:IsEventActive("noir") or Randomat:IsEventActive("french"))
+end
+
 Randomat:register(EVENT)

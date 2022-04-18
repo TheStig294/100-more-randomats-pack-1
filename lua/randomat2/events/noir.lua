@@ -65,6 +65,10 @@ function EVENT:End()
     EVENT.Title = ""
 end
 
+function EVENT:Condition()
+    return not (Randomat:IsEventActive("french") or Randomat:IsEventActive("pistols"))
+end
+
 function EVENT:GetConVars()
     local checkboxes = {}
 
