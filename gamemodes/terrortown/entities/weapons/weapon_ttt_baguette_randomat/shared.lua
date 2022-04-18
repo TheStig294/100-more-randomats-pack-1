@@ -33,6 +33,7 @@ SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Damage = 0
 SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "none"
+SWEP.Secondary.Delay = 5
 SWEP.Base = "weapon_tttbase"
 SWEP.Kind = WEAPON_MELEE
 SWEP.Slot = 0
@@ -76,6 +77,44 @@ function SWEP:PrimaryAttack()
         end
 
         self:SendWeaponAnim(ACT_VM_MISSCENTER)
+    end
+end
+
+-- Taken from "gamemodes/terrortown/entities/weapons/weapon_zm_improvised.lua"
+function SWEP:SecondaryAttack()
+    self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
+    self:SetNextSecondaryFire(CurTime() + 0.1)
+    local owner = self:GetOwner()
+
+    if owner.LagCompensation then
+        owner:LagCompensation(true)
+    end
+
+    local tr = owner:GetEyeTrace(MASK_SHOT)
+
+    if tr.Hit and IsPlayer(tr.Entity) and (owner:EyePos() - tr.HitPos):Length() < 100 then
+        local ply = tr.Entity
+
+        if SERVER and (not ply:IsFrozen()) then
+            local pushvel = tr.Normal * GetConVar("ttt_crowbar_pushforce"):GetFloat()
+            pushvel.z = math.Clamp(pushvel.z, 50, 100)
+            ply:SetVelocity(ply:GetVelocity() + pushvel)
+            owner:SetAnimation(PLAYER_ATTACK1)
+
+            ply.was_pushed = {
+                att = owner,
+                t = CurTime(),
+                wep = self:GetClass()
+            }
+        end
+
+        self:EmitSound(self.MissSound)
+        self:SendWeaponAnim(ACT_VM_HITCENTER)
+        self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
+    end
+
+    if owner.LagCompensation then
+        owner:LagCompensation(false)
     end
 end
 
