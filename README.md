@@ -22,11 +22,11 @@ _ttt_randomat_event_hint_ - Default: 1 - Whether the Randomat should print what 
 _ttt_randomat_event_hint_chat_ - Default: 1 - Whether hints should also be put in chat.\
 _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in history. Events in history will are ignored when searching for a random event to start.
 
-# Newly added randomats
+# Newly added/updated randomats
 
-1. Back to Basics - Strips everything back to base TTT
-2. Noir - Makes the look of the game like a 50's detective film
-3. Blegh - People make a 'Blegh' sound when they die
+1. Événement Aléatoire - A french themed randomat!
+2. Pistols at Dawn - The last players have a cinematic pistol showdown!
+3. Blegh - Make a 'Blegh' sound when you die, gives different "Sharky" playermodels
 
 # Randomats
 
@@ -268,7 +268,7 @@ Plays French themed background music.\
 _ttt_randomat_french_ - Default: 1 - Whether this randomat is enabled\
 _randomat_french_music_ - Default: 1 - Whether french themed music plays
 
-Chic Magnet by Dar Golan <https://www.youtube.com/watch?v=BVEC-cQodf0> \
+"Chic Magnet" by Dar Golan <https://www.youtube.com/watch?v=BVEC-cQodf0> \
 License: CC BY 3.0 <https://goo.gl/Yibru5>
 ## Everyone has their favourites
 
@@ -474,7 +474,7 @@ _ttt_randomat_noir_music_ - Default: 1 - Whether this randomat plays music
 The code that applies the black and white filter was originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)\
 \
 Credit for the copyright-free music used:\
-Deadly Roulette by Kevin MacLeod <https://incompetech.com/> \
+"Deadly Roulette" by Kevin MacLeod <https://incompetech.com/> \
 Promoted by MrSnooze <https://youtu.be/iYOvAO1rAM0> \
 License: CC BY 3.0 <https://goo.gl/Yibru5>
 
@@ -523,7 +523,7 @@ If innocents/traitors win, the winners have a free-for-all instead!\
 _ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled\
 \
 Credit for the copyright-free music used:\
-Rattlesnake Railroad by Brett Van Donsel <https://incompetech.com/> \
+"Rattlesnake Railroad" by Brett Van Donsel <https://incompetech.com/> \
 License: CC BY 4.0 <https://creativecommons.org/licenses/by/4.0> \
 YouTube Source: <https://www.youtube.com/watch?v=WizFTwM_J_8>
 
