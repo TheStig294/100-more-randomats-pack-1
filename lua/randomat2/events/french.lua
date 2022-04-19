@@ -106,10 +106,6 @@ function EVENT:End()
     end
 end
 
-function EVENT:Condition()
-    return not (Randomat:IsEventActive("noir") or Randomat:IsEventActive("pistols"))
-end
-
 function EVENT:GetConVars()
     local checkboxes = {}
 

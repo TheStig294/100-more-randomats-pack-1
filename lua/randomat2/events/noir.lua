@@ -21,7 +21,7 @@ EVENT.Categories = {"fun", "largeimpact", "item"}
 util.AddNetworkString("randomat_noir")
 util.AddNetworkString("randomat_noir_end")
 
-CreateConVar("randomat_noir_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
+local musicConvar = CreateConVar("randomat_noir_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
 
 function EVENT:Begin()
     noirRandomat = true
@@ -45,28 +45,14 @@ function EVENT:Begin()
         end)
     end
 
-    -- Apply black-and-white filter
+    -- Apply black-and-white filter and play music, if enabled
     net.Start("randomat_noir")
+    net.WriteBool(musicConvar:GetBool())
     net.Broadcast()
 
-    if GetConVar("randomat_noir_music"):GetBool() then
-        -- Disable round end sounds and 'Ending Flair' event so victory royale music can play
+    -- Disable round end sounds and 'Ending Flair' event so ending music can play
+    if musicConvar:GetBool() then
         DisableRoundEndSounds()
-
-        -- And play noir music, if enabled
-        for i = 1, 2 do
-            game.GetWorld():EmitSound("noir/deadly_roulette.mp3", 0)
-        end
-
-        timer.Create("NoirRandomatMusicLoop", 153, 0, function()
-            for i = 1, 2 do
-                game.GetWorld():StopSound("noir/deadly_roulette.mp3")
-            end
-
-            for i = 1, 2 do
-                game.GetWorld():EmitSound("noir/deadly_roulette.mp3", 0)
-            end
-        end)
     end
 end
 
@@ -74,26 +60,11 @@ function EVENT:End()
     -- Checking if the randomat has run before trying to remove the greyscale effect, else causes an error
     if noirRandomat then
         noirRandomat = false
-
-        -- Play the ending music if music is enabled
-        if GetConVar("randomat_noir_music"):GetBool() then
-            timer.Remove("NoirRandomatMusicLoop")
-
-            for i = 1, 2 do
-                game.GetWorld():StopSound("noir/deadly_roulette.mp3")
-                game.GetWorld():EmitSound("noir/deadly_roulette_end.mp3", 0)
-            end
-        end
-
         net.Start("randomat_noir_end")
         net.Broadcast()
     end
 
     EVENT.Title = ""
-end
-
-function EVENT:Condition()
-    return not (Randomat:IsEventActive("french") or Randomat:IsEventActive("pistols"))
 end
 
 function EVENT:GetConVars()

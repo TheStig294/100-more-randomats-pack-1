@@ -33,10 +33,6 @@ function EVENT:Begin()
         -- Initial trigger code runs once
         if triggerShowdown then
             if pistolsTriggerOnce == false then
-                for i = 1, 2 do
-                    game.GetWorld():EmitSound("pistols/rattlesnake_railroad.mp3", 0)
-                end
-
                 net.Start("PistolsPrepareShowdown")
                 net.Broadcast()
 
@@ -142,17 +138,8 @@ function EVENT:End()
         if triggerShowdown then
             timer.Remove("PistolsDrawHalos")
             timer.Remove("PistolsGivePistols")
-
-            for i = 1, 2 do
-                game.GetWorld():StopSound("pistols/rattlesnake_railroad.mp3")
-                game.GetWorld():EmitSound("pistols/rattlesnake_railroad_end.mp3", 0)
-            end
         end
     end
-end
-
-function EVENT:Condition()
-    return not (Randomat:IsEventActive("noir") or Randomat:IsEventActive("french"))
 end
 
 Randomat:register(EVENT)

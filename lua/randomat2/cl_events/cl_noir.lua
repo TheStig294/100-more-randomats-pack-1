@@ -1,6 +1,7 @@
 local color_tbl = {}
 local barFrame
 local barFrame2
+local music
 
 net.Receive("randomat_noir", function()
     -- Adds a near-black-and-white filter to the screen
@@ -53,9 +54,33 @@ net.Receive("randomat_noir", function()
     barFrame2.Paint = function(self, w, h)
         draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
     end
+
+    music = net.ReadBool()
+
+    if music then
+        for i = 1, 2 do
+            surface.PlaySound("noir/deadly_roulette.mp3")
+        end
+
+        timer.Create("NoirRandomatMusicLoop", 153, 0, function()
+            for i = 1, 2 do
+                surface.PlaySound("noir/deadly_roulette.mp3")
+            end
+        end)
+    end
 end)
 
 net.Receive("randomat_noir_end", function()
+    -- Plays the ending music
+    if music then
+        timer.Remove("NoirRandomatMusicLoop")
+        RunConsoleCommand("stopsound")
+
+        timer.Simple(0.1, function()
+            surface.PlaySound("noir/deadly_roulette_end.mp3")
+        end)
+    end
+
     -- Fades in colour and moves black bars off the screen over 3 seconds
     timer.Simple(4, function()
         timer.Create("NoirRandomatFadeIn", 0.01, 200, function()

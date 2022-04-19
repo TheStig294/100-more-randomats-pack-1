@@ -11,6 +11,8 @@ EVENT.id = "bleghsound"
 
 EVENT.Categories = {"deathtrigger", "smallimpact", "biased_innocent", "biased"}
 
+util.AddNetworkString("BleghRandomatSound")
+
 function EVENT:Begin()
     -- Plays a randoman blegh sound whenever someone dies
     local bleghSounds = {"bleghsound/blegh1.mp3", "bleghsound/blegh2.mp3", "bleghsound/blegh3.mp3", "bleghsound/blegh4.mp3", "bleghsound/blegh5.mp3", "bleghsound/blegh6.mp3", "bleghsound/blegh7.mp3"}
@@ -19,10 +21,9 @@ function EVENT:Begin()
         -- Silence the usual death noise
         dmginfo:SetDamageType(DMG_SLASH)
         local deathSound = bleghSounds[math.random(1, #bleghSounds)]
-
-        for i = 1, 3 do
-            game.GetWorld():EmitSound(deathSound, 0)
-        end
+        net.Start("BleghRandomatSound")
+        net.WriteString(deathSound)
+        net.Broadcast()
     end)
 
     if util.IsValidModel(plushSharkModel) then

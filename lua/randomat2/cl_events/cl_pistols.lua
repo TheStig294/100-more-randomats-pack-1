@@ -64,6 +64,10 @@ net.Receive("PistolsPrepareShowdown", function()
         barFrame:SetHeight(height + 1)
         barFrame2:SetY(barFrame2:GetY() - 1)
     end)
+
+    for i = 1, 2 do
+        surface.PlaySound("pistols/rattlesnake_railroad.mp3")
+    end
 end)
 
 net.Receive("PistolsBeginShowdown", function()
@@ -106,6 +110,11 @@ end)
 net.Receive("PistolsEndEvent", function()
     hook.Remove("PreDrawHalos", "PistolsRandomatHalos")
     hook.Remove("TTTScoringWinTitle", "RandomatPistolsWinTitle")
+    RunConsoleCommand("stopsound")
+
+    timer.Simple(0.1, function()
+        surface.PlaySound("pistols/rattlesnake_railroad_end.mp3")
+    end)
 
     -- Fades in colour and moves black bars off the screen over 3 seconds
     timer.Simple(4, function()
