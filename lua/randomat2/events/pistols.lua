@@ -23,6 +23,7 @@ function EVENT:Begin()
     -- Transform all jesters/independents to innocents so we know there can only be an innocent or traitor win
     for i, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsJesterTeam(ply) or Randomat:IsIndependentTeam(ply) then
+            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
         end
     end
