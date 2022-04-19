@@ -8,7 +8,7 @@ EVENT.Type = EVENT_TYPE_MUSIC
 
 EVENT.Categories = {"fun", "smallimpact"}
 
-CreateConVar("randomat_french_music", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether music should play", 0, 1)
+local musicConvar = CreateConVar("randomat_french_music", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether music should play", 0, 1)
 
 util.AddNetworkString("FrenchRandomatBegin")
 util.AddNetworkString("FrenchRandomatEnd")
@@ -17,6 +17,7 @@ local eventRun = false
 function EVENT:Begin()
     eventRun = true
     net.Start("FrenchRandomatBegin")
+    net.WriteBool(musicConvar:GetBool())
     net.Broadcast()
 
     -- Changes the centre screen alerts of some role from CR, if CR is installed
@@ -64,6 +65,11 @@ function EVENT:Begin()
         end)
     end
 
+    -- Disable round end sounds and 'Ending Flair' event so ending music can play
+    if musicConvar:GetBool() then
+        DisableRoundEndSounds()
+    end
+
     -- Gives anyone that respawns the baguette again
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
@@ -78,18 +84,6 @@ function EVENT:Begin()
         dmginfo:SetDamageType(DMG_SLASH) -- Slashing damage mutes the normal death sound
         sound.Play("french/death" .. math.random(1, 6) .. ".mp3", ply:GetPos(), 0, 100, 1)
     end)
-
-    -- Plays French-themed music if enabled
-    if GetConVar("randomat_french_music"):GetBool() then
-        -- Disable round end sounds and 'Ending Flair' event so ending music can play
-        DisableRoundEndSounds()
-        game.GetWorld():EmitSound("french/chic_magnet.mp3", 0)
-
-        timer.Create("FrenchRandomatMusicLoop", 61.7, 0, function()
-            game.GetWorld():StopSound("french/chic_magnet.mp3")
-            game.GetWorld():EmitSound("french/chic_magnet.mp3", 0)
-        end)
-    end
 
     -- If we're switching from a TFA weapon to the disguiser while it's running, JUST DO IT!
     -- The holster animation causes a delay where the client is not allowed to switch weapons
@@ -107,34 +101,8 @@ end
 function EVENT:End()
     if eventRun then
         eventRun = false
-        local endingTimer
-
-        -- Play the ending music if music is enabled
-        if GetConVar("randomat_french_music"):GetBool() then
-            timer.Remove("FrenchRandomatMusicStart")
-            timer.Remove("FrenchRandomatMusicLoop")
-            game.GetWorld():StopSound("french/chic_magnet.mp3")
-            game.GetWorld():EmitSound("french/chic_magnet_end.mp3", 0)
-            endingTimer = 9
-        else
-            endingTimer = 0
-        end
-
         net.Start("FrenchRandomatEnd")
-        net.WriteInt(endingTimer, 8)
         net.Broadcast()
-
-        timer.Simple(endingTimer, function()
-            for _, ent in ipairs(ents.FindByClass("weapon_ttt_baguette_randomat")) do
-                ent:Remove()
-            end
-
-            timer.Simple(0.1, function()
-                for _, ply in ipairs(self:GetAlivePlayers()) do
-                    ply:Give("weapon_zm_improvised")
-                end
-            end)
-        end)
     end
 end
 

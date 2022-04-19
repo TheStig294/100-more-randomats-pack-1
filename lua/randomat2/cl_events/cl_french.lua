@@ -3,6 +3,7 @@ local roleStringsExtOrig = {}
 local roleStringsPluralOrig = {}
 local customPassiveItemsOrig = {}
 local flagPanelFrame
+local music
 
 net.Receive("FrenchRandomatBegin", function()
     -- Renaming weapons with TTT language support
@@ -1377,10 +1378,19 @@ net.Receive("FrenchRandomatBegin", function()
         draw.RoundedBox(0, w * 1 / 3, 0, w * 1 / 3, h, Color(255, 255, 255, 10))
         draw.RoundedBox(0, w * 2 / 3, 0, w * 1 / 3, h, Color(237, 40, 57, 10))
     end
+
+    music = net.ReadBool()
+
+    if music then
+        surface.PlaySound("french/chic_magnet.mp3")
+
+        timer.Create("FrenchRandomatMusicLoop", 61.7, 0, function()
+            surface.PlaySound("french/chic_magnet.mp3")
+        end)
+    end
 end)
 
 net.Receive("FrenchRandomatEnd", function()
-    local endingTimer = net.ReadInt(8)
     RunConsoleCommand("ttt_language", "auto")
     -- Resets the names of roles
     ROLE_STRINGS = roleStringsOrig
@@ -1423,8 +1433,21 @@ net.Receive("FrenchRandomatEnd", function()
     end
 
     RunConsoleCommand("ttt_reset_weapons_cache")
+    -- Plays the ending music
+    local endingTimer = 0
 
-    -- Remove the French flag overlay
+    if music then
+        timer.Remove("FrenchRandomatMusicLoop")
+        RunConsoleCommand("stopsound")
+        endingTimer = 9
+
+        timer.Simple(0.1, function()
+            surface.PlaySound("french/chic_magnet_end.mp3")
+        end)
+    end
+
+    -- Remove the French flag overlay,
+    -- if music is playing, in time with the music ending
     timer.Simple(endingTimer, function()
         if flagPanelFrame ~= nil then
             flagPanelFrame:Close()
