@@ -52,6 +52,15 @@ function EVENT:Begin()
 
         self:SelectLeader()
 
+        for _, ply in ipairs(self:GetAlivePlayers()) do
+            for _, wep in ipairs(ply:GetWeapons()) do
+                if wep.Kind and wep.Kind == WEAPON_ROLE then
+                    ply:ChatPrint("You can use role weapons regardless of what the chosen player is holding")
+                    break
+                end
+            end
+        end
+
         -- Forces everyone else to hold what the leader is holding 
         timer.Create("SimonSaysCopyGuns", 0.1, 0, function()
             self:CopyGuns()
@@ -186,6 +195,18 @@ function EVENT:SelectLeader()
     -- Let everyone know there is a new leader, unless they're a zombie as they'll soon not be the leader anymore
     if self.leader:GetRole() ~= ROLE_ZOMBIE then
         self:SmallNotify("You can only use the weapon " .. self.leader:Nick() .. " is using.")
+
+        for _, wep in ipairs(self.leader:GetWeapons()) do
+            if wep.Kind and wep.Kind == WEAPON_ROLE then
+                local leader = self.leader
+
+                timer.Simple(1, function()
+                    leader:ChatPrint("No-one will get your role weapon(s)")
+                end)
+
+                break
+            end
+        end
     end
 end
 
