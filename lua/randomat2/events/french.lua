@@ -6,7 +6,7 @@ EVENT.ExtDescription = "Changes most of the game to French"
 EVENT.id = "french"
 EVENT.Type = EVENT_TYPE_MUSIC
 
-EVENT.Categories = {"fun", "smallimpact"}
+EVENT.Categories = {"fun", "moderateimpact"}
 
 local musicConvar = CreateConVar("randomat_french_music", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether music should play", 0, 1)
 
