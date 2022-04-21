@@ -5,6 +5,8 @@ EVENT.id = "ghosting"
 
 EVENT.Categories = {"spectator", "fun", "biased_innocent", "biased", "moderateimpact"}
 
+CreateConVar("randomat_ghosting_stay_upright", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether ghosts should stay upright when looking up/down", 0, 1)
+
 local ghostents = {}
 local eventActive = false
 
@@ -71,7 +73,12 @@ function EVENT:Begin()
             if IsValid(ghostent) then
                 local pos = ply:GetPos()
                 ghostent:SetPos(pos)
-                ghostent:SetAngles(ply:GetAngles())
+
+                if GetConVar("randomat_ghosting_stay_upright"):GetBool() then
+                    ghostent:SetAngles(ply:GetAngles())
+                else
+                    ghostent:SetAngles(ply:EyeAngles())
+                end
             end
         end
     end)
@@ -101,6 +108,28 @@ function EVENT:End()
     end
 
     table.Empty(ghostents)
+end
+
+function EVENT:GetConVars()
+    local checkboxes = {}
+
+    for _, v in pairs({"stay_upright"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checkboxes, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 0
+            })
+        end
+    end
+
+    return {}, checkboxes
 end
 
 Randomat:register(EVENT)

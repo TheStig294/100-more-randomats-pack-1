@@ -612,7 +612,8 @@ _randomat_speedrun_time_ - Default: 60 - Time in seconds the round will last
 
 Ghostly t-posing models follow spectators\
 \
-_ttt_randomat_ghosting_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_ghosting_ - Default: 1 - Whether this randomat is enabled\
+_randomat_ghosting_stay_upright_ - Default: 0 - Whether ghosts should stay upright when looking up/down
 
 Changed name from "There are ghosts around", converted to work with randomat 2.0 rather than TTT2,\
 fixed major bug that would prevent the round from being manually restarted on any map this event activated on.\
