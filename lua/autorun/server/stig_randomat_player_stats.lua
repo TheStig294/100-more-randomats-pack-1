@@ -52,6 +52,8 @@ end
 
 -- Keeps track of the number of times any player has bought any one buy menu item
 hook.Add("TTTOrderedEquipment", "RandomatStatsOrderedEquipment", function(ply, equipment, is_item)
+    if GetGlobalBool("DisableRandomatStats") then return end
+
     -- Don't record bought items during randomats that rely on this stat, else 
     -- everyone's most bought items will be self-perpetuating
     for _, event in ipairs(boughtItemEvents) do
@@ -103,6 +105,7 @@ end)
 
 -- Record player wins at the end of each round
 hook.Add("TTTEndRound", "RandomatStatsRoundWinners", function(winType)
+    if GetGlobalBool("DisableRandomatStats") then return end
     local traitors = {}
 
     for _, ply in ipairs(player.GetAll()) do
@@ -154,6 +157,7 @@ end)
 
 -- Record all stats in the stats file when server shuts down/changes maps
 hook.Add("ShutDown", "RecordStigRandomatStats", function()
+    if GetGlobalBool("DisableRandomatStats") then return end
     fileContent = util.TableToJSON(randomatPlayerStats, true)
     file.Write("randomat/playerstats.txt", fileContent)
 end)
