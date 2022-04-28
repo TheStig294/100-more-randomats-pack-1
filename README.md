@@ -56,6 +56,12 @@ _randomat_speedjumphealth_multiplier_ - Default: 50 - Percent multiplier to stat
 
 Originally made by [HagenSNKL](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819)
 
+## A randomat will trigger when someone dies!
+
+Does what it says on the tin.\
+\
+_ttt_randomat_deathrandomat_ - Default: 1 - Whether this randomat is enabled
+
 ## BAWK!
 
 Turns everyone's models into chickens, corpses disappear on death, a set amount of health, and everyone makes chicken noises.\
