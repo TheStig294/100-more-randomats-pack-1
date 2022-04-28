@@ -640,6 +640,12 @@ _ttt_randomat_deathmatch_ - Default: 1 - Whether this randomat is enabled
 Changed name from "Random Team Deathmatch", fixed randomat registration bug\
 Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/?id=1394919304)
 
+## The Bucket
+
+Spawns a bucket somewhere on the map that kills anyone it touches...\
+\
+_ttt_randomat_bucket_ - Default: 1 - Whether this randomat is enabled
+
 ## Unbelievable Guilt
 
 If you kill a player on your team, your head will be forced down for a few seconds.\
