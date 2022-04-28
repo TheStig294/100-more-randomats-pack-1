@@ -24,9 +24,9 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
-1. Événement Aléatoire - A french themed randomat!
-2. Pistols at Dawn - The last players have a cinematic pistol showdown!
-3. Blegh - Make a 'Blegh' sound when you die, gives different "Sharky" playermodels
+1. Fastest Finger - 1st person to type a randomat's name triggers it!
+2. Événement Aléatoire - A french themed randomat!
+3. Pistols at Dawn - The last players have a cinematic pistol showdown!
 
 # Randomats
 
@@ -297,6 +297,12 @@ _randomat_explosivespectate_damage_ - Default: 100 - Explosion magnitude, scales
 
 Changed name from "Pyro-possession - middle click to go boom!", updated to work with randomat 2.0\
 Originally made by [Arch](https://steamcommunity.com/sharedfiles/filedetails/?id=1461821324)
+
+## Fastest finger
+
+1st person to type a randomat's name in chat triggers it!\
+\
+_ttt_randomat_fastestfinger_ - Default: 1 - Whether this randomat is enabled\
 
 ## Freeze
 
