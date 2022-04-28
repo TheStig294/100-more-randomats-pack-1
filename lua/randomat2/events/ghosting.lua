@@ -16,6 +16,12 @@ local function SpawnGhost(ply)
     ghostents[ply:Nick()] = ents.Create("npc_kleiner")
     local ghostent = ghostents[ply:Nick()]
     ghostent:SetModel(ply:GetModel())
+    ghostent:SetSkin(ply:GetSkin())
+
+    for _, value in pairs(ply:GetBodyGroups()) do
+        ghostent:SetBodygroup(value.id, ply:GetBodygroup(value.id))
+    end
+
     -- Spawn it on the player
     ghostent:SetPos(ply:GetPos())
     ghostent:Spawn()

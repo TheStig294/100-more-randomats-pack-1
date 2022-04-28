@@ -49,12 +49,8 @@ function EVENT:Begin()
                 local corpse = findcorpse(ply) -- run the normal respawn code now
                 ply:SpawnForRound(true)
                 ply:SetRole(attacker:GetRole()) -- Give player role of their attacker
+                self:StripRoleWeapons(ply)
                 ply:SetHealth(100) -- Return to full health
-
-                -- Give/take credits if needed
-                timer.Simple(0.5, function()
-                    ply:SetDefaultCredits()
-                end)
 
                 -- Remove their corpse
                 if corpse then

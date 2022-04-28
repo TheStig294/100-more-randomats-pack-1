@@ -30,6 +30,31 @@ function EVENT:Begin()
         SetGlobalFloat("ttt_round_end", CurTime() + time)
     end
 
+    -- Plays the TF2 announcer voice as the time runs out
+    -- Play an initial voice-over as the timer below won't activate until after a second
+    if time == 120 then
+        BroadcastLua("surface.PlaySound(\"speedrun/2mins.mp3\")")
+    elseif time == 60 then
+        BroadcastLua("surface.PlaySound(\"speedrun/60sec.mp3\")")
+    elseif time == 30 then
+        BroadcastLua("surface.PlaySound(\"speedrun/30sec.mp3\")")
+    end
+
+    timer.Create("SpeedrunRandomatAnnouncerTimer", 1, time, function()
+        if timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 120 then
+            BroadcastLua("surface.PlaySound(\"speedrun/2mins.mp3\")")
+        elseif timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 60 then
+            BroadcastLua("surface.PlaySound(\"speedrun/60sec.mp3\")")
+        elseif timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 30 then
+            BroadcastLua("surface.PlaySound(\"speedrun/30sec.mp3\")")
+        elseif timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 20 then
+            BroadcastLua("surface.PlaySound(\"speedrun/20sec.mp3\")")
+        elseif timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 10 then
+            BroadcastLua("surface.PlaySound(\"speedrun/10sec.mp3\")")
+        end
+    end)
+
+    -- Boba playermodel easter egg
     if modelExists then
         for i, ply in ipairs(self:GetAlivePlayers()) do
             if ply:GetModel() == "models/bna/michiru.mdl" or ply:Nick() == "boba" then
@@ -50,13 +75,15 @@ end
 
 function EVENT:End()
     if speedrunRandomat then
+        speedrunRandomat = false
+
         if hasteMode then
             GetConVar("ttt_haste"):SetBool(true)
             GetConVar("ttt_haste_minutes_per_death"):SetFloat(hasteMinutes)
         end
 
+        timer.Remove("SpeedrunRandomatAnnouncerTimer")
         -- Prevent the end function from being run until this randomat triggers again
-        speedrunRandomat = false
         ForceResetAllPlayermodels()
     end
 end
