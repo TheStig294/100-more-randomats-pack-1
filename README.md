@@ -24,9 +24,9 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
-1. Fastest Finger - 1st person to type a randomat's name triggers it!
-2. Événement Aléatoire - A french themed randomat!
-3. Pistols at Dawn - The last players have a cinematic pistol showdown!
+1. Gun Game 3.0 - Periodically gives everyone buyable items!
+2. A randomat will trigger when someone dies!
+3. Fastest Finger - 1st person to type a randomat's name triggers it!
 
 # Randomats
 
@@ -366,6 +366,16 @@ When someone dies, gives everyone a new gun.\
 _ttt_randomat_gungame2_ - Default: 1 - Whether this randomat is enabled
 
 Changed name from Gun Game, as base Randomat 2.0 already has a randomat with this name, added support for modded guns\
+Originally made by [Dem](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)
+
+## Gun Game 3.0
+
+Periodically gives players random buyable weapons. Players can't use normal guns.\
+\
+_ttt_randomat_gungame3_ - Default: 1 - Whether this randomat is enabled\
+_randomat_gungame3_ - Default: 5 - Seconds between weapon changes
+
+Changed name from Gun Game, as base Randomat 2.0 already has a randomat with this name, changed the kind of weapons given\
 Originally made by [Dem](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)
 
 ## Gunfire
