@@ -10,16 +10,8 @@ function EVENT:Begin()
     local randomatNames = {}
 
     for id, event in pairs(Randomat.Events) do
-        local title
-
-        if event.Title and event.Title ~= "" then
-            title = event.Title
-        elseif event.AltTitle and event.AltTitle ~= "" then
-            title = event.AltTitle
-        else
-            continue
-        end
-
+        local title = Randomat:GetEventTitle(event)
+        if title == "" then continue end
         title = string.lower(title)
         randomatNames[event.id] = title
     end
