@@ -25,7 +25,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 # Newly added/updated randomats
 
 1. Gun Game 3.0 - Periodically gives everyone buyable items!
-2. A randomat will trigger when someone dies!
+2. Deathly Chaos - Triggers a randomat when someone dies
 3. Fastest Finger - 1st person to type a randomat's name triggers it!
 
 # Randomats
@@ -55,12 +55,6 @@ _ttt_randomat_speedjumphealth_ - Default: 1 - Whether this randomat is enabled\
 _randomat_speedjumphealth_multiplier_ - Default: 50 - Percent multiplier to stats
 
 Originally made by [HagenSNKL](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819)
-
-## A randomat will trigger when someone dies!
-
-Does what it says on the tin.\
-\
-_ttt_randomat_deathrandomat_ - Default: 1 - Whether this randomat is enabled
 
 ## BAWK!
 
@@ -202,6 +196,12 @@ Triggers a random randomat after a minute.\
 \
 _ttt_randomat_delay_ - Default: 1 - Whether this randomat is enabled\
 _randomat_delay_time_ - Default: 60 - Seconds before randomat is triggered
+
+## Deathly Chaos
+
+When someone dies for the first time after this event triggers, a random event triggers!\
+\
+_ttt_randomat_deathlychaos_ - Default: 1 - Whether this randomat is enabled
 
 ## Don't Miss...
 
