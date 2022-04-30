@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Deathly Chaos"
-EVENT.Description = "The first time you die after this triggers, a randomat starts!"
+EVENT.Description = "The next time you die, a randomat triggers!"
 EVENT.id = "deathlychaos"
 
 EVENT.Categories = {"eventtrigger", "deathtrigger", "largeimpact"}
