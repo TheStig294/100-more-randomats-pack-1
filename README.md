@@ -24,9 +24,9 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
-1. Gun Game 3.0 - Periodically gives everyone buyable items!
-2. Deathly Chaos - Triggers a randomat when someone dies
-3. Fastest Finger - 1st person to type a randomat's name triggers it!
+1. Don't Get Greedy... - Get buyable items over time, but you die if you already have one!
+2. Gun Game 3.0 - Periodically gives everyone buyable items!
+3. Deathly Chaos - Triggers a randomat when someone dies
 
 # Randomats
 
@@ -210,6 +210,14 @@ If you miss a shot, you take damage, but if you hit, then you gain health. Every
 _ttt_randomat_dontmiss_ - Default: 1 - Whether this randomat is enabled\
 _randomat_dontmiss_damage_ - Default: 5 - Damage dealt for missing\
 _randomat_dontmiss_heal_ - Default: 5 - Health gained for healing
+
+## Don't Get Greedy...
+
+Everyone gets buyable items over time, but if they're already holding one, they die!\
+\
+_ttt_randomat_greedy_ - Default: 1 - Whether this randomat is enabled\
+_randomat_greedy_timer_min_ - Default: 10 - Min seconds before a weapon tries to be given\
+_randomat_greedy_timer_max_ - Default: 60 - Max seconds before a weapon tries to be given
 
 ## Don’t RDM...
 
