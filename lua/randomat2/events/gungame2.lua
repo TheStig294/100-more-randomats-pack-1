@@ -22,7 +22,7 @@ local function GiveNewWeapon(ply)
 
     -- Remove their pistol and main gun
     for _, wep in ipairs(ply:GetWeapons()) do
-        if IsValid(wep) and wep.Kind and (wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL) then
+        if IsValid(wep) and wep.Kind and (wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL) and wep.Primary and wep.Primary.ClipSize and wep.Primary.ClipSize >= 5 then
             local classname = WEPS.GetClass(wep)
 
             if classname then
