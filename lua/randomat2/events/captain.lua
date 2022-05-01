@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "I'm The Captain Now."
-EVENT.Description = "If the detective RDMs, they swap roles and weapons with the victim, and the detective dies instead"
+EVENT.Description = "If the detective RDMs, the victim becomes the new detective!"
 EVENT.id = "captain"
 EVENT.Type = EVENT_TYPE_RESPAWN
 
