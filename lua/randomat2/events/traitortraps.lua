@@ -11,4 +11,12 @@ function EVENT:Begin()
     end
 end
 
+function EVENT:Condition()
+    for _, ply in ipairs(player.GetAll()) do
+        if ROLE_TRICKSTER and ply:GetRole() == ROLE_TRICKSTER then return false end
+    end
+
+    return true
+end
+
 Randomat:register(EVENT)
