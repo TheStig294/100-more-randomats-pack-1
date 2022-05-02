@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Don't Get Greedy..."
-EVENT.Description = "Everyone gets buyable items over time..."
+EVENT.Description = "At random points in time, you get a buyable item or..."
 EVENT.id = "greedy"
 
 EVENT.Categories = {"biased_innocent", "biased", "item", "largeimpact"}
@@ -9,12 +9,36 @@ CreateConVar("randomat_greedy_timer_min", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Mi
 
 CreateConVar("randomat_greedy_timer_max", 60, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Max seconds before a weapon tries to be given", 1, 120)
 
+local droppableWeapons = {}
+
+local function CreateTimer(ply)
+    local time = math.random(GetConVar("randomat_greedy_timer_min"):GetInt(), GetConVar("randomat_greedy_timer_max"):GetInt())
+
+    timer.Create("GreedyRandomatTimer" .. ply:SteamID64(), time, 0, function()
+        local hadItem = false
+
+        for _, wep in ipairs(ply:GetWeapons()) do
+            if wep.Kind and wep.Kind >= WEAPON_EQUIP and wep.Kind ~= WEAPON_ROLE then
+                ply:Kill()
+                EVENT:SmallNotify(ply:Nick() .. " got too greedy!")
+                hadItem = true
+            end
+        end
+
+        if not hadItem then
+            local weapon = droppableWeapons[math.random(1, #droppableWeapons)]
+            ply:Give(weapon.ClassName)
+            ply:PrintMessage(HUD_PRINTCENTER, "You received an item!")
+            ply:PrintMessage(HUD_PRINTTALK, "You received an item!")
+        end
+    end)
+end
+
 function EVENT:Begin()
     timer.Simple(5, function()
-        self:SmallNotify("...but if you're already holding one, you die!")
+        self:SmallNotify("...if you already have one, you die instead!")
+        PrintMessage(HUD_PRINTTALK, "...if you already have one, you die instead!")
     end)
-
-    local droppableWeapons = {}
 
     for _, wep in ipairs(weapons.GetList()) do
         if wep.AllowDrop and wep.Kind and wep.Kind >= WEAPON_EQUIP and wep.Kind ~= WEAPON_ROLE then
@@ -22,36 +46,22 @@ function EVENT:Begin()
         end
     end
 
-    timer.Create("GreedyRandomatCreateTimers", 1, 0, function()
-        for _, ply in ipairs(self:GetAlivePlayers()) do
-            if timer.Exists("GreedyRandomatTimer" .. ply:SteamID64()) then continue end
-            local time = math.random(GetConVar("randomat_greedy_timer_min"):GetInt(), GetConVar("randomat_greedy_timer_max"):GetInt())
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        CreateTimer(ply)
+    end
 
-            timer.Create("GreedyRandomatTimer" .. ply:SteamID64(), time, 1, function()
-                for _, wep in ipairs(ply:GetWeapons()) do
-                    if wep.Kind and wep.Kind >= WEAPON_EQUIP and wep.Kind ~= WEAPON_ROLE then
-                        ply:Kill()
-                        self:SmallNotify(ply:Nick() .. " got too greedy!")
-                    else
-                        local weapon = droppableWeapons[math.random(1, #droppableWeapons)]
-                        ply:Give(weapon.ClassName)
-                        ply:PrintMessage(HUD_PRINTCENTER, "You received an item!")
-                    end
-                end
-            end)
-        end
+    -- If a player dies and respawns, reset their timer
+    self:AddHook("PlayerSpawn", function(ply)
+        CreateTimer(ply)
     end)
 end
 
 function EVENT:End()
     for _, ply in ipairs(player.GetAll()) do
-        timer.Remove("GreedyRandomatCreateTimers")
         timer.Remove("GreedyRandomatTimer" .. ply:SteamID64())
     end
-end
 
-function EVENT:Condition()
-    return false
+    table.Empty(droppableWeapons)
 end
 
 function EVENT:GetConVars()
