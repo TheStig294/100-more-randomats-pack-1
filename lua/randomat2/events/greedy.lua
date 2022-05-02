@@ -50,6 +50,10 @@ function EVENT:End()
     end
 end
 
+function EVENT:Condition()
+    return false
+end
+
 function EVENT:GetConVars()
     local sliders = {}
 
