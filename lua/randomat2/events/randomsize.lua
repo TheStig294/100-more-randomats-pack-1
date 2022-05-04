@@ -17,6 +17,10 @@ function EVENT:SetPlayerSize(randomSize, ply)
     ply:SetModelScale(1 * randomSize, 1)
     ply:SetViewOffset(Vector(0, 0, 64 * randomSize))
     ply:SetViewOffsetDucked(Vector(0, 0, 28 * randomSize))
+    local a, b = ply:GetHull()
+    ply:SetHull(a * randomSize, b * randomSize)
+    a, b = ply:GetHullDuck()
+    ply:SetHullDuck(a * randomSize, b * randomSize)
     ply:SetHealth(ply:Health() * randomSize)
     ply:SetGravity(randomSize)
     ply:SetStepSize(ply:GetStepSize() * randomSize)
@@ -56,6 +60,7 @@ function EVENT:ResetPlayerSize(ply)
     end
 
     -- Reset their model size, ability to jump, hitbox and step size
+    ply:ResetHull()
     ply:SetModelScale(1, 1)
     ply:SetGravity(1)
     ply:SetStepSize(18)
