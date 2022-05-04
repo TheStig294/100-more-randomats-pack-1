@@ -189,6 +189,11 @@ When someone dies, everyone is told what their role was\
 _ttt_randomat_nolies_ - Default: 1 - Whether this randomat is enabled\
 \
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
+## Deathly Chaos
+
+When someone dies for the first time after this event triggers, a random event triggers!\
+\
+_ttt_randomat_deathlychaos_ - Default: 1 - Whether this randomat is enabled
 
 ## Delayed Start
 
@@ -196,12 +201,11 @@ Triggers a random randomat after a minute.\
 \
 _ttt_randomat_delay_ - Default: 1 - Whether this randomat is enabled\
 _randomat_delay_time_ - Default: 60 - Seconds before randomat is triggered
+## Deflation
 
-## Deathly Chaos
-
-When someone dies for the first time after this event triggers, a random event triggers!\
+Players shrink as they take damage, and grow as they gain health\
 \
-_ttt_randomat_deathlychaos_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_deflation_ - Default: 1 - Whether this randomat is enabled\
 
 ## Don't Miss...
 
