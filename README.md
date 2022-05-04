@@ -291,6 +291,16 @@ Gives everyone their 2 most bought items\
 _ttt_randomat_favourites_ - Default: 1 - Whether this randomat is enabled\
 _randomat_favourites_given_items_count_ - Default: 2 - How many most bought items to give out
 
+## Everyone swaps roles and weapons in 60 seconds! (a.k.a. Role Shuffle!)
+
+Swaps everyone's roles, weapons and credits around, by default 60 seconds after this randomat triggers.\
+\
+_ttt_randomat_roleshuffle_ - Default: 1 - Whether this randomat is enabled\
+_randomat_roleshuffle_time_ - Default: 60 - How long in seconds until roles are shuffled
+
+Changed name from "ROLE SHUFFLE!", fixed randomat registration bug and role weapons not being removed, added a delay of 60 seconds before it's triggered, added a notification to when the roles are shuffled.\
+Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/?id=1394919304)
+
 ## Everyone with a karma damage penalty will explode in ... seconds!
 
 Explodes all players with a damage penalty from karma, a set amount of seconds after activation.\
@@ -556,6 +566,12 @@ Credit for the copyright-free music used:\
 "Rattlesnake Railroad" by Brett Van Donsel <https://incompetech.com/> \
 License: CC BY 4.0 <https://creativecommons.org/licenses/by/4.0> \
 YouTube Source: <https://www.youtube.com/watch?v=WizFTwM_J_8>
+## Press E to ping
+
+Whenever a player presses E, a "!" can be seen where they were looking for everyone, for 10 seconds.\
+If they were looking at an entity, such as a player or weapon, it will be highlighted for everyone.\
+\
+_ttt_randomat_ping_ - Default: 1 - Whether this randomat is enabled\
 
 ## Random jump height for everyone!
 
@@ -597,16 +613,6 @@ Announces a random player's role every 60 seconds\
 \
 _ttt_randomat_rolecall_ - Default: 1 - Whether this randomat is enabled\
 _randomat_rolecall_time_ - Default: 60 - Time between role announcements
-
-## Everyone swaps roles and weapons in 60 seconds! (a.k.a. Role Shuffle!)
-
-Swaps everyone's roles, weapons and credits around, by default 60 seconds after this randomat triggers.\
-\
-_ttt_randomat_roleshuffle_ - Default: 1 - Whether this randomat is enabled\
-_randomat_roleshuffle_time_ - Default: 60 - How long in seconds until roles are shuffled
-
-Changed name from "ROLE SHUFFLE!", fixed randomat registration bug and role weapons not being removed, added a delay of 60 seconds before it's triggered, added a notification to when the roles are shuffled.\
-Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/?id=1394919304)
 
 ## Sahmin
 
