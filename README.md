@@ -695,6 +695,16 @@ _ttt_randomat_unconventional_ - Default: 1 - Whether this randomat is enabled
 Changed name from "Pyromaniac - fire heals!", added fall and fire damage to heal, fixed major bug with incendiary damage healing\
 Originally made by [Arch](https://steamcommunity.com/sharedfiles/filedetails/?id=1461821324)
 
+## Unrealistic Recoil
+
+Shooting strongly pushes you forwards. Looking up and shooting pushes you into the air.\
+\
+_ttt_randomat_recoil2_ - Default: 1 - Whether this randomat is enabled\
+_randomat_recoil2_max_ - Default: 15 - Maximum Magnitude a gun can change someone's velocity by.\
+_randomat_recoil2_mul_ - Default: 6 - Recoil velocity multiplier
+
+Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
+
 ## What did WE find in our pockets?
 
 Gives everyone the same random buyable weapon\
