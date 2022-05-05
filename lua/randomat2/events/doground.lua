@@ -8,20 +8,21 @@ EVENT.Categories = {"biased_traitor", "biased", "entityspawn", "largeimpact"}
 local fogDist = CreateConVar("randomat_doground_fogdist", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The fog distance scale for non-traitors", 0.2, 5)
 
 util.AddNetworkString("DogRoundRandomatBegin")
-util.AddNetworkString("DogRoundRandomatSpawnZombie")
+util.AddNetworkString("DogRoundRandomatPlaySound")
 util.AddNetworkString("DogRoundRandomatEnd")
 local zombieSpawns = {}
 
 function EVENT:SpawnZombie(spawnCount)
     -- Plays the lightning sound effect on all clients
-    net.Start("DogRoundRandomatSpawnZombie")
+    net.Start("DogRoundRandomatPlaySound")
+    net.WriteString("doground/spawn.mp3")
     net.Broadcast()
 
     timer.Simple(1.577, function()
         local pos = zombieSpawns[spawnCount] + Vector(0, 10, 0)
         local lightningEffect = EffectData()
         lightningEffect:SetOrigin(pos)
-        util.Effect("HelicopterMegaBomb", lightningEffect, true, true)
+        util.Effect("ManhackSparks", lightningEffect, true, true)
         util.ScreenShake(zombieSpawns[spawnCount], 30, 100, 0.5, 5000)
 
         timer.Simple(0.2, function()
@@ -89,6 +90,18 @@ function EVENT:Begin()
             self:SpawnZombie(spawnCount)
             spawnCount = spawnCount + 1
         end)
+    end)
+
+    self:AddHook("PostEntityTakeDamage", function(ent, dmg, took)
+        if IsValid(ent) and ent:GetClass() == "npc_fastzombie" and ent:Health() <= 0 then
+            local effect = EffectData()
+            effect:SetOrigin(ent:GetPos())
+            util.Effect("HelicopterMegaBomb", effect, true, true)
+            ent:Remove()
+            net.Start("DogRoundRandomatPlaySound")
+            net.WriteString("doground/death" .. math.random(1, 3) .. ".mp3")
+            net.Broadcast()
+        end
     end)
 end
 

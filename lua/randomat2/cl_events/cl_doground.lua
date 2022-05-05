@@ -32,8 +32,9 @@ net.Receive("DogRoundRandomatBegin", function()
     end)
 end)
 
-net.Receive("DogRoundRandomatSpawnZombie", function()
-    surface.PlaySound("doground/spawn.mp3")
+net.Receive("DogRoundRandomatPlaySound", function()
+    local playedSound = net.ReadString()
+    surface.PlaySound(playedSound)
 end)
 
 net.Receive("DogRoundRandomatEnd", function()
