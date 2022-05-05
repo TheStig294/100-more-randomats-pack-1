@@ -5,7 +5,7 @@ EVENT.id = "doground"
 
 EVENT.Categories = {"biased_traitor", "biased", "entityspawn", "largeimpact"}
 
-local fogDist = CreateConVar("randomat_doground_fogdist", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The fog distance scale for non-traitors", 0.2, 5)
+local fogDist = CreateConVar("randomat_doground_fogdist", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Fog distance multiplier", 0.2, 5)
 
 util.AddNetworkString("DogRoundRandomatBegin")
 util.AddNetworkString("DogRoundRandomatPlaySound")
@@ -22,7 +22,10 @@ function EVENT:SpawnZombie(spawnCount)
         local pos = zombieSpawns[spawnCount] + Vector(0, 10, 0)
         local lightningEffect = EffectData()
         lightningEffect:SetOrigin(pos)
-        util.Effect("ManhackSparks", lightningEffect, true, true)
+        lightningEffect:SetMagnitude(20)
+        lightningEffect:SetScale(2)
+        lightningEffect:SetRadius(10)
+        util.Effect("Sparks", lightningEffect, true, true)
         util.ScreenShake(zombieSpawns[spawnCount], 30, 100, 0.5, 5000)
 
         timer.Simple(0.2, function()
