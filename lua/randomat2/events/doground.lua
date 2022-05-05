@@ -13,17 +13,24 @@ util.AddNetworkString("DogRoundRandomatEnd")
 local zombieSpawns = {}
 
 function EVENT:SpawnZombie(spawnCount)
-    local zombie = ents.Create("npc_fastzombie")
-    zombie:SetPos(zombieSpawns[spawnCount] + Vector(0, 10, 0))
-    zombie:Spawn()
-    zombie:PhysWake()
-    -- zombie:SetColor(Color(150, 100, 100)) --May want to remove - just for funzies
-    -- self.myeffectdata:SetOrigin(Vector(self:GetPos()[1], self:GetPos()[2], self:GetPos()[3] + 20))
-    -- util.Effect("VortDispel", self.myeffectdata, true, true)
-    util.ScreenShake(zombieSpawns[spawnCount], 30, 100, 0.5, 5000)
+    -- Plays the lightning sound effect on all clients
     net.Start("DogRoundRandomatSpawnZombie")
     net.Broadcast()
-    zombie:Spawn()
+
+    timer.Simple(1.577, function()
+        local pos = zombieSpawns[spawnCount] + Vector(0, 10, 0)
+        local lightningEffect = EffectData()
+        lightningEffect:SetOrigin(pos)
+        util.Effect("HelicopterMegaBomb", lightningEffect, true, true)
+        util.ScreenShake(zombieSpawns[spawnCount], 30, 100, 0.5, 5000)
+
+        timer.Simple(0.2, function()
+            local zombie = ents.Create("npc_fastzombie")
+            zombie:SetPos(pos)
+            zombie:Spawn()
+            zombie:PhysWake()
+        end)
+    end)
 end
 
 function EVENT:Begin()
