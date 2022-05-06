@@ -24,9 +24,16 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
-1. Don't Get Greedy... - Get buyable items over time, but you die if you already have one!
-2. Gun Game 3.0 - Periodically gives everyone buyable items!
-3. Deathly Chaos - Triggers a randomat when someone dies
+1. Fetch me their souls... - Draws in fog and spawns zombies around the map!
+2. Deflation - Players shrink as they take damage!
+3. Press E to ping - Pressing 'E' pings a location
+4. Unrealistic Recoil - Shooting pushes you forwards
+5. Triggered - Everyone's screen shakes and a loud noise plays when someone dies
+6. Don't Get Greedy... - Get buyable items over time, but you die if you already have one!
+7. Gun Game 3.0 - Periodically gives everyone buyable items!
+8. Deathly Chaos - Triggers a randomat when someone dies
+9. Fastest Finger - First person to type a randomat name in chat triggers it!
+10. The Bucket - Spawns a bucket on the map that kills on touch!
 
 # Randomats
 
@@ -331,6 +338,15 @@ Originally made by [Arch](https://steamcommunity.com/sharedfiles/filedetails/?id
 1st person to type a randomat's name in chat triggers it!\
 \
 _ttt_randomat_fastestfinger_ - Default: 1 - Whether this randomat is enabled\
+
+## Fetch me their souls...
+
+Draws in fog around each player, and slowly spawns in fast zombies around the map.\
+Spawns 2 zombies per player alive.\
+After all zombies are killed, the fog is lifted and all players are rewarded with infinite ammo for the round!\
+\
+_ttt_randomat_doground_ - Default: 1 - Whether this randomat is enabled\
+_randomat_doground_fogdist_ - Default: 1 - Fog distance multiplier
 
 ## Freeze
 
