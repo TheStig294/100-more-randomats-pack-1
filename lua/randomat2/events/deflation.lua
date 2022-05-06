@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Deflation"
-EVENT.Description = "Your size corresponds to your health!"
+EVENT.Description = "Players shrink as they take damage!"
 EVENT.id = "deflation"
 
 EVENT.Categories = {"moderateimpact"}
