@@ -1,6 +1,12 @@
 local color_tbl = {}
-local barFrame
-local barFrame2
+local xPos
+local yPos
+local width
+local height
+local xPos2
+local yPos2
+local width2
+local height2
 
 net.Receive("PistolsPrepareShowdown", function()
     -- Adds a near-black-and-white filter to the screen
@@ -26,43 +32,30 @@ net.Receive("PistolsPrepareShowdown", function()
     end)
 
     -- Draws 2 black bars on the screen, to make a cinematic letterbox effect
-    barFrame = vgui.Create("DFrame")
-    barFrame:SetSize(ScrW(), 0)
-    barFrame:SetPos(0, 0)
-    barFrame:SetTitle("")
-    barFrame:SetDraggable(false)
-    barFrame:ShowCloseButton(false)
-    barFrame:SetVisible(true)
-    barFrame:SetDeleteOnClose(true)
-    barFrame:SetZPos(-32768)
+    xPos = 0
+    yPos = 0
+    width = ScrW()
+    height = 0
+    xPos2 = 0
+    yPos2 = ScrH()
+    width2 = ScrW()
+    height2 = ScrH() / 6
 
-    barFrame.Paint = function(self, w, h)
-        draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
-    end
+    hook.Add("HUDPaintBackground", "PistolsRandomatDrawBars", function()
+        surface.SetDrawColor(0, 0, 0)
+        surface.DrawRect(xPos, yPos, width, height)
+        surface.DrawRect(xPos2, yPos2, width2, height2)
+    end)
 
-    barFrame2 = vgui.Create("DFrame")
-    barFrame2:SetSize(ScrW(), ScrH() / 6)
-    barFrame2:SetPos(0, ScrH())
-    barFrame2:SetTitle("")
-    barFrame2:SetDraggable(false)
-    barFrame2:ShowCloseButton(false)
-    barFrame2:SetVisible(true)
-    barFrame2:SetDeleteOnClose(true)
-    barFrame2:SetZPos(-32768)
-
-    barFrame2.Paint = function(self, w, h)
-        draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 255))
-    end
-
+    -- Makes the black bars initially slide onto the screen, along with a yellow tint being slowly applied
     timer.Create("PistolsRandomatFadeOIn", 0.01, 100, function()
         if color_tbl["$pp_colour_addr"] + 0.001 < 0.1 then
             color_tbl["$pp_colour_addr"] = color_tbl["$pp_colour_addr"] + 0.001
             color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] + 0.001
         end
 
-        local width, height = barFrame:GetSize()
-        barFrame:SetHeight(height + 1)
-        barFrame2:SetY(barFrame2:GetY() - 1)
+        height = height + 1
+        yPos2 = yPos2 - 1
     end)
 
     for i = 1, 2 do
@@ -70,6 +63,7 @@ net.Receive("PistolsPrepareShowdown", function()
     end
 end)
 
+-- Draws halos over the duelling players
 net.Receive("PistolsBeginShowdown", function()
     hook.Add("PreDrawHalos", "PistolsRandomatHalos", function()
         local alivePlys = {}
@@ -84,6 +78,7 @@ net.Receive("PistolsBeginShowdown", function()
     end)
 end)
 
+-- Changes the win screen to say "[player] WINS!", as opposed to "INNOCENTS WIN"
 net.Receive("PistolsRandomatWinTitle", function()
     hook.Add("TTTScoringWinTitle", "RandomatPistolsWinTitle", function(wintype, wintitles, title)
         local winner
@@ -107,6 +102,7 @@ net.Receive("PistolsRandomatWinTitle", function()
     end)
 end)
 
+-- Ends the event completely
 net.Receive("PistolsEndEvent", function()
     hook.Remove("PreDrawHalos", "PistolsRandomatHalos")
     hook.Remove("TTTScoringWinTitle", "RandomatPistolsWinTitle")
@@ -124,32 +120,14 @@ net.Receive("PistolsEndEvent", function()
                 color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] - 0.001
             end
 
-            local height
-            local width
-
-            if barFrame ~= nil then
-                width, height = barFrame:GetSize()
-                barFrame:SetHeight(height - 1)
-            end
-
-            if barFrame2 ~= nil then
-                barFrame2:SetY(barFrame2:GetY() + 1)
-            end
+            height = height - 1
+            yPos2 = yPos2 + 1
         end)
     end)
 
     -- After a 4 second wait, and a 3 second animation, completely remove the black bars and greyscale effect hook altogether
     timer.Simple(9, function()
         hook.Remove("RenderScreenspaceEffects", "PistolsRandomatTintEffect")
-
-        if barFrame ~= nil then
-            barFrame:Close()
-            barFrame = nil
-        end
-
-        if barFrame2 ~= nil then
-            barFrame2:Close()
-            barFrame2 = nil
-        end
+        hook.Remove("HUDPaintBackground", "PistolsRandomatDrawBars")
     end)
 end)
