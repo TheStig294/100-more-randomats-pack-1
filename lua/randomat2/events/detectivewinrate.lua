@@ -10,17 +10,10 @@ function EVENT:Begin()
     local stats = randomatPlayerStats
     local alivePlayers = self:GetAlivePlayers(true)
     local detectiveWinrates = {}
-    local zylusEasterEgg = false
     local chosenDetective
 
     -- Grabbing everyone's detective winrate
     for _, ply in ipairs(alivePlayers) do
-        if ply:GetModel() == "models/player/jenssons/kermit.mdl" or ply:Nick() == "Zylus" then
-            zylusEasterEgg = true
-            chosenDetective = ply
-            break
-        end
-
         local ID = ply:SteamID()
         local detectiveWins = stats[ID]["DetectiveWins"]
         local detectiveRounds = stats[ID]["DetectiveRounds"]
@@ -29,15 +22,13 @@ function EVENT:Begin()
         detectiveWinrates[ply] = detectiveWins / detectiveRounds
     end
 
-    if not zylusEasterEgg then
-        -- Grabbing the Steam nickname of the player with the highest detective winrate
-        if table.IsEmpty(detectiveWinrates) then
-            -- If the chosen player hasn't been a traitor with anyone yet, pick a random player
-            chosenDetective = table.Random(alivePlayers)
-        else
-            -- Else, finding the chosen player's best partner
-            chosenDetective = table.GetWinningKey(detectiveWinrates)
-        end
+    -- Grabbing the Steam nickname of the player with the highest detective winrate
+    if table.IsEmpty(detectiveWinrates) then
+        -- If the chosen player hasn't been a traitor with anyone yet, pick a random player
+        chosenDetective = table.Random(alivePlayers)
+    else
+        -- Else, finding the chosen player's best partner
+        chosenDetective = table.GetWinningKey(detectiveWinrates)
     end
 
     local removedDetectiveRole
@@ -65,6 +56,10 @@ function EVENT:Begin()
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, removedDetectiveRole or ROLE_DETECTIVE)
             ply:SetDefaultCredits()
+
+            if util.IsValidModel("models/player/jenssons/kermit.mdl") then
+                ForceSetPlayermodel(ply, "models/player/jenssons/kermit.mdl")
+            end
         end
     end
 
@@ -86,26 +81,24 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
-    local winrate
 
-    if zylusEasterEgg then
-        winrate = 100
-
-        self:AddHook("PostPlayerDeath", function(ply)
-            if ply == chosenDetective then
-                timer.Create("DetectiveWinrateEasterEggMessage", 1, 3, function()
-                    ply:PrintMessage(HUD_PRINTCENTER, "This was a non-cannon round...")
-                end)
-            end
-        end)
-    else
-        winrate = math.Round((detectiveWinrates[chosenDetective] or 1) * 100)
-    end
+    -- If someone has the detective frog playermodel, say this was a non-cannon round...
+    self:AddHook("PostPlayerDeath", function(ply)
+        if Randomat:IsGoodDetectiveLike(ply) and ply:GetModel() == "models/player/jenssons/kermit.mdl" then
+            timer.Create("DetectiveWinrateEasterEggMessage", 1, 3, function()
+                ply:PrintMessage(HUD_PRINTCENTER, "This was a non-cannon round...")
+            end)
+        end
+    end)
 
     --Notifying everyone of the detective's winrate
     timer.Simple(5, function()
-        self:SmallNotify(chosenDetective:Nick() .. " is the detective with a " .. winrate .. "% win rate!")
+        self:SmallNotify(chosenDetective:Nick() .. " is the detective with a " .. math.Round((detectiveWinrates[chosenDetective] or 1) * 100) .. "% win rate!")
     end)
+end
+
+function EVENT:End()
+    ForceResetAllPlayermodels()
 end
 
 Randomat:register(EVENT)
