@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Welcome back to TTT! - Does the Yogs TTT intro, and creates an overlay showing roles
 1. Fetch me their souls... - Draws in fog and spawns zombies around the map!
 2. Deflation - Players shrink as they take damage!
 3. Press E to ping - Pressing 'E' pings a location
@@ -33,7 +34,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 7. Gun Game 3.0 - Periodically gives everyone buyable items!
 8. Deathly Chaos - Triggers a randomat when someone dies
 9. Fastest Finger - First person to type a randomat name in chat triggers it!
-10. The Bucket - Spawns a bucket on the map that kills on touch!
 
 # Randomats
 
@@ -730,6 +730,12 @@ _randomat_recoil2_max_ - Default: 15 - Maximum Magnitude a gun can change someon
 _randomat_recoil2_mul_ - Default: 6 - Recoil velocity multiplier
 
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
+
+## Welcome back to TTT!
+
+Does the Yogs TTT intro! Also creates an overlay showing everyone's roles as they are shown on the scoreboard.\
+\
+_ttt_randomat_welcomeback_ - Default: 1 - Whether this randomat is enabled
 
 ## What did WE find in our pockets?
 

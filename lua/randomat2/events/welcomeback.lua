@@ -1,7 +1,7 @@
 local EVENT = {}
 EVENT.Title = ""
 EVENT.AltTitle = "Welcome back to TTT!"
-EVENT.ExtDescription = "Introduces everyone and adds a name overlay on the screen"
+EVENT.ExtDescription = "Introduces everyone and adds a role overlay on the screen"
 EVENT.id = "welcomeback"
 -- Can only trigger at the start of the round
 EVENT.MaxRoundCompletePercent = 5
