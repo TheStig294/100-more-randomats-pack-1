@@ -7,7 +7,6 @@ EVENT.Categories = {"fun", "moderateimpact"}
 
 local superBoingRandomat = false
 local gravity
-local gombaSound = Sound("superboing/gomba_stomp.mp3")
 
 function EVENT:Begin()
     -- Let end function know randomat has triggered
@@ -32,7 +31,7 @@ function EVENT:Begin()
             dmginfo:SetDamage(0)
             -- Play a "gomba stomp" sound effect when jumping on top of someone!
         elseif IsPlayer(attacker) and dmginfo:IsDamageType(DMG_CRUSH) then
-            sound.Play(gombaSound, attacker:GetPos(), 150, 100, 1)
+            BroadcastLua("surface.PlaySound(\"superboing/gomba_stomp.mp3\")")
         end
     end)
 
