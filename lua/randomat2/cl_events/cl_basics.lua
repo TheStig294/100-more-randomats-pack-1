@@ -7,6 +7,13 @@ local excludeWepsExistTraitor = false
 
 net.Receive("BasicsRandomatClientStart", function()
     local sprinting = net.ReadBool()
+
+    -- Prevent the buy menu from being opened while it is being manipulated to prevent some modded items still being in the menu
+    -- The buy menu already being open is fine, it's just opening it as this randomat triggers is what needs to be prevented
+    hook.Add("PlayerBindPress", "BasicsRandomatDisableBuyMenu", function(ply, bind, pressed)
+        if bind == "+menu_context" then return true end
+    end)
+
     -- Default passive buy menu items only
     detectiveEquipmentItems = EquipmentItems[ROLE_DETECTIVE]
     traitorEquipmentItems = EquipmentItems[ROLE_TRAITOR]
@@ -127,6 +134,9 @@ net.Receive("BasicsRandomatClientStart", function()
                 end
             end
         end
+
+        -- Let the buy menu be opened again
+        hook.Remove("PlayerBindPress", "BasicsRandomatDisableBuyMenu")
     end)
 end)
 
@@ -155,4 +165,5 @@ net.Receive("BasicsRandomatClientEnd", function()
 
     RunConsoleCommand("ttt_reset_weapons_cache")
     hook.Remove("PlayerBindPress", "BasicsRandomatDisableSprinting")
+    hook.Remove("PlayerBindPress", "BasicsRandomatDisableBuyMenu")
 end)
