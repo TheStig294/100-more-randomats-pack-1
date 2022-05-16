@@ -5,6 +5,10 @@ EVENT.id = "basics"
 
 EVENT.Categories = {"rolechange", "gamemode", "largeimpact"}
 
+CreateConVar("randomat_basics_sprinting", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether sprinting is enabled", 0, 1)
+
+CreateConVar("randomat_basics_multi_jump", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether multi-jumping is enabled", 0, 1)
+
 util.AddNetworkString("BasicsRandomatClientStart")
 util.AddNetworkString("BasicsRandomatClientEnd")
 local eventTriggered = false
@@ -330,7 +334,7 @@ function EVENT:Begin()
     end
 
     -- Prevent people from multi-jumping if a mod that adds it is installed
-    if ConVarExists("multijump_default_jumps") then
+    if ConVarExists("multijump_default_jumps") and not GetConVar("randomat_basics_multi_jump"):GetBool() then
         orginalJumps = GetConVar("multijump_default_jumps"):GetInt()
         GetConVar("multijump_default_jumps"):SetInt(0)
 
@@ -355,6 +359,7 @@ function EVENT:Begin()
 
     -- Disabling sprinting and removing non-default buy menu items on the client
     net.Start("BasicsRandomatClientStart")
+    net.WriteBool(GetConVar("randomat_basics_sprinting"):GetBool())
     net.Broadcast()
 
     -- Blocking anyone from getting non-default weapons in their inventory
@@ -426,7 +431,7 @@ function EVENT:End()
             SetGlobalString("ttt_round_summary_tabs", summaryTabs)
         end
 
-        if ConVarExists("multijump_default_jumps") then
+        if ConVarExists("multijump_default_jumps") and not GetConVar("randomat_basics_multi_jump"):GetBool() then
             GetConVar("multijump_default_jumps"):SetInt(orginalJumps)
         end
 
@@ -459,6 +464,28 @@ function EVENT:Condition()
     end
 
     return true
+end
+
+function EVENT:GetConVars()
+    local checkboxes = {}
+
+    for _, v in pairs({"sprinting", "multi_jump"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checkboxes, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 0
+            })
+        end
+    end
+
+    return {}, checkboxes
 end
 
 Randomat:register(EVENT)

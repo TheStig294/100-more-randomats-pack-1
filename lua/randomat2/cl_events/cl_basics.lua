@@ -6,6 +6,7 @@ local excludeWepsExistDetective = false
 local excludeWepsExistTraitor = false
 
 net.Receive("BasicsRandomatClientStart", function()
+    local sprinting = net.ReadBool()
     -- Default passive buy menu items only
     detectiveEquipmentItems = EquipmentItems[ROLE_DETECTIVE]
     traitorEquipmentItems = EquipmentItems[ROLE_TRAITOR]
@@ -67,17 +68,19 @@ net.Receive("BasicsRandomatClientStart", function()
     RunConsoleCommand("ttt_reset_weapons_cache")
 
     -- Displays a message if the sprint key is pressed while sprinting is disabled 
-    hook.Add("PlayerBindPress", "BasicsRandomatDisableSprinting", function(ply, bind, pressed)
-        if string.find(bind, "+speed") then
-            ply:PrintMessage(HUD_PRINTCENTER, "Sprinting is disabled")
+    if not sprinting then
+        hook.Add("PlayerBindPress", "BasicsRandomatDisableSprinting", function(ply, bind, pressed)
+            if string.find(bind, "+speed") then
+                ply:PrintMessage(HUD_PRINTCENTER, "Sprinting is disabled")
 
-            return true
-        end
-    end)
+                return true
+            end
+        end)
 
-    -- Disabling sprinting
-    hook.Remove("Think", "TTTSprintThink")
-    hook.Remove("Think", "TTTSprint4Think")
+        -- Disabling sprinting
+        hook.Remove("Think", "TTTSprintThink")
+        hook.Remove("Think", "TTTSprint4Think")
+    end
 
     -- Default active buy menu items only
     timer.Simple(1, function()

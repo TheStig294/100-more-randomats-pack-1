@@ -89,7 +89,9 @@ Strips everything back to base TTT, as much as possible.
 - Fellow traitors are no longer highlighted with an outline around them
 - The round-end window now displays the old-school highlights tab, the usual summary tab is disabled
 
-_ttt_randomat_basics_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_basics_ - Default: 1 - Whether this randomat is enabled\
+_randomat_basics_sprinting_ - Default: 0 - Whether sprinting is enabled\
+_randomat_basics_multi_jump_ - Default: 0 - Whether multi-jumping is enabled
 
 ## Ban a Randomat!
 
