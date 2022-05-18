@@ -9,6 +9,7 @@ table.insert(eventnames, "The rain fell like dead bullets...")
 table.insert(eventnames, "I sat in the hotel room, as I contemplated my next move...")
 table.insert(eventnames, "I was there in the smoke-filled bar...")
 table.insert(eventnames, "I saw him standing in the cold alleyway...")
+table.insert(eventnames, "The new detective film, \"Hot Blood\", coming this summer")
 local EVENT = {}
 EVENT.Title = ""
 EVENT.AltTitle = "Noir"
