@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. It's high noon... - Makes the game look like a western movie, eveyone has pistol duels!
 1. Welcome back to TTT! - Does the Yogs TTT intro, and creates an overlay showing roles
 1. Fetch me their souls... - Draws in fog and spawns zombies around the map!
 2. Deflation - Players shrink as they take damage!
@@ -33,7 +34,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 6. Don't Get Greedy... - Get buyable items over time, but you die if you already have one!
 7. Gun Game 3.0 - Periodically gives everyone buyable items!
 8. Deathly Chaos - Triggers a randomat when someone dies
-9. Fastest Finger - First person to type a randomat name in chat triggers it!
 
 # Randomats
 
@@ -463,6 +463,14 @@ _randomat_burdens_multiplier_ - Default: 1 - The speed multiplier is multiplied 
 Everyone can teleport up and down walls and obstacles by walking into/off them and automatically walk over most obstacles.\
 \
 _ttt_randomat_elevator_ - Default: 1 - Whether this randomat is enabled
+
+## It's high noon...
+
+Forces everyone to fight through duelling with one-shot pistols!\
+Makes the game look like a western film and plays western music (if enabled).\
+\
+_ttt_randomat_highnoon_ - Default: 1 - Whether this randomat is enabled\
+_randomat_highnoon_music_ - Default: 1 - Whether the western music plays\
 
 ## It's [player]!
 
