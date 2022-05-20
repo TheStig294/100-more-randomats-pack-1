@@ -467,7 +467,7 @@ _ttt_randomat_elevator_ - Default: 1 - Whether this randomat is enabled
 ## Western
 
 Makes the game look like a western film and plays western music! (if enabled)\
-Replaces normal guns with "duel revolvers", everyone gets one\
+Replaces normal guns with "duel revolvers", everyone gets one.\
 When a revolver is used on a player, both players turn around, freeze in place, and duel it out after 5 seconds.\
 When someone is shot with the revolver, a western-sounding gunshot ricochet sound plays for everyone!\
 If a player dies, or neither die after 10 seconds, the duel is over.\
