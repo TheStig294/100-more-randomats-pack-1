@@ -6,7 +6,7 @@ EVENT.id = "welcomeback"
 -- Can only trigger at the start of the round, else the overlay will be inaccurate as players will have to re-search bodies to reveal roles
 EVENT.MaxRoundCompletePercent = 5
 
-EVENT.Categories = {"moderateimpact"}
+EVENT.Categories = {"largeimpact", "deathtrigger"}
 
 util.AddNetworkString("WelcomeBackRandomatPopup")
 util.AddNetworkString("WelcomeBackRandomatCreateOverlay")

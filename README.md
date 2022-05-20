@@ -751,7 +751,7 @@ Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails
 
 ## Welcome back to TTT!
 
-Displays the Yogscast TTT intro, and creates an overlay showing everyone's roles, and whether they are alive, as players are shown on the scoreboard.\
+Displays the Yogscast TTT intro, and creates an overlay showing everyone's roles as bodies are searched, and whether they are alive. (Similar to the scoreboard)\
 \
 _ttt_randomat_welcomeback_ - Default: 1 - Whether this randomat is enabled
 
