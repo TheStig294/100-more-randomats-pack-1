@@ -1,8 +1,9 @@
 local introPopup
 local overlayPositions = {}
-local Width = 120
+local Width = 150
 local Height = 50
 local YPos = Height / 2
+local playerNames = {}
 
 -- Displays the intro popup and plays the intro sound chosen by the server
 net.Receive("WelcomeBackRandomatPopup", function()
@@ -68,8 +69,17 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
 
     for _, ply in ipairs(player.GetAll()) do
         if ply:Alive() and not ply:IsSpec() then
+            -- Grabbing the alive players and the number of them
             playerCount = playerCount + 1
             table.insert(alivePlayers, ply)
+            -- Grabbing each player's nickname and adding an ellipsis if it is too long
+            local playerName = ply:Nick()
+
+            if #playerName > 11 then
+                playerName = string.Left(playerName, 11) .. "..."
+            end
+
+            playerNames[ply] = playerName
         end
     end
 
@@ -84,13 +94,11 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
     local alpha = 0
 
     hook.Add("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay", function()
-        local plyIndex = 0
         alpha = alpha + 0.01
         alpha = math.min(alpha, 1)
         surface.SetAlphaMultiplier(alpha)
 
         for ply, XPos in SortedPairsByValue(overlayPositions) do
-            plyIndex = plyIndex + 1
             if not IsPlayer(ply) then continue end
             surface.SetDrawColor(100, 100, 100)
 
@@ -112,7 +120,7 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
             surface.SetFont("WelcomeBackRandomatOverlayFont")
             surface.SetTextPos(XPos + (Width / 20), YPos + (Height / 4))
             surface.SetTextColor(255, 255, 255)
-            surface.DrawText(ply:Nick())
+            surface.DrawText(playerNames[ply])
 
             if not ply:Alive() or ply:IsSpec() then
                 surface.SetDrawColor(255, 0, 0)
