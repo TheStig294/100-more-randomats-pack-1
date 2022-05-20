@@ -3,6 +3,7 @@ local overlayPositions = {}
 local Width = 150
 local Height = 50
 local YPos = Height / 2
+local alpha = 0
 local playerNames = {}
 
 -- Displays the intro popup and plays the intro sound chosen by the server
@@ -91,8 +92,6 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
         overlayPositions[ply] = ((playerIndex * screenWidth) / (playerCount + 1)) - Width / 2
     end
 
-    local alpha = 0
-
     -- Fallback colours to use
     local colourTable = {
         [ROLE_INNOCENT] = Color(25, 200, 25, 200),
@@ -101,10 +100,13 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
     }
 
     local ROLE_COLORS = ROLE_COLORS or colourTable
+    alpha = 0
+
+    timer.Create("WelcomeBackFadeIn", 0.01, 100, function()
+        alpha = alpha + 0.01
+    end)
 
     hook.Add("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay", function()
-        alpha = alpha + 0.01
-        alpha = math.min(alpha, 1)
         surface.SetAlphaMultiplier(alpha)
 
         for ply, XPos in SortedPairsByValue(overlayPositions) do
@@ -140,10 +142,18 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
     end)
 end)
 
--- Cleans up everything
+-- Cleans up everything and slowly fades out the overlay
 net.Receive("WelcomeBackRandomatEnd", function()
-    hook.Remove("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay")
     timer.Remove("WelcomeBackCloseIntroPopup")
+    timer.Remove("WelcomeBackFadeIn")
+
+    timer.Create("WelcomeBackFadeOut", 0.01, 100, function()
+        alpha = alpha - 0.01
+
+        if timer.RepsLeft("WelcomeBackFadeOut") == 0 then
+            hook.Remove("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay")
+        end
+    end)
 
     if IsValid(introPopup) then
         introPopup:Close()
