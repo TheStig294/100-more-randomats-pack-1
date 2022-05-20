@@ -59,4 +59,9 @@ function EVENT:End()
     end
 end
 
+-- More than 8 players will result in the overlay going off the screen and causing lag eventually
+function EVENT:Condition()
+    return player.GetCount() <= 8
+end
+
 Randomat:register(EVENT)
