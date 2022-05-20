@@ -45,6 +45,14 @@ function EVENT:Begin()
         end)
     end
 
+    -- Gives respawning players a revolver
+    self:AddHook("PlayerSpawn", function(ply)
+        timer.Simple(1, function()
+            ply:Give("weapon_ttt_revolver_randomat")
+            ply:SelectWeapon("weapon_ttt_revolver_randomat")
+        end)
+    end)
+
     -- Apply black-and-white filter and play music, if enabled
     net.Start("randomat_noir")
     net.WriteBool(musicConvar:GetBool())
