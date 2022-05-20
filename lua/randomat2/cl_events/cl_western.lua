@@ -8,7 +8,7 @@ local yPos2
 local width2
 local height2
 
-net.Receive("HighnoonBeginEvent", function()
+net.Receive("WesternBeginEvent", function()
     -- Adds a near-black-and-white filter to the screen
     color_tbl = {
         ["$pp_colour_addr"] = 0.1,
@@ -22,7 +22,7 @@ net.Receive("HighnoonBeginEvent", function()
         ["$pp_colour_mulb"] = 0
     }
 
-    hook.Add("RenderScreenspaceEffects", "HighnoonRandomatTintEffect", function()
+    hook.Add("RenderScreenspaceEffects", "WesternRandomatTintEffect", function()
         DrawColorModify(color_tbl)
         cam.Start3D(EyePos(), EyeAngles())
         render.SuppressEngineLighting(true)
@@ -41,7 +41,7 @@ net.Receive("HighnoonBeginEvent", function()
     width2 = ScrW()
     height2 = ScrH() / 6
 
-    hook.Add("HUDPaintBackground", "HighnoonRandomatDrawBars", function()
+    hook.Add("HUDPaintBackground", "WesternRandomatDrawBars", function()
         surface.SetDrawColor(0, 0, 0)
         surface.DrawRect(xPos, yPos, width, height)
         surface.DrawRect(xPos2, yPos2, width2, height2)
@@ -55,7 +55,7 @@ net.Receive("HighnoonBeginEvent", function()
             surface.PlaySound("pistols/rattlesnake_railroad.mp3")
         end
 
-        timer.Create("HighnoonRandomatMusicLoop", 220, 0, function()
+        timer.Create("WesternRandomatMusicLoop", 220, 0, function()
             for i = 1, 2 do
                 surface.PlaySound("pistols/rattlesnake_railroad.mp3")
             end
@@ -64,8 +64,8 @@ net.Receive("HighnoonBeginEvent", function()
 end)
 
 -- Ends the event
-net.Receive("HighnoonEndEvent", function()
-    timer.Remove("HighnoonRandomatMusicLoop")
+net.Receive("WesternEndEvent", function()
+    timer.Remove("WesternRandomatMusicLoop")
     RunConsoleCommand("stopsound")
 
     timer.Simple(0.1, function()
@@ -74,7 +74,7 @@ net.Receive("HighnoonEndEvent", function()
 
     -- Fades in colour and moves black bars off the screen over 3 seconds
     timer.Simple(4, function()
-        timer.Create("HighnoonRandomatFadeOut", 0.01, 100, function()
+        timer.Create("WesternRandomatFadeOut", 0.01, 100, function()
             if color_tbl["$pp_colour_addr"] and color_tbl["$pp_colour_addr"] - 0.0005 >= 0 then
                 color_tbl["$pp_colour_addr"] = color_tbl["$pp_colour_addr"] - 0.001
                 color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] - 0.001
@@ -87,7 +87,7 @@ net.Receive("HighnoonEndEvent", function()
 
     -- After a 4 second wait, and a 3 second animation, completely remove the black bars and greyscale effect hook altogether
     timer.Simple(9, function()
-        hook.Remove("RenderScreenspaceEffects", "HighnoonRandomatTintEffect")
-        hook.Remove("HUDPaintBackground", "HighnoonRandomatDrawBars")
+        hook.Remove("RenderScreenspaceEffects", "WesternRandomatTintEffect")
+        hook.Remove("HUDPaintBackground", "WesternRandomatDrawBars")
     end)
 end)

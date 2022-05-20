@@ -63,7 +63,7 @@ if CLIENT then
         end)
 
         -- Plays the "Draw!" sound effect
-        surface.PlaySound("highnoon/draw.mp3")
+        surface.PlaySound("western/draw.mp3")
     end)
 
     net.Receive("DuelRevolverRemoveHalo", function()
@@ -75,7 +75,7 @@ function SWEP:Equip()
     local owner = self:GetOwner()
     if not IsPlayer(owner) then return end
     -- Reset everyone's duelling player
-    owner:SetNWEntity("HighNoonDuellingPlayer", NULL)
+    owner:SetNWEntity("WesternDuellingPlayer", NULL)
     net.Start("DuelRevolverRemoveHalo")
     net.Send(owner)
 end
@@ -92,7 +92,7 @@ function SWEP:PrimaryAttack()
 
     -- Get the player the user is looking at
     local target = owner:GetEyeTrace().Entity
-    local duellingPlayer = owner:GetNWEntity("HighNoonDuellingPlayer", NULL)
+    local duellingPlayer = owner:GetNWEntity("WesternDuellingPlayer", NULL)
 
     -- Don't let duelling players shoot anyone else
     if duellingPlayer ~= NULL and SERVER and IsPlayer(target) and target ~= duellingPlayer then
@@ -103,9 +103,9 @@ function SWEP:PrimaryAttack()
         -- Check if the target player was killed by the gunshot
         timer.Simple(0.1, function()
             if IsPlayer(target) and (target:IsSpec() or not target:Alive()) then
-                owner:SetNWEntity("HighNoonDuellingPlayer", NULL)
-                target:SetNWEntity("HighNoonDuellingPlayer", NULL)
-                timer.Remove("HighNoonDuelOver" .. owner:SteamID64())
+                owner:SetNWEntity("WesternDuellingPlayer", NULL)
+                target:SetNWEntity("WesternDuellingPlayer", NULL)
+                timer.Remove("WesternDuelOver" .. owner:SteamID64())
                 hook.Remove("PreDrawHalos", "DuelRevolverHalo")
             end
         end)
@@ -117,8 +117,8 @@ function SWEP:PrimaryAttack()
     if SERVER then
         if not IsPlayer(target) then return end
         -- Setting the flag for each player to be duelling
-        owner:SetNWEntity("HighNoonDuellingPlayer", target)
-        target:SetNWEntity("HighNoonDuellingPlayer", owner)
+        owner:SetNWEntity("WesternDuellingPlayer", target)
+        target:SetNWEntity("WesternDuellingPlayer", owner)
 
         -- Force players to holster if the have the holstered weapon
         if owner:HasWeapon("weapon_ttt_unarmed") then
@@ -136,8 +136,8 @@ function SWEP:PrimaryAttack()
         owner:Freeze(true)
         target:Freeze(true)
         -- Play the high noon sound effect for the duelling players
-        owner:SendLua("surface.PlaySound(\"highnoon/duelquote" .. math.random(1, 8) .. ".mp3\")")
-        target:SendLua("surface.PlaySound(\"highnoon/duelquote" .. math.random(1, 8) .. ".mp3\")")
+        owner:SendLua("surface.PlaySound(\"western/duelquote" .. math.random(1, 8) .. ".mp3\")")
+        target:SendLua("surface.PlaySound(\"western/duelquote" .. math.random(1, 8) .. ".mp3\")")
         local timerID = "DuelRevolver" .. owner:SteamID64()
 
         timer.Create(timerID, 1, 5, function()
@@ -156,10 +156,10 @@ function SWEP:PrimaryAttack()
                 net.Send(target)
 
                 -- After 10 seconds of duelling, the players are free to duel others and have to initiate their duel again to fight
-                timer.Create("HighNoonDuelOver" .. owner:SteamID64(), 10, 1, function()
+                timer.Create("WesternDuelOver" .. owner:SteamID64(), 10, 1, function()
                     if IsPlayer(owner) and IsPlayer(target) and (not owner:IsSpec()) and (not target:IsSpec()) and owner:Alive() and target:Alive() then
-                        owner:SetNWEntity("HighNoonDuellingPlayer", NULL)
-                        target:SetNWEntity("HighNoonDuellingPlayer", NULL)
+                        owner:SetNWEntity("WesternDuellingPlayer", NULL)
+                        target:SetNWEntity("WesternDuellingPlayer", NULL)
                         net.Start("DuelRevolverRemoveHalo")
 
                         net.Send({owner, target})
@@ -173,8 +173,8 @@ function SWEP:PrimaryAttack()
             else
                 -- Shows a countdown until the duel starts
                 local secondsLeft = timer.RepsLeft(timerID)
-                owner:PrintMessage(HUD_PRINTCENTER, "Duelling " .. target:Nick() .. " in " .. secondsLeft)
-                target:PrintMessage(HUD_PRINTCENTER, "Duelling " .. owner:Nick() .. " in " .. secondsLeft)
+                owner:PrintMessage(HUD_PRINTCENTER, "Duelling in " .. secondsLeft)
+                target:PrintMessage(HUD_PRINTCENTER, "Duelling in " .. secondsLeft)
             end
         end)
     end
@@ -184,7 +184,7 @@ function SWEP:OnRemove()
     local owner = self:GetOwner()
     if not IsPlayer(owner) then return end
     -- Reset everyone's duelling player
-    owner:SetNWEntity("HighNoonDuellingPlayer", NULL)
+    owner:SetNWEntity("WesternDuellingPlayer", NULL)
 
     if SERVER then
         net.Start("DuelRevolverRemoveHalo")

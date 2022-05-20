@@ -1,21 +1,34 @@
+local eventnames = {}
+table.insert(eventnames, "It's high noon...")
+table.insert(eventnames, "The innocent, the traitors, and the ugly")
+table.insert(eventnames, "This town ain't big enough for both of us...")
+table.insert(eventnames, "Go ahead... make my day!")
+table.insert(eventnames, "They say he's the fastest draw in the west...")
+table.insert(eventnames, "In this world, there's two kinds of people...")
+table.insert(eventnames, "There's the quick, and the dead")
 local EVENT = {}
-EVENT.Title = "It's high noon..."
-EVENT.Description = "Time for innocents and traitors to duel!"
-EVENT.id = "highnoon"
+EVENT.Title = ""
+EVENT.AltTitle = "Western"
+EVENT.ExtDescription = "Makes the game look like a western film! Gives everyone a 'Duel Revolver'"
+EVENT.id = "western"
 
 EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_MUSIC}
 
 EVENT.Categories = {"largeimpact", "item", "rolechange"}
 
-util.AddNetworkString("HighnoonBeginEvent")
-util.AddNetworkString("HighnoonEndEvent")
+util.AddNetworkString("WesternBeginEvent")
+util.AddNetworkString("WesternEndEvent")
 
-local musicConvar = CreateConVar("randomat_highnoon_music", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this event", 0, 1)
+local musicConvar = CreateConVar("randomat_western_music", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this event", 0, 1)
 
 local eventTriggered
 
 function EVENT:Begin()
     eventTriggered = true
+    -- Picking a random name
+    -- self.Title = table.Random(eventnames)
+    self.Title = eventnames[7]
+    Randomat:EventNotifySilent(self.Title)
 
     -- Remove all weapons on players and the ground that take up the pistol slot
     for _, ent in pairs(ents.GetAll()) do
@@ -45,8 +58,8 @@ function EVENT:Begin()
         DisableRoundEndSounds()
     end
 
-    net.Start("HighnoonBeginEvent")
-    net.WriteBool(GetConVar("randomat_highnoon_music"):GetBool())
+    net.Start("WesternBeginEvent")
+    net.WriteBool(GetConVar("randomat_western_music"):GetBool())
     net.Broadcast()
 
     -- Gives respawning players a revolver
@@ -65,21 +78,21 @@ function EVENT:Begin()
         local inflictor = attacker:GetActiveWeapon()
 
         if IsValid(inflictor) and inflictor:GetClass() == "weapon_ttt_duel_revolver_randomat" then
-            local duelAttacker = target:GetNWEntity("HighNoonDuellingPlayer")
-            local duelTarget = attacker:GetNWEntity("HighNoonDuellingPlayer")
+            local duelAttacker = target:GetNWEntity("WesternDuellingPlayer")
+            local duelTarget = attacker:GetNWEntity("WesternDuellingPlayer")
             if not (IsPlayer(duelAttacker) and IsPlayer(duelTarget) and attacker == duelAttacker and target == duelTarget) then return true end
             -- Play a bullet ricochet sound for everyone when someone is shot by the duel revolver
-            BroadcastLua("surface.PlaySound(\"highnoon/ricochet" .. math.random(1, 8) .. ".mp3\")")
+            BroadcastLua("surface.PlaySound(\"western/ricochet" .. math.random(1, 6) .. ".mp3\")")
         end
     end)
 
     -- Stop a duel if a player dies in the middle of it
     self:AddHook("PostPlayerDeath", function(deadPly)
-        deadPly:SetNWEntity("HighNoonDuellingPlayer", NULL)
+        deadPly:SetNWEntity("WesternDuellingPlayer", NULL)
 
         for _, ply in ipairs(player.GetAll()) do
-            if IsPlayer(ply:GetNWEntity("HighNoonDuellingPlayer")) and ply:GetNWEntity("HighNoonDuellingPlayer") == deadPly then
-                ply:SetNWEntity("HighNoonDuellingPlayer", NULL)
+            if IsPlayer(ply:GetNWEntity("WesternDuellingPlayer")) and ply:GetNWEntity("WesternDuellingPlayer") == deadPly then
+                ply:SetNWEntity("WesternDuellingPlayer", NULL)
             end
         end
     end)
@@ -88,13 +101,14 @@ end
 function EVENT:End()
     if eventTriggered then
         eventTriggered = false
+        EVENT.Title = ""
 
         -- Remove all duel revolvers from players and the ground
         for _, ent in ipairs(ents.FindByClass("weapon_ttt_duel_revolver_randomat")) do
             ent:Remove()
         end
 
-        net.Start("HighnoonEndEvent")
+        net.Start("WesternEndEvent")
         net.Broadcast()
     end
 end
