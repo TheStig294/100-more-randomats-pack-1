@@ -472,7 +472,7 @@ When a revolver is used on a player, both players turn around, freeze in place, 
 When someone is shot with the revolver, a western-sounding gunshot ricochet sound plays for everyone!\
 If a player dies, or neither die after 10 seconds, the duel is over.\
 Removes all regular guns from the ground, but bought weapons can still be used.\
-All jesters/independents are set to innocents, if anyone is one.\
+All jesters/independents are set to innocents (If custom roles are being used).\
 \
 _ttt_randomat_western_ - Default: 1 - Whether this randomat is enabled\
 _randomat_western_music_ - Default: 1 - Whether the western music plays\
