@@ -48,15 +48,50 @@ function EVENT:Begin()
     net.Start("HighnoonBeginEvent")
     net.WriteBool(GetConVar("randomat_highnoon_music"):GetBool())
     net.Broadcast()
+
+    -- Gives respawning players a revolver
+    self:AddHook("PlayerSpawn", function(ply)
+        timer.Simple(1, function()
+            ply:Give("weapon_ttt_duel_revolver_randomat")
+            ply:SelectWeapon("weapon_ttt_duel_revolver_randomat")
+        end)
+    end)
+
+    -- Fix being able to shoot a player that walks into a lead shot by the duel revolver
+    self:AddHook("EntityTakeDamage", function(target, dmg)
+        if not IsPlayer(target) then return end
+        local attacker = dmg:GetAttacker()
+        if not IsPlayer(attacker) then return end
+        local inflictor = attacker:GetActiveWeapon()
+
+        if IsValid(inflictor) and inflictor:GetClass() == "weapon_ttt_duel_revolver_randomat" then
+            local duelAttacker = target:GetNWEntity("HighNoonDuellingPlayer")
+            local duelTarget = attacker:GetNWEntity("HighNoonDuellingPlayer")
+            if not (IsPlayer(duelAttacker) and IsPlayer(duelTarget) and attacker == duelAttacker and target == duelTarget) then return true end
+            -- Play a bullet ricochet sound for everyone when someone is shot by the duel revolver
+            BroadcastLua("surface.PlaySound(\"highnoon/ricochet" .. math.random(1, 8) .. ".mp3\")")
+        end
+    end)
+
+    -- Stop a duel if a player dies in the middle of it
+    self:AddHook("PostPlayerDeath", function(deadPly)
+        deadPly:SetNWEntity("HighNoonDuellingPlayer", NULL)
+
+        for _, ply in ipairs(player.GetAll()) do
+            if IsPlayer(ply:GetNWEntity("HighNoonDuellingPlayer")) and ply:GetNWEntity("HighNoonDuellingPlayer") == deadPly then
+                ply:SetNWEntity("HighNoonDuellingPlayer", NULL)
+            end
+        end
+    end)
 end
 
 function EVENT:End()
     if eventTriggered then
         eventTriggered = false
 
-        -- Reset everyone's duelling player
-        for _, ply in ipairs(player.GetAll()) do
-            ply:SetNWEntity("HighNoonDuellingPlayer", NULL)
+        -- Remove all duel revolvers from players and the ground
+        for _, ent in ipairs(ents.FindByClass("weapon_ttt_duel_revolver_randomat")) do
+            ent:Remove()
         end
 
         net.Start("HighnoonEndEvent")

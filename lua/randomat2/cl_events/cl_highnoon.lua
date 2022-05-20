@@ -51,10 +51,11 @@ net.Receive("HighnoonBeginEvent", function()
 
     if music then
         for i = 1, 2 do
+            -- Playing music originally from the 'Pistols at Dawn' randomat event
             surface.PlaySound("pistols/rattlesnake_railroad.mp3")
         end
 
-        timer.Create("NoirRandomatMusicLoop", 220, 0, function()
+        timer.Create("HighnoonRandomatMusicLoop", 220, 0, function()
             for i = 1, 2 do
                 surface.PlaySound("pistols/rattlesnake_railroad.mp3")
             end
@@ -62,22 +63,9 @@ net.Receive("HighnoonBeginEvent", function()
     end
 end)
 
--- -- Draws halos over the duelling players
--- net.Receive("HighnoonBeginShowdown", function()
---     hook.Add("PreDrawHalos", "HighnoonRandomatHalos", function()
---         local alivePlys = {}
---         for k, v in ipairs(player.GetAll()) do
---             if v:Alive() and not v:IsSpec() then
---                 alivePlys[k] = v
---             end
---         end
---         halo.Add(alivePlys, Color(0, 255, 0), 0, 0, 1, true, true)
---     end)
--- end)
--- Ends the event completely
+-- Ends the event
 net.Receive("HighnoonEndEvent", function()
-    hook.Remove("PreDrawHalos", "HighnoonRandomatHalos")
-    hook.Remove("TTTScoringWinTitle", "RandomatHighnoonWinTitle")
+    timer.Remove("HighnoonRandomatMusicLoop")
     RunConsoleCommand("stopsound")
 
     timer.Simple(0.1, function()

@@ -34,10 +34,62 @@ SWEP.AllowDrop = false
 SWEP.IsSilent = false
 SWEP.NoSights = false
 
+-- Draws halos over the duelling players
+if SERVER then
+    util.AddNetworkString("DuelRevolverDrawHalo")
+    util.AddNetworkString("DuelRevolverRemoveHalo")
+end
+
+if CLIENT then
+    net.Receive("DuelRevolverDrawHalo", function()
+        -- Searching for the duel opponent based on their Steam ID
+        local duelOpponent = {}
+        local opponentName = net.ReadString()
+
+        for _, ply in ipairs(player.GetAll()) do
+            if ply:Nick() == opponentName then
+                table.insert(duelOpponent, ply)
+            end
+        end
+
+        -- Adding a halo around the duel opponent
+        hook.Add("PreDrawHalos", "DuelRevolverHalo", function()
+            halo.Add(duelOpponent, Color(0, 255, 0), 0, 0, 1, true, true)
+
+            -- Once the player dies, remove the halo!
+            if (not IsPlayer(duelOpponent[1])) or (not duelOpponent[1]:Alive()) or duelOpponent[1]:IsSpec() then
+                hook.Remove("PreDrawHalos", "DuelRevolverHalo")
+            end
+        end)
+
+        -- Plays the "Draw!" sound effect
+        surface.PlaySound("highnoon/draw.mp3")
+    end)
+
+    net.Receive("DuelRevolverRemoveHalo", function()
+        hook.Remove("PreDrawHalos", "DuelRevolverHalo")
+    end)
+end
+
+function SWEP:Equip()
+    local owner = self:GetOwner()
+    if not IsPlayer(owner) then return end
+    -- Reset everyone's duelling player
+    owner:SetNWEntity("HighNoonDuellingPlayer", NULL)
+    net.Start("DuelRevolverRemoveHalo")
+    net.Send(owner)
+end
+
 function SWEP:PrimaryAttack()
     if not IsFirstTimePredicted() then return end
     local owner = self:GetOwner()
     if not IsPlayer(owner) then return end
+
+    -- Refill a player's ammo so the revolver can shoot forever
+    if SERVER and self:Ammo1() < 69 then
+        owner:SetAmmo(69, self.Primary.Ammo)
+    end
+
     -- Get the player the user is looking at
     local target = owner:GetEyeTrace().Entity
     local duellingPlayer = owner:GetNWEntity("HighNoonDuellingPlayer", NULL)
@@ -54,6 +106,7 @@ function SWEP:PrimaryAttack()
                 owner:SetNWEntity("HighNoonDuellingPlayer", NULL)
                 target:SetNWEntity("HighNoonDuellingPlayer", NULL)
                 timer.Remove("HighNoonDuelOver" .. owner:SteamID64())
+                hook.Remove("PreDrawHalos", "DuelRevolverHalo")
             end
         end)
 
@@ -63,40 +116,78 @@ function SWEP:PrimaryAttack()
 
     if SERVER then
         if not IsPlayer(target) then return end
+        -- Setting the flag for each player to be duelling
+        owner:SetNWEntity("HighNoonDuellingPlayer", target)
+        target:SetNWEntity("HighNoonDuellingPlayer", owner)
+
+        -- Force players to holster if the have the holstered weapon
+        if owner:HasWeapon("weapon_ttt_unarmed") then
+            owner:SelectWeapon("weapon_ttt_unarmed")
+        end
+
+        if target:HasWeapon("weapon_ttt_unarmed") then
+            target:SelectWeapon("weapon_ttt_unarmed")
+        end
+
         -- Force the two players to look away from each other and freeze in place
         local ownerEyeAngles = owner:EyeAngles()
         owner:SetEyeAngles(-ownerEyeAngles)
         target:SetEyeAngles(ownerEyeAngles)
         owner:Freeze(true)
         target:Freeze(true)
-        -- if owner:HasWeapon("weapon_ttt_unarmed") then
-        -- Setting the flag for each player to be duelling
-        owner:SetNWEntity("HighNoonDuellingPlayer", target)
-        target:SetNWEntity("HighNoonDuellingPlayer", owner)
-        -- Play the western whistle sound effect
-        BroadcastLua("surface.PlaySound(\"highnoon/itshighnoon.mp3\")")
+        -- Play the high noon sound effect for the duelling players
+        owner:SendLua("surface.PlaySound(\"highnoon/duelquote" .. math.random(1, 8) .. ".mp3\")")
+        target:SendLua("surface.PlaySound(\"highnoon/duelquote" .. math.random(1, 8) .. ".mp3\")")
         local timerID = "DuelRevolver" .. owner:SteamID64()
 
-        -- Shows a 3-second countdown, unfreezes players at 0 and plays a sound
-        timer.Create(timerID, 1, 4, function()
+        timer.Create(timerID, 1, 5, function()
             if timer.RepsLeft(timerID) == 0 then
+                -- After the countdown, unfreezes players and displays a message
                 owner:PrintMessage(HUD_PRINTCENTER, "DRAW!")
                 target:PrintMessage(HUD_PRINTCENTER, "DRAW!")
                 owner:Freeze(false)
                 target:Freeze(false)
-                owner:SendLua("surface.PlaySound(\"highnoon/draw.mp3\")")
-                target:SendLua("surface.PlaySound(\"highnoon/draw.mp3\")")
+                -- Also draws halos around their duel opponent and plays a sound for both players
+                net.Start("DuelRevolverDrawHalo")
+                net.WriteString(target:Nick())
+                net.Send(owner)
+                net.Start("DuelRevolverDrawHalo")
+                net.WriteString(owner:Nick())
+                net.Send(target)
 
-                -- After 10 seconds of duelling, the players are free to duel others and have to duel again to fight
+                -- After 10 seconds of duelling, the players are free to duel others and have to initiate their duel again to fight
                 timer.Create("HighNoonDuelOver" .. owner:SteamID64(), 10, 1, function()
-                    owner:SetNWEntity("HighNoonDuellingPlayer", NULL)
-                    target:SetNWEntity("HighNoonDuellingPlayer", NULL)
+                    if IsPlayer(owner) and IsPlayer(target) and (not owner:IsSpec()) and (not target:IsSpec()) and owner:Alive() and target:Alive() then
+                        owner:SetNWEntity("HighNoonDuellingPlayer", NULL)
+                        target:SetNWEntity("HighNoonDuellingPlayer", NULL)
+                        net.Start("DuelRevolverRemoveHalo")
+
+                        net.Send({owner, target})
+
+                        if IsValid(self) then
+                            owner:PrintMessage(HUD_PRINTCENTER, "The duel is over!")
+                            target:PrintMessage(HUD_PRINTCENTER, "The duel is over!")
+                        end
+                    end
                 end)
             else
+                -- Shows a countdown until the duel starts
                 local secondsLeft = timer.RepsLeft(timerID)
-                owner:PrintMessage(HUD_PRINTCENTER, secondsLeft)
-                target:PrintMessage(HUD_PRINTCENTER, secondsLeft)
+                owner:PrintMessage(HUD_PRINTCENTER, "Duelling " .. target:Nick() .. " in " .. secondsLeft)
+                target:PrintMessage(HUD_PRINTCENTER, "Duelling " .. owner:Nick() .. " in " .. secondsLeft)
             end
         end)
+    end
+end
+
+function SWEP:OnRemove()
+    local owner = self:GetOwner()
+    if not IsPlayer(owner) then return end
+    -- Reset everyone's duelling player
+    owner:SetNWEntity("HighNoonDuellingPlayer", NULL)
+
+    if SERVER then
+        net.Start("DuelRevolverRemoveHalo")
+        net.Send(owner)
     end
 end
