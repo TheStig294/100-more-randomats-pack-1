@@ -24,6 +24,8 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. It's high noon... - Makes the game look like a western movie, eveyone has pistol duels!
+1. Welcome back to TTT! - Does the Yogs TTT intro, and creates an overlay showing roles
 1. Fetch me their souls... - Draws in fog and spawns zombies around the map!
 2. Deflation - Players shrink as they take damage!
 3. Press E to ping - Pressing 'E' pings a location
@@ -32,8 +34,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 6. Don't Get Greedy... - Get buyable items over time, but you die if you already have one!
 7. Gun Game 3.0 - Periodically gives everyone buyable items!
 8. Deathly Chaos - Triggers a randomat when someone dies
-9. Fastest Finger - First person to type a randomat name in chat triggers it!
-10. The Bucket - Spawns a bucket on the map that kills on touch!
 
 # Randomats
 
@@ -466,6 +466,31 @@ Everyone can teleport up and down walls and obstacles by walking into/off them a
 \
 _ttt_randomat_elevator_ - Default: 1 - Whether this randomat is enabled
 
+## Western
+
+Makes the game look like a western film and plays western music!\
+Replaces normal guns with "duel revolvers", everyone gets one.\
+When a revolver is used on a player, both players turn around, freeze in place, and duel it out after 5 seconds.\
+If a player dies, or neither die after 10 seconds, the duel is over.\
+All jesters/independents are set to innocents (If custom roles are being used).\
+\
+This randomat's name is a randomly chosen western film trope/reference:
+
+- It's high noon...
+- The innocent, the traitors, and the ugly
+- This town ain't big enough for both of us...
+- Go ahead... make my day
+- They say he's the fastest draw in the west...
+- The quick, and the dead
+
+_ttt_randomat_western_ - Default: 1 - Whether this randomat is enabled\
+_randomat_western_music_ - Default: 1 - Whether the western music plays\
+\
+Credit for the copyright-free music used:\
+"Rattlesnake Railroad" by Brett Van Donsel <https://incompetech.com/> \
+License: CC BY 4.0 <https://creativecommons.org/licenses/by/4.0> \
+YouTube Source: <https://www.youtube.com/watch?v=WizFTwM_J_8>
+
 ## It's [player]!
 
 Changes everyone's playermodel to someone's on the server\
@@ -733,6 +758,12 @@ _randomat_recoil2_max_ - Default: 15 - Maximum Magnitude a gun can change someon
 _randomat_recoil2_mul_ - Default: 6 - Recoil velocity multiplier
 
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
+
+## Welcome back to TTT!
+
+Displays the Yogscast TTT intro, and creates an overlay showing everyone's roles as bodies are searched, and whether they are alive. (Similar to the scoreboard)\
+\
+_ttt_randomat_welcomeback_ - Default: 1 - Whether this randomat is enabled
 
 ## What did WE find in our pockets?
 
