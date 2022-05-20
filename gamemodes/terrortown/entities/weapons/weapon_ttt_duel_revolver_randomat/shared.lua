@@ -119,16 +119,6 @@ function SWEP:PrimaryAttack()
         -- Setting the flag for each player to be duelling
         owner:SetNWEntity("WesternDuellingPlayer", target)
         target:SetNWEntity("WesternDuellingPlayer", owner)
-
-        -- Force players to holster if the have the holstered weapon
-        if owner:HasWeapon("weapon_ttt_unarmed") then
-            owner:SelectWeapon("weapon_ttt_unarmed")
-        end
-
-        if target:HasWeapon("weapon_ttt_unarmed") then
-            target:SelectWeapon("weapon_ttt_unarmed")
-        end
-
         -- Force the two players to look away from each other and freeze in place
         local ownerEyeAngles = owner:EyeAngles()
         owner:SetEyeAngles(Angle(ownerEyeAngles.x, ownerEyeAngles.y + 180, ownerEyeAngles.z))

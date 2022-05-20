@@ -26,8 +26,7 @@ local eventTriggered
 function EVENT:Begin()
     eventTriggered = true
     -- Picking a random name
-    -- self.Title = table.Random(eventnames)
-    self.Title = eventnames[7]
+    self.Title = table.Random(eventnames)
     Randomat:EventNotifySilent(self.Title)
 
     -- Remove all weapons on players and the ground that take up the pistol slot
@@ -94,6 +93,13 @@ function EVENT:Begin()
             if IsPlayer(ply:GetNWEntity("WesternDuellingPlayer")) and ply:GetNWEntity("WesternDuellingPlayer") == deadPly then
                 ply:SetNWEntity("WesternDuellingPlayer", NULL)
             end
+        end
+    end)
+
+    self:AddHook("PlayerPostThink", function(ply)
+        -- Force players to holster if the have the holstered weapon, and they are frozen, being about to duel
+        if ply:IsFrozen() and ply:HasWeapon("weapon_ttt_unarmed") then
+            ply:SelectWeapon("weapon_ttt_unarmed")
         end
     end)
 end
