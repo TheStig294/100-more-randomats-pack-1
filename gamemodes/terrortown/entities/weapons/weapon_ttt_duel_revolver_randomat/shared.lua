@@ -1,6 +1,6 @@
 -- Duel revolver used in the 'It's high noon...' randomat
 AddCSLuaFile()
-SWEP.PrintName = "Duel Revolver"
+SWEP.PrintName = "Duel Pistol"
 SWEP.Slot = 1
 SWEP.Icon = "vgui/ttt/icon_pistols.png"
 SWEP.IconLetter = "f"
@@ -167,10 +167,9 @@ function SWEP:PrimaryAttack()
                     end
                 end)
             else
-                -- Shows a countdown until the duel starts
-                local secondsLeft = timer.RepsLeft(timerID)
-                owner:PrintMessage(HUD_PRINTCENTER, "Duelling in " .. secondsLeft)
-                target:PrintMessage(HUD_PRINTCENTER, "Duelling in " .. secondsLeft)
+                -- Shows a message until the duel starts
+                owner:PrintMessage(HUD_PRINTCENTER, "Get ready to turn around and duel")
+                target:PrintMessage(HUD_PRINTCENTER, "Get ready to turn around and duel")
             end
         end)
     end

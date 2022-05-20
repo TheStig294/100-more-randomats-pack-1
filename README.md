@@ -466,14 +466,21 @@ _ttt_randomat_elevator_ - Default: 1 - Whether this randomat is enabled
 
 ## Western
 
-Makes the game look like a western film and plays western music! (if enabled)\
+Makes the game look like a western film and plays western music!\
 Replaces normal guns with "duel revolvers", everyone gets one.\
 When a revolver is used on a player, both players turn around, freeze in place, and duel it out after 5 seconds.\
-When someone is shot with the revolver, a western-sounding gunshot ricochet sound plays for everyone!\
 If a player dies, or neither die after 10 seconds, the duel is over.\
-Removes all regular guns from the ground, but bought weapons can still be used.\
 All jesters/independents are set to innocents (If custom roles are being used).\
 \
+This randomat's name is a randomly chosen western film trope/reference:
+
+- It's high noon...
+- The innocent, the traitors, and the ugly
+- This town ain't big enough for both of us...
+- Go ahead... make my day
+- They say he's the fastest draw in the west...
+- The quick, and the dead
+
 _ttt_randomat_western_ - Default: 1 - Whether this randomat is enabled\
 _randomat_western_music_ - Default: 1 - Whether the western music plays\
 \

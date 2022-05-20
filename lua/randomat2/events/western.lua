@@ -2,10 +2,9 @@ local eventnames = {}
 table.insert(eventnames, "It's high noon...")
 table.insert(eventnames, "The innocent, the traitors, and the ugly")
 table.insert(eventnames, "This town ain't big enough for both of us...")
-table.insert(eventnames, "Go ahead... make my day!")
+table.insert(eventnames, "Go ahead... make my day")
 table.insert(eventnames, "They say he's the fastest draw in the west...")
-table.insert(eventnames, "In this world, there's two kinds of people...")
-table.insert(eventnames, "There's the quick, and the dead")
+table.insert(eventnames, "The quick, and the dead")
 local EVENT = {}
 EVENT.Title = ""
 EVENT.AltTitle = "Western"

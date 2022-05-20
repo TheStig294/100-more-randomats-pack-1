@@ -72,12 +72,12 @@ net.Receive("WesternEndEvent", function()
         surface.PlaySound("pistols/rattlesnake_railroad_end.mp3")
     end)
 
-    -- Fades in colour and moves black bars off the screen over 3 seconds
+    -- Fades in colour and moves black bars off the screen over 2 seconds
     timer.Simple(4, function()
         timer.Create("WesternRandomatFadeOut", 0.01, 200, function()
-            if color_tbl["$pp_colour_addr"] and color_tbl["$pp_colour_addr"] - 0.005 >= 0 then
-                color_tbl["$pp_colour_addr"] = color_tbl["$pp_colour_addr"] - 0.005
-                color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] - 0.005
+            if color_tbl["$pp_colour_addr"] and color_tbl["$pp_colour_addr"] - 0.001 >= 0 then
+                color_tbl["$pp_colour_addr"] = color_tbl["$pp_colour_addr"] - 0.001
+                color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] - 0.001
             end
 
             height = height - 1
