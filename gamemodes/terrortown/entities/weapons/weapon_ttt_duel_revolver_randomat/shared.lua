@@ -131,7 +131,7 @@ function SWEP:PrimaryAttack()
 
         -- Force the two players to look away from each other and freeze in place
         local ownerEyeAngles = owner:EyeAngles()
-        owner:SetEyeAngles(-ownerEyeAngles)
+        owner:SetEyeAngles(Angle(ownerEyeAngles.x, ownerEyeAngles.y + 180, ownerEyeAngles.z))
         target:SetEyeAngles(ownerEyeAngles)
         owner:Freeze(true)
         target:Freeze(true)
