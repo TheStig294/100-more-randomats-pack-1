@@ -74,10 +74,10 @@ net.Receive("WesternEndEvent", function()
 
     -- Fades in colour and moves black bars off the screen over 3 seconds
     timer.Simple(4, function()
-        timer.Create("WesternRandomatFadeOut", 0.01, 100, function()
-            if color_tbl["$pp_colour_addr"] and color_tbl["$pp_colour_addr"] - 0.0005 >= 0 then
-                color_tbl["$pp_colour_addr"] = color_tbl["$pp_colour_addr"] - 0.001
-                color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] - 0.001
+        timer.Create("WesternRandomatFadeOut", 0.01, 200, function()
+            if color_tbl["$pp_colour_addr"] and color_tbl["$pp_colour_addr"] - 0.005 >= 0 then
+                color_tbl["$pp_colour_addr"] = color_tbl["$pp_colour_addr"] - 0.005
+                color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] - 0.005
             end
 
             height = height - 1
