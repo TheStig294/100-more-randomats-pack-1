@@ -1,7 +1,7 @@
 local EVENT = {}
 EVENT.Title = ""
 EVENT.AltTitle = "Welcome back to TTT!"
-EVENT.ExtDescription = "Introduces everyone and adds a role overlay on the screen"
+EVENT.ExtDescription = "Adds a role overlay on the screen"
 EVENT.id = "welcomeback"
 -- Can only trigger at the start of the round
 EVENT.MaxRoundCompletePercent = 5
@@ -30,15 +30,17 @@ function EVENT:Begin()
         end
     end
 
+    -- Reveals the role of a player when a corpse is searched
     self:AddHook("TTTCanIdentifyCorpse", function(_, corpse)
         local ply = player.GetBySteamID(corpse.sid)
         ply:SetNWBool("WelcomeBackScoreboardRoleRevealed", true)
     end)
 
-    -- Displays this event's name in full and introduces up to 8 players names through randomat alerts
+    -- Starts fading in the role overlay and displays the event's name without making the randomat alert sound
     timer.Create("WelcomeBackRandomatDrawOverlay", 3.031, 1, function()
         net.Start("WelcomeBackRandomatCreateOverlay")
         net.Broadcast()
+        Randomat:EventNotifySilent(self.AltTitle)
     end)
 end
 
