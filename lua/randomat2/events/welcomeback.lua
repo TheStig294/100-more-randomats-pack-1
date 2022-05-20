@@ -3,7 +3,7 @@ EVENT.Title = ""
 EVENT.AltTitle = "Welcome back to TTT!"
 EVENT.ExtDescription = "Adds a role overlay on the screen"
 EVENT.id = "welcomeback"
--- Can only trigger at the start of the round
+-- Can only trigger at the start of the round, else the overlay will be inaccurate as players will have to re-search bodies to reveal roles
 EVENT.MaxRoundCompletePercent = 5
 
 EVENT.Categories = {"moderateimpact"}
@@ -31,8 +31,8 @@ function EVENT:Begin()
     end
 
     -- Reveals the role of a player when a corpse is searched
-    self:AddHook("TTTCanIdentifyCorpse", function(_, corpse)
-        local ply = player.GetBySteamID(corpse.sid)
+    self:AddHook("TTTCanIdentifyCorpse", function(_, ragdoll)
+        local ply = CORPSE.GetPlayer(ragdoll)
         ply:SetNWBool("WelcomeBackScoreboardRoleRevealed", true)
     end)
 
