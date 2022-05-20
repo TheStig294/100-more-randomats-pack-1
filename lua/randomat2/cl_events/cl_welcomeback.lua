@@ -93,6 +93,15 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
 
     local alpha = 0
 
+    -- Fallback colours to use
+    local colourTable = {
+        [ROLE_INNOCENT] = Color(25, 200, 25, 200),
+        [ROLE_TRAITOR] = Color(200, 25, 25, 200),
+        [ROLE_DETECTIVE] = Color(25, 25, 200, 200)
+    }
+
+    local ROLE_COLORS = ROLE_COLORS or colourTable
+
     hook.Add("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay", function()
         alpha = alpha + 0.01
         alpha = math.min(alpha, 1)
