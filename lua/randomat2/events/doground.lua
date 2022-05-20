@@ -6,6 +6,10 @@ EVENT.id = "doground"
 EVENT.Categories = {"biased_traitor", "biased", "entityspawn", "largeimpact"}
 
 EVENT.MaxAmmo = false
+EVENT.ZombieSpawns = {}
+EVENT.PlayerPositions = {}
+EVENT.ChosenSpawns = 0
+EVENT.SpawnCap = 0
 
 local fogDist = CreateConVar("randomat_doground_fogdist", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Fog distance multiplier", 0.2, 5)
 
@@ -13,7 +17,53 @@ util.AddNetworkString("DogRoundRandomatBegin")
 util.AddNetworkString("DogRoundRandomatPlaySound")
 util.AddNetworkString("DogRoundRandomatRemoveFog")
 util.AddNetworkString("DogRoundRandomatEnd")
-local zombieSpawns = {}
+
+function EVENT:ConsiderEntityAsSpawnPoint(ent)
+    if self.ChosenSpawns >= self.SpawnCap then return end
+    local pos = ent:GetPos()
+
+    if not IsValid(ent:GetParent()) then
+        local tooClose = false
+
+        for _, plyPos in ipairs(self.PlayerPositions) do
+            -- 100 * 100 = 10,000, so any zombies closer than 100 source units to the player are too close to be placed
+            if math.DistanceSqr(pos.x, pos.y, plyPos.x, plyPos.y) < 10000 then
+                tooClose = true
+                break
+            end
+        end
+
+        if not tooClose then
+            table.insert(self.ZombieSpawns, pos)
+            self.ChosenSpawns = self.ChosenSpawns + 1
+        end
+    end
+end
+
+function EVENT:GetEntitySpawnPoints()
+    -- First search through all info_player_* ents, which tend to give spots with enough room as they are player spawn points
+    for _, ent in RandomPairs(ents.FindByClass("info_player_*")) do
+        self:ConsiderEntityAsSpawnPoint(ent)
+        if self.ChosenSpawns >= self.SpawnCap then return end
+    end
+
+    -- Next try to search through all info_* ents, which still tend to give better spots that weapons/ammo
+    for _, ent in RandomPairs(ents.FindByClass("info_*")) do
+        self:ConsiderEntityAsSpawnPoint(ent)
+        if self.ChosenSpawns >= self.SpawnCap then return end
+    end
+
+    -- Last resort, choose the positions of weapons/ammo
+    for _, ent in RandomPairs(ents.FindByClass("weapon_*")) do
+        self:ConsiderEntityAsSpawnPoint(ent)
+        if self.ChosenSpawns >= self.SpawnCap then return end
+    end
+
+    for _, ent in RandomPairs(ents.FindByClass("item_*")) do
+        self:ConsiderEntityAsSpawnPoint(ent)
+        if self.ChosenSpawns >= self.SpawnCap then return end
+    end
+end
 
 function EVENT:SpawnZombie(spawnIndex)
     -- Plays the lightning sound effect on all clients
@@ -23,15 +73,15 @@ function EVENT:SpawnZombie(spawnIndex)
 
     -- Spawns the zombie in time with the sound effect
     timer.Simple(1.577, function()
-        if zombieSpawns[spawnIndex] then
-            local pos = zombieSpawns[spawnIndex] + Vector(0, 10, 0)
+        if self.ZombieSpawns[spawnIndex] then
+            local pos = self.ZombieSpawns[spawnIndex] + Vector(0, 10, 0)
             local lightningEffect = EffectData()
             lightningEffect:SetOrigin(pos)
             lightningEffect:SetMagnitude(20)
             lightningEffect:SetScale(2)
             lightningEffect:SetRadius(10)
             util.Effect("Sparks", lightningEffect, true, true)
-            util.ScreenShake(zombieSpawns[spawnIndex], 30, 100, 0.5, 5000)
+            util.ScreenShake(self.ZombieSpawns[spawnIndex], 30, 100, 0.5, 5000)
 
             -- Actually spawn the zombie a split-second after the lightning effect so the zombie isn't seen before the effect
             timer.Simple(0.2, function()
@@ -76,55 +126,27 @@ function EVENT:Begin()
 
     -- Adds a delay before zombies start spawning
     timer.Create("DogRoundRandomatStartSpawning", 9, 1, function()
-        local playerPositions = {}
+        self.PlayerPositions = {}
 
         for _, ply in ipairs(self:GetAlivePlayers()) do
-            table.insert(playerPositions, ply:GetPos())
+            table.insert(self.PlayerPositions, ply:GetPos())
         end
 
         -- Spawn twice as many zombies as players
-        local spawnCap = #self:GetAlivePlayers() * 2
-        local chosenSpawns = 0
-
-        for _, ent in ipairs(ents.GetAll()) do
-            local classname = ent:GetClass()
-            local pos = ent:GetPos()
-            local infoEnt = string.StartWith(classname, "info_")
-
-            -- Using the positions of weapon, ammo and player spawns
-            if (string.StartWith(classname, "weapon_") or string.StartWith(classname, "item_") or infoEnt) and not IsValid(ent:GetParent()) and chosenSpawns < spawnCap then
-                local tooClose = false
-
-                for _, plyPos in ipairs(playerPositions) do
-                    -- 100 * 100 = 10,000, so any zombies closer than 100 source units to the player are too close to be placed
-                    if math.DistanceSqr(pos.x, pos.y, plyPos.x, plyPos.y) < 10000 then
-                        tooClose = true
-                        break
-                    end
-                end
-
-                if not tooClose then
-                    table.insert(zombieSpawns, pos)
-
-                    -- Don't remove player spawn points
-                    if not infoEnt then
-                        ent:Remove()
-                    end
-
-                    chosenSpawns = chosenSpawns + 1
-                end
-            end
-        end
-
+        self.SpawnCap = #self:GetAlivePlayers() * 2
+        self.ChosenSpawns = 0
+        -- And so the grand search for spawn points for the zombies begins...
+        self:GetEntitySpawnPoints()
         -- Spawns as many zombies as living players
         -- -1 from the timer as we're spawning one outside the timer manually
         local spawnIndex = 1
-        zombieSpawnCount = #zombieSpawns
+        zombieSpawnCount = #self.ZombieSpawns
+        -- There's guaranteed at least one spawn in a map as TTT generates a player spawn point when a map doesn't have any
         self:SpawnZombie(spawnIndex)
 
         timer.Create("DogRoundRandomatSpawnDog", 4, math.max(zombieSpawnCount - 1, 0), function()
-            self:SpawnZombie(spawnIndex)
             spawnIndex = spawnIndex + 1
+            self:SpawnZombie(spawnIndex)
         end)
     end)
 
@@ -167,7 +189,7 @@ end
 function EVENT:End()
     net.Start("DogRoundRandomatEnd")
     net.Broadcast()
-    table.Empty(zombieSpawns)
+    table.Empty(self.ZombieSpawns)
     timer.Remove("DogRoundRandomatAlert")
     timer.Remove("DogRoundRandomatStartSpawning")
     timer.Remove("DogRoundRandomatSpawnDog")
