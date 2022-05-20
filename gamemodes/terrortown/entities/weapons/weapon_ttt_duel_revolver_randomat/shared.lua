@@ -25,7 +25,6 @@ SWEP.IronSightsPos = Vector(-4.64, -3.96, 0.68)
 SWEP.IronSightsAng = Vector(0.214, -0.1767, 0)
 SWEP.Kind = WEAPON_PISTOL
 SWEP.AutoSpawnable = false
-SWEP.AmmoEnt = "item_ammo_revolver_ttt"
 
 SWEP.InLoadoutFor = {nil}
 
@@ -100,6 +99,7 @@ function SWEP:PrimaryAttack()
 
         return
     elseif duellingPlayer ~= NULL or ((not IsPlayer(target)) or target == duellingPlayer) then
+        -- If hitting the player's target, or not shooting a player, trigger the usual gunshot behaviour
         -- Check if the target player was killed by the gunshot
         timer.Simple(0.1, function()
             if IsPlayer(target) and (target:IsSpec() or not target:Alive()) then
@@ -110,8 +110,14 @@ function SWEP:PrimaryAttack()
             end
         end)
 
-        -- If they miss or are hitting their target, trigger the usual gunshot behaviour
+        -- Trigger all normal gunshot effects and logic
         return self.BaseClass.PrimaryAttack(self)
+    elseif duellingPlayer == NULL and SERVER and IsPlayer(target) and IsPlayer(target:GetNWEntity("WesternDuellingPlayer", NULL)) then
+        -- If shooting someone who is duelling with another player, display a message
+        -- and prevent the duel-starting logic from running
+        owner:PrintMessage(HUD_PRINTCENTER, "Already duelling!")
+
+        return
     end
 
     if SERVER then

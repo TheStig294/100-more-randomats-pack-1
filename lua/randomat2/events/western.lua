@@ -94,6 +94,10 @@ function EVENT:Begin()
                 ply:SetNWEntity("WesternDuellingPlayer", NULL)
             end
         end
+
+        -- Remove the duel halo when a player dies
+        net.Start("DuelRevolverRemoveHalo")
+        net.Send(deadPly)
     end)
 
     self:AddHook("PlayerPostThink", function(ply)
@@ -115,6 +119,8 @@ function EVENT:End()
         end
 
         net.Start("WesternEndEvent")
+        net.Broadcast()
+        net.Start("DuelRevolverRemoveHalo")
         net.Broadcast()
     end
 end
