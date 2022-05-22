@@ -157,9 +157,10 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
                 end
             end
 
-            -- Role icons
+            -- Box and player name
             draw.WordBox(16, XPos, YPos, playerNames[ply], "WelcomeBackRandomatOverlayFont", roleColour, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
+            -- Role icons
             if iconRole then
                 surface.SetMaterial(roleIcons[iconRole])
                 surface.SetDrawColor(255, 255, 255)
