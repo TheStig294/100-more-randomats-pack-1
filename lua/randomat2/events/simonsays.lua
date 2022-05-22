@@ -29,6 +29,13 @@ local autoSpawnHeavyWeps = {}
 function EVENT:Begin()
     self.leaderSelectCount = 0
 
+    -- Remove all floor weapons that don't deal damage
+    for _, wep in ipairs(ents.GetAll()) do
+        if IsValid(wep) and wep.AutoSpawnable and wep.Primary and wep.Primary.Damage and wep.Primary.Damage <= 0 then
+            wep:Remove()
+        end
+    end
+
     for i, swep in ipairs(weapons.GetList()) do
         if swep.AutoSpawnable and swep.Kind and swep.Kind == WEAPON_HEAVY then
             table.insert(autoSpawnHeavyWeps, swep)
