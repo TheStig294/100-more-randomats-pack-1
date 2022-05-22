@@ -47,11 +47,11 @@ net.Receive("WesternBeginEvent", function()
         surface.DrawRect(xPos2, yPos2, width2, height2)
     end)
 
+    -- Playing music originally from the 'Pistols at Dawn' randomat event
     music = net.ReadBool()
 
     if music then
         for i = 1, 2 do
-            -- Playing music originally from the 'Pistols at Dawn' randomat event
             surface.PlaySound("pistols/rattlesnake_railroad.mp3")
         end
 
@@ -61,10 +61,18 @@ net.Receive("WesternBeginEvent", function()
             end
         end)
     end
+
+    -- Prevents players from walking around while in a duel
+    hook.Add("StartCommand", "WesternRandomatStopDuelMovement", function(ply, CUserCmd)
+        if IsPlayer(ply:GetNWEntity("WesternDuellingPlayer", NULL)) then
+            CUserCmd:ClearMovement()
+        end
+    end)
 end)
 
 -- Ends the event
 net.Receive("WesternEndEvent", function()
+    hook.Remove("StartCommand", "WesternRandomatStopDuelMovement")
     timer.Remove("WesternRandomatMusicLoop")
     RunConsoleCommand("stopsound")
 
