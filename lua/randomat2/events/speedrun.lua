@@ -8,6 +8,7 @@ EVENT.id = "speedrun"
 
 EVENT.Categories = {"biased_innocent", "biased", "largeimpact"}
 
+util.AddNetworkString("SpeedrunRandomatPlayAlertSound")
 local speedrunRandomat = false
 local hasteMode = false
 local hasteMinutes = 0.5
@@ -33,24 +34,40 @@ function EVENT:Begin()
     -- Plays the TF2 announcer voice as the time runs out
     -- Play an initial voice-over as the timer below won't activate until after a second
     if time == 120 then
-        BroadcastLua("surface.PlaySound(\"speedrun/2mins.mp3\")")
+        net.Start("SpeedrunRandomatPlayAlertSound")
+        net.WriteString("speedrun/2mins.mp3")
+        net.Broadcast()
     elseif time == 60 then
-        BroadcastLua("surface.PlaySound(\"speedrun/60sec.mp3\")")
+        net.Start("SpeedrunRandomatPlayAlertSound")
+        net.WriteString("speedrun/60sec.mp3")
+        net.Broadcast()
     elseif time == 30 then
-        BroadcastLua("surface.PlaySound(\"speedrun/30sec.mp3\")")
+        net.Start("SpeedrunRandomatPlayAlertSound")
+        net.WriteString("speedrun/30sec.mp3")
+        net.Broadcast()
     end
 
     timer.Create("SpeedrunRandomatAnnouncerTimer", 1, time, function()
         if timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 120 then
-            BroadcastLua("surface.PlaySound(\"speedrun/2mins.mp3\")")
+            net.Start("SpeedrunRandomatPlayAlertSound")
+            net.WriteString("speedrun/2mins.mp3")
+            net.Broadcast()
         elseif timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 60 then
-            BroadcastLua("surface.PlaySound(\"speedrun/60sec.mp3\")")
+            net.Start("SpeedrunRandomatPlayAlertSound")
+            net.WriteString("speedrun/60sec.mp3")
+            net.Broadcast()
         elseif timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 30 then
-            BroadcastLua("surface.PlaySound(\"speedrun/30sec.mp3\")")
+            net.Start("SpeedrunRandomatPlayAlertSound")
+            net.WriteString("speedrun/30sec.mp3")
+            net.Broadcast()
         elseif timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 20 then
-            BroadcastLua("surface.PlaySound(\"speedrun/20sec.mp3\")")
+            net.Start("SpeedrunRandomatPlayAlertSound")
+            net.WriteString("speedrun/20sec.mp3")
+            net.Broadcast()
         elseif timer.RepsLeft("SpeedrunRandomatAnnouncerTimer") == 10 then
-            BroadcastLua("surface.PlaySound(\"speedrun/10sec.mp3\")")
+            net.Start("SpeedrunRandomatPlayAlertSound")
+            net.WriteString("speedrun/10sec.mp3")
+            net.Broadcast()
         end
     end)
 
