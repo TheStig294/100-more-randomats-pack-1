@@ -105,6 +105,7 @@ function SWEP:PrimaryAttack()
             if IsPlayer(target) and (target:IsSpec() or not target:Alive()) then
                 owner:SetNWEntity("WesternDuellingPlayer", NULL)
                 target:SetNWEntity("WesternDuellingPlayer", NULL)
+                timer.Remove("WesternDuelTimer" .. owner:SteamID64())
                 timer.Remove("WesternDuelOver" .. owner:SteamID64())
                 hook.Remove("PreDrawHalos", "DuelRevolverHalo")
             end
@@ -150,6 +151,16 @@ function SWEP:PrimaryAttack()
                 net.Start("DuelRevolverDrawHalo")
                 net.WriteString(owner:Nick())
                 net.Send(target)
+
+                -- Displays a timer when the duel has a few seconds left
+                timer.Create("WesternDuelTimer" .. owner:SteamID64(), 1, 10, function()
+                    local repsLeft = timer.RepsLeft("WesternDuelTimer" .. owner:SteamID64())
+
+                    if repsLeft < 5 and repsLeft > 0 then
+                        owner:PrintMessage(HUD_PRINTCENTER, repsLeft)
+                        target:PrintMessage(HUD_PRINTCENTER, repsLeft)
+                    end
+                end)
 
                 -- After 10 seconds of duelling, the players are free to duel others and have to initiate their duel again to fight
                 timer.Create("WesternDuelOver" .. owner:SteamID64(), 10, 1, function()
