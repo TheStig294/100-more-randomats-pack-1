@@ -169,7 +169,7 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
 
             -- Death X
             if not ply:Alive() or ply:IsSpec() then
-                -- You have to set the font using surface.SetFont() to use surface.GetTextSize()
+                -- You have to set the font using surface.SetFont() to use surface.GetTextSize(), even though surface.SetFont() is not used for any drawing
                 surface.SetFont("WelcomeBackRandomatOverlayFont")
                 local textWidth, textHeight = surface.GetTextSize(playerNames[ply])
                 surface.SetDrawColor(255, 255, 255)
