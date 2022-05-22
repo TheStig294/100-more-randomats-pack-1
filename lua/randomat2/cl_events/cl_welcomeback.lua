@@ -72,7 +72,7 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
             -- Grabbing the alive players and the number of them
             playerCount = playerCount + 1
             table.insert(alivePlayers, ply)
-            playerNames[ply] = playerName
+            playerNames[ply] = ply:Nick()
         end
     end
 
