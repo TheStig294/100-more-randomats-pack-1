@@ -21,12 +21,22 @@ function EVENT:Begin()
 
     -- Sets flags on players using randomat functions only available on the server
     for _, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsDetectiveLike(ply) then
+        if Randomat:IsGoodDetectiveLike(ply) then
+            ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", true)
+            ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
+        elseif Randomat:IsEvilDetectiveLike(ply) then
+            ply:SetNWBool("WelcomeBackTraitor", true)
+            ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
+        elseif Randomat:IsDetectiveLike(ply) then
             ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
         elseif Randomat:IsJesterTeam(ply) then
             ply:SetNWBool("WelcomeBackJester", true)
         elseif Randomat:IsTraitorTeam(ply) or (ROLE_GLITCH and ply:GetRole() == ROLE_GLITCH) then
             ply:SetNWBool("WelcomeBackTraitor", true)
+        end
+
+        if ROLE_GLITCH and ply:GetRole() == ROLE_GLITCH then
+            SetGlobalBool("WelcomeBackGlitchExists", true)
         end
     end
 
@@ -53,10 +63,13 @@ function EVENT:End()
     -- Removes all flags set
     for _, ply in ipairs(player.GetAll()) do
         ply:SetNWBool("WelcomeBackIsDetectiveLike", false)
+        ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", false)
         ply:SetNWBool("WelcomeBackJester", false)
         ply:SetNWBool("WelcomeBackTraitor", false)
         ply:SetNWBool("WelcomeBackScoreboardRoleRevealed", false)
     end
+
+    SetGlobalBool("WelcomeBackGlitchExists", false)
 end
 
 -- More than 8 alive players will result in the overlay going off the screen and causing lag eventually

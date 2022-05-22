@@ -127,15 +127,30 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
             local roleColour = defaultColour
             local iconRole
 
-            -- Reveal yourself and searched players
-            if ply == LocalPlayer() or ply:GetNWBool("WelcomeBackScoreboardRoleRevealed") then
+            -- Reveal yourself, searched players, and detectives (when their roles aren't hidden) to everyone
+            if ply == LocalPlayer() or ply:GetNWBool("WelcomeBackScoreboardRoleRevealed") or (ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and GetGlobalInt("ttt_detective_hide_special_mode", 0) == 0) then
                 roleColour = ROLE_COLORS[ply:GetRole()]
 
                 if roleIcons then
                     iconRole = ply:GetRole()
                 end
-                -- Reveal detective-like players only as detectives to everyone
-            elseif ply:GetNWBool("WelcomeBackIsDetectiveLike") then
+                -- Reveal fellow traitors as plain traitors until they're searched, when there is a glitch
+            elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackTraitor") then
+                if GetGlobalBool("WelcomeBackGlitchExists") then
+                    roleColour = ROLE_COLORS[ROLE_TRAITOR]
+
+                    if roleIcons then
+                        iconRole = ROLE_TRAITOR
+                    end
+                else
+                    roleColour = ROLE_COLORS[ply:GetRole()]
+
+                    if roleIcons then
+                        iconRole = ply:GetRole()
+                    end
+                end
+            elseif (ply:GetNWBool("WelcomeBackIsDetectiveLike") and ply:GetNWBool("HasPromotion")) or (ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and GetGlobalInt("ttt_detective_hide_special_mode", 0) == 1) then
+                -- Reveal promoted detective-like players like the impersonator, or special detectives while the hide convar is on, as ordinary detectives
                 roleColour = ROLE_COLORS[ROLE_DETECTIVE]
 
                 if roleIcons then
@@ -147,13 +162,6 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
 
                 if roleIcons then
                     iconRole = ROLE_JESTER
-                end
-            elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackTraitor") then
-                -- Reveal fellow traitors as plain traitors until they're searched, as there could be a glitch
-                roleColour = ROLE_COLORS[ROLE_TRAITOR]
-
-                if roleIcons then
-                    iconRole = ROLE_TRAITOR
                 end
             end
 
