@@ -72,13 +72,6 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
             -- Grabbing the alive players and the number of them
             playerCount = playerCount + 1
             table.insert(alivePlayers, ply)
-            -- Grabbing each player's nickname and adding an ellipsis if it is too long
-            local playerName = ply:Nick()
-
-            if #playerName > 11 then
-                playerName = string.Left(playerName, 11) .. "..."
-            end
-
             playerNames[ply] = playerName
         end
     end
