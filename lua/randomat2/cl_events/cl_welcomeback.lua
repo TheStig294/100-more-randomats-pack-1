@@ -1,9 +1,8 @@
 local introPopup
 local overlayPositions = {}
-local Width = 150
-local Height = 50
-local YPos = Height / 2
+local YPos = 50
 local alpha = 0
+local iconSize = 32
 local playerNames = {}
 
 -- Displays the intro popup and plays the intro sound chosen by the server
@@ -89,7 +88,7 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
     -- Sorry for this being a bit of a magic number... took a lot of thought to come up with this formula
     -- Probably would've been faster to google this since I'm probably not the only person to have had this problem to solve, oh well...
     for playerIndex, ply in ipairs(player.GetAll()) do
-        overlayPositions[ply] = ((playerIndex * screenWidth) / (playerCount + 1)) - Width / 2
+        overlayPositions[ply] = (playerIndex * screenWidth) / (playerCount + 1)
     end
 
     -- Fallback colours to use
@@ -100,43 +99,81 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
     }
 
     local ROLE_COLORS = ROLE_COLORS or colourTable
+    -- Getting the icons for every role if Custom Roles for TTT is installed
+    local roleIcons = nil
+
+    if ROLE_STRINGS_SHORT then
+        roleIcons = {}
+
+        for roleID, shortName in pairs(ROLE_STRINGS_SHORT) do
+            roleIcons[roleID] = Material("vgui/ttt/roles/" .. shortName .. "/score_" .. shortName .. ".png")
+        end
+    end
+
     alpha = 0
 
     timer.Create("WelcomeBackFadeIn", 0.01, 100, function()
         alpha = alpha + 0.01
     end)
 
+    local defaultColour = Color(100, 100, 100)
+
     hook.Add("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay", function()
         surface.SetAlphaMultiplier(alpha)
 
         for ply, XPos in SortedPairsByValue(overlayPositions) do
             if not IsPlayer(ply) then continue end
-            surface.SetDrawColor(100, 100, 100)
+            -- surface.SetDrawColor(100, 100, 100)
+            local roleColour = defaultColour
+            local iconRole
 
             -- Reveal yourself and searched players
             if ply == LocalPlayer() or ply:GetNWBool("WelcomeBackScoreboardRoleRevealed") then
-                surface.SetDrawColor(ROLE_COLORS[ply:GetRole()])
+                roleColour = ROLE_COLORS[ply:GetRole()]
+
+                if roleIcons then
+                    iconRole = ply:GetRole()
+                end
                 -- Reveal detective-like players only as detectives to everyone
             elseif ply:GetNWBool("WelcomeBackIsDetectiveLike") then
-                surface.SetDrawColor(ROLE_COLORS[ROLE_DETECTIVE])
+                roleColour = ROLE_COLORS[ROLE_DETECTIVE]
+
+                if roleIcons then
+                    iconRole = ROLE_DETECTIVE
+                end
             elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackJester") then
                 -- Reveal jesters only to traitors
-                surface.SetDrawColor(ROLE_COLORS[ply:GetRole()])
+                roleColour = ROLE_COLORS[ply:GetRole()]
+
+                if roleIcons then
+                    iconRole = ROLE_JESTER
+                end
             elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackTraitor") then
                 -- Reveal fellow traitors as plain traitors until they're searched, as there could be a glitch
-                surface.SetDrawColor(ROLE_COLORS[ROLE_TRAITOR])
+                roleColour = ROLE_COLORS[ROLE_TRAITOR]
+
+                if roleIcons then
+                    iconRole = ROLE_TRAITOR
+                end
             end
 
-            draw.RoundedBox(20, XPos, YPos, Width, Height, surface.GetDrawColor())
-            surface.SetFont("WelcomeBackRandomatOverlayFont")
-            surface.SetTextPos(XPos + (Width / 20), YPos + (Height / 4))
-            surface.SetTextColor(255, 255, 255)
-            surface.DrawText(playerNames[ply])
+            -- Role icons
+            draw.WordBox(16, XPos, YPos, playerNames[ply], "WelcomeBackRandomatOverlayFont", roleColour, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
+            if iconRole then
+                surface.SetMaterial(roleIcons[iconRole])
+                surface.SetDrawColor(255, 255, 255)
+                surface.DrawTexturedRect(XPos - iconSize / 2, iconSize / 6, iconSize, iconSize)
+            end
+
+            -- Death X
             if not ply:Alive() or ply:IsSpec() then
-                surface.SetDrawColor(255, 0, 0)
-                surface.DrawLine(XPos, YPos, XPos + Width, YPos + Height)
-                surface.DrawLine(XPos, YPos + Height, XPos + Width, YPos)
+                -- You have to set the font using surface.SetFont() to use surface.GetTextSize()
+                surface.SetFont("WelcomeBackRandomatOverlayFont")
+                local textWidth, textHeight = surface.GetTextSize(playerNames[ply])
+                surface.SetDrawColor(255, 255, 255)
+                surface.DrawLine(XPos - (textWidth / 2), YPos - (textHeight / 2), XPos + (textWidth / 2), YPos + (textHeight / 2))
+                surface.DrawLine(XPos - (textWidth / 2), YPos + (textHeight / 2), XPos + (textWidth / 2), YPos - (textHeight / 2))
             end
         end
     end)
