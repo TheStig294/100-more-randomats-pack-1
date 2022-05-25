@@ -2,7 +2,7 @@ local EVENT = {}
 EVENT.Title = "Press E to ping"
 EVENT.id = "ping"
 
-EVENT.Categories = {"smallimpact"}
+EVENT.Categories = {"spectator", "biased_innocent", "biased", "smallimpact"}
 
 util.AddNetworkString("PingRandomatBegin")
 util.AddNetworkString("PingRandomatPressedF")
@@ -27,6 +27,10 @@ function EVENT:Begin()
                 ply:SetNWBool("PingRandomatCooldown", false)
             end)
         end
+    end)
+
+    self:AddHook("PostPlayerDeath", function(ply)
+        SpectatorRandomatAlert(ply, EVENT)
     end)
 end
 
