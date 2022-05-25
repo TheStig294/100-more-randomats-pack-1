@@ -99,7 +99,11 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
         roleIcons = {}
 
         for roleID, shortName in pairs(ROLE_STRINGS_SHORT) do
-            roleIcons[roleID] = Material("vgui/ttt/roles/" .. shortName .. "/score_" .. shortName .. ".png")
+            if file.Exists("materials/vgui/ttt/roles/" .. shortName .. "/score_" .. shortName .. ".png", "GAME") then
+                roleIcons[roleID] = Material("vgui/ttt/roles/" .. shortName .. "/score_" .. shortName .. ".png")
+            else
+                roleIcons[roleID] = Material("vgui/ttt/score_" .. shortName .. ".png")
+            end
         end
     end
 
