@@ -393,7 +393,11 @@ function SpectatorRandomatAlert(ply, EVENT)
         ply:PrintMessage(HUD_PRINTCENTER, "Spectator Randomat Active!")
 
         timer.Create("SpectatorRandomatAlert" .. ply:SteamID64(), 2, 2, function()
-            ply:PrintMessage(HUD_PRINTCENTER, desc)
+            if desc ~= "" then
+                ply:PrintMessage(HUD_PRINTCENTER, desc)
+            else
+                ply:PrintMessage(HUD_PRINTCENTER, title)
+            end
         end)
     end)
 end
