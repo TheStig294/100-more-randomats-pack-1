@@ -126,6 +126,31 @@ if SERVER then
     function DoneSendingDetectiveTraitorBuyable()
         return doneDetectiveItems and doneTraitorItems
     end
+
+    -- Disabling all events that are disabled by default once (So they can be turned back on if you still want them)
+    hook.Add("TTTPrepareRound", "RandomatDisableEventsOnce", function()
+        if not file.Exists("randomat/disabled_events.txt", "DATA") then
+            file.Write("randomat/disabled_events.txt")
+        end
+
+        local readFile = file.Read("randomat/disabled_events.txt", "DATA")
+        local disabledEvents = string.Explode("\n", readFile)
+        local eventsToDisable = {}
+
+        for id, event in pairs(Randomat.Events) do
+            if event.IsEnabled == false then
+                table.insert(eventsToDisable, id)
+
+                if not table.HasValue(disabledEvents, id) then
+                    RunConsoleCommand("ttt_randomat_" .. id, "0")
+                    table.insert(disabledEvents, id)
+                end
+            end
+        end
+
+        file.Write("randomat/disabled_events.txt", table.concat(disabledEvents, "\n"))
+        hook.Remove("TTTPrepareRound", "RandomatDisableEventsOnce")
+    end)
 end
 
 -- Returns whether or not the current map has a navmesh. Used for randomats that use ai-based weapons that need a navmesh to work, such as the guard dog or killer snail randomats

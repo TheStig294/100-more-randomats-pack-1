@@ -3,6 +3,7 @@ EVENT.Title = "I'm The Captain Now."
 EVENT.Description = "If the detective RDMs, the victim becomes the new detective!"
 EVENT.id = "captain"
 EVENT.Type = EVENT_TYPE_RESPAWN
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"biased_innocent", "biased", "rolechange", "deathtrigger", "smallimpact"}
 

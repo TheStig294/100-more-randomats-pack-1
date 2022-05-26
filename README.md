@@ -446,8 +446,9 @@ _ttt_randomat_hugeproblem_ - Default: 1 - Whether this randomat is enabled
 ## I'm The Captain Now
 
 The first time a detective kills someone on their side, they die, and their victim respawns as a new detective at full health with the detective's weapons.\
+NOTE: This randomat is disabled by default as it's a bit too niche and normally doesn't have an effect on the round.\
 \
-_ttt_randomat_captain_ - Default: 1 - Whether this randomat is enabled\
+_ttt_randomat_captain_ - Default: 0 - Whether this randomat is enabled\
 \
 Fixed compatibility with Custom Roles for TTT and added compatibility with Noxx’s Custom Roles for TTT.\
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
