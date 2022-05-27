@@ -41,25 +41,10 @@ hook.Add("PlayerInitialSpawn", "RandomatStatsFillPlayerIDs", function(ply, trans
     end
 end)
 
--- Any randomat that triggers that has both the "stats" and "item" categories will disable the hook below
-local boughtItemEvents = {}
-
-for _, EVENT in ipairs(Randomat:GetEventsByCategory("stats")) do
-    if table.HasValue(EVENT.Categories, "item") then
-        table.insert(boughtItemEvents, EVENT.id)
-    end
-end
-
 -- Keeps track of the number of times any player has bought any one buy menu item
-hook.Add("TTTOrderedEquipment", "RandomatStatsOrderedEquipment", function(ply, equipment, is_item)
-    if GetGlobalBool("DisableRandomatStats") then return end
-
-    -- Don't record bought items during randomats that rely on this stat, else 
-    -- everyone's most bought items will be self-perpetuating
-    for _, event in ipairs(boughtItemEvents) do
-        if Randomat:IsEventActive(event) then return end
-    end
-
+hook.Add("TTTOrderedEquipment", "RandomatStatsOrderedEquipment", function(ply, equipment, is_item, given_by_randomat)
+    -- Items given by randomats aren't bought by the player, so they shouldn't count
+    if given_by_randomat or GetGlobalBool("DisableRandomatStats") then return end
     local ID = ply:SteamID()
 
     -- Passive items are indexed by their print name, if it exists
