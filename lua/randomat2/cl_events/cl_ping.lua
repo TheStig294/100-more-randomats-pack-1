@@ -21,21 +21,22 @@ net.Receive("PingRandomatBegin", function()
     end)
 end)
 
-net.Receive("PingRandomatPressedF", function()
+net.Receive("PingRandomatPressedE", function()
     local pos = net.ReadVector()
     local ent = net.ReadEntity()
+    local cooldown = net.ReadUInt(8)
     surface.PlaySound("ping/ping.mp3")
 
     if IsValid(ent) and ent ~= game.GetWorld() then
         table.insert(pingEntities, ent)
 
-        timer.Simple(10, function()
+        timer.Simple(cooldown, function()
             table.RemoveByValue(pingEntities, ent)
         end)
     else
         table.insert(pingPositions, pos)
 
-        timer.Simple(10, function()
+        timer.Simple(cooldown, function()
             table.RemoveByValue(pingPositions, pos)
         end)
     end
