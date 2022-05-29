@@ -6,6 +6,8 @@ EVENT.SingleUse = false
 
 EVENT.Categories = {"entityspawn", "moderateimpact"}
 
+util.AddNetworkString("BucketRandomatOutline")
+util.AddNetworkString("BucketRandomatOutlineEnd")
 local possibleSpawns = {}
 
 function EVENT:Begin()
@@ -15,6 +17,13 @@ function EVENT:Begin()
     bucket:SetPos(pos + Vector(0, 0, 10))
     bucket:Spawn()
     bucket:PhysWake()
+    net.Start("BucketRandomatOutline")
+    net.Broadcast()
+end
+
+function EVENT:End()
+    net.Start("BucketRandomatOutlineEnd")
+    net.Broadcast()
 end
 
 -- Get every player's position so the bucket isn't spawned too close to a player
@@ -48,7 +57,7 @@ function EVENT:Condition()
         end
     end
 
-    return not table.IsEmpty(possibleSpawns)
+    return possibleSpawns ~= {}
 end
 
 Randomat:register(EVENT)
