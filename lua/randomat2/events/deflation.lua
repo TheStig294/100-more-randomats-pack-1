@@ -5,83 +5,47 @@ EVENT.id = "deflation"
 
 EVENT.Categories = {"moderateimpact"}
 
-local offsets = {}
-local offsets_ducked = {}
+local stepSizes = {}
 
-function EVENT:SetPlayerSize(size, ply)
-    -- Makes player size scale from 1 to 0.3 rather than 1 to 0, so they aren't impossible to hit when on low health
-    size = 0.7 * size + 0.3
-    ply:SetModelScale(size, 0.2)
-    ply:SetViewOffset(Vector(0, 0, 64 * size))
-    ply:SetViewOffsetDucked(Vector(0, 0, 28 * size))
-    ply:SetStepSize(ply:GetStepSize() * size)
-    -- Reduce the player speed on the client
-    local speed_factor = math.Clamp(ply:GetStepSize() / 9, 0.25, 1)
-    net.Start("RdmtSetSpeedMultiplier")
-    net.WriteFloat(speed_factor)
-    net.WriteString("RdmtDeflationSpeed")
-    net.Send(ply)
-end
-
-function EVENT:ResetPlayerSize(ply)
-    local offset = nil
-
-    -- Check to see if they had their view height changed
-    if offsets[ply:SteamID64()] then
-        -- If so, grab it and clear it from the table
-        offset = offsets[ply:SteamID64()]
-        offsets[ply:SteamID64()] = nil
+function EVENT:SetDeflationScale(ply, scaleOverride)
+    if scaleOverride then
+        Randomat:SetPlayerScale(ply, scaleOverride, self.id)
+    else
+        local size = (0.7 * (ply:Health() / ply:GetMaxHealth())) + 0.3
+        local currentSize = ply:GetStepSize() / stepSizes[ply]
+        Randomat:SetPlayerScale(ply, size / currentSize, self.id)
     end
-
-    -- Reset their view height if it was changed
-    if offset or not ply.ec_ViewChanged then
-        ply:SetViewOffset(offset or Vector(0, 0, 64))
-    end
-
-    -- And same with their view height while crouched
-    local offset_ducked = nil
-
-    if offsets_ducked[ply:SteamID64()] then
-        offset_ducked = offsets_ducked[ply:SteamID64()]
-        offsets_ducked[ply:SteamID64()] = nil
-    end
-
-    if offset_ducked or not ply.ec_ViewChanged then
-        ply:SetViewOffsetDucked(offset_ducked or Vector(0, 0, 28))
-    end
-
-    -- Reset their model size and step size
-    ply:SetModelScale(1, 1)
-    ply:SetStepSize(18)
-    -- Reset the player speed on the client
-    net.Start("RdmtRemoveSpeedMultiplier")
-    net.WriteString("RdmtRandomSizeSpeed")
-    net.Send(ply)
 end
 
 function EVENT:Begin()
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        timer.Create("DeflationRandomatTimer" .. ply:SteamID64(), 0.1, 0, function()
-            self:SetPlayerSize(ply:Health() / ply:GetMaxHealth(), ply)
-        end)
+    -- Used for getting a player's current scale so scales aren't applied recursively
+    -- E.g. take two 20 damage hits, first hit sets to 0.8, 2nd to 0.6. As opposed to first hit 0.8, 2nd to 0.8 * 0.6
+    for _, ply in ipairs(player.GetAll()) do
+        stepSizes[ply] = ply:GetStepSize()
     end
 
-    self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
-        timer.Remove("DeflationRandomatTimer" .. ply:SteamID64())
+    -- Set everyone's initial scale
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        self:SetDeflationScale(ply)
+    end
+
+    -- Set player scales after taking damage
+    self:AddHook("PostEntityTakeDamage", function(ent, dmginfo, took)
+        if not took then return end
+        if (not IsPlayer(ent)) or ent:IsSpec() or not ent:Alive() then return end
+        self:SetDeflationScale(ent)
     end)
 
+    -- Reset scales of respawned players
     self:AddHook("PlayerSpawn", function(ply)
-        timer.Create("DeflationRandomatTimer" .. ply:SteamID64(), 0.1, 0, function()
-            self:SetPlayerSize(ply:Health() / ply:GetMaxHealth(), ply)
+        timer.Simple(0.1, function()
+            Randomat:ResetPlayerScale(ply, self.id)
         end)
     end)
 end
 
 function EVENT:End()
-    for _, ply in ipairs(player.GetAll()) do
-        timer.Remove("DeflationRandomatTimer" .. ply:SteamID64())
-        self:ResetPlayerSize(ply)
-    end
+    self:ResetAllPlayerScales()
 end
 
 Randomat:register(EVENT)
