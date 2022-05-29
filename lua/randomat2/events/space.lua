@@ -8,7 +8,7 @@ EVENT.Categories = {"smallimpact"}
 function EVENT:Begin()
     -- When a player holds the spacebar,
     self:AddHook("PlayerButtonDown", function(ply, button)
-        if button == KEY_SPACE then
+        if button == KEY_SPACE and ply:Alive() and not ply:IsSpec() then
             -- 1/2 the speed of all their movement
             ply:SetLaggedMovementValue(0.5)
             -- And set a flag to make them immune to fall damage
