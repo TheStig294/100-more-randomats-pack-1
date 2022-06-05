@@ -25,6 +25,12 @@ function EVENT:Begin()
         ply:SetMaxHealth(ply:GetMaxHealth() + 100)
     end
 
+    self:AddHook("PlayerSpawn", function(ply, transition)
+        timer.Simple(0.1, function()
+            ply:SetMaxHealth(ply:Health() + 100)
+        end)
+    end)
+
     -- Add hook for when a player fires.
     self:AddHook("EntityFireBullets", function(ent, data)
         ent.shotBullet = true
