@@ -26,8 +26,9 @@ function EVENT:Begin()
         text = string.lower(text)
 
         for id, title in pairs(randomatNames) do
-            if string.find(title, text) then
-                Randomat:TriggerEvent(id)
+            -- True argument ignores event history so players can trigger recently triggered events if they want
+            if string.find(title, text) and Randomat:CanEventRun(id, true) then
+                Randomat:SafeTriggerEvent(id)
                 -- This will prevent this event from being typed in over and over
                 -- Using this randomat to trigger itself is equivalent to it never triggering in the first place
                 self:RemoveHook("PlayerSay")
