@@ -12,6 +12,8 @@ local function SetPlayerData(ply, data)
     ply:SetCredits(data.credits)
     Randomat:SetRole(ply, data.role)
     ply:StripWeapons()
+    -- Reset FOV to unscope
+    ply:SetFOV(0, 0.2)
 
     for _, weapon in ipairs(data.weapons) do
         ply:Give(weapon)
