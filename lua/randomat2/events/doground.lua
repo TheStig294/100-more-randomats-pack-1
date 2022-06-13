@@ -132,8 +132,8 @@ function EVENT:Begin()
             table.insert(self.PlayerPositions, ply:GetPos())
         end
 
-        -- Spawn twice as many zombies as players
-        self.SpawnCap = #self:GetAlivePlayers() * 2
+        -- Spawn as many zombies as players
+        self.SpawnCap = #self:GetAlivePlayers()
         self.ChosenSpawns = 0
         -- And so the grand search for spawn points for the zombies begins...
         self:GetEntitySpawnPoints()
