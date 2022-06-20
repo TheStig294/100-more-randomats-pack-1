@@ -39,9 +39,23 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     Randomat.ActiveEvents = Randomat.ActiveEvents or {}
     local randomat_meta = {}
     randomat_meta.__index = randomat_meta
+    local concommand = concommand
+    local ents = ents
+    local file = file
+    local hook = hook
+    local ipairs = ipairs
+    local IsValid = IsValid
+    local math = math
+    local net = net
+    local pairs = pairs
+    local player = player
+    local string = string
+    local table = table
+    local timer = timer
+    local GetAllPlayers = player.GetAll
     --[[
-     Event History
-    ]]
+ Event History
+]]
     --
     Randomat.EventHistory = Randomat.EventHistory or {}
 
@@ -137,8 +151,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end)
 
     --[[
-     Event Notifications
-    ]]
+ Event Notifications
+]]
     --
     function Randomat:NotifyDescription(event)
         -- Show this if "secret" is active if we're specifically showing the description for "secret"
@@ -165,8 +179,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
-     Event Control
-    ]]
+ Event Control
+]]
     --
     local function EndEvent(evt)
         evt:CleanUpHooks()
@@ -212,7 +226,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             end
 
             if GetConVar("ttt_randomat_event_hint_chat"):GetBool() then
-                for _, p in ipairs(player.GetAll()) do
+                for _, p in ipairs(GetAllPlayers()) do
                     Randomat:ChatDescription(p, event, has_description)
                 end
             end
@@ -223,10 +237,10 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
-     Randomat Namespace
-    ]]
+ Randomat Namespace
+]]
     --
-    function Randomat:EndActiveEvent(id)
+    function Randomat:EndActiveEvent(id, skip_error)
         for k, evt in pairs(Randomat.ActiveEvents) do
             if evt.Id == id then
                 EndEvent(evt)
@@ -236,7 +250,19 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             end
         end
 
-        error("Could not find active event '" .. id .. "'")
+        if not skip_error then
+            error("Could not find active event '" .. id .. "'")
+        end
+    end
+
+    function Randomat:EndActiveEvents()
+        if Randomat.ActiveEvents ~= {} then
+            for _, evt in pairs(Randomat.ActiveEvents) do
+                EndEvent(evt)
+            end
+
+            Randomat.ActiveEvents = {}
+        end
     end
 
     function Randomat:IsEventActive(id)
@@ -258,9 +284,9 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
 
         -- Optimize this to get the full raw list if both alive and dead should be included
         if alive_only == dead_only then
-            plys = player.GetAll()
+            plys = GetAllPlayers()
         else
-            for _, ply in ipairs(player.GetAll()) do
+            for _, ply in ipairs(GetAllPlayers()) do
                 if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()))) then
                     -- Anybody
                     -- Alive and non-spec
@@ -295,6 +321,13 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         -- Heal the Old Man back to full when they are converted
         if old_role == ROLE_OLDMAN and role ~= ROLE_OLDMAN and SetRoleStartingHealth then
             SetRoleStartingHealth(ply)
+            -- Reset special round logic for roles if we are changing a player away from being the last of that role
+        elseif player.IsRoleLiving then
+            if old_role == ROLE_GLITCH and role ~= ROLE_GLITCH and GetGlobalBool("ttt_glitch_round", false) and not player.IsRoleLiving(ROLE_GLITCH) then
+                SetGlobalBool("ttt_glitch_round", false)
+            elseif old_role == ROLE_ZOMBIE and role ~= ROLE_ZOMBIE and GetGlobalBool("ttt_zombie_round", false) and not player.IsRoleLiving(ROLE_ZOMBIE) then
+                SetGlobalBool("ttt_zombie_round", false)
+            end
         end
 
         net.Start("TTT_RoleChanged")
@@ -529,7 +562,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
     end
 
-    function Randomat:SmallNotify(msg, length, targ)
+    local function SendNotify(msg, big, length, targ, silent)
         -- Don't broadcast anything when "Secret" is running
         if Randomat:IsEventActive("secret") then return end
 
@@ -537,8 +570,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
             length = 0
         end
 
-        net.Start("randomat_message")
-        net.WriteBool(false)
+        net.Start(silent and "randomat_message_silent" or "randomat_message")
+        net.WriteBool(big)
         net.WriteString(msg)
         net.WriteUInt(length, 8)
 
@@ -547,6 +580,22 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         else
             net.Send(targ)
         end
+    end
+
+    function Randomat:SmallNotify(msg, length, targ, silent)
+        SendNotify(msg, false, length, targ, silent)
+    end
+
+    function Randomat:Notify(msg, length, targ, silent)
+        SendNotify(msg, true, length, targ, silent)
+    end
+
+    function Randomat:EventNotify(title)
+        SendNotify(title, true)
+    end
+
+    function Randomat:EventNotifySilent(title)
+        SendNotify(title, true, nil, nil, true)
     end
 
     function Randomat:ChatNotify(ply, msg)
@@ -558,26 +607,6 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     function Randomat:LogEvent(msg)
         net.Start("TTT_LogInfo")
         net.WriteString(msg)
-        net.Broadcast()
-    end
-
-    function Randomat:EventNotify(title)
-        -- Don't broadcast anything when "Secret" is running
-        if Randomat:IsEventActive("secret") then return end
-        net.Start("randomat_message")
-        net.WriteBool(true)
-        net.WriteString(title)
-        net.WriteUInt(0, 8)
-        net.Broadcast()
-    end
-
-    function Randomat:EventNotifySilent(title)
-        -- Don't broadcast anything when "Secret" is running
-        if Randomat:IsEventActive("secret") then return end
-        net.Start("randomat_message_silent")
-        net.WriteBool(true)
-        net.WriteString(title)
-        net.WriteUInt(0, 8)
         net.Broadcast()
     end
 
@@ -923,8 +952,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
-     Randomat Meta
-    ]]
+ Randomat Meta
+]]
     --
     -- Valid players not spec
     function randomat_meta:GetPlayers(shuffle)
@@ -1168,27 +1197,34 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     function randomat_meta:ResetAllPlayerScales()
-        for _, ply in ipairs(player.GetAll()) do
+        for _, ply in ipairs(GetAllPlayers()) do
             Randomat:ResetPlayerScale(ply, self.id)
         end
 
         self:RemoveHook("TTTSpeedMultiplier")
     end
 
-    --[[
-     Commands
-    ]]
-    --
-    local function EndActiveEvents()
-        if Randomat.ActiveEvents ~= {} then
-            for _, evt in pairs(Randomat.ActiveEvents) do
-                EndEvent(evt)
-            end
+    function randomat_meta:AddCullingBypass(ply_pred, tgt_pred)
+        self:AddHook("SetupPlayerVisibility", function(ply)
+            if ply.ShouldBypassCulling and not ply:ShouldBypassCulling() then return end
+            if ply_pred and not ply_pred(ply) then return end
 
-            Randomat.ActiveEvents = {}
-        end
+            for _, v in ipairs(GetAllPlayers()) do
+                if tgt_pred and not tgt_pred(ply, v) then continue end
+                if ply:TestPVS(v) then continue end
+                local pos = v:GetPos()
+
+                if not ply.IsOnScreen or ply:IsOnScreen(pos) then
+                    AddOriginToPVS(pos)
+                end
+            end
+        end)
     end
 
+    --[[
+ Commands
+]]
+    --
     local function ClearAutoComplete(cmd, args)
         local name = string.Trim(args):lower()
         local options = {}
@@ -1207,7 +1243,9 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         Randomat:EndActiveEvent(cmd)
     end, ClearAutoComplete, "Clears a specific randomat active event", FCVAR_SERVER_CAN_EXECUTE)
 
-    concommand.Add("ttt_randomat_clearevents", EndActiveEvents, nil, "Clears all active events", FCVAR_SERVER_CAN_EXECUTE)
+    concommand.Add("ttt_randomat_clearevents", function()
+        Randomat:EndActiveEvents()
+    end, nil, "Clears all active events", FCVAR_SERVER_CAN_EXECUTE)
 
     local function TriggerAutoComplete(cmd, args)
         local name = string.Trim(args):lower()
@@ -1236,10 +1274,12 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end, nil, "Triggers a random  randomat event", FCVAR_SERVER_CAN_EXECUTE)
 
     --[[
-     Override TTT Stuff
-    ]]
+ Override TTT Stuff
+]]
     --
-    hook.Add("TTTEndRound", "RandomatEndRound", EndActiveEvents)
+    hook.Add("TTTEndRound", "RandomatEndRound", function()
+        Randomat:EndActiveEvents()
+    end)
 
     hook.Add("TTTPrepareRound", "RandomatPrepareRound", function()
         -- End ALL events rather than just active ones to prevent some event effects which maintain over map changes
@@ -1248,5 +1288,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
     end)
 
-    hook.Add("ShutDown", "RandomatMapChange", EndActiveEvents)
+    hook.Add("ShutDown", "RandomatMapChange", function()
+        Randomat:EndActiveEvents()
+    end)
 end

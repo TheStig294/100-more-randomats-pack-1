@@ -41,6 +41,8 @@ function EVENT:Begin()
                 -- After a delay, trigger a notification and let players see through walls if that randomat is added by another mod,
                 timer.Create("PistolsDrawHalos", triggerDelay, 1, function()
                     self:SmallNotify("Draw!")
+                    -- Forcing the area around all players to load so player halos always work
+                    self:AddCullingBypass()
                     net.Start("PistolsBeginShowdown")
                     net.Broadcast()
                 end)

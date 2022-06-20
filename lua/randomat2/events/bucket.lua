@@ -17,6 +17,20 @@ function EVENT:Begin()
     bucket:SetPos(pos + Vector(0, 0, 10))
     bucket:Spawn()
     bucket:PhysWake()
+
+    -- Forces the area around the bucket to load so it can always be seen through walls
+    -- Copied some optimisations from the randomat base
+    self:AddHook("SetupPlayerVisibility", function(ply, _)
+        if not IsValid(bucket) then return end
+        if ply.ShouldBypassCulling and not ply:ShouldBypassCulling() then return end
+        if ply:TestPVS(bucket) then return end
+        local pos = bucket:GetPos()
+
+        if not ply.IsOnScreen or ply:IsOnScreen(pos) then
+            AddOriginToPVS(pos)
+        end
+    end)
+
     net.Start("BucketRandomatOutline")
     net.Broadcast()
 end

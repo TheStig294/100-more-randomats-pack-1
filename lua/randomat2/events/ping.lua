@@ -19,6 +19,8 @@ EVENT.Categories = {"spectator", "biased_innocent", "biased", "smallimpact"}
 util.AddNetworkString("PingRandomatBegin")
 util.AddNetworkString("PingRandomatPressedE")
 util.AddNetworkString("PingRandomatEnd")
+local pingPositions = {}
+local pingEntities = {}
 
 function EVENT:Begin()
     if GetConVar("randomat_ping_spectators"):GetBool() then
@@ -58,8 +60,20 @@ function EVENT:Begin()
                 end)
             end
 
+            if IsValid(ent) and ent ~= game.GetWorld() then
+                table.insert(pingEntities, ent)
+            else
+                table.insert(pingPositions, pos)
+            end
+
             timer.Simple(GetConVar("randomat_ping_cooldown"):GetInt(), function()
                 ply:SetNWBool("PingRandomatCooldown", false)
+
+                if IsValid(ent) and ent ~= game.GetWorld() then
+                    table.RemoveByValue(pingEntities, ent)
+                else
+                    table.RemoveByValue(pingPositions, pos)
+                end
             end)
         end
     end)
@@ -67,6 +81,29 @@ function EVENT:Begin()
     self:AddHook("PostPlayerDeath", function(ply)
         if not GetConVar("randomat_ping_spectators"):GetBool() then return end
         SpectatorRandomatAlert(ply, EVENT)
+    end)
+
+    -- Forces the area around pings to load so they can always be seen through walls
+    -- Copied some optimisations from the randomat base
+    self:AddHook("SetupPlayerVisibility", function(ply, _)
+        if ply.ShouldBypassCulling and not ply:ShouldBypassCulling() then return end
+
+        for _, pos in ipairs(pingPositions) do
+            if ply:TestPVS(pos) then continue end
+
+            if not ply.IsOnScreen or ply:IsOnScreen(pos) then
+                AddOriginToPVS(pos)
+            end
+        end
+
+        for _, ent in ipairs(pingEntities) do
+            local pos = ent:GetPos()
+            if ply:TestPVS(pos) then continue end
+
+            if not ply.IsOnScreen or ply:IsOnScreen(pos) then
+                AddOriginToPVS(pos)
+            end
+        end
     end)
 end
 

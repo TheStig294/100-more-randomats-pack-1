@@ -99,11 +99,18 @@ function EVENT:Begin()
         net.Send(deadPly)
     end)
 
+    -- Force players to holster if the have the holstered weapon, and they are frozen, being about to duel
     self:AddHook("PlayerPostThink", function(ply)
-        -- Force players to holster if the have the holstered weapon, and they are frozen, being about to duel
         if ply:IsFrozen() and ply:HasWeapon("weapon_ttt_unarmed") then
             ply:SelectWeapon("weapon_ttt_unarmed")
         end
+    end)
+
+    -- Force areas around your duelling partner to load so you can always see their halo
+    self:AddCullingBypass(nil, function(ply, tgt)
+        if not IsPlayer(ply:GetNWEntity("WesternDuellingPlayer")) then return false end
+
+        return ply:GetNWEntity("WesternDuellingPlayer") == tgt
     end)
 end
 
