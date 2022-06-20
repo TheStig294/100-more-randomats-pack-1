@@ -64,16 +64,12 @@ surface.CreateFont("WelcomeBackRandomatOverlayFont", {
 -- Creates the table of players to be displayed in the role overlay
 net.Receive("WelcomeBackRandomatCreateOverlay", function()
     local playerCount = 0
-    local alivePlayers = {}
     local screenWidth = ScrW()
 
+    -- Grabbing player names and the number of them
     for _, ply in ipairs(player.GetAll()) do
-        if ply:Alive() and not ply:IsSpec() then
-            -- Grabbing the alive players and the number of them
-            playerCount = playerCount + 1
-            table.insert(alivePlayers, ply)
-            playerNames[ply] = ply:Nick()
-        end
+        playerCount = playerCount + 1
+        playerNames[ply] = ply:Nick()
     end
 
     -- The magic formula for getting the correct x-coordinates of where each overlay box should be
@@ -107,20 +103,18 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
         end
     end
 
+    local defaultColour = Color(100, 100, 100)
     alpha = 0
 
     timer.Create("WelcomeBackFadeIn", 0.01, 100, function()
         alpha = alpha + 0.01
     end)
 
-    local defaultColour = Color(100, 100, 100)
-
     hook.Add("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay", function()
         surface.SetAlphaMultiplier(alpha)
 
         for ply, XPos in SortedPairsByValue(overlayPositions) do
             if not IsPlayer(ply) then continue end
-            -- surface.SetDrawColor(100, 100, 100)
             local roleColour = defaultColour
             local iconRole
 
@@ -162,6 +156,13 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
                 end
             end
 
+            -- Grabbing the name of the player again if they don't have a name yet, but were connected enough to the server to be given an overlay position
+            if not playerNames[ply] then
+                playerNames[ply] = ply:Nick()
+            end
+
+            -- But if the player still doesn't have a name yet, skip them
+            if not playerNames[ply] then continue end
             -- Box and player name
             draw.WordBox(16, XPos, YPos, playerNames[ply], "WelcomeBackRandomatOverlayFont", roleColour, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
