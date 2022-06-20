@@ -105,13 +105,6 @@ function EVENT:Begin()
             ply:SelectWeapon("weapon_ttt_unarmed")
         end
     end)
-
-    -- Force areas around your duelling partner to load so you can always see their halo
-    self:AddCullingBypass(nil, function(ply, tgt)
-        if not IsPlayer(ply:GetNWEntity("WesternDuellingPlayer")) then return false end
-
-        return ply:GetNWEntity("WesternDuellingPlayer") == tgt
-    end)
 end
 
 function EVENT:End()

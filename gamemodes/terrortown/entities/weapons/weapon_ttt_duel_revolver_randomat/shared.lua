@@ -53,7 +53,7 @@ if CLIENT then
 
         -- Adding a halo around the duel opponent
         hook.Add("PreDrawHalos", "DuelRevolverHalo", function()
-            halo.Add(duelOpponent, Color(0, 255, 0), 0, 0, 1, true, true)
+            halo.Add(duelOpponent, Color(0, 255, 0), 0, 0, 1, true, false)
 
             -- Once the player dies, remove the halo!
             if (not IsPlayer(duelOpponent[1])) or (not duelOpponent[1]:Alive()) or duelOpponent[1]:IsSpec() then
