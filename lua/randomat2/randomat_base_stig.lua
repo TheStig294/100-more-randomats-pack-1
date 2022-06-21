@@ -52,10 +52,12 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     local string = string
     local table = table
     local timer = timer
+    local EntsCreate = ents.Create
     local GetAllPlayers = player.GetAll
+    local GetAllEnts = ents.GetAll
     --[[
- Event History
-]]
+     Event History
+    ]]
     --
     Randomat.EventHistory = Randomat.EventHistory or {}
 
@@ -151,8 +153,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end)
 
     --[[
- Event Notifications
-]]
+     Event Notifications
+    ]]
     --
     function Randomat:NotifyDescription(event)
         -- Show this if "secret" is active if we're specifically showing the description for "secret"
@@ -179,8 +181,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
- Event Control
-]]
+     Event Control
+    ]]
     --
     local function EndEvent(evt)
         evt:CleanUpHooks()
@@ -237,8 +239,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
- Randomat Namespace
-]]
+     Randomat Namespace
+    ]]
     --
     function Randomat:EndActiveEvent(id, skip_error)
         for k, evt in pairs(Randomat.ActiveEvents) do
@@ -746,7 +748,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         end
 
         -- Create NPC
-        local npc_ent = ents.Create(npc_data.Class)
+        local npc_ent = EntsCreate(npc_data.Class)
         if not IsValid(npc_ent) then return end
         npc_ent:SetPos(pos)
 
@@ -802,7 +804,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         local spos = ply:GetPos() + Vector(math.random(-75, 75), math.random(-75, 75), height or math.random(200, 250))
         local headBee = Randomat:SpawnNPC(ply, spos, "npc_manhack")
         headBee:SetNPCState(2)
-        local bee = ents.Create("prop_dynamic")
+        local bee = EntsCreate("prop_dynamic")
         bee:SetModel("models/lucian/props/stupid_bee.mdl")
         bee:SetPos(spos)
         bee:SetParent(headBee)
@@ -818,7 +820,7 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     function Randomat:SpawnBarrel(pos, range, min_range, ignore_negative)
-        local ent = ents.Create("prop_physics")
+        local ent = EntsCreate("prop_physics")
         if not IsValid(ent) then return end
 
         if not min_range then
@@ -952,8 +954,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end
 
     --[[
- Randomat Meta
-]]
+     Randomat Meta
+    ]]
     --
     -- Valid players not spec
     function randomat_meta:GetPlayers(shuffle)
@@ -972,16 +974,26 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
         Randomat:SmallNotify(msg, length, targ)
     end
 
-    function randomat_meta:AddHook(hooktype, callbackfunc)
+    function randomat_meta:AddHook(hooktype, callbackfunc, suffix)
         callbackfunc = callbackfunc or self[hooktype]
-        hook.Add(hooktype, "RandomatEvent." .. self.Id .. ":" .. hooktype, function(...) return callbackfunc(...) end)
+        local id = "RandomatEvent." .. self.Id .. ":" .. hooktype
+
+        if suffix and type(suffix) == "string" and #suffix > 0 then
+            id = id .. ":" .. suffix
+        end
+
+        hook.Add(hooktype, id, function(...) return callbackfunc(...) end)
         self.Hooks = self.Hooks or {}
 
-        table.insert(self.Hooks, {hooktype, "RandomatEvent." .. self.Id .. ":" .. hooktype})
+        table.insert(self.Hooks, {hooktype, id})
     end
 
-    function randomat_meta:RemoveHook(hooktype)
+    function randomat_meta:RemoveHook(hooktype, suffix)
         local id = "RandomatEvent." .. self.Id .. ":" .. hooktype
+
+        if suffix and type(suffix) == "string" and #suffix > 0 then
+            id = id .. ":" .. suffix
+        end
 
         for idx, ahook in ipairs(self.Hooks or {}) do
             if ahook[1] == hooktype and ahook[2] == id then
@@ -1218,12 +1230,29 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
                     AddOriginToPVS(pos)
                 end
             end
-        end)
+        end, "Players")
+    end
+
+    function randomat_meta:AddEntityCullingBypass(ply_pred, tgt_pred)
+        self:AddHook("SetupPlayerVisibility", function(ply)
+            if ply.ShouldBypassCulling and not ply:ShouldBypassCulling() then return end
+            if ply_pred and not ply_pred(ply) then return end
+
+            for _, v in ipairs(GetAllEnts()) do
+                if tgt_pred and not tgt_pred(ply, v) then continue end
+                if ply:TestPVS(v) then continue end
+                local pos = v:GetPos()
+
+                if not ply.IsOnScreen or ply:IsOnScreen(pos) then
+                    AddOriginToPVS(pos)
+                end
+            end
+        end, "Entities")
     end
 
     --[[
- Commands
-]]
+     Commands
+    ]]
     --
     local function ClearAutoComplete(cmd, args)
         local name = string.Trim(args):lower()
@@ -1274,8 +1303,8 @@ if not GetGlobalBool("DisableStigRandomatBase", false) then
     end, nil, "Triggers a random  randomat event", FCVAR_SERVER_CAN_EXECUTE)
 
     --[[
- Override TTT Stuff
-]]
+     Override TTT Stuff
+    ]]
     --
     hook.Add("TTTEndRound", "RandomatEndRound", function()
         Randomat:EndActiveEvents()
