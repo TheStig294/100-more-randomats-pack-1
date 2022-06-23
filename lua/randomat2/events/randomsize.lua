@@ -22,6 +22,7 @@ function EVENT:SetPlayerSize(randomSize, ply)
     a, b = ply:GetHullDuck()
     ply:SetHullDuck(a * randomSize, b * randomSize)
     ply:SetHealth(ply:Health() * randomSize)
+    ply:SetMaxHealth(ply:Health() * randomSize)
     ply:SetGravity(randomSize)
     ply:SetStepSize(ply:GetStepSize() * randomSize)
     -- Reduce the player speed on the client
