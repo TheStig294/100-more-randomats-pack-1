@@ -3,8 +3,6 @@ EVENT.Title = ""
 EVENT.AltTitle = "Welcome back to TTT!"
 EVENT.ExtDescription = "Adds a role overlay on the screen"
 EVENT.id = "welcomeback"
--- Can only trigger at the start of the round, else the overlay will be inaccurate as players will have to re-search bodies to reveal roles
-EVENT.MaxRoundCompletePercent = 5
 
 EVENT.Categories = {"largeimpact", "deathtrigger"}
 
