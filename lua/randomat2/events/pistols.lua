@@ -22,7 +22,7 @@ function EVENT:Begin()
 
     -- Transform all jesters/independents to innocents so we know there can only be an innocent or traitor win
     for i, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsJesterTeam(ply) or Randomat:IsIndependentTeam(ply) then
+        if Randomat:IsJesterTeam(ply) or Randomat:IsIndependentTeam(ply) or Randomat:IsMonsterTeam(ply) then
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
         end
@@ -95,6 +95,16 @@ function EVENT:Begin()
             if table.IsEmpty(traitorPlayers) or table.IsEmpty(innocentPlayers) or #alivePlayers == 2 then
                 winBlocked = true
 
+                -- Transform any zombies into innocents as they can't hold guns
+                for _, ply in ipairs(alivePlayers) do
+                    if ply.IsZombie and ply:IsZombie() then
+                        Randomat:SetRole(ply, ROLE_INNOCENT)
+                        ply:ChatPrint("Zombies can't hold guns, so you're now an innocent!")
+                    end
+                end
+
+                SendFullStateUpdate()
+
                 if table.IsEmpty(traitorPlayers) then
                     Randomat:SmallNotify("Innocents Win... But now it's a free-for-all!", messageDelay)
                 elseif table.IsEmpty(innocentPlayers) then
@@ -144,6 +154,11 @@ function EVENT:End()
             timer.Remove("PistolsGivePistols")
         end
     end
+end
+
+-- Don't let 'rise from your grave' run at the same time as zombies can't hold guns
+function EVENT:Condition()
+    return not Randomat:IsEventActive("grave")
 end
 
 Randomat:register(EVENT)
