@@ -85,7 +85,10 @@ function EVENT:Begin()
             local innocentPlayers = {}
 
             for i, ply in ipairs(alivePlayers) do
-                if Randomat:IsTraitorTeam(ply) then
+                -- Let players turn into zombies first so we can change them into innocents properly
+                if ply.IsZombifying and ply:IsZombifying() then
+                    return WIN_NONE
+                elseif Randomat:IsTraitorTeam(ply) then
                     table.insert(traitorPlayers, ply)
                 elseif Randomat:IsInnocentTeam(ply) then
                     table.insert(innocentPlayers, ply)
