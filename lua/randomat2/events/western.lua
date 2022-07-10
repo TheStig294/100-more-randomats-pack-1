@@ -29,20 +29,22 @@ function EVENT:Begin()
     Randomat:EventNotifySilent(self.Title)
 
     -- Remove all weapons on players and the ground that take up the pistol slot
-    for _, ent in pairs(ents.GetAll()) do
-        if (ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY) and ent.AutoSpawnable then
-            ent:Remove()
+    timer.Simple(0.1, function()
+        for _, ent in pairs(ents.GetAll()) do
+            if (ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY) and ent.AutoSpawnable then
+                ent:Remove()
+            end
         end
-    end
+    end)
 
-    for i, ply in ipairs(self:GetAlivePlayers()) do
+    for _, ply in ipairs(self:GetAlivePlayers()) do
         -- Transform all jesters/independents to innocents so we know there can only be an innocent or traitor win
         if Randomat:IsJesterTeam(ply) or Randomat:IsIndependentTeam(ply) then
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
         end
 
-        timer.Simple(0.1, function()
+        timer.Simple(1, function()
             ply:SetFOV(0, 0.2)
             ply:Give("weapon_ttt_duel_revolver_randomat")
             ply:SelectWeapon("weapon_ttt_duel_revolver_randomat")

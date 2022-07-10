@@ -119,7 +119,7 @@ function EVENT:Condition()
         end
     end
 
-    return Randomat:GetRoundCompletePercent() < 5 or not beggar
+    return Randomat:GetRoundCompletePercent() < 5 and not beggar
 end
 
 Randomat:register(EVENT)
