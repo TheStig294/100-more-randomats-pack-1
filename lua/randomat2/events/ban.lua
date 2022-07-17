@@ -33,7 +33,7 @@ local function GetEventDescription()
         target = "someone"
     end
 
-    return "A randomat is to be banned by " .. target
+    return "A randomat is to be banned by " .. target .. ", until this randomat triggers again!"
 end
 
 EVENT.Title = "Ban a Randomat!"
