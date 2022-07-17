@@ -8,6 +8,19 @@ EVENT.Categories = {"biased_innocent", "biased", "item", "largeimpact"}
 local futureRandomatEquipment = {}
 
 local function SetWeaponGiveHook()
+    -- Prevent weapon override events like 'Harpooooon!' from triggering and removing the weapons you would have otherwise been given
+    hook.Add("TTTRandomatCanEventRun", "FutureRandomatBlockWeaponOverrideEvents", function(event)
+        if isnumber(event.Type) and event.Type == EVENT_TYPE_WEAPON_OVERRIDE then return false, "'Future Proofing' event blocked a weapon override event from triggering" end
+    end)
+
+    -- Only remove the block at the end of the round so players have a chance to use their weapons
+    hook.Add("TTTEndRound", "FutureRandomatCheckAllWeaponsGiven", function()
+        if (not istable(futureRandomatEquipment)) or table.IsEmpty(futureRandomatEquipment) then
+            hook.Remove("TTTRandomatCanEventRun", "FutureRandomatBlockWeaponOverrideEvents")
+            hook.Remove("TTTEndRound", "FutureRandomatCheckAllWeaponsGiven")
+        end
+    end)
+
     hook.Add("TTTBeginRound", "FutureRandomatGiveEquipment", function()
         timer.Simple(0.1, function()
             local weaponKind = 10
@@ -46,7 +59,7 @@ local function SetWeaponGiveHook()
                     end
 
                     -- Clear equipment table as equipment has been given
-                    futureRandomatEquipment[ply:SteamID()] = {}
+                    futureRandomatEquipment[ply:SteamID()] = nil
                 end
             end
         end)
