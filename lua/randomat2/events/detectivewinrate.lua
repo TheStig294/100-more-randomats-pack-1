@@ -82,11 +82,11 @@ function EVENT:Begin()
 
     SendFullStateUpdate()
 
-    -- If someone has the detective frog playermodel, say this was a non-cannon round...
+    -- If someone has the detective frog playermodel, say this was a non-canon round...
     self:AddHook("PostPlayerDeath", function(ply)
         if Randomat:IsGoodDetectiveLike(ply) and ply:GetModel() == "models/player/jenssons/kermit.mdl" then
             timer.Create("DetectiveWinrateEasterEggMessage", 1, 3, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "This was a non-cannon round...")
+                ply:PrintMessage(HUD_PRINTCENTER, "This was a non-canon round...")
             end)
         end
     end)
