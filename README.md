@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Explosive Jumping - Super jump, create explosions when you land!
 1. Wasted - See a GTA-style death screen when you die!
 1. It's high noon... - Makes the game look like a western movie, eveyone has pistol duels!
 1. Welcome back to TTT! - Does the Yogs TTT intro, and creates an overlay showing roles
@@ -33,7 +34,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 4. Unrealistic Recoil - Shooting pushes you forwards
 5. Triggered - Everyone's screen shakes and a loud noise plays when someone dies
 6. Don't Get Greedy... - Get buyable items over time, but you die if you already have one!
-7. Gun Game 3.0 - Periodically gives everyone buyable items!
 
 # Randomats
 
@@ -323,6 +323,13 @@ _ttt_randomat_kexplode_ - Default: 1 - Whether this randomat is enabled\
 _randomat_kexplode_timer_ - Default: 60 - The time until imperfect karma players explode
 
 The explosion creation code was originally made by [HagenSNKL](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819), from the event: "_A Random Person will explode every ... seconds! Watch out! (EXCEPT DETECTIVES)_"
+
+## Explosive Jumping
+
+Everyone can super-jump, and creates an explosion when they land!\
+Everyone is immune to their own explosions.\
+\
+_ttt_randomat_explosivejumping_ - Default: 1 - Whether this randomat is enabled\
 
 ## Explosive spectating
 
