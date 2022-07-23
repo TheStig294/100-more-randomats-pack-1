@@ -32,99 +32,115 @@ function EVENT:Begin()
         local plushSharkOffsetDucked = Vector(0, 0, 28)
         local playerModelSets = {}
 
-        local spaceMarineSharky = {
-            model = plushSharkModel,
-            viewOffset = plushSharkOffset,
-            viewOffsetDucked = plushSharkOffsetDucked,
-            skin = 3,
-            playerColor = Color(5, 64, 140):ToVector(),
-            bodygroupValues = {
-                [0] = 0,
-                [1] = 1,
-                [2] = 0,
-                [3] = 0,
-                [4] = 0,
-                [5] = 1,
-                [6] = 1,
-            }
-        }
-
-        table.insert(playerModelSets, spaceMarineSharky)
-
-        local christmasSharky = {
+        local poonSharky = {
             model = plushSharkModel,
             viewOffset = plushSharkOffset,
             viewOffsetDucked = plushSharkOffsetDucked,
             skin = 1,
-            playerColor = Color(176, 33, 33):ToVector(),
+            playerColor = Color(255, 255, 255):ToVector(),
             bodygroupValues = {
-                [0] = 0,
-                [1] = 4,
+                [0] = 1,
+                [1] = 0,
                 [2] = 2,
-                [3] = 1,
+                [3] = 0,
                 [4] = 0,
-                [5] = 0,
-                [6] = 0
+                [5] = 1,
+                [6] = 4,
+                [7] = 0,
+                [8] = 0,
+                [9] = 0
             }
         }
 
-        table.insert(playerModelSets, christmasSharky)
+        table.insert(playerModelSets, poonSharky)
 
-        local lifevestSharky = {
+        local executionerSharky = {
             model = plushSharkModel,
             viewOffset = plushSharkOffset,
             viewOffsetDucked = plushSharkOffsetDucked,
-            playerColor = Color(61, 87, 105):ToVector(),
-            skin = 5,
+            skin = 1,
+            playerColor = Color(100, 100, 100):ToVector(),
             bodygroupValues = {
-                [0] = 0,
-                [1] = 2,
-                [2] = 0,
+                [0] = 2,
+                [1] = 0,
+                [2] = 4,
                 [3] = 1,
-                [4] = 0,
+                [4] = 1,
                 [5] = 0,
-                [6] = 0
+                [6] = 1,
+                [7] = 0,
+                [8] = 1,
+                [9] = 0
             }
         }
 
-        table.insert(playerModelSets, lifevestSharky)
+        table.insert(playerModelSets, executionerSharky)
 
         local pirateSharky = {
             model = plushSharkModel,
             viewOffset = plushSharkOffset,
             viewOffsetDucked = plushSharkOffsetDucked,
-            playerColor = Color(109, 109, 109):ToVector(),
-            skin = 3,
+            playerColor = Color(85, 96, 255):ToVector(),
+            skin = 1,
             bodygroupValues = {
-                [0] = 0,
-                [1] = 3,
-                [2] = 1,
-                [3] = 2,
-                [4] = 0,
+                [0] = 3,
+                [1] = 0,
+                [2] = 5,
+                [3] = 1,
+                [4] = 2,
                 [5] = 0,
-                [6] = 0
+                [6] = 3,
+                [7] = 0,
+                [8] = 0,
+                [9] = 0
             }
         }
 
         table.insert(playerModelSets, pirateSharky)
 
-        local benSharky = {
+        local christmasSharky = {
             model = plushSharkModel,
             viewOffset = plushSharkOffset,
             viewOffsetDucked = plushSharkOffsetDucked,
-            skin = 0,
+            playerColor = Color(21, 172, 21):ToVector(),
+            skin = 1,
             bodygroupValues = {
-                [0] = 0,
+                [0] = 4,
                 [1] = 0,
                 [2] = 0,
                 [3] = 0,
-                [4] = 1,
+                [4] = 0,
                 [5] = 0,
-                [6] = 0
+                [6] = 5,
+                [7] = 0,
+                [8] = 0,
+                [9] = 0
             }
         }
 
-        table.insert(playerModelSets, benSharky)
+        table.insert(playerModelSets, christmasSharky)
+
+        local spaceMarineSharky = {
+            model = plushSharkModel,
+            viewOffset = plushSharkOffset,
+            viewOffsetDucked = plushSharkOffsetDucked,
+            playerColor = Color(0, 0, 255):ToVector(),
+            skin = 1,
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0,
+                [2] = 2,
+                [3] = 1,
+                [4] = 1,
+                [5] = 1,
+                [6] = 2,
+                [7] = 1,
+                [8] = 1,
+                [9] = 1
+            }
+        }
+
+        table.insert(playerModelSets, spaceMarineSharky)
 
         local rainbowSharky = {
             model = plushSharkModel,
@@ -134,12 +150,15 @@ function EVENT:Begin()
             skin = 1,
             bodygroupValues = {
                 [0] = 0,
-                [1] = 0,
-                [2] = 0,
+                [1] = 2,
+                [2] = 4,
                 [3] = 0,
-                [4] = 0,
+                [4] = 1,
                 [5] = 0,
-                [6] = 0
+                [6] = 5,
+                [7] = 0,
+                [8] = 0,
+                [9] = 0
             }
         }
 
