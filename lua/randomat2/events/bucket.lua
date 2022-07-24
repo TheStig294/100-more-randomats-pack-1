@@ -24,18 +24,25 @@ function EVENT:Begin()
         if not IsValid(bucket) then return end
         if ply.ShouldBypassCulling and not ply:ShouldBypassCulling() then return end
         if ply:TestPVS(bucket) then return end
-        local pos = bucket:GetPos()
+        pos = bucket:GetPos()
 
         if not ply.IsOnScreen or ply:IsOnScreen(pos) then
             AddOriginToPVS(pos)
         end
     end)
 
-    net.Start("BucketRandomatOutline")
-    net.Broadcast()
+    timer.Simple(1, function()
+        SetGlobalEntity("RandomatBucketEnt", bucket)
+    end)
+
+    timer.Create("BucketRandomatOutlineDelay", 2, 1, function()
+        net.Start("BucketRandomatOutline")
+        net.Broadcast()
+    end)
 end
 
 function EVENT:End()
+    timer.Remove("BucketRandomatOutlineDelay")
     net.Start("BucketRandomatOutlineEnd")
     net.Broadcast()
 end

@@ -1,14 +1,11 @@
 net.Receive("BucketRandomatOutline", function()
-    timer.Create("BucketOutlineDelay", 1, 1, function()
-        local bucket = {}
+    local bucket = GetGlobalEntity("RandomatBucketEnt")
+    if not IsValid(bucket) then return end
 
-        for _, ent in ipairs(ents.FindByClass("ent_bucket_randomat")) do
-            table.insert(bucket, ent)
-        end
+    local bucketTable = {bucket}
 
-        hook.Add("PreDrawHalos", "BucketRandomatOutline", function()
-            halo.Add(bucket, Color(0, 255, 0), 0, 0, 1, true, true)
-        end)
+    hook.Add("PreDrawHalos", "BucketRandomatOutline", function()
+        halo.Add(bucketTable, Color(0, 255, 0), 0, 0, 1, true, true)
     end)
 end)
 
