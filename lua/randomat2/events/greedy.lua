@@ -36,8 +36,8 @@ end
 
 function EVENT:Begin()
     timer.Simple(5, function()
-        self:SmallNotify("...if you already have one, you die instead!")
-        PrintMessage(HUD_PRINTTALK, "...if you already have one, you die instead!")
+        self:SmallNotify("...if you have any kind of buyable item, you die instead!")
+        PrintMessage(HUD_PRINTTALK, "...if you have any kind of buyable item, you die instead!")
     end)
 
     for _, wep in ipairs(weapons.GetList()) do
