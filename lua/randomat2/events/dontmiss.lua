@@ -51,9 +51,9 @@ function EVENT:Begin()
         end)
     end)
 
-    self:AddHook("EntityTakeDamage", function(ent, damage)
-        -- Player Hit
-        if ent:IsPlayer() then
+    self:AddHook("PostEntityTakeDamage", function(ent, damage, took)
+        -- Entity Hit
+        if took then
             damage:GetAttacker().hitShotBullet = true
             damage:GetAttacker().shotBullet = false
         end
