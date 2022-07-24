@@ -75,6 +75,7 @@ function SWEP:Equip()
     if not IsPlayer(owner) then return end
     -- Reset everyone's duelling player
     owner:SetNWEntity("WesternDuellingPlayer", NULL)
+    owner.DuelOpponent = nil
     net.Start("DuelRevolverRemoveHalo")
     net.Send(owner)
 end
@@ -91,20 +92,27 @@ function SWEP:PrimaryAttack()
 
     -- Get the player the user is looking at
     local target = owner:GetEyeTrace().Entity
-    local duellingPlayer = owner:GetNWEntity("WesternDuellingPlayer", NULL)
 
     -- Don't let duelling players shoot anyone else
-    if duellingPlayer ~= NULL and SERVER and IsPlayer(target) and target ~= duellingPlayer then
+    if owner.DuelOpponent and SERVER and IsPlayer(target) and target ~= owner.DuelOpponent then
         owner:PrintMessage(HUD_PRINTCENTER, "Not your duel opponent!")
 
         return
-    elseif duellingPlayer ~= NULL or ((not IsPlayer(target)) or target == duellingPlayer) then
+    elseif not owner.DuelOpponent and SERVER and IsPlayer(target) and target.DuelOpponent then
+        -- If shooting someone who is duelling with another player, display a message
+        -- and prevent the duel-starting logic from running
+        owner:PrintMessage(HUD_PRINTCENTER, "Already duelling!")
+
+        return
+    elseif (not IsPlayer(target)) or (IsPlayer(target) and owner.DuelOpponent and owner.DuelOpponent == target) then
         -- If hitting the player's target, or not shooting a player, trigger the usual gunshot behaviour
         -- Check if the target player was killed by the gunshot
         timer.Simple(0.1, function()
             if IsPlayer(target) and (target:IsSpec() or not target:Alive()) then
                 owner:SetNWEntity("WesternDuellingPlayer", NULL)
                 target:SetNWEntity("WesternDuellingPlayer", NULL)
+                owner.DuelOpponent = nil
+                target.DuelOpponent = nil
                 timer.Remove("WesternDuelTimer" .. owner:SteamID64())
                 timer.Remove("WesternDuelOver" .. owner:SteamID64())
                 hook.Remove("PreDrawHalos", "DuelRevolverHalo")
@@ -113,12 +121,6 @@ function SWEP:PrimaryAttack()
 
         -- Trigger all normal gunshot effects and logic
         return self.BaseClass.PrimaryAttack(self)
-    elseif duellingPlayer == NULL and SERVER and IsPlayer(target) and IsPlayer(target:GetNWEntity("WesternDuellingPlayer", NULL)) then
-        -- If shooting someone who is duelling with another player, display a message
-        -- and prevent the duel-starting logic from running
-        owner:PrintMessage(HUD_PRINTCENTER, "Already duelling!")
-
-        return
     end
 
     if SERVER then
@@ -126,6 +128,8 @@ function SWEP:PrimaryAttack()
         -- Setting the flag for each player to be duelling
         owner:SetNWEntity("WesternDuellingPlayer", target)
         target:SetNWEntity("WesternDuellingPlayer", owner)
+        owner.DuelOpponent = target
+        target.DuelOpponent = owner
         -- Force the two players to look away from each other and freeze in place
         local ownerEyeAngles = owner:EyeAngles()
         owner:SetEyeAngles(Angle(ownerEyeAngles.x, ownerEyeAngles.y + 180, ownerEyeAngles.z))
@@ -144,6 +148,8 @@ function SWEP:PrimaryAttack()
                 target:PrintMessage(HUD_PRINTCENTER, "DRAW!")
                 owner:Freeze(false)
                 target:Freeze(false)
+                owner:SelectWeapon("weapon_ttt_duel_revolver_randomat")
+                target:SelectWeapon("weapon_ttt_duel_revolver_randomat")
                 -- Also draws halos around their duel opponent and plays a sound for both players
                 net.Start("DuelRevolverDrawHalo")
                 net.WriteString(target:Nick())
@@ -167,6 +173,8 @@ function SWEP:PrimaryAttack()
                     if IsPlayer(owner) and IsPlayer(target) and (not owner:IsSpec()) and (not target:IsSpec()) and owner:Alive() and target:Alive() then
                         owner:SetNWEntity("WesternDuellingPlayer", NULL)
                         target:SetNWEntity("WesternDuellingPlayer", NULL)
+                        owner.DuelOpponent = nil
+                        target.DuelOpponent = nil
                         net.Start("DuelRevolverRemoveHalo")
 
                         net.Send({owner, target})
@@ -191,6 +199,7 @@ function SWEP:OnRemove()
     if not IsPlayer(owner) then return end
     -- Reset everyone's duelling player
     owner:SetNWEntity("WesternDuellingPlayer", NULL)
+    owner.DuelOpponent = nil
 
     if SERVER then
         net.Start("DuelRevolverRemoveHalo")

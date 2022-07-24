@@ -89,10 +89,12 @@ function EVENT:Begin()
     -- Stop a duel if a player dies in the middle of it
     self:AddHook("PostPlayerDeath", function(deadPly)
         deadPly:SetNWEntity("WesternDuellingPlayer", NULL)
+        deadPly.DuelOpponent = nil
 
         for _, ply in ipairs(player.GetAll()) do
             if IsPlayer(ply:GetNWEntity("WesternDuellingPlayer")) and ply:GetNWEntity("WesternDuellingPlayer") == deadPly then
                 ply:SetNWEntity("WesternDuellingPlayer", NULL)
+                ply.DuelOpponent = nil
             end
         end
 
