@@ -631,7 +631,8 @@ This also works for spectators! (If enabled)\
 _ttt_randomat_ping_ - Default: 1 - Whether this randomat is enabled\
 _randomat_ping_cooldown_ - Default: 10 - Seconds until a player can ping again\
 _randomat_ping_global_cooldown_ - Default: 0 - Seconds until anyone can ping again after 1 person pings\
-_randomat_ping_spectators_ - Default: 1 - Whether spectators can ping
+_randomat_ping_spectators_ - Default: 1 - Whether spectators can ping\
+_randomat_ping_sound_ - Default: 1 - Whether pinging makes a sound
 
 ## Random jump height for everyone!
 

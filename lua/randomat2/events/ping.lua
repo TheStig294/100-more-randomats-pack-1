@@ -6,6 +6,8 @@ CreateConVar("randomat_ping_global_cooldown", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, 
 
 CreateConVar("randomat_ping_spectators", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether spectators can ping", 0, 1)
 
+CreateConVar("randomat_ping_sound", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether pinging plays a sound", 0, 1)
+
 EVENT.Title = "Press E to ping"
 
 if GetConVar("randomat_ping_spectators"):GetBool() then
@@ -49,6 +51,7 @@ function EVENT:Begin()
             net.WriteVector(pos)
             net.WriteEntity(ent)
             net.WriteUInt(GetConVar("randomat_ping_cooldown"):GetInt(), 8)
+            net.WriteBool(GetConVar("randomat_ping_sound"):GetBool())
             net.Broadcast()
             ply:SetNWBool("PingRandomatCooldown", true)
 

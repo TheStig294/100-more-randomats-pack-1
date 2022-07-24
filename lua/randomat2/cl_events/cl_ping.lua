@@ -25,7 +25,11 @@ net.Receive("PingRandomatPressedE", function()
     local pos = net.ReadVector()
     local ent = net.ReadEntity()
     local cooldown = net.ReadUInt(8)
-    surface.PlaySound("ping/ping.mp3")
+    local pingSound = net.ReadBool()
+
+    if pingSound then
+        surface.PlaySound("ping/ping.mp3")
+    end
 
     if IsValid(ent) and ent ~= game.GetWorld() then
         table.insert(pingEntities, ent)
