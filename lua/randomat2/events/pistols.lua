@@ -160,8 +160,10 @@ function EVENT:End()
 end
 
 -- Don't let 'rise from your grave' run at the same time as zombies can't hold guns
+-- Prevent 'Contagious Morality' from triggering at the same time as events that
+-- require 1 player to be alive for the round to end
 function EVENT:Condition()
-    return not Randomat:IsEventActive("grave")
+    return not (Randomat:IsEventActive("grave") or Randomat:IsEventActive("contagiousmorality"))
 end
 
 Randomat:register(EVENT)

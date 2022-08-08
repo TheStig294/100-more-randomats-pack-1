@@ -71,4 +71,10 @@ function EVENT:Begin()
     end)
 end
 
+-- Prevent 'Contagious Morality' from triggering at the same time as events that
+-- require 1 player to be alive for the round to end
+function EVENT:Condition()
+    return not (Randomat:IsEventActive("battleroyale") or Randomat:IsEventActive("pistols"))
+end
+
 Randomat:register(EVENT)
