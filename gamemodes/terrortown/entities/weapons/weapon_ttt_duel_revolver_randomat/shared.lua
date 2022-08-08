@@ -105,21 +105,15 @@ function SWEP:PrimaryAttack()
 
         return
     elseif (not IsPlayer(target)) or (IsPlayer(target) and owner.DuelOpponent and owner.DuelOpponent == target) then
-        -- If hitting the player's target, or not shooting a player, trigger the usual gunshot behaviour
-        -- Check if the target player was killed by the gunshot
+        -- Try removing the player duel halo immediately after someone wins a duel, else the halo looks awkward on a spectator
+        -- The rest of the "end the duel" logic is handled by the "WesternDuelTimer" timer below
         timer.Simple(0.1, function()
             if IsPlayer(target) and (target:IsSpec() or not target:Alive()) then
-                owner:SetNWEntity("WesternDuellingPlayer", NULL)
-                target:SetNWEntity("WesternDuellingPlayer", NULL)
-                owner.DuelOpponent = nil
-                target.DuelOpponent = nil
-                timer.Remove("WesternDuelTimer" .. owner:SteamID64())
-                timer.Remove("WesternDuelOver" .. owner:SteamID64())
                 hook.Remove("PreDrawHalos", "DuelRevolverHalo")
             end
         end)
 
-        -- Trigger all normal gunshot effects and logic
+        -- If hitting the player's target, or not shooting a player, trigger the usual gunshot behaviour
         return self.BaseClass.PrimaryAttack(self)
     end
 
@@ -158,19 +152,10 @@ function SWEP:PrimaryAttack()
                 net.WriteString(owner:Nick())
                 net.Send(target)
 
-                -- Displays a timer when the duel has a few seconds left
+                -- Timer for checking the result of the duel
                 timer.Create("WesternDuelTimer" .. owner:SteamID64(), 1, 10, function()
-                    local repsLeft = timer.RepsLeft("WesternDuelTimer" .. owner:SteamID64())
-
-                    if repsLeft < 5 and repsLeft > 0 then
-                        owner:PrintMessage(HUD_PRINTCENTER, repsLeft)
-                        target:PrintMessage(HUD_PRINTCENTER, repsLeft)
-                    end
-                end)
-
-                -- After 10 seconds of duelling, the players are free to duel others and have to initiate their duel again to fight
-                timer.Create("WesternDuelOver" .. owner:SteamID64(), 10, 1, function()
-                    if IsPlayer(owner) and IsPlayer(target) and (not owner:IsSpec()) and (not target:IsSpec()) and owner:Alive() and target:Alive() then
+                    -- If either player dies, end the duel
+                    if IsPlayer(owner) and IsPlayer(target) and (not owner:Alive() or not target:Alive() or owner:IsSpec() or target:IsSpec()) then
                         owner:SetNWEntity("WesternDuellingPlayer", NULL)
                         target:SetNWEntity("WesternDuellingPlayer", NULL)
                         owner.DuelOpponent = nil
@@ -179,10 +164,29 @@ function SWEP:PrimaryAttack()
 
                         net.Send({owner, target})
 
-                        if IsValid(self) then
-                            owner:PrintMessage(HUD_PRINTCENTER, "The duel is over!")
-                            target:PrintMessage(HUD_PRINTCENTER, "The duel is over!")
-                        end
+                        timer.Remove("WesternDuelTimer" .. owner:SteamID64())
+
+                        return
+                    end
+
+                    -- If the duel is still going after 5 seconds left, display a timer
+                    local repsLeft = timer.RepsLeft("WesternDuelTimer" .. owner:SteamID64())
+
+                    if repsLeft < 5 and repsLeft > 0 then
+                        owner:PrintMessage(HUD_PRINTCENTER, repsLeft)
+                        target:PrintMessage(HUD_PRINTCENTER, repsLeft)
+                        -- After 10 seconds of duelling, end the duel
+                    elseif repsLeft == 0 then
+                        owner:SetNWEntity("WesternDuellingPlayer", NULL)
+                        target:SetNWEntity("WesternDuellingPlayer", NULL)
+                        owner.DuelOpponent = nil
+                        target.DuelOpponent = nil
+                        net.Start("DuelRevolverRemoveHalo")
+
+                        net.Send({owner, target})
+
+                        owner:PrintMessage(HUD_PRINTCENTER, "The duel is over!")
+                        target:PrintMessage(HUD_PRINTCENTER, "The duel is over!")
                     end
                 end)
             else
