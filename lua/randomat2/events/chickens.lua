@@ -28,6 +28,14 @@ function EVENT:Begin()
         ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
         maxHealth[ply] = ply:GetMaxHealth()
 
+        if hp < ply:Health() then
+            ply:SetHealth(hp)
+        end
+
+        if hp < ply:GetMaxHealth() then
+            ply:SetMaxHealth(hp)
+        end
+
         if IsBodyDependentRole(ply) then
             self:StripRoleWeapons(ply)
             SetToBasicRole(ply)
@@ -58,17 +66,6 @@ function EVENT:Begin()
         net.WriteString("RdmtChickensSpeed")
         net.Send(ply)
     end
-
-    -- Caps player HP
-    timer.Create("RdmtChickenHp", 1, 0, function()
-        for _, ply in ipairs(self:GetAlivePlayers()) do
-            if ply:Health() > math.floor(hp) then
-                ply:SetHealth(math.floor(hp))
-            end
-
-            ply:SetMaxHealth(math.floor(hp))
-        end
-    end)
 
     -- Scales the player speed on the server
     self:AddHook("TTTSpeedMultiplier", function(ply, mults)
@@ -103,10 +100,18 @@ function EVENT:Begin()
         end
     end)
 
-    -- Sets a player's model to a chicken if they respawn
+    -- Sets a player's model to a chicken and set health if they respawn
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
             ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
+
+            if hp < ply:Health() then
+                ply:SetHealth(hp)
+            end
+
+            if hp < ply:GetMaxHealth() then
+                ply:SetMaxHealth(hp)
+            end
         end)
     end)
 end
