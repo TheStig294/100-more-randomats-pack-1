@@ -29,28 +29,39 @@ function EVENT:Begin()
 
     -- Replace all Jesters with Innocents
     for i, v in ipairs(self:GetPlayers()) do
+        v.ContagiousRespawnCount = 0
+
         if Randomat:IsJesterTeam(v) then
             self:StripRoleWeapons(v)
             Randomat:SetRole(v, ROLE_INNOCENT)
         end
     end
 
-    -- Let the end-of-round scoreboard know roles have changed (Else, old roles will be displayed)
+    -- Let clients know roles have changed (Else, old roles will be displayed)
     SendFullStateUpdate()
 
-    -- When a player dies,
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
+        -- Cap the number of times players can respawn to 10, to prevent infinite loops with other randomat events and whatnot
+        if ply.ContagiousRespawnCount and ply.ContagiousRespawnCount >= 10 then return end
+
         -- If the player didn't suicide, and was killed by another player
         if (attacker.IsPlayer() and attacker ~= ply) then
             -- Respawn player as new role
             ply:ConCommand("ttt_spectator_mode 0")
 
             timer.Create("respawndelay", 0.1, 0, function()
-                local corpse = findcorpse(ply) -- run the normal respawn code now
+                -- Run the normal respawn code now
+                local corpse = findcorpse(ply)
                 ply:SpawnForRound(true)
-                ply:SetRole(attacker:GetRole()) -- Give player role of their attacker
+                ply:SetRole(attacker:GetRole())
                 self:StripRoleWeapons(ply)
-                ply:SetHealth(100) -- Return to full health
+                ply:SetHealth(100)
+
+                if ply.ContagiousRespawnCount then
+                    ply.ContagiousRespawnCount = ply.ContagiousRespawnCount + 1
+                else
+                    ply.ContagiousRespawnCount = 1
+                end
 
                 -- Remove their corpse
                 if corpse then
@@ -71,7 +82,7 @@ function EVENT:Begin()
     end)
 end
 
--- Prevent 'Contagious Morality' from triggering at the same time as events that
+-- Prevent this event from triggering at the same time as events that
 -- require 1 player to be alive for the round to end or cause repeated deaths
 function EVENT:Condition()
     return not (Randomat:IsEventActive("battleroyale") or Randomat:IsEventActive("pistols") or Randomat:IsEventActive("mayhem"))
