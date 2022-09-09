@@ -160,9 +160,10 @@ _ttt_randomat_bullets_ - Default: 1 - Whether this randomat is enabled
 
 ## Contagious Morality
 
-Killing others respawns them with your role.\
+Killing someone respawns them with your role, limited lives, 3 by default.\
 \
-_ttt_randomat_contagiousmorality_ - Default: 1 - Whether this randomat is enabled\
+_ttt_randomat_morality_ - Default: 1 - Whether this randomat is enabled\
+_randomat_morality_lives - Default: 3 - No. of lives players have\
 \
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
 
