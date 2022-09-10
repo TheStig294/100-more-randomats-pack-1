@@ -712,6 +712,13 @@ Everyone can jump very high, high gravity, no fall damage\
 \
 _ttt_randomat_superboing_ - Default: 1 - Whether this randomat is enabled
 
+## Take a seat! (a.k.a Oh sorry, I thought that was you, Rythian!)
+
+Turns everyone into chairs!\
+This randomat gives out this model as well if installed, and changes to its alternate name: [Phoenix Wright Playermodel & NPC](https://steamcommunity.com/sharedfiles/filedetails/?id=396749988)\
+\
+_ttt_randomat_chairs_ - Default: 1 - Whether this randomat is enabled
+
 ## Team Deathmatch
 
 Turns half of everyone into traitors, and half detectives.\
