@@ -26,14 +26,14 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 1. Explosive Jumping - Super jump, create explosions when you land!
 1. Wasted - See a GTA-style death screen when you die!
+1. Take a seat! - Turns everyone into chairs!
+1. Explosive Jumping - Super jump, create explosions when you land!
+1. Wasted - See a GTA-style death screen when you die!
 1. It's high noon... - Makes the game look like a western movie, eveyone has pistol duels!
 1. Welcome back to TTT! - Does the Yogs TTT intro, and creates an overlay showing roles
 1. Fetch me their souls... - Draws in fog and spawns zombies around the map!
 2. Deflation - Players shrink as they take damage!
 3. Press E to ping - Pressing 'E' pings a location
-4. Unrealistic Recoil - Shooting pushes you forwards
-5. Triggered - Everyone's screen shakes and a loud noise plays when someone dies
-6. Don't Get Greedy... - Get buyable items over time, but you die if you already have one!
 
 # Randomats
 
@@ -728,6 +728,13 @@ _ttt_randomat_triggered_ - Default: 1 - Whether this randomat is enabled\
 Everyone can jump very high, high gravity, no fall damage\
 \
 _ttt_randomat_superboing_ - Default: 1 - Whether this randomat is enabled
+
+## Take a seat! (a.k.a Oh sorry, I thought that was you, Rythian!)
+
+Turns everyone into chairs!\
+This randomat gives out this model as well if installed, and changes to its alternate name: [Phoenix Wright Playermodel & NPC](https://steamcommunity.com/sharedfiles/filedetails/?id=396749988)\
+\
+_ttt_randomat_chairs_ - Default: 1 - Whether this randomat is enabled
 
 ## Team Deathmatch
 
