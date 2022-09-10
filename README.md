@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Take a seat! - Turns everyone into chairs!
 1. It's high noon... - Makes the game look like a western movie, eveyone has pistol duels!
 1. Welcome back to TTT! - Does the Yogs TTT intro, and creates an overlay showing roles
 1. Fetch me their souls... - Draws in fog and spawns zombies around the map!
@@ -33,7 +34,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 5. Triggered - Everyone's screen shakes and a loud noise plays when someone dies
 6. Don't Get Greedy... - Get buyable items over time, but you die if you already have one!
 7. Gun Game 3.0 - Periodically gives everyone buyable items!
-8. Deathly Chaos - Triggers a randomat when someone dies
 
 # Randomats
 
