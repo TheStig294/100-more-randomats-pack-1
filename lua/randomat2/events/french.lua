@@ -106,6 +106,11 @@ function EVENT:End()
     end
 end
 
+-- Disallow mud scientist randomat to trigger at the same time as either event's role renaming may persist between rounds
+function EVENT:Condition()
+    return not Randomat:IsEventActive("mudscientist")
+end
+
 function EVENT:GetConVars()
     local checkboxes = {}
 
