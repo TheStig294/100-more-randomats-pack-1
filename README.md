@@ -24,8 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
-1. Explosive Jumping - Super jump, create explosions when you land!
-1. Wasted - See a GTA-style death screen when you die!
+1. Prop Confusion (hidden) - Someone sees everyone else as props!
 1. Take a seat! - Turns everyone into chairs!
 1. Explosive Jumping - Super jump, create explosions when you land!
 1. Wasted - See a GTA-style death screen when you die!
@@ -33,7 +32,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Welcome back to TTT! - Does the Yogs TTT intro, and creates an overlay showing roles
 1. Fetch me their souls... - Draws in fog and spawns zombies around the map!
 2. Deflation - Players shrink as they take damage!
-3. Press E to ping - Pressing 'E' pings a location
 
 # Randomats
 
@@ -634,6 +632,13 @@ _randomat_ping_cooldown_ - Default: 10 - Seconds until a player can ping again\
 _randomat_ping_global_cooldown_ - Default: 0 - Seconds until anyone can ping again after 1 person pings\
 _randomat_ping_spectators_ - Default: 1 - Whether spectators can ping\
 _randomat_ping_sound_ - Default: 1 - Whether pinging makes a sound
+
+## Prop Confusion
+
+Secret event (shows up as "Shhh... it's a secret!"), one person is selected to see everyone else as props!\
+Only they see props in place of other players, everyone else is unaffected.\
+\
+_ttt_randomat_propconfusion_ - Default: 1 - Whether this randomat is enabled\
 
 ## Random jump height for everyone!
 
