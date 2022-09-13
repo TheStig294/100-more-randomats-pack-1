@@ -1,4 +1,7 @@
+local netMsgRecieved = false
+
 net.Receive("PropConfusionRandomatBegin", function()
+    netMsgRecieved = false
     -- Fix from Gmod wiki for floating parented client-side props
     local parentLookup = {}
 
@@ -93,6 +96,8 @@ net.Receive("PropConfusionRandomatBegin", function()
 end)
 
 net.Receive("PropConfusionRandomatEnd", function()
+    if netMsgRecieved then return end
+
     -- Turn everyone back from props
     if istable(props) then
         for _, prop in ipairs(props) do
@@ -106,5 +111,7 @@ net.Receive("PropConfusionRandomatEnd", function()
         ply:SetNoDraw(false)
     end
 
+    chat.AddText("You can now see who was what prop!")
     hook.Remove("NotifyShouldTransmit", "PropConfusionPropParentingFix")
+    netMsgRecieved = true
 end)

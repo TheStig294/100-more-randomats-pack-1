@@ -25,7 +25,6 @@ function EVENT:End()
     if not IsPlayer(randomPly) then return end
     net.Start("PropConfusionRandomatEnd")
     net.Send(randomPly)
-    randomPly:PrintMessage(HUD_PRINTTALK, "You can now see who was what prop!")
 end
 
 Randomat:register(EVENT)
