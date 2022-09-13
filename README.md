@@ -693,6 +693,12 @@ Puts someone with their best traitor partner.\
 \
 _ttt_randomat_sharky_ - Default: 1 - Whether this randomat is enabled
 
+## Shh... It's a Secret!
+
+Runs another random Randomat event without notifying the players. Also silences all future Randomat events while this event is active.\
+\
+_ttt_randomat_secret_ - Default: 1 - Whether this event is enabled.
+
 ## Simon Says
 
 Everyone copies someone's loadout. Everyone can only use a gun if the chosen person has theirs out.\
@@ -722,17 +728,17 @@ Changed name from "There are ghosts around", converted to work with randomat 2.0
 fixed major bug that would prevent the round from being manually restarted on any map this event activated on.\
 Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
 
-## Triggered
-
-Applies a red screen effect, shakes the screen and plays a loud sound when someone dies\
-\
-_ttt_randomat_triggered_ - Default: 1 - Whether this randomat is enabled\
-
 ## Super Boing
 
 Everyone can jump very high, high gravity, no fall damage\
 \
 _ttt_randomat_superboing_ - Default: 1 - Whether this randomat is enabled
+
+## Triggered
+
+Applies a red screen effect, shakes the screen and plays a loud sound when someone dies\
+\
+_ttt_randomat_triggered_ - Default: 1 - Whether this randomat is enabled\
 
 ## Take a seat! (a.k.a Oh sorry, I thought that was you, Rythian!)
 
