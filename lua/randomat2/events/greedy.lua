@@ -15,6 +15,8 @@ local function CreateTimer(ply)
     local time = math.random(GetConVar("randomat_greedy_timer_min"):GetInt(), GetConVar("randomat_greedy_timer_max"):GetInt())
 
     timer.Create("GreedyRandomatTimer" .. ply:SteamID64(), time, 0, function()
+        -- Don't display messages while the player isn't alive
+        if not ply:Alive() or ply:IsSpec() then return end
         local hadItem = false
 
         for _, wep in ipairs(ply:GetWeapons()) do
