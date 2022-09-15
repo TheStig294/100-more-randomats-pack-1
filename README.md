@@ -242,7 +242,7 @@ Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails
 
 ## Don't Skip Leg Day
 
-Changes everyone's model's bones to give everyone "baby legs".\
+Scales everyone's leg size by a set multiplier.\
 \
 _ttt_randomat_legday_ - Default: 1 - Whether this randomat is enabled\
 _randomat_legday_scale_ - Default: 0.3 - Leg size multiplier\
