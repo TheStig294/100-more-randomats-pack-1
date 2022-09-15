@@ -24,14 +24,14 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Remember Flat Stanley? - Flattens everyone's model
+1. Don't Skip Leg Day - Gives everyone baby legs
 1. Prop Confusion (hidden) - Someone sees everyone else as props!
 1. Take a seat! - Turns everyone into chairs!
 1. Explosive Jumping - Super jump, create explosions when you land!
 1. Wasted - See a GTA-style death screen when you die!
 1. It's high noon... - Makes the game look like a western movie, eveyone has pistol duels!
 1. Welcome back to TTT! - Does the Yogs TTT intro, and creates an overlay showing roles
-1. Fetch me their souls... - Draws in fog and spawns zombies around the map!
-2. Deflation - Players shrink as they take damage!
 
 # Randomats
 
@@ -215,14 +215,6 @@ Players shrink as they take damage, and grow as they gain health\
 \
 _ttt_randomat_deflation_ - Default: 1 - Whether this randomat is enabled\
 
-## Don't Miss...
-
-If you miss a shot, you take damage, but if you hit, then you gain health. Everyone is set to 100 health and 200 max health, so players can heal by being accurate with their shots. Everyone will appear to be injured when this randomat triggers.\
-\
-_ttt_randomat_dontmiss_ - Default: 1 - Whether this randomat is enabled\
-_randomat_dontmiss_damage_ - Default: 5 - Damage dealt for missing\
-_randomat_dontmiss_heal_ - Default: 5 - Health gained for healing
-
 ## Don't Get Greedy...
 
 Everyone gets buyable items over time, but if they're already holding one, they die!\
@@ -230,6 +222,14 @@ Everyone gets buyable items over time, but if they're already holding one, they 
 _ttt_randomat_greedy_ - Default: 1 - Whether this randomat is enabled\
 _randomat_greedy_timer_min_ - Default: 10 - Min seconds before a weapon tries to be given\
 _randomat_greedy_timer_max_ - Default: 60 - Max seconds before a weapon tries to be given
+
+## Don't Miss...
+
+If you miss a shot, you take damage, but if you hit, then you gain health. Everyone is set to 100 health and 200 max health, so players can heal by being accurate with their shots. Everyone will appear to be injured when this randomat triggers.\
+\
+_ttt_randomat_dontmiss_ - Default: 1 - Whether this randomat is enabled\
+_randomat_dontmiss_damage_ - Default: 5 - Damage dealt for missing\
+_randomat_dontmiss_heal_ - Default: 5 - Health gained for healing
 
 ## Don’t RDM...
 
@@ -239,6 +239,16 @@ _ttt_randomat_dontrdm_ - Default: 1 - Whether this randomat is enabled
 
 Modified version of "I'm the captain now" randomat. Fixed compatibility with Custom Roles for TTT and added compatibility with Noxx’s Custom Roles for TTT.\
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
+
+## Don't Skip Leg Day
+
+Changes everyone's model's bones to give everyone "baby legs".\
+\
+_ttt_randomat_legday_ - Default: 1 - Whether this randomat is enabled\
+_randomat_legday_scale_ - Default: 0.3 - Leg size multiplier\
+\
+Changed default leg size multiplier, added lower viewheight for all players.\
+Originally made by [Spaaz](https://github.com/spaaz/Spaaz-s-Randomats)
 
 ## Ending Flair
 
@@ -673,6 +683,15 @@ Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails
 Puts someone with their worst traitor partner.\
 \
 _ttt_randomat_redemption_ - Default: 1 - Whether this randomat is enabled
+
+## Remember Flat Stanley?
+
+Flattens all players' playermodels.\
+\
+_ttt_randomat_redemption_ - Default: 1 - Whether this randomat is enabled\
+_randomat_flatstanley_scale_ - Default: 0.2 - Flatness size multiplier
+
+Originally made by [Spaaz](https://github.com/spaaz/Spaaz-s-Randomats)
 
 ## Role Call
 
