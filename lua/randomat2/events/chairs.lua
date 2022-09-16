@@ -1,18 +1,13 @@
 local EVENT = {}
-local rythianModel = "models/player_phoenix.mdl"
-
-if util.IsValidModel(rythianModel) then
-    EVENT.Title = "Oh sorry, I thought that was you, Rythian!"
-else
-    EVENT.Title = "Take a seat!"
-end
-
+EVENT.Title = "Take a seat!"
 EVENT.Description = "Turns everyone into chairs!"
 EVENT.id = "chairs"
 
 EVENT.Categories = {"fun", "largeimpact"}
 
 function EVENT:Begin()
+    local rythianModel = "models/player_phoenix.mdl"
+
     local chairModels = {"models/nova/chair_plastic01.mdl", "models/chairs/armchair.mdl", "models/nova/chair_office01.mdl", "models/nova/chair_office02.mdl", "models/nova/chair_wood01.mdl", "models/props_c17/chair02a.mdl", "models/props_c17/chair_kleiner03a.mdl", "models/props_c17/chair_office01a.mdl", "models/props_c17/chair_stool01a.mdl", "models/props_interiors/furniture_chair01a.mdl", "models/props_interiors/furniture_chair03a.mdl"}
 
     local turn90Models = {
