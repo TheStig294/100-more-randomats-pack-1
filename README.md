@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Huff this! - Crouching makes you fart
 1. Remember Flat Stanley? - Flattens everyone's model
 1. Don't Skip Leg Day - Gives everyone baby legs
 1. Prop Confusion (hidden) - Someone sees everyone else as props!
@@ -31,7 +32,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Explosive Jumping - Super jump, create explosions when you land!
 1. Wasted - See a GTA-style death screen when you die!
 1. It's high noon... - Makes the game look like a western movie, eveyone has pistol duels!
-1. Welcome back to TTT! - Does the Yogs TTT intro, and creates an overlay showing roles
 
 # Randomats
 
@@ -452,6 +452,13 @@ _ttt_randomat_hud_ - Default: 1 - Whether this randomat is enabled
 A player will slow to half speed while they hold space. Will prevent fall damage.\
 \
 _ttt_randomat_space_ - Default: 1 - Whether this randomat is enabled
+
+## Huff this!
+
+Crouching makes you fart.\
+Everyone gets this playermodel if installed: https://steamcommunity.com/sharedfiles/filedetails/?id=614003294\
+\
+_ttt_randomat_fart_ - Default: 1 - Whether this randomat is enabled
 
 ## Huge Problem
 
