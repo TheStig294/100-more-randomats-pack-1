@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Make a Randomat! - Someone gets to make their own randomat!
 1. Huff this! - Crouching makes you fart
 1. Remember Flat Stanley? - Flattens everyone's model
 1. Don't Skip Leg Day - Gives everyone baby legs
@@ -31,7 +32,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Take a seat! - Turns everyone into chairs!
 1. Explosive Jumping - Super jump, create explosions when you land!
 1. Wasted - See a GTA-style death screen when you die!
-1. It's high noon... - Makes the game look like a western movie, eveyone has pistol duels!
 
 # Randomats
 
@@ -490,31 +490,6 @@ Everyone can teleport up and down walls and obstacles by walking into/off them a
 \
 _ttt_randomat_elevator_ - Default: 1 - Whether this randomat is enabled
 
-## Western
-
-Makes the game look like a western film and plays western music!\
-Replaces normal guns with "duel revolvers", everyone gets one.\
-When a revolver is used on a player, both players turn around, freeze in place, and duel it out after 5 seconds.\
-If a player dies, or neither die after 10 seconds, the duel is over.\
-All jesters/independents are set to innocents (If custom roles are being used).\
-\
-This randomat's name is a randomly chosen western film trope/reference:
-
-- It's high noon...
-- The innocent, the traitors, and the ugly
-- This town ain't big enough for both of us...
-- Go ahead... make my day
-- They say he's the fastest draw in the west...
-- The quick, and the dead
-
-_ttt_randomat_western_ - Default: 1 - Whether this randomat is enabled\
-_randomat_western_music_ - Default: 1 - Whether the western music plays\
-\
-Credit for the copyright-free music used:\
-"Rattlesnake Railroad" by Brett Van Donsel <https://incompetech.com/> \
-License: CC BY 4.0 <https://creativecommons.org/licenses/by/4.0> \
-YouTube Source: <https://www.youtube.com/watch?v=WizFTwM_J_8>
-
 ## It's [player]!
 
 Changes everyone's playermodel to someone's on the server\
@@ -550,6 +525,17 @@ _randomat_livecount_timer_ - Default: 30 - Time between live counts\
 
 Changed name from "Live Check!"\
 Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)
+
+## Make a randomat!
+
+A player is randomly chosen to make their own randomat!\
+Randomly chosen "causes" are given in a window on the side of the screen. After the player clicks on one, or they take too long to choose, the player can then select from "effects".\
+After choosing a cause and effect, a window pops up asking to name the randomat, which then triggers!\
+\
+_ttt_randomat_make_ - Default: 1 - Whether this randomat is enabled\
+_randomat_make_choices_ - Default: 5 - No. of causes/effects you can choose from at once\
+_randomat_make_timer_ - Default: 10 - Seconds you have to choose a cause or effect\
+_randomat_make_while_dead_ - Default: 1 - Dead players can be chosen to make a randomat
 
 ## No more of your little tricks...
 
@@ -829,6 +815,31 @@ _ttt_randomat_wasted_ - Default: 1 - Whether this randomat is enabled
 Displays the Yogscast TTT intro, and creates an overlay showing everyone's roles as bodies are searched, and whether they are alive. (Similar to the scoreboard)\
 \
 _ttt_randomat_welcomeback_ - Default: 1 - Whether this randomat is enabled
+
+## Western
+
+Makes the game look like a western film and plays western music!\
+Replaces normal guns with "duel revolvers", everyone gets one.\
+When a revolver is used on a player, both players turn around, freeze in place, and duel it out after 5 seconds.\
+If a player dies, or neither die after 10 seconds, the duel is over.\
+All jesters/independents are set to innocents (If custom roles are being used).\
+\
+This randomat's name is a randomly chosen western film trope/reference:
+
+- It's high noon...
+- The innocent, the traitors, and the ugly
+- This town ain't big enough for both of us...
+- Go ahead... make my day
+- They say he's the fastest draw in the west...
+- The quick, and the dead
+
+_ttt_randomat_western_ - Default: 1 - Whether this randomat is enabled\
+_randomat_western_music_ - Default: 1 - Whether the western music plays\
+\
+Credit for the copyright-free music used:\
+"Rattlesnake Railroad" by Brett Van Donsel <https://incompetech.com/> \
+License: CC BY 4.0 <https://creativecommons.org/licenses/by/4.0> \
+YouTube Source: <https://www.youtube.com/watch?v=WizFTwM_J_8>
 
 ## What did WE find in our pockets?
 
