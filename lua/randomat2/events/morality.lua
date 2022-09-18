@@ -67,9 +67,8 @@ function EVENT:Begin()
             timer.Create("RandomatMoralityRespawnDelay", 0.1, 0, function()
                 -- Run the normal respawn code now
                 ply:SpawnForRound(true)
-                ply:SetRole(attacker:GetRole())
+                Randomat:SetRole(ply, attacker:GetRole(), true)
                 self:StripRoleWeapons(ply)
-                ply:SetHealth(100)
 
                 if ply.MoralityRespawnCount then
                     ply.MoralityRespawnCount = ply.MoralityRespawnCount + 1
