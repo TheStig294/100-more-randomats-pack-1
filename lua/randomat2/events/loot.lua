@@ -3,7 +3,7 @@ EVENT.Title = "Shoot and Loot!"
 EVENT.Description = "Killed players drop buyable weapons!"
 EVENT.id = "loot"
 
-EVENT.Categories = {"entityspawn", "largeimpact"}
+EVENT.Categories = {"deathtrigger", "largeimpact"}
 
 CreateConVar("randomat_loot_drop_number", "8", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Number of weapons dropped", 1, 20)
 
