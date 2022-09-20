@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. You spin me right round baby... - Taking damage rotates you
 1. Drop Shot! - While not crouching, damage you deal heals instead
 1. Doomed! - You can only look side-to-side
 1. Trigger Happy - When someone shoots, everyone else does too
@@ -908,6 +909,12 @@ _ttt_randomat_whoa_ - Default: 1 - Whether this randomat is enabled\
 _randomat_whoa_timer_ - Default: 3 - Time between being given spin attacks\
 _randomat_whoa_strip_ - Default: 1 - The event strips your other weapons\
 _randomat_whoa_weaponid_ - Default: weapon_ttt_whoa_randomat - Id of the weapon given
+
+## You spin me right round baby...
+
+Taking damage rotates you to the left slightly.\
+\
+_ttt_randomat_spin_ - Default: 1 - Whether this randomat is enabled
 
 ## Zero Friction!
 
