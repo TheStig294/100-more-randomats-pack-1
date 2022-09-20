@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. First come, first served! - Only the 1st person to search a body can see its role
 1. Make a Randomat! - Someone gets to make their own randomat!
 1. Huff this! - Crouching makes you fart
 1. Remember Flat Stanley? - Flattens everyone's model
@@ -31,7 +32,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Prop Confusion (hidden) - Someone sees everyone else as props!
 1. Take a seat! - Turns everyone into chairs!
 1. Explosive Jumping - Super jump, create explosions when you land!
-1. Wasted - See a GTA-style death screen when you die!
 
 # Randomats
 
@@ -365,6 +365,13 @@ After all zombies are killed, the fog is lifted and all players are rewarded wit
 \
 _ttt_randomat_doground_ - Default: 1 - Whether this randomat is enabled\
 _randomat_doground_fogdist_ - Default: 1 - Fog distance multiplier
+
+## First come, first served!
+
+Only the 1st person to search a body can see its role.\
+If detective-only search is enabled, everyone is given the ability to search bodies.\
+\
+_ttt_randomat_firstsearch_ - Default: 1 - Whether this randomat is enabled
 
 ## Freeze
 
