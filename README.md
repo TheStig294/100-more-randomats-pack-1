@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Doomed! - You can only look side-to-side
 1. Trigger Happy - When someone shoots, everyone else does too
 1. First come, first served! - Only the 1st person to search a body can see its role
 1. Make a Randomat! - Someone gets to make their own randomat!
@@ -31,7 +32,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Remember Flat Stanley? - Flattens everyone's model
 1. Don't Skip Leg Day - Gives everyone baby legs
 1. Prop Confusion (hidden) - Someone sees everyone else as props!
-1. Take a seat! - Turns everyone into chairs!
 
 # Randomats
 
@@ -249,6 +249,14 @@ _randomat_legday_scale_ - Default: 0.3 - Leg size multiplier\
 \
 Changed default leg size multiplier, added lower viewheight for all players.\
 Originally made by [Spaaz](https://github.com/spaaz/Spaaz-s-Randomats)
+
+## Doomed!
+
+You can only look side-to-side, initially sets everyone to look forward.\
+\
+_ttt_randomat_doomed_ - Default: 1 - Whether this randomat is enabled\
+\
+Idea from Xenotric on YouTube.
 
 ## Ending Flair
 
@@ -753,12 +761,6 @@ Everyone can jump very high, high gravity, no fall damage\
 \
 _ttt_randomat_superboing_ - Default: 1 - Whether this randomat is enabled
 
-## Triggered
-
-Applies a red screen effect, shakes the screen and plays a loud sound when someone dies\
-\
-_ttt_randomat_triggered_ - Default: 1 - Whether this randomat is enabled\
-
 ## Take a seat! (a.k.a Oh sorry, I thought that was you, Rythian!)
 
 Turns everyone into chairs!\
@@ -780,6 +782,20 @@ Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/
 Spawns a bucket somewhere on the map that kills anyone it touches...\
 \
 _ttt_randomat_bucket_ - Default: 1 - Whether this randomat is enabled
+
+## Trigger Happy
+
+Whenever you shoot, everyone else does too!\
+\
+_ttt_randomat_triggerhappy_ - Default: 1 - Whether this randomat is enabled\
+\
+Idea from Wolvinof on YouTube.
+
+## Triggered
+
+Applies a red screen effect, shakes the screen and plays a loud sound when someone dies\
+\
+_ttt_randomat_triggered_ - Default: 1 - Whether this randomat is enabled
 
 ## Unbelievable Guilt
 
