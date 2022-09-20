@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Hot Pursuit - Killed players drop buyable weapons!
 1. Shoot and Loot! - Killed players drop buyable weapons!
 1. You spin me right round baby... - Taking damage rotates you
 1. Drop Shot! - While not crouching, damage you deal heals instead
@@ -478,6 +479,13 @@ _ttt_randomat_hud_ - Default: 1 - Whether this randomat is enabled
 A player will slow to half speed while they hold space. Will prevent fall damage.\
 \
 _ttt_randomat_space_ - Default: 1 - Whether this randomat is enabled
+
+## Hot Pursuit
+
+Move faster as more people die, relative to the number of people playing, starts off slow, gets crazy fast by the end!\
+\
+_ttt_randomat_pursuit_ - Default: 1 - Whether this randomat is enabled\
+_randomat_pursuit_mult_ - Default: 1.5 - Movement speed multiplier
 
 ## Huff this!
 
