@@ -162,10 +162,7 @@ net.Receive("MakeRandomatTrigger", function()
 
     causesList.OnRowSelected = function(_, rowIndex, _)
         local causeID = causesChoices[rowIndex]
-
-        timer.Simple(0.1, function()
-            makeEffectsList(frame, noOfLines, noOfChoices, secsToMakeChoice, causeID)
-        end)
+        makeEffectsList(frame, noOfLines, noOfChoices, secsToMakeChoice, causeID)
     end
 
     -- If the time to choose a cause runs out, pick a random choice
