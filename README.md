@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Drop Shot! - While not crouching, damage you deal heals instead
 1. Doomed! - You can only look side-to-side
 1. Trigger Happy - When someone shoots, everyone else does too
 1. First come, first served! - Only the 1st person to search a body can see its role
@@ -257,6 +258,14 @@ You can only look side-to-side, initially sets everyone to look forward.\
 _ttt_randomat_doomed_ - Default: 1 - Whether this randomat is enabled\
 \
 Idea from Xenotric on YouTube.
+
+## Drop Shot!
+
+While not crouching, damage you deal heals instead.\
+Shows a message on a cooldown when a player shoots without crouching.\
+\
+_ttt_randomat_dropshot_ - Default: 1 - Whether this randomat is enabled\
+_randomat_dropshot_message_cooldown_ - Default: 20 - Seconds before 'Player healed!' message appears again, set to 0 to disable
 
 ## Ending Flair
 
