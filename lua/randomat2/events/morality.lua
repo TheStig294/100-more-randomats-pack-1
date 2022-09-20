@@ -39,12 +39,16 @@ function EVENT:Begin()
     self:AddHook("TTTKarmaGivePenalty", function(ply, penalty, victim) return true end)
 
     -- Replace all Jesters with Innocents
-    for i, v in ipairs(self:GetPlayers()) do
-        v.MoralityRespawnCount = 0
+    for _, ply in ipairs(self:GetPlayers()) do
+        ply.MoralityRespawnCount = 0
 
-        if Randomat:IsJesterTeam(v) then
-            self:StripRoleWeapons(v)
-            Randomat:SetRole(v, ROLE_INNOCENT)
+        if Randomat:IsJesterTeam(ply) then
+            self:StripRoleWeapons(ply)
+            Randomat:SetRole(ply, ROLE_INNOCENT)
+            -- Make any old man player innocent, as their adrenaline rush interferes with this event in a confusing way
+        elseif ROLE_OLDMAN and ply:GetRole() == ROLE_OLDMAN then
+            self:StripRoleWeapons(ply)
+            Randomat:SetRole(ply, ROLE_INNOCENT)
         end
     end
 
@@ -109,8 +113,9 @@ end
 
 -- Prevent this event from triggering at the same time as events that
 -- require 1 player to be alive for the round to end or cause repeated deaths
+-- Also don't run if someone is an old man, as their adrenaline rush interferes with this event in a confusing way
 function EVENT:Condition()
-    return not (Randomat:IsEventActive("battleroyale") or Randomat:IsEventActive("pistols") or Randomat:IsEventActive("mayhem"))
+    return not (player.IsRoleLiving and player.IsRoleLiving(ROLE_OLDMAN)) and not (Randomat:IsEventActive("battleroyale") or Randomat:IsEventActive("pistols") or Randomat:IsEventActive("mayhem"))
 end
 
 function EVENT:GetConVars()
