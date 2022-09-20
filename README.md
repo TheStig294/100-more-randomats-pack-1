@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Trigger Happy - When someone shoots, everyone else does too
 1. First come, first served! - Only the 1st person to search a body can see its role
 1. Make a Randomat! - Someone gets to make their own randomat!
 1. Huff this! - Crouching makes you fart
@@ -31,7 +32,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Don't Skip Leg Day - Gives everyone baby legs
 1. Prop Confusion (hidden) - Someone sees everyone else as props!
 1. Take a seat! - Turns everyone into chairs!
-1. Explosive Jumping - Super jump, create explosions when you land!
 
 # Randomats
 
