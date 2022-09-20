@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Shoot and Loot! - Killed players drop buyable weapons!
 1. You spin me right round baby... - Taking damage rotates you
 1. Drop Shot! - While not crouching, damage you deal heals instead
 1. Doomed! - You can only look side-to-side
@@ -559,7 +560,7 @@ After choosing a cause and effect, a window pops up asking to name the randomat,
 \
 _ttt_randomat_make_ - Default: 1 - Whether this randomat is enabled\
 _randomat_make_choices_ - Default: 5 - No. of causes/effects you can choose from at once\
-_randomat_make_timer_ - Default: 10 - Seconds you have to choose a cause or effect\
+_randomat_make_timer_ - Default: 20 - Seconds you have to choose a cause or effect\
 _randomat_make_while_dead_ - Default: 1 - Dead players can be chosen to make a randomat
 
 ## No more of your little tricks...
@@ -735,6 +736,15 @@ _ttt_randomat_sharky_ - Default: 1 - Whether this randomat is enabled
 Runs another random Randomat event without notifying the players. Also silences all future Randomat events while this event is active.\
 \
 _ttt_randomat_secret_ - Default: 1 - Whether this event is enabled.
+
+## Shoot and Loot!
+
+Killed players drop buyable weapons! New random weapons not held by the player pop out and are thrown around them.\
+\
+_ttt_randomat_loot_ - Default: 1 - Whether this event is enabled.\
+_randomat_loot_drop_number_ - Default: 8 - Number of weapons dropped.\
+\
+Idea from IAmRoofstone on Reddit
 
 ## Simon Says
 
