@@ -36,4 +36,8 @@ function EVENT:End()
     end
 end
 
+function EVENT:Condition()
+    return not Randomat:IsEventActive("jetgun")
+end
+
 Randomat:register(EVENT)
