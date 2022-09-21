@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. My planet needs me! - Ragdolls move around
 1. Hot Pursuit - Move faster as players are killed
 1. Shoot and Loot! - Killed players drop buyable weapons!
 1. You spin me right round baby... - Taking damage rotates you
@@ -570,6 +571,13 @@ _ttt_randomat_make_ - Default: 1 - Whether this randomat is enabled\
 _randomat_make_choices_ - Default: 5 - No. of causes/effects you can choose from at once\
 _randomat_make_timer_ - Default: 20 - Seconds you have to choose a cause or effect\
 _randomat_make_while_dead_ - Default: 1 - Dead players can be chosen to make a randomat
+
+## My planet needs me!
+
+Ragdolls move around, as soon as a player dies.\
+Depending on the mass of anyone's playermodel, some people's ragdolls might not move much, some might go flying around the map!\
+\
+_ttt_randomat_planet_ - Default: 1 - Whether this randomat is enabled
 
 ## No more of your little tricks...
 
