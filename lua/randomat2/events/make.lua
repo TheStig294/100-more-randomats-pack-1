@@ -208,27 +208,22 @@ Effects.fling = {
     }
 }
 
-local normalLighting = true
+local lightingLevels = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"}
+
+local currentLighting = #lightingLevels
 
 Effects.lighting = {
     ["id"] = "lighting",
-    ["Desc"] = "sometimes everything goes dark!",
+    ["Desc"] = "the map gets darker!",
     ["Functions"] = {
         function(arg1, arg2)
             local ply = CheckForPlayer(arg1, arg2)
             if not ply then return end
             if ply.MakeLightingRandomatCooldown then return end
-            local lightStyle
-
-            if normalLighting then
-                lightStyle = "a"
-                normalLighting = false
-            else
-                lightStyle = "m"
-                normalLighting = true
-            end
-
-            engine.LightStyle(0, lightStyle)
+            -- If we're at the darkest the map can get, stop trying to make things darker
+            if currentLighting == 1 then return end
+            currentLighting = currentLighting - 1
+            engine.LightStyle(0, lightingLevels[currentLighting])
 
             timer.Simple(1, function()
                 BroadcastLua("render.RedownloadAllLightmaps(true, true)")
@@ -247,6 +242,8 @@ Effects.lighting = {
         timer.Simple(1, function()
             BroadcastLua("render.RedownloadAllLightmaps(true, true)")
         end)
+
+        currentLighting = #lightingLevels
     end
 }
 

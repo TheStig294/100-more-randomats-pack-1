@@ -14,7 +14,7 @@ Effects.sound = "you make a sound"
 Effects.bighead = "your head gets bigger"
 Effects.randomat = "a randomat triggers!"
 Effects.fling = "you get flung away!"
-Effects.lighting = "sometimes everything goes dark!"
+Effects.lighting = "the map gets darker!"
 Effects.model = "you randomly change playermodel"
 Effects.health = "your health is randomly changed"
 Effects.meme = "you see a random meme"
@@ -28,25 +28,15 @@ local function closeFrame(frame, idx)
     end
 end
 
-local function closeMakeFrame()
-    if #makeTables == 0 then return end
-    local lastidx
-
-    -- Frames not not necessarily stored in order when multiple are shown at once
-    -- Find that last index since that will be the frame on top (visually)
-    for i, _ in pairs(makeTables) do
-        lastidx = i
-    end
-
-    local frame = makeTables[lastidx]
-    closeFrame(frame, lastidx)
-end
-
 local function closeAllMakeFrames()
     for k, v in pairs(makeTables) do
         closeFrame(v, k)
     end
 end
+
+net.Receive("MakeRandomatEnd", function()
+    closeAllMakeFrames()
+end)
 
 local function openFrame(noOfChoices)
     frames = frames + 1
@@ -170,8 +160,4 @@ net.Receive("MakeRandomatTrigger", function()
         chat.AddText(COLOR_RED, "Took too long to choose! A cause was chosen randomly.")
         makeEffectsList(frame, noOfLines, noOfChoices, secsToMakeChoice, causesChoices[math.random(1, #causesChoices)])
     end)
-end)
-
-net.Receive("MakeRandomatEnd", function()
-    closeAllMakeFrames()
 end)
