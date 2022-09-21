@@ -24,7 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
-1. Hot Pursuit - Killed players drop buyable weapons!
+1. Hot Pursuit - Move faster as players are killed
 1. Shoot and Loot! - Killed players drop buyable weapons!
 1. You spin me right round baby... - Taking damage rotates you
 1. Drop Shot! - While not crouching, damage you deal heals instead
