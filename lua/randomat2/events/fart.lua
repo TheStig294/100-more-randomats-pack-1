@@ -65,18 +65,11 @@ function EVENT:Begin()
         local effectdata = EffectData()
         effectdata:SetOrigin(pos)
         util.Effect("VortDispel", effectdata)
-        -- Damage all entities in an area around the crouching player
         local entTable = ents.FindInSphere(pos, 200)
-        local dmg = DamageInfo()
-        dmg:SetDamage(40)
-        dmg:SetDamageType(DMG_ACID)
-        dmg:SetAttacker(ply)
-        dmg:SetInflictor(ply)
 
         for _, ent in ipairs(entTable) do
             if not IsValid(ent) then continue end
             if ent == ply then continue end
-            ent:TakeDamageInfo(dmg)
             -- Taken from TTT's discombob grenade, pushes all players and ents away
             local phys_force = 1500
             local push_force = 256
