@@ -22,7 +22,7 @@ function EVENT:Begin()
 
     -- Transform all jesters/independents to innocents so we know there can only be an innocent or traitor win
     for i, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsJesterTeam(ply) or Randomat:IsIndependentTeam(ply) or Randomat:IsMonsterTeam(ply) then
+        if Randomat:IsIndependentTeam(ply) or Randomat:IsMonsterTeam(ply) then
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
         end
@@ -95,7 +95,7 @@ function EVENT:Begin()
                 end
             end
 
-            if table.IsEmpty(traitorPlayers) or table.IsEmpty(innocentPlayers) or #alivePlayers == 2 then
+            if table.IsEmpty(traitorPlayers) or table.IsEmpty(innocentPlayers) or #innocentPlayers + #traitorPlayers == 2 or #alivePlayers == 2 then
                 winBlocked = true
 
                 -- Transform any zombies into innocents as they can't hold guns
@@ -136,7 +136,17 @@ function EVENT:Begin()
         end
 
         -- Prevent the round from ending while there is more than 1 player alive, and the timer has not run out
-        if GetGlobalFloat("ttt_round_end") > CurTime() and #self:GetAlivePlayers() > 1 then return WIN_NONE end
+        if GetGlobalFloat("ttt_round_end") > CurTime() then
+            local nonJesterCount = 0
+
+            for _, ply in ipairs(self:GetAlivePlayers()) do
+                if not Randomat:IsJesterTeam(ply) then
+                    nonJesterCount = nonJesterCount + 1
+                end
+            end
+
+            if nonJesterCount > 1 then return WIN_NONE end
+        end
     end)
 
     -- Preventing karma from being lost during the showdown
