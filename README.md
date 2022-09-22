@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. LAST \*PAIR\* ALIVE WINS! Duos battle royale! - Battle royale, in pairs!
 1. My planet needs me! - Ragdolls move around
 1. Hot Pursuit - Move faster as players are killed
 1. Shoot and Loot! - Killed players drop buyable weapons!
@@ -544,6 +545,16 @@ Everyone gets a radar after 2 minutes to prevent camping.\
 _ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
 _randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar\
 randomat_battleroyale_music - Default: 1 - Whether to play vicotry royale music when someone wins
+
+## LAST \*PAIR\* ALIVE WINS! Duos battle royale!
+
+Everyone is turned into an innocent, and placed into pairs, for a duos free-for-all!\
+Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool if it’s installed, last pair alive wins.\
+Everyone gets a radar after 2 minutes to prevent camping.\
+\
+_ttt_randomat_battleroyale2_ - Default: 1 - Whether this randomat is enabled\
+_randomat_battleroyale2_radar_time_ - Default: 120 - Seconds before everyone is given a radar\
+randomat_battleroyale2_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
 ## Let's mix it up...
 
