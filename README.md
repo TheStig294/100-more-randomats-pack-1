@@ -22,8 +22,9 @@ _ttt_randomat_event_hint_ - Default: 1 - Whether the Randomat should print what 
 _ttt_randomat_event_hint_chat_ - Default: 1 - Whether hints should also be put in chat.\
 _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in history. Events in history will are ignored when searching for a random event to start.
 
-# Newly added/updated randomats
+# Newly added randomats
 
+1. YEET - Get 'yeeted' when you take damage
 1. Who has the best spray? - You automatically use your spray!
 1. Nice - Hear a "\*Click\* Nice" sound in place of a hitmarker
 1. Combo - Triggers a random interesting combo of randomats
@@ -986,6 +987,15 @@ _ttt_randomat_whoa_ - Default: 1 - Whether this randomat is enabled\
 _randomat_whoa_timer_ - Default: 3 - Time between being given spin attacks\
 _randomat_whoa_strip_ - Default: 1 - The event strips your other weapons\
 _randomat_whoa_weaponid_ - Default: weapon_ttt_whoa_randomat - Id of the weapon given
+
+## YEET
+
+When a player is damaged, they are launched up into the air, and a sound effect plays from them.\
+By default, this has a 10 second cooldown before a player can be launched by damage again, to prevent infinite loops with fall damage.\
+\
+_ttt_randomat_yeet_ - Default: 1 - Whether this randomat is enabled\
+_randomat_yeet_cooldown_ - Default: 10 - Cooldown between 'yeets', in seconds\
+_randomat_yeet_force_ - Default: 1000 - 'Yeet' force
 
 ## You spin me right round baby...
 
