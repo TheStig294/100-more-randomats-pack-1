@@ -621,6 +621,12 @@ Disables all traitor traps or anything that relies on a traitor button\
 \
 _ttt_randomat_traitortraps_ - Default: 1 - Whether this randomat is enabled
 
+## Nice
+
+When you damage someone, you hear a "Michael Rosen nice" sound.\
+\
+_ttt_randomat_nice_ - Default: 1 - Whether this randomat is enabled
+
 ## Nobody
 
 Anyone killed doesn't leave behind a body anymore.\
