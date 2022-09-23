@@ -17,7 +17,6 @@ function EVENT:Begin()
         ent:SetPos(ent:GetPos() + Vector(0, 0, 20))
         ent:SetVelocity(Vector(0, 0, GetConVar("randomat_yeet_force"):GetInt()))
         ent:EmitSound("yeet/yeet.mp3")
-        ent:EmitSound("yeet/yeet.mp3")
         ent.YeetRandomatCooldown = true
 
         timer.Simple(GetConVar("randomat_yeet_cooldown"):GetInt(), function()
