@@ -24,6 +24,8 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Who has the best spray? - You automatically use your spray!
+1. Nice - Hear a "\*Click\* Nice" sound in place of a hitmarker
 1. Combo - Triggers a random interesting combo of randomats
 1. LAST \*PAIR\* ALIVE WINS! Duos battle royale! - Battle royale, in pairs!
 1. My planet needs me! - Ragdolls move around
@@ -959,6 +961,13 @@ Everyone gets someone's playermodel and their 2 most bought items.\
 _ttt_randomat_whatitslike_ - Default: 1 - Whether this randomat is enabled\
 _randomat_whatitslike_disguise_ - Default: 0 - Hide each player’s name\
 _randomat_whatitslike_given_items_count_ - Default: 2 - How many most bought items to give out
+
+## Who has the best spray?
+
+Everyone is continually forced to use their spray, if looking at a valid surface.\
+If sprays don't work on a map, this event does nothing.\
+\
+_ttt_randomat_spraying_ - Default: 1 - Whether this randomat is enabled
 
 ## Who's Who?
 
