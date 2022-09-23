@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added/updated randomats
 
+1. Combo - Triggers a random interesting combo of randomats
 1. LAST \*PAIR\* ALIVE WINS! Duos battle royale! - Battle royale, in pairs!
 1. My planet needs me! - Ragdolls move around
 1. Hot Pursuit - Move faster as players are killed
@@ -161,6 +162,30 @@ Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?
 Bullet damage only, everyone is immune to any other form of damage\
 \
 _ttt_randomat_bullets_ - Default: 1 - Whether this randomat is enabled
+
+## Combo
+
+Triggers a random pair of randomats from a pre-made list.\
+The possible pairs are listed below and and be individually turned on/off.\
+If one of the randomats in the pair is turned off, then any pair using that randomat won't trigger.\
+\
+General idea and some combos suggested by u/venort_ on Reddit.
+
+### "Combo: Bunny Hops"
+High jumps + bounce instead of fall damage!\
+_ttt_randomat_cbbunny_ - Default: 1 - Whether this randomat is enabled
+
+### "Combo: Easy to miss..."
+Missing shots damages you, hitting shots heal + H.U.G.E. only!\
+_ttt_randomat_cbhugemiss_ - Default: 1 - Whether this randomat is enabled
+
+### "Combo: Pinball"
+Zero friction + get knocked away when you bump into someone\
+_ttt_randomat_cbpinball_ - Default: 1 - Whether this randomat is enabled
+
+### "Combo: Ice Skating"
+Zero friction + shooting pushes you backwards\
+_ttt_randomat_cbskating_ - Default: 1 - Whether this randomat is enabled
 
 ## Contagious Morality
 
