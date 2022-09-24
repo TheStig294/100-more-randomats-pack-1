@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Memes - Everyone sees a meme every 30 seconds!
 1. YEET - Get 'yeeted' when you take damage
 1. Who has the best spray? - You automatically use your spray!
 1. Nice - Hear a "\*Click\* Nice" sound in place of a hitmarker
@@ -38,10 +39,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Trigger Happy - When someone shoots, everyone else does too
 1. First come, first served! - Only the 1st person to search a body can see its role
 1. Make a Randomat! - Someone gets to make their own randomat!
-1. Huff this! - Crouching makes you fart
-1. Remember Flat Stanley? - Flattens everyone's model
-1. Don't Skip Leg Day - Gives everyone baby legs
-1. Prop Confusion (hidden) - Someone sees everyone else as props!
 
 # Randomats
 
@@ -610,6 +607,13 @@ _ttt_randomat_make_ - Default: 1 - Whether this randomat is enabled\
 _randomat_make_choices_ - Default: 5 - No. of causes/effects you can choose from at once\
 _randomat_make_timer_ - Default: 20 - Seconds you have to choose a cause or effect\
 _randomat_make_while_dead_ - Default: 1 - Dead players can be chosen to make a randomat
+
+## Memes
+
+Displays a random ASCII art meme every 30 seconds (by default), in the form of a randomat alert.\
+\
+_ttt_randomat_memes_ - Default: 1 - Whether this randomat is enabled\
+_randomat_memes_timer_ - Default: 30 - Seconds between displaying a meme
 
 ## My planet needs me!
 
