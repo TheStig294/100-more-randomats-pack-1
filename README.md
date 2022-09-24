@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. The Michael Rosen Rap - Replaces game sounds with Michael Rosen sounds!
 1. Memes - Everyone sees a meme every 30 seconds!
 1. YEET - Get 'yeeted' when you take damage
 1. Who has the best spray? - You automatically use your spray!
@@ -867,6 +868,17 @@ Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/
 Spawns a bucket somewhere on the map that kills anyone it touches...\
 \
 _ttt_randomat_bucket_ - Default: 1 - Whether this randomat is enabled
+
+## The Michael Rosen Rap
+
+Replaces game sounds with Michael Rosen sounds!\
+If you don't know what Micheal Rosen YTPs are, well this one essentially replaces game noises wtih someone's voice from an internet meme.\
+\
+_ttt_randomat_michaelrosen_ - Default: 1 - Whether this randomat is enabled\
+_randomat_michaelrosen_trigger_sound_ - Default: 1 - Whether a sound should play when this event triggers. Note: This sound is sometimes a few seconds of "music"\
+\
+Changed event name and description, removed the footstep sounds, added on trigger sounds and added a convar to toggle them, replaced all sound effects with new ones.\
+Originally made by [Malivil](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086)
 
 ## Trigger Happy
 
