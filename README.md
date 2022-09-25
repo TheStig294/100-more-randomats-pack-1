@@ -22,16 +22,24 @@ _ttt_randomat_event_hint_ - Default: 1 - Whether the Randomat should print what 
 _ttt_randomat_event_hint_chat_ - Default: 1 - Whether hints should also be put in chat.\
 _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in history. Events in history will are ignored when searching for a random event to start.
 
-# Newly added/updated randomats
+# Newly added randomats
 
+1. The Michael Rosen Rap - Replaces game sounds with Michael Rosen sounds!
+1. Memes - Everyone sees a meme every 30 seconds!
+1. YEET - Get 'yeeted' when you take damage
+1. Who has the best spray? - You automatically use your spray!
+1. Nice - Hear a "\*Click\* Nice" sound in place of a hitmarker
+1. Combo - Triggers a random interesting combo of randomats
+1. LAST \*PAIR\* ALIVE WINS! Duos battle royale! - Battle royale, in pairs!
+1. My planet needs me! - Ragdolls move around
+1. Hot Pursuit - Move faster as players are killed
+1. Shoot and Loot! - Killed players drop buyable weapons!
+1. You spin me right round baby... - Taking damage rotates you
+1. Drop Shot! - While not crouching, damage you deal heals instead
+1. Doomed! - You can only look side-to-side
+1. Trigger Happy - When someone shoots, everyone else does too
+1. First come, first served! - Only the 1st person to search a body can see its role
 1. Make a Randomat! - Someone gets to make their own randomat!
-1. Huff this! - Crouching makes you fart
-1. Remember Flat Stanley? - Flattens everyone's model
-1. Don't Skip Leg Day - Gives everyone baby legs
-1. Prop Confusion (hidden) - Someone sees everyone else as props!
-1. Take a seat! - Turns everyone into chairs!
-1. Explosive Jumping - Super jump, create explosions when you land!
-1. Wasted - See a GTA-style death screen when you die!
 
 # Randomats
 
@@ -156,6 +164,30 @@ Bullet damage only, everyone is immune to any other form of damage\
 \
 _ttt_randomat_bullets_ - Default: 1 - Whether this randomat is enabled
 
+## Combo
+
+Triggers a random pair of randomats from a pre-made list.\
+The possible pairs are listed below and and be individually turned on/off.\
+If one of the randomats in the pair is turned off, then any pair using that randomat won't trigger.\
+\
+General idea and some combos suggested by u/venort_ on Reddit.
+
+### "Combo: Bunny Hops"
+High jumps + bounce instead of fall damage!\
+_ttt_randomat_cbbunny_ - Default: 1 - Whether this randomat is enabled
+
+### "Combo: Easy to miss..."
+Missing shots damages you, hitting shots heal + H.U.G.E. only!\
+_ttt_randomat_cbhugemiss_ - Default: 1 - Whether this randomat is enabled
+
+### "Combo: Pinball"
+Zero friction + get knocked away when you bump into someone\
+_ttt_randomat_cbpinball_ - Default: 1 - Whether this randomat is enabled
+
+### "Combo: Ice Skating"
+Zero friction + shooting pushes you backwards\
+_ttt_randomat_cbskating_ - Default: 1 - Whether this randomat is enabled
+
 ## Contagious Morality
 
 Killing someone respawns them with your role, limited lives, 3 by default.\
@@ -249,6 +281,22 @@ _randomat_legday_scale_ - Default: 0.3 - Leg size multiplier\
 \
 Changed default leg size multiplier, added lower viewheight for all players.\
 Originally made by [Spaaz](https://github.com/spaaz/Spaaz-s-Randomats)
+
+## Doomed!
+
+You can only look side-to-side, initially sets everyone to look forward.\
+\
+_ttt_randomat_doomed_ - Default: 1 - Whether this randomat is enabled\
+\
+Idea from Xenotric on YouTube.
+
+## Drop Shot!
+
+While not crouching, damage you deal heals instead.\
+Shows a message on a cooldown when a player shoots without crouching.\
+\
+_ttt_randomat_dropshot_ - Default: 1 - Whether this randomat is enabled\
+_randomat_dropshot_message_cooldown_ - Default: 20 - Seconds before 'Player healed!' message appears again, set to 0 to disable
 
 ## Ending Flair
 
@@ -366,6 +414,13 @@ After all zombies are killed, the fog is lifted and all players are rewarded wit
 _ttt_randomat_doground_ - Default: 1 - Whether this randomat is enabled\
 _randomat_doground_fogdist_ - Default: 1 - Fog distance multiplier
 
+## First come, first served!
+
+Only the 1st person to search a body can see its role.\
+If detective-only search is enabled, everyone is given the ability to search bodies.\
+\
+_ttt_randomat_firstsearch_ - Default: 1 - Whether this randomat is enabled
+
 ## Freeze
 
 All Innocents Freeze and become immune to damage every 30 seconds.\
@@ -453,6 +508,13 @@ A player will slow to half speed while they hold space. Will prevent fall damage
 \
 _ttt_randomat_space_ - Default: 1 - Whether this randomat is enabled
 
+## Hot Pursuit
+
+Move faster as more people die, relative to the number of people playing, starts off slow, gets crazy fast by the end!\
+\
+_ttt_randomat_pursuit_ - Default: 1 - Whether this randomat is enabled\
+_randomat_pursuit_mult_ - Default: 1.5 - Movement speed multiplier
+
 ## Huff this!
 
 Crouching makes you fart.\
@@ -510,6 +572,16 @@ _ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
 _randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar\
 randomat_battleroyale_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
+## LAST \*PAIR\* ALIVE WINS! Duos battle royale!
+
+Everyone is turned into an innocent, and placed into pairs, for a duos free-for-all!\
+Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool if it’s installed, last pair alive wins.\
+Everyone gets a radar after 2 minutes to prevent camping.\
+\
+_ttt_randomat_battleroyale2_ - Default: 1 - Whether this randomat is enabled\
+_randomat_battleroyale2_radar_time_ - Default: 120 - Seconds before everyone is given a radar\
+randomat_battleroyale2_music - Default: 1 - Whether to play vicotry royale music when someone wins
+
 ## Let's mix it up...
 
 When anyone buys something, instead of getting what you bought, you get a random item instead.\
@@ -534,14 +606,34 @@ After choosing a cause and effect, a window pops up asking to name the randomat,
 \
 _ttt_randomat_make_ - Default: 1 - Whether this randomat is enabled\
 _randomat_make_choices_ - Default: 5 - No. of causes/effects you can choose from at once\
-_randomat_make_timer_ - Default: 10 - Seconds you have to choose a cause or effect\
+_randomat_make_timer_ - Default: 20 - Seconds you have to choose a cause or effect\
 _randomat_make_while_dead_ - Default: 1 - Dead players can be chosen to make a randomat
+
+## Memes
+
+Displays a random ASCII art meme every 30 seconds (by default), in the form of a randomat alert.\
+\
+_ttt_randomat_memes_ - Default: 1 - Whether this randomat is enabled\
+_randomat_memes_timer_ - Default: 30 - Seconds between displaying a meme
+
+## My planet needs me!
+
+Ragdolls move around, as soon as a player dies.\
+Depending on the mass of anyone's playermodel, some people's ragdolls might not move much, some might go flying around the map!\
+\
+_ttt_randomat_planet_ - Default: 1 - Whether this randomat is enabled
 
 ## No more of your little tricks...
 
 Disables all traitor traps or anything that relies on a traitor button\
 \
 _ttt_randomat_traitortraps_ - Default: 1 - Whether this randomat is enabled
+
+## Nice
+
+When you damage someone, you hear a "Michael Rosen nice" sound.\
+\
+_ttt_randomat_nice_ - Default: 1 - Whether this randomat is enabled
 
 ## Nobody
 
@@ -711,6 +803,15 @@ Runs another random Randomat event without notifying the players. Also silences 
 \
 _ttt_randomat_secret_ - Default: 1 - Whether this event is enabled.
 
+## Shoot and Loot!
+
+Killed players drop buyable weapons! New random weapons not held by the player pop out and are thrown around them.\
+\
+_ttt_randomat_loot_ - Default: 1 - Whether this event is enabled.\
+_randomat_loot_drop_number_ - Default: 8 - Number of weapons dropped.\
+\
+Idea from IAmRoofstone on Reddit
+
 ## Simon Says
 
 Everyone copies someone's loadout. Everyone can only use a gun if the chosen person has theirs out.\
@@ -746,12 +847,6 @@ Everyone can jump very high, high gravity, no fall damage\
 \
 _ttt_randomat_superboing_ - Default: 1 - Whether this randomat is enabled
 
-## Triggered
-
-Applies a red screen effect, shakes the screen and plays a loud sound when someone dies\
-\
-_ttt_randomat_triggered_ - Default: 1 - Whether this randomat is enabled\
-
 ## Take a seat! (a.k.a Oh sorry, I thought that was you, Rythian!)
 
 Turns everyone into chairs!\
@@ -773,6 +868,31 @@ Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/
 Spawns a bucket somewhere on the map that kills anyone it touches...\
 \
 _ttt_randomat_bucket_ - Default: 1 - Whether this randomat is enabled
+
+## The Michael Rosen Rap
+
+Replaces game sounds with Michael Rosen sounds!\
+If you don't know what Micheal Rosen YTPs are, well this one essentially replaces game noises wtih someone's voice from an internet meme.\
+\
+_ttt_randomat_michaelrosen_ - Default: 1 - Whether this randomat is enabled\
+_randomat_michaelrosen_trigger_sound_ - Default: 1 - Whether a sound should play when this event triggers. Note: This sound is sometimes a few seconds of "music"\
+\
+Changed event name and description, removed the footstep sounds, added on trigger sounds and added a convar to toggle them, replaced all sound effects with new ones.\
+Originally made by [Malivil](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086)
+
+## Trigger Happy
+
+Whenever you shoot, everyone else does too!\
+\
+_ttt_randomat_triggerhappy_ - Default: 1 - Whether this randomat is enabled\
+\
+Idea from Wolvinof on YouTube.
+
+## Triggered
+
+Applies a red screen effect, shakes the screen and plays a loud sound when someone dies\
+\
+_ttt_randomat_triggered_ - Default: 1 - Whether this randomat is enabled
 
 ## Unbelievable Guilt
 
@@ -859,6 +979,13 @@ _ttt_randomat_whatitslike_ - Default: 1 - Whether this randomat is enabled\
 _randomat_whatitslike_disguise_ - Default: 0 - Hide each player’s name\
 _randomat_whatitslike_given_items_count_ - Default: 2 - How many most bought items to give out
 
+## Who has the best spray?
+
+Everyone is continually forced to use their spray, if looking at a valid surface.\
+If sprays don't work on a map, this event does nothing.\
+\
+_ttt_randomat_spraying_ - Default: 1 - Whether this randomat is enabled
+
 ## Who's Who?
 
 Swaps everyone's playermodels\
@@ -876,6 +1003,21 @@ _ttt_randomat_whoa_ - Default: 1 - Whether this randomat is enabled\
 _randomat_whoa_timer_ - Default: 3 - Time between being given spin attacks\
 _randomat_whoa_strip_ - Default: 1 - The event strips your other weapons\
 _randomat_whoa_weaponid_ - Default: weapon_ttt_whoa_randomat - Id of the weapon given
+
+## YEET
+
+When a player is damaged, they are launched up into the air, and a sound effect plays from them.\
+By default, this has a 10 second cooldown before a player can be launched by damage again, to prevent infinite loops with fall damage.\
+\
+_ttt_randomat_yeet_ - Default: 1 - Whether this randomat is enabled\
+_randomat_yeet_cooldown_ - Default: 10 - Cooldown between 'yeets', in seconds\
+_randomat_yeet_force_ - Default: 1000 - 'Yeet' force
+
+## You spin me right round baby...
+
+Taking damage rotates you to the left slightly.\
+\
+_ttt_randomat_spin_ - Default: 1 - Whether this randomat is enabled
 
 ## Zero Friction!
 

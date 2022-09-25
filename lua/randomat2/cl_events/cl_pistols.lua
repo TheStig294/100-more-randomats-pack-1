@@ -81,24 +81,26 @@ end)
 -- Changes the win screen to say "[player] WINS!", as opposed to "INNOCENTS WIN"
 net.Receive("PistolsRandomatWinTitle", function()
     hook.Add("TTTScoringWinTitle", "RandomatPistolsWinTitle", function(wintype, wintitles, title)
-        local winner
+        if wintype == WIN_INNOCENT or wintype == WIN_TRAITOR then
+            local winner
 
-        for i, ply in ipairs(player.GetAll()) do
-            if ply:Alive() and not ply:IsSpec() then
-                winner = ply
+            for i, ply in ipairs(player.GetAll()) do
+                if ply:Alive() and not ply:IsSpec() and not Randomat:IsJesterTeam(ply) then
+                    winner = ply
+                end
             end
+
+            if not winner then return end
+            LANG.AddToLanguage("english", "win_pistols", string.upper(winner:Nick() .. " wins!"))
+
+            local newTitle = {
+                txt = "win_pistols",
+                c = ROLE_COLORS[winner:GetRole()],
+                params = nil
+            }
+
+            return newTitle
         end
-
-        if not winner then return end
-        LANG.AddToLanguage("english", "win_pistols", string.upper(winner:Nick() .. " wins!"))
-
-        local newTitle = {
-            txt = "win_pistols",
-            c = ROLE_COLORS[winner:GetRole()],
-            params = nil
-        }
-
-        return newTitle
     end)
 end)
 

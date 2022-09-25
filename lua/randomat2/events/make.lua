@@ -309,7 +309,7 @@ Effects.meme = {
 
 CreateConVar("randomat_make_choices", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "No. of causes/effects you can choose from at once", 2, 8)
 
-CreateConVar("randomat_make_timer", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds you have to choose a cause or effect", 5, 60)
+CreateConVar("randomat_make_timer", 20, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds you have to choose a cause or effect", 20, 60)
 
 CreateConVar("randomat_make_while_dead", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Dead players can be chosen to make a randomat")
 
