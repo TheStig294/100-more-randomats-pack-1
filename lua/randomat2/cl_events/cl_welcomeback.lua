@@ -110,8 +110,6 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
         alpha = alpha + 0.01
     end)
 
-    local ROLE_GLITCH = ROLE_GLITCH or -1
-
     hook.Add("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay", function()
         surface.SetAlphaMultiplier(alpha)
 
@@ -120,15 +118,23 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
             local roleColour = defaultColour
             local iconRole
 
-            -- Reveal yourself, searched players, and detectives (when their roles aren't hidden) to everyone
-            if ply == LocalPlayer() or ply:GetNWBool("WelcomeBackScoreboardRoleRevealed") or (ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and GetGlobalInt("ttt_detective_hide_special_mode", 0) == 0) then
-                roleColour = ROLE_COLORS[ply:GetRole()]
+            -- Reveal yourself, searched players, detectives (when their roles aren't hidden) to everyone, loot goblins (when they are shown to everyone), revealed turncoats and revealed beggars
+            if ply == LocalPlayer() or ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 or ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") or (ply.IsLootGoblin and ply:IsLootGoblin() and ply:IsRoleActive() and GetGlobalInt("ttt_lootgoblin_announce") == 4) or (ply.IsTurncoat and ply:IsTurncoat() and ply:IsTraitorTeam()) or ply.IsBeggar and ply:IsBeggar() and ply:ShouldRevealBeggar() then
+                local role = ply:GetRole()
+
+                if ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 then
+                    role = ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1)
+                elseif ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and GetGlobalInt("ttt_detective_hide_special_mode", 0) ~= 0 then
+                    role = ROLE_DETECTIVE
+                end
+
+                roleColour = ROLE_COLORS[role]
 
                 if roleIcons then
-                    iconRole = ply:GetRole()
+                    iconRole = role
                 end
                 -- Reveal fellow traitors as plain traitors until they're searched, when there is a glitch
-            elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackTraitor") and LocalPlayer():GetRole() ~= ROLE_GLITCH then
+            elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackTraitor") and not (LocalPlayer().IsGlitch and LocalPlayer():IsGlitch()) then
                 if GetGlobalBool("WelcomeBackGlitchExists") then
                     roleColour = ROLE_COLORS[ROLE_TRAITOR]
 
@@ -149,7 +155,7 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
                 if roleIcons then
                     iconRole = ROLE_DETECTIVE
                 end
-            elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackJester") and LocalPlayer():GetRole() ~= ROLE_GLITCH then
+            elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackJester") and not (LocalPlayer().IsGlitch and LocalPlayer():IsGlitch()) then
                 -- Reveal jesters only to traitors
                 roleColour = ROLE_COLORS[ply:GetRole()]
 
@@ -176,7 +182,7 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
             end
 
             -- Death X
-            if not ply:Alive() or ply:IsSpec() then
+            if ply:GetNWBool("WelcomeBackBodyFound") then
                 -- You have to set the font using surface.SetFont() to use surface.GetTextSize(), even though surface.SetFont() is not used for any drawing
                 surface.SetFont("WelcomeBackRandomatOverlayFont")
                 local textWidth, textHeight = surface.GetTextSize(playerNames[ply])

@@ -17,6 +17,11 @@ function EVENT:Begin()
     net.WriteString(randomIntroSound)
     net.Broadcast()
 
+    if CR_VERSION then
+        SetGlobalInt("ttt_lootgoblin_announce", GetConVar("ttt_lootgoblin_announce"):GetInt())
+        SetGlobalInt("ttt_lootgoblin_notify_mode", GetConVar("ttt_lootgoblin_notify_mode"):GetInt())
+    end
+
     -- Sets flags on players using randomat functions only available on the server
     for _, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsGoodDetectiveLike(ply) then
@@ -29,19 +34,29 @@ function EVENT:Begin()
             ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
         elseif Randomat:IsJesterTeam(ply) then
             ply:SetNWBool("WelcomeBackJester", true)
-        elseif Randomat:IsTraitorTeam(ply) or (ROLE_GLITCH and ply:GetRole() == ROLE_GLITCH) then
+        elseif Randomat:IsTraitorTeam(ply) or ply.IsGlitch and ply:IsGlitch() then
             ply:SetNWBool("WelcomeBackTraitor", true)
         end
 
-        if ROLE_GLITCH and ply:GetRole() == ROLE_GLITCH then
+        if ply.IsGlitch and ply:IsGlitch() then
             SetGlobalBool("WelcomeBackGlitchExists", true)
         end
     end
 
     -- Reveals the role of a player when a corpse is searched
+    self:AddHook("TTTBodyFound", function(_, deadply, rag)
+        -- If the dead player has disconnected, they won't be on the scoreboard, so skip them
+        if not IsPlayer(deadply) then return end
+        -- Get the role of the dead player from the ragdoll itself so artificially created ragdolls like the dead ringer aren't given away
+        deadply:SetNWBool("WelcomeBackBodyFound", true)
+    end)
+
+    -- Reveals the role of a player when a corpse is searched
     self:AddHook("TTTCanIdentifyCorpse", function(_, ragdoll)
         local ply = CORPSE.GetPlayer(ragdoll)
-        ply:SetNWBool("WelcomeBackScoreboardRoleRevealed", true)
+        -- If the dead player has disconnected, they won't be on the scoreboard, so skip them
+        if not IsPlayer(ply) then return end
+        ply:SetNWInt("WelcomeBackScoreboardRoleRevealed", ragdoll.was_role)
     end)
 
     -- Starts fading in the role overlay and displays the event's name without making the randomat alert sound
@@ -64,15 +79,16 @@ function EVENT:End()
         ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", false)
         ply:SetNWBool("WelcomeBackJester", false)
         ply:SetNWBool("WelcomeBackTraitor", false)
-        ply:SetNWBool("WelcomeBackScoreboardRoleRevealed", false)
+        ply:SetNWInt("WelcomeBackScoreboardRoleRevealed", -1)
+        ply:SetNWBool("WelcomeBackBodyFound", false)
     end
 
     SetGlobalBool("WelcomeBackGlitchExists", false)
 end
 
--- More than 8 alive players will result in the overlay going off the screen and causing lag eventually
+-- Having too many alive players will result in the overlay overlapping names
 function EVENT:Condition()
-    return #self:GetAlivePlayers() <= 8
+    return #self:GetAlivePlayers() < 10
 end
 
 Randomat:register(EVENT)
