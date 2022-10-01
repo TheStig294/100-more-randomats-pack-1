@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Combo: Pinball"
-EVENT.Description = "Zero friction' + get knocked away when you bump into someone"
+EVENT.Description = "Zero friction + get knocked away when you bump into someone"
 EVENT.id = "cbpinball"
 
 EVENT.Categories = {"eventtrigger", "largeimpact"}
