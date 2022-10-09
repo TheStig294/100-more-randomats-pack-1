@@ -122,8 +122,11 @@ net.Receive("PistolsEndEvent", function()
                 color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] - 0.001
             end
 
-            height = height - 1
-            yPos2 = yPos2 + 1
+            -- Don't try to manipulate the black bars if they are off-screen already or they haven't been drawn
+            if height and height ~= 0 then
+                height = height - 1
+                yPos2 = yPos2 + 1
+            end
         end)
     end)
 
