@@ -208,42 +208,20 @@ Effects.fling = {
     }
 }
 
-local lightingLevels = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"}
-
-local currentLighting = #lightingLevels
-
-Effects.lighting = {
-    ["id"] = "lighting",
-    ["Desc"] = "the map gets darker!",
+Effects.fov = {
+    ["id"] = "fov",
+    ["Desc"] = "your FOV is randomly changed!",
     ["Functions"] = {
         function(arg1, arg2)
             local ply = CheckForPlayer(arg1, arg2)
             if not ply then return end
-            if ply.MakeLightingRandomatCooldown then return end
-            -- If we're at the darkest the map can get, stop trying to make things darker
-            if currentLighting == 1 then return end
-            currentLighting = currentLighting - 1
-            engine.LightStyle(0, lightingLevels[currentLighting])
-
-            timer.Simple(1, function()
-                BroadcastLua("render.RedownloadAllLightmaps(true, true)")
-            end)
-
-            ply.MakeLightingRandomatCooldown = true
-
-            timer.Create("MakeLightingRandomatCooldown" .. ply:EntIndex(), 10, 1, function()
-                ply.MakeLightingRandomatCooldown = false
-            end)
+            ply:SetFOV(math.random(50, 125), 0)
         end
     },
     ["Reset"] = function()
-        engine.LightStyle(0, "m")
-
-        timer.Simple(1, function()
-            BroadcastLua("render.RedownloadAllLightmaps(true, true)")
-        end)
-
-        currentLighting = #lightingLevels
+        for _, ply in ipairs(player.GetAll()) do
+            ply:SetFOV(0, 0)
+        end
     end
 }
 
