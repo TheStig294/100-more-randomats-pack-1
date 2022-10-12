@@ -107,6 +107,7 @@ function EVENT:Begin()
                 end
 
                 SendFullStateUpdate()
+                local oneOnOneShowdown = false
 
                 if table.IsEmpty(traitorPlayers) then
                     Randomat:SmallNotify("Innocents Win... But now it's a free-for-all!", messageDelay)
@@ -114,6 +115,7 @@ function EVENT:Begin()
                     Randomat:SmallNotify("Traitors Win... But now it's a free-for-all!", messageDelay)
                 elseif #alivePlayers == 2 then
                     Randomat:SmallNotify("One innocent and traitor remain, it's time for a pistol showdown!", messageDelay)
+                    oneOnOneShowdown = true
                 end
 
                 -- Strip all weapons from the ground and players
@@ -127,7 +129,8 @@ function EVENT:Begin()
                     triggerDelay = 4
                     triggerShowdown = true
 
-                    if CR_VERSION then
+                    -- Don't modify the win screen if it's a one-on-one showdown as neither team has one yet
+                    if CR_VERSION and not oneOnOneShowdown then
                         net.Start("PistolsRandomatWinTitle")
                         net.Broadcast()
                     end
