@@ -64,6 +64,7 @@ net.Receive("FrenchRandomatBegin", function()
     RunConsoleCommand("ttt_language", "FrançaisRandomat")
     -- Renaming roles
     local translatedRoles = {}
+    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
     translatedRoles["Mendiant"] = ROLE_BEGGAR
     translatedRoles["Voleur De Corps"] = ROLE_BODYSNATCHER
     translatedRoles["Boxeur"] = ROLE_BOXER
@@ -110,6 +111,7 @@ net.Receive("FrenchRandomatBegin", function()
     end
 
     table.Empty(translatedRoles)
+    translatedRoles["Un Annonceur"] = ROLE_ANNOUNCER
     translatedRoles["Un Mendiant"] = ROLE_BEGGAR
     translatedRoles["Un Voleur De Corps"] = ROLE_BODYSNATCHER
     translatedRoles["Un Boxeur"] = ROLE_BOXER
@@ -156,6 +158,7 @@ net.Receive("FrenchRandomatBegin", function()
     end
 
     table.Empty(translatedRoles)
+    translatedRoles["Annonceurs"] = ROLE_ANNOUNCER
     translatedRoles["Mendiants"] = ROLE_BEGGAR
     translatedRoles["Voleurs De Corps"] = ROLE_BODYSNATCHER
     translatedRoles["Boxeurs"] = ROLE_BOXER

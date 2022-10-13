@@ -702,7 +702,7 @@ L.aw_nkt3_text = "a terminé trois vies innocentes du terrorisme aujourd'hui."
 L.aw_nkt4_title = "Loup Parmi Les Loups-Moutons"
 L.aw_nkt4_text = "mange des innocents pour le diner. Un diner composé de {num} plats."
 L.aw_nkt5_title = "Agent Anti-Terrorisme"
-L.aw_nkt5_text = "est pay�� �� chaque assassinat. Il est temps d'acheter un yacht de luxe."
+L.aw_nkt5_text = "est pay chaque assassinat. Il est temps d'acheter un yacht de luxe."
 L.aw_nki1_title = "Trahis Donc Ça"
 L.aw_nki1_text = "a trouvé un traitre. Puis il l'a buté. Facile."
 L.aw_nki2_title = "PostulÉ pour la Justice Squad"
@@ -837,7 +837,7 @@ L.idle_popup_title = "Inactif"
 L.sb_playervolume = "Volume du lecteur"
 -- Custom Events
 L.ev_defi = "{victim} a réapparu"
-L.ev_disco = "{victim} débranché"
+L.ev_disco = "{victim} debranché"
 -- Role Weapons Configuration
 L.roleweapons_title = "Configuration des armes de rôle"
 L.roleweapons_tabtitle = "Armes de rôle"
@@ -1049,3 +1049,25 @@ Tuer quelqu'un avec vos griffes le transformera en {azombie}.
 Appuyez sur la {menukey} pour recevoir votre équipement spécial!]]
 L.zom_claws_help_pri = "Appuyez sur {primaryfire} pour attaquer."
 L.zom_claws_help_sec = "Appuyez sur {secondfire} pour sauter. Appuyez sur {reload} pour cracher."
+-- Jingle Jam 2021 role translations
+-- Boxer
+L.box_gloves_help_pri = "Utilisez {primaryfire} pour faire tomber les armes des mains des joueurs"
+L.box_gloves_help_sec = "Attaquez avec {secondfire} pour assommer les joueurs"
+L.box_revive = "Appuyez sur '{usekey}' pour relancer"
+L.ev_win_boxer = "Le {role} s'est frayé un chemin vers la victoire"
+L.win_boxer = "Le {role} a marqué un KO!"
+-- Communist
+L.manifesto_help_pri = "Utilisez {primaryfire} pour convertir un joueur au communisme"
+L.manifesto_help_sec = "Tous les {nameplural} gagnent ensemble"
+L.ev_communismconvert = "{victim} s'est convertie et s'est tournée vers le communisme!"
+L.ev_win_communist = "Le {role} a converti tous les joueurs restants"
+L.win_communist = "Le communisme s'est propagé à tous les survivants"
+L.hilite_win_communist = "COMMUNISME GAGNE"
+L.hilite_lose_communist = "ET LE CAPITALISME GAGNE"
+-- Santa
+L.santa_help_pri = "Utilisez {primaryfire} pour offrir des cadeaux à de gentils enfants"
+L.santa_help_sec = "Utilisez {secondfire} pour tirer du charbon sur de vilains enfants"
+L.santa_load_gift = "Ouvrez votre menu d'achat avec {menukey} pour charger un cadeau!"
+-- Taxidermist
+L.taxidermy_help_pri = "Utilisez {primaryfire} pour taxidermiser un cadavre"
+L.taxidermy_help_sec = "Les cadavres taxidermisés ne peuvent pas être inspectés"
