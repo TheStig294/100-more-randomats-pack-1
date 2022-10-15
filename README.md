@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Discord Sounds - Dead players can play discord sounds!
 1. Borgir - Spawns "borgirs" that increase/decrease your speed
 1. The Michael Rosen Rap - Replaces game sounds with Michael Rosen sounds!
 1. Memes - Everyone sees a meme every 30 seconds!
@@ -39,7 +40,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Drop Shot! - While not crouching, damage you deal heals instead
 1. Doomed! - You can only look side-to-side
 1. Trigger Happy - When someone shoots, everyone else does too
-1. First come, first served! - Only the 1st person to search a body can see its role
 
 # Randomats
 
@@ -261,7 +261,14 @@ _randomat_delay_time_ - Default: 60 - Seconds before randomat is triggered
 
 Players shrink as they take damage, and grow as they gain health\
 \
-_ttt_randomat_deflation_ - Default: 1 - Whether this randomat is enabled\
+_ttt_randomat_deflation_ - Default: 1 - Whether this randomat is enabled
+
+## Discord Sounds
+
+Secret event.\
+Dead players can play discord sounds! Sound cannot be played more than once a second.\
+\
+_ttt_randomat_discord_ - Default: 1 - Whether this randomat is enabled
 
 ## Don't Get Greedy...
 
