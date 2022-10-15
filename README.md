@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Borgir - Spawns "borgirs" that increase/decrease your speed
 1. The Michael Rosen Rap - Replaces game sounds with Michael Rosen sounds!
 1. Memes - Everyone sees a meme every 30 seconds!
 1. YEET - Get 'yeeted' when you take damage
@@ -39,7 +40,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Doomed! - You can only look side-to-side
 1. Trigger Happy - When someone shoots, everyone else does too
 1. First come, first served! - Only the 1st person to search a body can see its role
-1. Make a Randomat! - Someone gets to make their own randomat!
 
 # Randomats
 
@@ -147,6 +147,22 @@ Credits for the boomerang weapon:
 <https://steamcommunity.com/sharedfiles/filedetails/?id=137719037>
 - [TheBroomer](https://steamcommunity.com/sharedfiles/filedetails/?id=639521512) and [BocciardoLight](https://steamcommunity.com/sharedfiles/filedetails/?id=922438160) for the weapon and entity code
 - Me for cleaning up code and making fixes to make it work with the randomat
+
+## Borgir
+
+Spawns burger props that increase/decrease your speed.\
+\
+_ttt_randomat_borgir_ - Default: 1 - Whether this randomat is enabled\
+_randomat_borgir_count_ - Default: 2 - Number of borgir spawned per person\
+_randomat_borgir_range_ - Default: 200 - Distance borgir spawn from the player\
+_randomat_borgir_timer_ - Default: 60 - Time between borgir spawns\
+_randomat_borgir_faster_mult_ - Default: 0.2 - Number the player's speed multiplier will increase by\
+_randomat_borgir_slower_mult_ - Default: 0.2 - Number the player's speed multiplier will decrease by\
+_randomat_borgir_faster_cap_ - Default: 3 - The highest speed multiplier a player can get\
+_randomat_borgir_slower_cap_ - Default: 0.2 - The lowest speed multiplier a player can get\
+\
+Changed event name and description, replaced the model of the entity spawned and changed its effect when activated.\
+Originally made by [Malivil](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086)
 
 ## Bouncy
 
