@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Copycat! - Someone copies someone else's attributes!
 1. Discord Sounds - Dead players can play discord sounds!
 1. Borgir - Spawns "borgirs" that increase/decrease your speed
 1. The Michael Rosen Rap - Replaces game sounds with Michael Rosen sounds!
@@ -39,7 +40,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. You spin me right round baby... - Taking damage rotates you
 1. Drop Shot! - While not crouching, damage you deal heals instead
 1. Doomed! - You can only look side-to-side
-1. Trigger Happy - When someone shoots, everyone else does too
 
 # Randomats
 
@@ -212,6 +212,11 @@ _ttt_randomat_morality_ - Default: 1 - Whether this randomat is enabled\
 _randomat_morality_lives - Default: 3 - No. of lives players have\
 \
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
+## Copycat!
+
+Someone copies someone else's role, health, inventory and playermodel (and name if Custom Roles for TTT is installed)\
+\
+_ttt_randomat_copycat_ - Default: 1 - Whether this randomat is enabled
 
 ## Crab Walk
 
