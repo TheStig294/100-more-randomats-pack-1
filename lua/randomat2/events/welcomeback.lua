@@ -43,12 +43,9 @@ function EVENT:Begin()
         end
     end
 
-    -- Reveals the role of a player when a corpse is searched
-    self:AddHook("TTTBodyFound", function(_, deadply, rag)
-        -- If the dead player has disconnected, they won't be on the scoreboard, so skip them
-        if not IsPlayer(deadply) then return end
-        -- Get the role of the dead player from the ragdoll itself so artificially created ragdolls like the dead ringer aren't given away
-        deadply:SetNWBool("WelcomeBackBodyFound", true)
+    -- Crosses out player names after they die
+    self:AddHook("PostPlayerDeath", function(ply)
+        ply:SetNWBool("WelcomeBackCrossName", true)
     end)
 
     -- Reveals the role of a player when a corpse is searched
@@ -80,7 +77,7 @@ function EVENT:End()
         ply:SetNWBool("WelcomeBackJester", false)
         ply:SetNWBool("WelcomeBackTraitor", false)
         ply:SetNWInt("WelcomeBackScoreboardRoleRevealed", -1)
-        ply:SetNWBool("WelcomeBackBodyFound", false)
+        ply:SetNWBool("WelcomeBackCrossName", false)
     end
 
     SetGlobalBool("WelcomeBackGlitchExists", false)
