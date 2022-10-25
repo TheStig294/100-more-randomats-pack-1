@@ -4,7 +4,9 @@ local YPos = 50
 local alpha = 0
 local iconSize = 32
 local playerNames = {}
-local minBoxWidth = 100
+local minBoxWidth = 150
+local boxOutlineSize = 2
+local boxPadding = 10
 
 -- Displays the intro popup and plays the intro sound chosen by the server
 net.Receive("WelcomeBackRandomatPopup", function()
@@ -81,7 +83,11 @@ local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, y
     local boxWidth = w + bordersize * 2
     boxWidth = math.max(minBoxWidth, boxWidth)
     local xDiff = boxWidth - (w + bordersize * 2)
-    draw.RoundedBox(bordersize, x - xDiff / 2, y, boxWidth, h + bordersize * 2, color)
+    -- Box outline
+    draw.RoundedBox(bordersize, x - xDiff / 2 - boxOutlineSize, y + bordersize / 2 - boxOutlineSize, boxWidth + boxOutlineSize * 2, h + bordersize + boxOutlineSize * 2, COLOR_WHITE)
+    -- Box background
+    draw.RoundedBox(bordersize, x - xDiff / 2, y + bordersize / 2, boxWidth, h + bordersize, color)
+    -- Box text
     surface.SetTextColor(fontcolor.r, fontcolor.g, fontcolor.b, fontcolor.a)
     surface.SetTextPos(x + bordersize, y + bordersize)
     surface.DrawText(text)
@@ -154,7 +160,6 @@ end)
 local boxWidths = {}
 
 timer.Simple(1, function()
-    local boxPadding = 5
     local overlayWidth = 0
 
     for playerIndex, ply in ipairs(player.GetAll()) do
