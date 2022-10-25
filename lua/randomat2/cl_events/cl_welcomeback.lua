@@ -2,11 +2,12 @@ local introPopup
 local overlayPositions = {}
 local YPos = 50
 local alpha = 0
-local iconSize = 32
+local iconSize = 40
 local playerNames = {}
 local minBoxWidth = 150
 local boxOutlineSize = 2
 local boxPadding = 10
+local boxBorderSize = 28
 
 -- Displays the intro popup and plays the intro sound chosen by the server
 net.Receive("WelcomeBackRandomatPopup", function()
@@ -35,7 +36,6 @@ net.Receive("WelcomeBackRandomatPopup", function()
     introPopup:SetSize(xSize, ySize)
     introPopup:ShowCloseButton(false)
     introPopup:SetTitle("")
-    introPopup:MakePopup()
     introPopup.Paint = function(self, w, h) end
     local image = vgui.Create("DImage", introPopup)
     image:SetImage("materials/vgui/ttt/welcomeback/ttt_popup.png")
@@ -60,8 +60,9 @@ end)
 
 surface.CreateFont("WelcomeBackRandomatOverlayFont", {
     font = "Trebuchet24",
-    size = 24,
-    weight = 1000
+    size = 28,
+    weight = 1000,
+    shadow = true
 })
 
 local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, yalign)
@@ -84,9 +85,9 @@ local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, y
     boxWidth = math.max(minBoxWidth, boxWidth)
     local xDiff = boxWidth - (w + bordersize * 2)
     -- Box outline
-    draw.RoundedBox(bordersize, x - xDiff / 2 - boxOutlineSize, y + bordersize / 2 - boxOutlineSize, boxWidth + boxOutlineSize * 2, h + bordersize + boxOutlineSize * 2, COLOR_WHITE)
+    draw.RoundedBox(bordersize, x - xDiff / 2 - boxOutlineSize, y + bordersize / 1.3 - boxOutlineSize, boxWidth + boxOutlineSize * 2, h + bordersize / 2 + boxOutlineSize * 2, COLOR_WHITE)
     -- Box background
-    draw.RoundedBox(bordersize, x - xDiff / 2, y + bordersize / 2, boxWidth, h + bordersize, color)
+    draw.RoundedBox(bordersize, x - xDiff / 2, y + bordersize / 1.3, boxWidth, h + bordersize / 2, color)
     -- Box text
     surface.SetTextColor(fontcolor.r, fontcolor.g, fontcolor.b, fontcolor.a)
     surface.SetTextPos(x + bordersize, y + bordersize)
@@ -142,10 +143,10 @@ if ROLE_STRINGS_SHORT then
     roleIcons = {}
 
     for roleID, shortName in pairs(ROLE_STRINGS_SHORT) do
-        if file.Exists("materials/vgui/ttt/roles/" .. shortName .. "/score_" .. shortName .. ".png", "GAME") then
-            roleIcons[roleID] = Material("vgui/ttt/roles/" .. shortName .. "/score_" .. shortName .. ".png")
+        if file.Exists("materials/vgui/ttt/roles/" .. shortName .. "/sprite_" .. shortName .. ".vtf", "GAME") then
+            roleIcons[roleID] = Material("vgui/ttt/roles/" .. shortName .. "/sprite_" .. shortName .. ".vtf")
         else
-            roleIcons[roleID] = Material("vgui/ttt/score_" .. shortName .. ".png")
+            roleIcons[roleID] = Material("vgui/ttt/sprite_" .. shortName .. ".png")
         end
     end
 end
@@ -175,8 +176,6 @@ timer.Simple(1, function()
         boxOffset = boxOffset + boxPadding + boxWidths[ply] / 2
     end
 end)
-
-local boxBorderSize = 16
 
 hook.Add("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay", function()
     -- surface.SetAlphaMultiplier(alpha)
