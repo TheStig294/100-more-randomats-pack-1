@@ -171,7 +171,7 @@ local function CreateOverlay()
 
                 roleColour = colourTable[role]
 
-                if roleIcons and role == ROLE_DETECTIVE then
+                if roleIcons and role == ROLE_DETECTIVE and (GetGlobalInt("ttt_detective_hide_special_mode", 0) == 1 or (GetGlobalInt("ttt_detective_hide_special_mode", 0) == 2 and ply ~= LocalPlayer())) then
                     iconRole = ROLE_NONE
                 end
                 -- Reveal fellow traitors as plain traitors until they're searched, when there is a glitch
