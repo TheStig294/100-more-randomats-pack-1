@@ -104,8 +104,8 @@ local function OverrideColours()
         for key, colour in pairs(colourTable) do
             if colour == Color(0, 225, 0, 255) or colour == Color(245, 200, 0, 255) then
                 colourTable[key] = Color(25, 150, 25)
-            elseif colour == Color(245, 106, 0, 255) then
-                colourTable[key] = Color(225, 0, 0, 255)
+            elseif colour == Color(245, 106, 0, 255) or colour == Color(225, 0, 0, 255) then
+                colourTable[key] = Color(150, 0, 0)
             end
         end
     end
@@ -265,10 +265,14 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
             if ply:GetNWBool("WelcomeBackCrossName") then
                 -- You have to set the font using surface.SetFont() to use surface.GetTextSize(), even though surface.SetFont() is not used for any drawing
                 surface.SetFont("WelcomeBackRandomatOverlayFont")
-                local textWidth, textHeight = surface.GetTextSize(playerNames[ply])
+                local textWidth, _ = surface.GetTextSize(playerNames[ply])
+                draw.NoTexture()
                 surface.SetDrawColor(255, 255, 255)
-                surface.DrawLine(XPos - (textWidth / 2), YPos - (textHeight / 2), XPos + (textWidth / 2), YPos + (textHeight / 2))
-                surface.DrawLine(XPos - (textWidth / 2), YPos + (textHeight / 2), XPos + (textWidth / 2), YPos - (textHeight / 2))
+                surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, 30)
+                surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, -30)
+                surface.SetDrawColor(255, 0, 0)
+                surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, 30)
+                surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, -30)
             end
         end
     end)
