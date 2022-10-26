@@ -106,6 +106,8 @@ local function OverrideColours()
                 colourTable[key] = Color(25, 150, 25)
             elseif colour == Color(245, 106, 0, 255) or colour == Color(225, 0, 0, 255) then
                 colourTable[key] = Color(150, 0, 0)
+            elseif colour == Color(0, 210, 240, 255) then
+                colourTable[key] = Color(0, 0, 225, 255)
             end
         end
     end
@@ -158,6 +160,13 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
                 roleIcons[roleID] = Material("vgui/ttt/sprite_" .. shortName .. ".png")
             end
         end
+
+        -- Add the "?" icon for unknown jesters/detectives
+        if file.Exists("materials/vgui/ttt/roles/nil/sprite_nil.vtf", "GAME") then
+            roleIcons[ROLE_NONE] = Material("vgui/ttt/roles/nil/sprite_nil.vtf")
+        else
+            roleIcons[ROLE_NONE] = Material("vgui/ttt/sprite_nil.png")
+        end
     end
 
     local defaultColour = Color(100, 100, 100)
@@ -198,6 +207,10 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
             if ply == LocalPlayer() or ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 or ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") or (ply.IsLootGoblin and ply:IsLootGoblin() and ply:IsRoleActive() and GetGlobalInt("ttt_lootgoblin_announce") == 4) or (ply.IsTurncoat and ply:IsTurncoat() and ply:IsTraitorTeam()) or ply.IsBeggar and ply:IsBeggar() and ply:ShouldRevealBeggar() then
                 local role = ply:GetRole()
 
+                if roleIcons then
+                    iconRole = role
+                end
+
                 if ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 then
                     role = ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1)
                 elseif ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and GetGlobalInt("ttt_detective_hide_special_mode", 0) ~= 0 then
@@ -206,8 +219,8 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
 
                 roleColour = colourTable[role]
 
-                if roleIcons then
-                    iconRole = role
+                if roleIcons and role == ROLE_DETECTIVE then
+                    iconRole = ROLE_NONE
                 end
                 -- Reveal fellow traitors as plain traitors until they're searched, when there is a glitch
             elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackTraitor") and not (LocalPlayer().IsGlitch and LocalPlayer():IsGlitch()) then
@@ -229,14 +242,14 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
                 roleColour = colourTable[ROLE_DETECTIVE]
 
                 if roleIcons then
-                    iconRole = ROLE_DETECTIVE
+                    iconRole = ROLE_NONE
                 end
             elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackJester") and not (LocalPlayer().IsGlitch and LocalPlayer():IsGlitch()) then
                 -- Reveal jesters only to traitors
                 roleColour = colourTable[ply:GetRole()]
 
                 if roleIcons then
-                    iconRole = ROLE_JESTER
+                    iconRole = ROLE_NONE
                 end
             end
 
