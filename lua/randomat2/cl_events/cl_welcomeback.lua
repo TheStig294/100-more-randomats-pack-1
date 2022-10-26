@@ -51,7 +51,7 @@ end
 local function OverrideColours()
     local colourTable = table.Copy(ROLE_COLORS)
 
-    if ConVarExists("ttt_color_mode") and (GetConVar("ttt_color_mode"):GetString() == "default" or GetConVar("ttt_color_mode"):GetString() == "simplified") then
+    if ConVarExists("ttt_color_mode") and (GetConVar("ttt_color_mode"):GetString() == "default" or GetConVar("ttt_color_mode"):GetString() == "simple") then
         for key, colour in pairs(colourTable) do
             if colour == Color(0, 225, 0, 255) or colour == Color(245, 200, 0, 255) then
                 colourTable[key] = Color(25, 150, 25)
