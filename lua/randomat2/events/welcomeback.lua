@@ -28,7 +28,6 @@ function EVENT:Begin()
             ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", false)
             ply:SetNWBool("WelcomeBackJester", false)
             ply:SetNWBool("WelcomeBackTraitor", false)
-            ply:SetNWBool("WelcomeBackCrossName", false)
         end
 
         for _, ply in ipairs(self:GetAlivePlayers()) do
@@ -91,9 +90,9 @@ function EVENT:End()
     SetGlobalBool("WelcomeBackGlitchExists", false)
 end
 
--- Having too many alive players will result in the overlay overlapping names
+-- Having too many alive players will result in the overlay going off the screen
 function EVENT:Condition()
-    return #self:GetAlivePlayers() < 10
+    return #self:GetAlivePlayers() < 10 and not STIG_ROLE_OVERLAY_MOD_INSTALLED
 end
 
 Randomat:register(EVENT)

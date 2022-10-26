@@ -165,6 +165,7 @@ local function CreateOverlay()
 
                 if ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 then
                     role = ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1)
+                    iconRole = ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1)
                 elseif ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and GetGlobalInt("ttt_detective_hide_special_mode", 0) ~= 0 then
                     role = ROLE_DETECTIVE
                 end
