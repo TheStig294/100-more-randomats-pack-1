@@ -10,55 +10,6 @@ local boxPadding = 10
 local boxBorderSize = 28
 local boxWidths = {}
 
--- Displays the intro popup and plays the intro sound chosen by the server
-net.Receive("WelcomeBackRandomatPopup", function()
-    local randomIntroSound = net.ReadString()
-    overlayPositions = {}
-    RunConsoleCommand("stopsound")
-
-    for i = 1, 2 do
-        timer.Simple(0.1, function()
-            surface.PlaySound("welcomeback/intro_sound.mp3")
-
-            timer.Simple(3.031, function()
-                surface.PlaySound(randomIntroSound)
-            end)
-        end)
-    end
-
-    local pixelOffset = 20
-    local offsetLength = 1
-    introPopup = vgui.Create("DFrame")
-    local xSize = 875 - pixelOffset
-    local ySize = 373 - pixelOffset
-    local posX = (ScrW() - xSize) / 2
-    local posY = (ScrH() - ySize) / 2
-    introPopup:SetPos(posX, posY)
-    introPopup:SetSize(xSize, ySize)
-    introPopup:ShowCloseButton(false)
-    introPopup:SetTitle("")
-    introPopup.Paint = function(self, w, h) end
-    local image = vgui.Create("DImage", introPopup)
-    image:SetImage("materials/vgui/ttt/welcomeback/ttt_popup.png")
-    image:SetPos(0, 0)
-
-    timer.Create("WelcomeBackIntroPopupTimer", offsetLength / pixelOffset, pixelOffset * offsetLength, function()
-        local repetitions = pixelOffset - timer.RepsLeft("WelcomeBackIntroPopupTimer")
-        local currentXSize = xSize + repetitions
-        local currentYSize = ySize + repetitions
-        posX = (ScrW() - currentXSize) / 2
-        posY = (ScrH() - currentYSize) / 2
-        introPopup:SetPos(posX, posY)
-        introPopup:SetSize(currentXSize + repetitions, currentYSize + repetitions)
-        image:SetSize(currentXSize + repetitions, currentYSize + repetitions)
-        image:Center()
-    end)
-
-    timer.Create("WelcomeBackCloseIntroPopup", 3.031, 1, function()
-        introPopup:Close()
-    end)
-end)
-
 surface.CreateFont("WelcomeBackRandomatOverlayFont", {
     font = "Trebuchet24",
     size = 28,
@@ -115,8 +66,7 @@ local function OverrideColours()
     return colourTable
 end
 
--- Creates the table of players to be displayed in the role overlay
-net.Receive("WelcomeBackRandomatCreateOverlay", function()
+local function CreateOverlay()
     local playerCount = 0
     local screenWidth = ScrW()
 
@@ -172,8 +122,10 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
     local defaultColour = Color(100, 100, 100)
     alpha = 0
 
-    timer.Create("WelcomeBackFadeIn", 0.01, 100, function()
-        alpha = alpha + 0.01
+    timer.Create("WelcomeBackStartFade", 3.031, 1, function()
+        timer.Create("WelcomeBackFadeIn", 0.01, 100, function()
+            alpha = alpha + 0.01
+        end)
     end)
 
     boxWidths = {}
@@ -289,11 +241,63 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
             end
         end
     end)
+end
+
+-- Displays the intro popup and plays the intro sound chosen by the server
+net.Receive("WelcomeBackRandomatPopup", function()
+    local randomIntroSound = net.ReadString()
+    overlayPositions = {}
+    RunConsoleCommand("stopsound")
+
+    for i = 1, 2 do
+        timer.Simple(0.1, function()
+            surface.PlaySound("welcomeback/intro_sound.mp3")
+
+            timer.Simple(3.031, function()
+                surface.PlaySound(randomIntroSound)
+            end)
+        end)
+    end
+
+    local pixelOffset = 20
+    local offsetLength = 1
+    introPopup = vgui.Create("DFrame")
+    local xSize = 875 - pixelOffset
+    local ySize = 373 - pixelOffset
+    local posX = (ScrW() - xSize) / 2
+    local posY = (ScrH() - ySize) / 2
+    introPopup:SetPos(posX, posY)
+    introPopup:SetSize(xSize, ySize)
+    introPopup:ShowCloseButton(false)
+    introPopup:SetTitle("")
+    introPopup.Paint = function(self, w, h) end
+    local image = vgui.Create("DImage", introPopup)
+    image:SetImage("materials/vgui/ttt/welcomeback/ttt_popup.png")
+    image:SetPos(0, 0)
+
+    timer.Create("WelcomeBackIntroPopupTimer", offsetLength / pixelOffset, pixelOffset * offsetLength, function()
+        local repetitions = pixelOffset - timer.RepsLeft("WelcomeBackIntroPopupTimer")
+        local currentXSize = xSize + repetitions
+        local currentYSize = ySize + repetitions
+        posX = (ScrW() - currentXSize) / 2
+        posY = (ScrH() - currentYSize) / 2
+        introPopup:SetPos(posX, posY)
+        introPopup:SetSize(currentXSize + repetitions, currentYSize + repetitions)
+        image:SetSize(currentXSize + repetitions, currentYSize + repetitions)
+        image:Center()
+    end)
+
+    timer.Create("WelcomeBackCloseIntroPopup", 3.031, 1, function()
+        introPopup:Close()
+    end)
+
+    CreateOverlay()
 end)
 
 -- Cleans up everything and slowly fades out the overlay
 net.Receive("WelcomeBackRandomatEnd", function()
     timer.Remove("WelcomeBackCloseIntroPopup")
+    timer.Remove("WelcomeBackStartFade")
     timer.Remove("WelcomeBackFadeIn")
     timer.Remove("WelcomeBackColourChangeCheck")
 

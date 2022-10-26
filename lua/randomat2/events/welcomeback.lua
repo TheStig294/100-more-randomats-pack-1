@@ -7,7 +7,6 @@ EVENT.id = "welcomeback"
 EVENT.Categories = {"largeimpact", "deathtrigger"}
 
 util.AddNetworkString("WelcomeBackRandomatPopup")
-util.AddNetworkString("WelcomeBackRandomatCreateOverlay")
 util.AddNetworkString("WelcomeBackRandomatEnd")
 
 function EVENT:Begin()
@@ -68,8 +67,6 @@ function EVENT:Begin()
 
     -- Starts fading in the role overlay and displays the event's name without making the randomat alert sound
     timer.Create("WelcomeBackRandomatDrawOverlay", 3.031, 1, function()
-        net.Start("WelcomeBackRandomatCreateOverlay")
-        net.Broadcast()
         Randomat:EventNotifySilent(self.AltTitle)
     end)
 end
