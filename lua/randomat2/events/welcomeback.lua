@@ -52,16 +52,28 @@ function EVENT:Begin()
     end)
 
     -- Crosses out player names after they die
-    self:AddHook("PostPlayerDeath", function(ply)
-        ply:SetNWBool("WelcomeBackCrossName", true)
+    -- Reveals the role of a player when a corpse is searched
+    self:AddHook("TTTBodyFound", function(_, deadply, rag)
+        -- If the dead player has disconnected, they won't be on the scoreboard, so skip them
+        if not IsPlayer(deadply) then return end
+        -- Get the role of the dead player from the ragdoll itself so artificially created ragdolls like the dead ringer aren't given away
+        deadply:SetNWBool("WelcomeBackCrossName", true)
     end)
 
-    -- Reveals the role of a player when a corpse is searched
+    -- Saves the role of a player when a corpse is first searched
     self:AddHook("TTTCanIdentifyCorpse", function(_, ragdoll)
         local ply = CORPSE.GetPlayer(ragdoll)
         -- If the dead player has disconnected, they won't be on the scoreboard, so skip them
         if not IsPlayer(ply) then return end
         ply:SetNWInt("WelcomeBackScoreboardRoleRevealed", ragdoll.was_role)
+    end)
+
+    -- Reveals the loot goblin's death to everyone if it is announced
+    self:AddHook("PostPlayerDeath", function(ply)
+        if ply.IsLootGoblin and ply:IsLootGoblin() and ply:IsRoleActive() and GetGlobalInt("ttt_lootgoblin_notify_mode") == 4 then
+            ply:SetNWBool("WelcomeBackCrossName", true)
+            ply:SetNWInt("WelcomeBackScoreboardRoleRevealed", ply:GetRole())
+        end
     end)
 
     -- Starts fading in the role overlay and displays the event's name without making the randomat alert sound
