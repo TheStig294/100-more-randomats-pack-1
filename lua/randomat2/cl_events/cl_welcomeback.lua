@@ -8,6 +8,7 @@ local minBoxWidth = 150
 local boxOutlineSize = 2
 local boxPadding = 10
 local boxBorderSize = 28
+local boxWidths = {}
 
 -- Displays the intro popup and plays the intro sound chosen by the server
 net.Receive("WelcomeBackRandomatPopup", function()
@@ -96,6 +97,22 @@ local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, y
     return boxWidth
 end
 
+local function OverrideColours()
+    local colourTable = table.Copy(ROLE_COLORS)
+
+    if ConVarExists("ttt_color_mode") and GetConVar("ttt_color_mode"):GetString() == "default" or GetConVar("ttt_color_mode"):GetString() == "simplified" then
+        for key, colour in pairs(colourTable) do
+            if colour == Color(0, 225, 0, 255) or colour == Color(245, 200, 0, 255) then
+                colourTable[key] = Color(25, 150, 25)
+            elseif colour == Color(245, 106, 0, 255) then
+                colourTable[key] = Color(225, 0, 0, 255)
+            end
+        end
+    end
+
+    return colourTable
+end
+
 -- Creates the table of players to be displayed in the role overlay
 net.Receive("WelcomeBackRandomatCreateOverlay", function()
     local playerCount = 0
@@ -105,22 +122,6 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
     for i, ply in ipairs(player.GetAll()) do
         playerCount = playerCount + 1
         playerNames[ply] = ply:Nick()
-
-        if i == 1 then
-            playerNames[ply] = "Lewis"
-        elseif i == 2 then
-            playerNames[ply] = "Ben"
-        elseif i == 3 then
-            playerNames[ply] = "Ravs"
-        elseif i == 4 then
-            playerNames[ply] = "Pedguin"
-        elseif i == 5 then
-            playerNames[ply] = "Boba"
-        elseif i == 6 then
-            playerNames[ply] = "Kirsty"
-        elseif i == 7 then
-            playerNames[ply] = "Gee"
-        end
     end
 
     -- Sets all overlay positions to 0, so after the wordboxes are first drawn in the overlay hook, we can get the boxes' width
@@ -128,14 +129,22 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
         overlayPositions[ply] = 0
     end
 
-    -- Fallback colours to use
+    -- Fallback colours to use if CR for TTT is not installed
     local colourTable = {
         [ROLE_INNOCENT] = Color(25, 200, 25, 200),
         [ROLE_TRAITOR] = Color(200, 25, 25, 200),
         [ROLE_DETECTIVE] = Color(25, 25, 200, 200)
     }
 
-    local ROLE_COLORS = ROLE_COLORS or colourTable
+    -- If CR is a thing, force simplified role colours, and make the green colour more readable against the white text
+    if istable(ROLE_COLORS) then
+        colourTable = OverrideColours()
+
+        timer.Create("WelcomeBackColourChangeCheck", 1, 0, function()
+            colourTable = OverrideColours()
+        end)
+    end
+
     -- Getting the icons for every role if Custom Roles for TTT is installed
     local roleIcons = nil
 
@@ -158,7 +167,7 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
         alpha = alpha + 0.01
     end)
 
-    local boxWidths = {}
+    boxWidths = {}
 
     timer.Simple(1, function()
         local overlayWidth = 0
@@ -195,7 +204,7 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
                     role = ROLE_DETECTIVE
                 end
 
-                roleColour = ROLE_COLORS[role]
+                roleColour = colourTable[role]
 
                 if roleIcons then
                     iconRole = role
@@ -203,13 +212,13 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
                 -- Reveal fellow traitors as plain traitors until they're searched, when there is a glitch
             elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackTraitor") and not (LocalPlayer().IsGlitch and LocalPlayer():IsGlitch()) then
                 if GetGlobalBool("WelcomeBackGlitchExists") then
-                    roleColour = ROLE_COLORS[ROLE_TRAITOR]
+                    roleColour = colourTable[ROLE_TRAITOR]
 
                     if roleIcons then
                         iconRole = ROLE_TRAITOR
                     end
                 else
-                    roleColour = ROLE_COLORS[ply:GetRole()]
+                    roleColour = colourTable[ply:GetRole()]
 
                     if roleIcons then
                         iconRole = ply:GetRole()
@@ -217,14 +226,14 @@ net.Receive("WelcomeBackRandomatCreateOverlay", function()
                 end
             elseif (ply:GetNWBool("WelcomeBackIsDetectiveLike") and ply:GetNWBool("HasPromotion")) or (ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and GetGlobalInt("ttt_detective_hide_special_mode", 0) == 1) then
                 -- Reveal promoted detective-like players like the impersonator, or special detectives while the hide convar is on, as ordinary detectives
-                roleColour = ROLE_COLORS[ROLE_DETECTIVE]
+                roleColour = colourTable[ROLE_DETECTIVE]
 
                 if roleIcons then
                     iconRole = ROLE_DETECTIVE
                 end
             elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackJester") and not (LocalPlayer().IsGlitch and LocalPlayer():IsGlitch()) then
                 -- Reveal jesters only to traitors
-                roleColour = ROLE_COLORS[ply:GetRole()]
+                roleColour = colourTable[ply:GetRole()]
 
                 if roleIcons then
                     iconRole = ROLE_JESTER
@@ -269,7 +278,7 @@ end)
 net.Receive("WelcomeBackRandomatEnd", function()
     timer.Remove("WelcomeBackCloseIntroPopup")
     timer.Remove("WelcomeBackFadeIn")
-    table.Empty(boxWidths)
+    timer.Remove("WelcomeBackColourChangeCheck")
 
     timer.Create("WelcomeBackFadeOut", 0.01, 100, function()
         alpha = alpha - 0.01

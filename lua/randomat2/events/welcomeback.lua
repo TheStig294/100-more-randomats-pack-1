@@ -22,26 +22,36 @@ function EVENT:Begin()
         SetGlobalInt("ttt_lootgoblin_notify_mode", GetConVar("ttt_lootgoblin_notify_mode"):GetInt())
     end
 
-    -- Sets flags on players using randomat functions only available on the server
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsGoodDetectiveLike(ply) then
-            ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", true)
-            ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
-        elseif Randomat:IsEvilDetectiveLike(ply) then
-            ply:SetNWBool("WelcomeBackTraitor", true)
-            ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
-        elseif Randomat:IsDetectiveLike(ply) then
-            ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
-        elseif Randomat:IsJesterTeam(ply) then
-            ply:SetNWBool("WelcomeBackJester", true)
-        elseif Randomat:IsTraitorTeam(ply) or ply.IsGlitch and ply:IsGlitch() then
-            ply:SetNWBool("WelcomeBackTraitor", true)
+    -- Continually checks for players' roles, in case roles change
+    timer.Create("WelcomeBackRandomatCheckRoleChange", 1, 0, function()
+        for _, ply in ipairs(self:GetAlivePlayers()) do
+            ply:SetNWBool("WelcomeBackIsDetectiveLike", false)
+            ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", false)
+            ply:SetNWBool("WelcomeBackJester", false)
+            ply:SetNWBool("WelcomeBackTraitor", false)
+            ply:SetNWBool("WelcomeBackCrossName", false)
         end
 
-        if ply.IsGlitch and ply:IsGlitch() then
-            SetGlobalBool("WelcomeBackGlitchExists", true)
+        for _, ply in ipairs(self:GetAlivePlayers()) do
+            if Randomat:IsGoodDetectiveLike(ply) then
+                ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", true)
+                ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
+            elseif Randomat:IsEvilDetectiveLike(ply) then
+                ply:SetNWBool("WelcomeBackTraitor", true)
+                ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
+            elseif Randomat:IsDetectiveLike(ply) then
+                ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
+            elseif Randomat:IsJesterTeam(ply) then
+                ply:SetNWBool("WelcomeBackJester", true)
+            elseif Randomat:IsTraitorTeam(ply) or ply.IsGlitch and ply:IsGlitch() then
+                ply:SetNWBool("WelcomeBackTraitor", true)
+            end
+
+            if ply.IsGlitch and ply:IsGlitch() then
+                SetGlobalBool("WelcomeBackGlitchExists", true)
+            end
         end
-    end
+    end)
 
     -- Crosses out player names after they die
     self:AddHook("PostPlayerDeath", function(ply)
@@ -67,6 +77,7 @@ end
 function EVENT:End()
     -- Removes all popups on the screen
     timer.Remove("WelcomeBackRandomatDrawOverlay")
+    timer.Remove("WelcomeBackRandomatCheckRoleChange")
     net.Start("WelcomeBackRandomatEnd")
     net.Broadcast()
 
