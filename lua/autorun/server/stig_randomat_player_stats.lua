@@ -58,7 +58,7 @@ hook.Add("TTTOrderedEquipment", "RandomatStatsOrderedEquipment", function(ply, e
             return
         end
 
-        local itemTable = GetEquipmentItem(equipment, ROLE_DETECTIVE) or GetEquipmentItem(equipment, ROLE_TRAITOR)
+        local itemTable = GetEquipmentItem(ROLE_DETECTIVE, equipment) or GetEquipmentItem(ROLE_TRAITOR, equipment)
         local itemName
 
         if itemTable then
