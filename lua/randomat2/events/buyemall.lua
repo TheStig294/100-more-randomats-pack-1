@@ -44,7 +44,7 @@ function EVENT:Begin()
 
             if item then
                 item = math.floor(item)
-                local itemTable = GetEquipmentItem(item, ROLE_DETECTIVE) or GetEquipmentItem(item, ROLE_TRAITOR)
+                local itemTable = GetEquipmentItem(ROLE_DETECTIVE, item) or GetEquipmentItem(ROLE_TRAITOR, item)
                 local name
 
                 if itemTable then
