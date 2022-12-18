@@ -6,22 +6,14 @@ EVENT.StartSecret = true
 
 EVENT.Categories = {"spectator", "fun", "smallimpact"}
 
+util.AddNetworkString("DiscordSoundRandomatBegin")
+util.AddNetworkString("DiscordSoundRandomatEnd")
+
 function EVENT:Begin()
     self:AddHook("PostPlayerDeath", function(ply)
-        timer.Simple(2, function()
-            ply:PrintMessage(HUD_PRINTCENTER, "Press 1 - connect sound")
-            ply:PrintMessage(HUD_PRINTTALK, "Press 1 - connect sound")
-        end)
-
-        timer.Simple(4, function()
-            ply:PrintMessage(HUD_PRINTCENTER, "Press 2 - disconnect sound")
-            ply:PrintMessage(HUD_PRINTTALK, "Press 2 - disconnect sound")
-        end)
-
-        timer.Simple(6, function()
-            ply:PrintMessage(HUD_PRINTCENTER, "Press 3 - ping sound")
-            ply:PrintMessage(HUD_PRINTTALK, "Press 3 - ping sound")
-        end)
+        net.Start("DiscordSoundRandomatBegin")
+        net.Send(ply)
+        SpectatorRandomatAlert(ply, EVENT)
     end)
 
     self:AddHook("PlayerButtonDown", function(ply, button)
@@ -37,6 +29,11 @@ function EVENT:Begin()
             end
         end)
     end)
+end
+
+function EVENT:End()
+    net.Start("DiscordSoundRandomatEnd")
+    net.Broadcast()
 end
 
 Randomat:register(EVENT)
