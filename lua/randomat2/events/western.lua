@@ -109,6 +109,21 @@ function EVENT:Begin()
             ply:SelectWeapon("weapon_ttt_unarmed")
         end
     end)
+
+    -- Only allows players to pick up duel revolvers
+    self:AddHook("PlayerCanPickupWeapon", function(ply, wep) return IsValid(wep) and WEPS.GetClass(wep) == "weapon_ttt_duel_revolver_randomat" end)
+
+    -- Prevents players from buying non-passive items
+    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+        if not IsValid(ply) then return end
+
+        if not is_item then
+            ply:PrintMessage(HUD_PRINTCENTER, "Passive items only!")
+            ply:ChatPrint("You can only buy passive items during '" .. Randomat:GetEventTitle(EVENT) .. "'\nYour purchase has been refunded.")
+
+            return false
+        end
+    end)
 end
 
 function EVENT:End()
