@@ -35,8 +35,32 @@ function EVENT:Begin()
 
             ply:SetNWEntity("BattleRoyalePartner", ply2)
             ply2:SetNWEntity("BattleRoyalePartner", ply)
-            ply:ChatPrint("Your partner is: " .. ply2:Nick())
-            ply2:ChatPrint("Your partner is: " .. ply:Nick())
+            local plyMessage = "Your partner is: " .. ply2:Nick()
+            local ply2Message = "Your partner is: " .. ply:Nick()
+            ply:PrintMessage(HUD_PRINTTALK, plyMessage)
+            ply2:PrintMessage(HUD_PRINTTALK, ply2Message)
+            ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
+            ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
+
+            timer.Simple(2, function()
+                ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
+                ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
+            end)
+
+            timer.Simple(4, function()
+                ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
+                ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
+            end)
+
+            timer.Simple(6, function()
+                ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
+                ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
+            end)
+
+            timer.Simple(8, function()
+                ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
+                ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
+            end)
         end
 
         if ply:GetNWEntity("BattleRoyalePartner") == NULL then
@@ -76,7 +100,7 @@ function EVENT:Begin()
         if not IsPlayer(ent) or not IsPlayer(attacker) then return end
 
         if attacker == ent:GetNWEntity("BattleRoyalePartner") then
-            attacker:PrintMessage(HUD_PRINTCENTER, "Don't hurt your buddy!")
+            attacker:PrintMessage(HUD_PRINTCENTER, "Don't hurt your partner!")
 
             return true
         end
