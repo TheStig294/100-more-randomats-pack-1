@@ -190,6 +190,9 @@ function IsBuyableItem(role, wep, includeWepsExist, excludeWepsExist)
         --if its not on the SWEP list, then check the equipment item menu for the role
     elseif isnumber(id) then
         id = tonumber(id)
+        -- Loadout items cannot be bought as they are automatically given
+        local item = GetEquipmentItem(role, id)
+        if item.loadout then return false end
 
         if includeWepsExist then
             for i, includedWep in ipairs(WEPS.BuyableWeapons[role]) do
