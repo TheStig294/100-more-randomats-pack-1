@@ -548,7 +548,8 @@ _randomat_pursuit_mult_ - Default: 1.5 - Movement speed multiplier
 Crouching makes you fart.\
 Everyone gets this playermodel if installed: https://steamcommunity.com/sharedfiles/filedetails/?id=614003294\
 \
-_ttt_randomat_fart_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_fart_ - Default: 1 - Whether this randomat is enabled\
+_randomat_fart_alt_sound_ - Default: 0 - Whether to use the alternate fart sound
 
 ## Huge Problem
 

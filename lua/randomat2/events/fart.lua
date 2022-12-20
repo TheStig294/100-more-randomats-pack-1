@@ -5,6 +5,8 @@ EVENT.id = "fart"
 
 EVENT.Categories = {"fun", "moderateimpact"}
 
+local altSoundCvar = CreateConVar("randomat_fart_alt_sound", "0", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether to use the alternate fart sound", 0, 1)
+
 local ravsModel = "models/solidsnakemgs4/solidsnakemgs4.mdl"
 local garfieldModel = "models/player/garfield/buff_garfield.mdl"
 local ps1RavsModel = "models/vinrax/player/MGS_Solid_Snake.mdl"
@@ -59,7 +61,13 @@ function EVENT:Begin()
             ply.FartCooldown = false
         end)
 
-        ply:EmitSound("fart/fart.mp3")
+        local snd = "fart/fart.mp3"
+
+        if altSoundCvar:GetBool() then
+            snd = "fart/fartalt.mp3"
+        end
+
+        ply:EmitSound(snd)
         local pos = ply:GetPos()
         -- Creates a green horizontal poof effect when somebody crouches
         local effectdata = EffectData()
@@ -99,6 +107,25 @@ function EVENT:Begin()
             end
         end
     end)
+end
+
+function EVENT:GetConVars()
+    local checkboxes = {}
+
+    for _, v in pairs({"alt_sound"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checkboxes, {
+                cmd = v,
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    return {}, checkboxes
 end
 
 Randomat:register(EVENT)
