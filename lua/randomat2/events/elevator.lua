@@ -10,7 +10,7 @@ function EVENT:Begin()
         timer.Simple(0.1, function()
             -- Really what this randomat is doing is dramatically increasing everyone's step size
             -- Which is the maximum height off the ground a player can 'walk up on' like a staircase step
-            ply:SetStepSize(1000)
+            ply:SetStepSize(512)
         end)
     end
 
@@ -22,7 +22,7 @@ function EVENT:Begin()
 
         if ply.ElevatorRandomatLastZPos and math.abs(ply.ElevatorRandomatLastZPos - posZ) > 100 then
             local currentOffset = ply:GetCurrentViewOffset()
-            currentOffset.z = currentOffset.z + 20
+            currentOffset.z = currentOffset.z + 50
             ply:SetCurrentViewOffset(currentOffset)
         end
 
