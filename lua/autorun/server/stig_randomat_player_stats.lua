@@ -60,6 +60,7 @@ hook.Add("TTTOrderedEquipment", "RandomatStatsOrderedEquipment", function(ply, e
 
         local itemTable = GetEquipmentItem(ROLE_DETECTIVE, equipment) or GetEquipmentItem(ROLE_TRAITOR, equipment)
         -- Don't count loadout items towards stats
+        if not itemTable then return end
         if itemTable.loadout then return end
         local itemName
 
