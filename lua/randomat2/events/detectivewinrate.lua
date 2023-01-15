@@ -32,11 +32,19 @@ function EVENT:Begin()
     end
 
     local removedDetectiveRole
+    local roleWeapons = {}
 
     -- Turn a current detective into an innocent, if there is one
     for _, ply in ipairs(alivePlayers) do
         if Randomat:IsGoodDetectiveLike(ply) then
             removedDetectiveRole = ply:GetRole()
+
+            for _, wep in ipairs(ply:GetWeapons()) do
+                if wep.Kind == WEAPON_ROLE then
+                    table.insert(roleWeapons, wep:GetClass())
+                end
+            end
+
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
             ply:SetDefaultCredits()
@@ -54,6 +62,11 @@ function EVENT:Begin()
             end
 
             self:StripRoleWeapons(ply)
+
+            for _, wep in ipairs(roleWeapons) do
+                ply:Give(wep)
+            end
+
             Randomat:SetRole(ply, removedDetectiveRole or ROLE_DETECTIVE)
             ply:SetDefaultCredits()
 
