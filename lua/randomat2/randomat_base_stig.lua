@@ -55,6 +55,7 @@ local player = player
 local string = string
 local table = table
 local timer = timer
+local CallHook = hook.Call
 local EntsCreate = ents.Create
 local GetAllPlayers = player.GetAll
 local GetAllEnts = ents.GetAll
@@ -150,9 +151,10 @@ function Randomat:AddEventToHistory(event)
     SaveEventHistory()
 end
 
-concommand.Add("ttt_randomat_clearhistory", function()
+concommand.Add("ttt_randomat_clearhistory", function(ply, cc, arg)
     table.Empty(Randomat.EventHistory)
     SaveEventHistory()
+    CallHook("TTTRandomatCommand", nil, ply, cc, arg)
 end)
 
 --[[
@@ -204,12 +206,15 @@ local function EndEvent(evt)
     net.Broadcast()
 end
 
-local function TriggerEvent(event, ply, silent, ...)
+local function TriggerEvent(event, ply, options, ...)
+    options = options or {}
+    local silent = options.Silent
+
     if not silent then
         -- If this event is supposed to start secretly, trigger "secret" with this specific event chosen
         -- Unless "secret" is already running in which case we don't care, just let it go
         if event.StartSecret and not Randomat:IsEventActive("secret") then
-            TriggerEvent(Randomat.Events["secret"], ply, false, event.Id)
+            TriggerEvent(Randomat.Events["secret"], ply, nil, event.Id)
 
             return
         end
@@ -244,13 +249,13 @@ local function TriggerEvent(event, ply, silent, ...)
     end
 
     -- Broadcast this to every client, but hide what it really is if secret is active (and this isn't secret itself)
-    local should_hide = event.Id ~= "secret" and Randomat:IsEventActive("secret")
+    local should_hide = options.Hidden or event.Id ~= "secret" and Randomat:IsEventActive("secret")
     net.Start("RdmtEventBegin")
 
     if should_hide then
         net.WriteString("???")
         net.WriteString("A 'Secret' Event")
-        net.WriteString("This event is hidden by '" .. Randomat:GetEventTitle(Randomat.Events["secret"]) .. "'")
+        net.WriteString(options.HiddenMessage or ("This event is hidden by '" .. Randomat:GetEventTitle(Randomat.Events["secret"]) .. "'"))
     else
         net.WriteString(event.Id)
         net.WriteString(title)
@@ -259,7 +264,7 @@ local function TriggerEvent(event, ply, silent, ...)
 
     net.Broadcast()
     -- Let other addons know that an event was started
-    hook.Call("TTTRandomatTriggered", nil, event.Id, owner)
+    CallHook("TTTRandomatTriggered", nil, event.Id, owner)
 end
 
 --[[
@@ -539,18 +544,21 @@ end
 
 function Randomat:TriggerRandomEvent(ply)
     local event = Randomat:GetRandomEvent()
-    TriggerEvent(event, ply, false)
+    TriggerEvent(event, ply)
 end
 
 function Randomat:SilentTriggerRandomEvent(ply)
     local event = Randomat:GetRandomEvent()
-    TriggerEvent(event, ply, true)
+
+    TriggerEvent(event, ply, {
+        Silent = true
+    })
 end
 
 function Randomat:TriggerEvent(cmd, ply, ...)
     if Randomat.Events[cmd] ~= nil then
         local event = Randomat.Events[cmd]
-        TriggerEvent(event, ply, false, ...)
+        TriggerEvent(event, ply, nil, ...)
     else
         error("Could not find event '" .. cmd .. "'")
     end
@@ -562,7 +570,7 @@ function Randomat:SafeTriggerEvent(cmd, ply, error_if_unsafe, ...)
         local can_run, reason = Randomat:CanEventRun(event)
 
         if can_run then
-            TriggerEvent(event, ply, false, ...)
+            TriggerEvent(event, ply, nil, ...)
         elseif error_if_unsafe then
             error("Conditions for event not met: " .. reason)
         end
@@ -574,7 +582,37 @@ end
 function Randomat:SilentTriggerEvent(cmd, ply, ...)
     if Randomat.Events[cmd] ~= nil then
         local event = Randomat.Events[cmd]
-        TriggerEvent(event, ply, true, ...)
+
+        TriggerEvent(event, ply, {
+            Silent = true
+        }, ...)
+    else
+        error("Could not find event '" .. cmd .. "'")
+    end
+end
+
+function Randomat:TriggerHiddenEvent(cmd, ply, reason, ...)
+    if Randomat.Events[cmd] ~= nil then
+        local event = Randomat.Events[cmd]
+
+        TriggerEvent(event, ply, {
+            Hidden = true,
+            HiddenMessage = reason
+        }, ...)
+    else
+        error("Could not find event '" .. cmd .. "'")
+    end
+end
+
+function Randomat:SilentTriggerHiddenEvent(cmd, ply, reason, ...)
+    if Randomat.Events[cmd] ~= nil then
+        local event = Randomat.Events[cmd]
+
+        TriggerEvent(event, ply, {
+            Silent = true,
+            Hidden = true,
+            HiddenMessage = reason
+        }, ...)
     else
         error("Could not find event '" .. cmd .. "'")
     end
@@ -1169,11 +1207,20 @@ function randomat_meta:HandleWeaponAddAndSelect(ply, addweapons)
     end
 end
 
-function randomat_meta:SwapWeapons(ply, weapon_list, from_killer)
+function randomat_meta:SwapWeapons(ply, weapon_list)
+    local role_weapons = {}
+
+    -- If this is a version of CR for TTT that has role weapons defined, keep track of them
+    if WEAPON_CATEGORY_ROLE then
+        for _, w in ipairs(ply:GetWeapons()) do
+            if w.Category == WEAPON_CATEGORY_ROLE then
+                table.insert(role_weapons, WEPS.GetClass(w))
+            end
+        end
+    end
+
+    -- Hardcode these for backwards compatibility
     local had_brainwash = ply:HasWeapon("weapon_hyp_brainwash")
-    local had_bodysnatch = ply:HasWeapon("weapon_bod_bodysnatch")
-    local had_paramedic_defib = ply:HasWeapon("weapon_med_defib")
-    local had_zombificator = ply:HasWeapon("weapon_mad_zombificator")
     local had_scanner = ply:HasWeapon("weapon_ttt_wtester")
 
     self:HandleWeaponAddAndSelect(ply, function()
@@ -1188,14 +1235,8 @@ function randomat_meta:SwapWeapons(ply, weapon_list, from_killer)
             ply:Give("weapon_vam_fangs")
         elseif had_brainwash then
             ply:Give("weapon_hyp_brainwash")
-        elseif had_bodysnatch then
-            ply:Give("weapon_bod_bodysnatch")
         elseif had_scanner then
             ply:Give("weapon_ttt_wtester")
-        elseif had_paramedic_defib then
-            ply:Give("weapon_med_defib")
-        elseif had_zombificator then
-            ply:Give("weapon_mad_zombificator")
         elseif ply:GetRole() == ROLE_KILLER then
             if ConVarExists("ttt_killer_knife_enabled") and GetConVar("ttt_killer_knife_enabled"):GetBool() then
                 ply:Give("weapon_kil_knife")
@@ -1207,10 +1248,16 @@ function randomat_meta:SwapWeapons(ply, weapon_list, from_killer)
             end
         end
 
-        -- If the player that swapped to this player was a killer then they no longer have a crowbar
-        if from_killer then
-            ply:Give("weapon_zm_improvised")
+        -- Give their role weapon(s) back
+        for _, c in ipairs(role_weapons) do
+            ply:Give(c)
         end
+
+        -- Make sure everyone has these weapons
+        -- Roles that shouldn't, like the non-prime Zombie, won't be able to pick them up anyway
+        ply:Give("weapon_ttt_unarmed")
+        ply:Give("weapon_zm_carry")
+        ply:Give("weapon_zm_improvised")
 
         -- Handle inventory weapons last to make sure the roles get their specials
         for _, v in ipairs(weapon_list) do
@@ -1306,10 +1353,12 @@ concommand.Add("ttt_randomat_clearevent", function(ply, cc, arg)
     end
 
     Randomat:EndActiveEvent(cmd)
+    CallHook("TTTRandomatCommand", nil, ply, cc, arg)
 end, ClearAutoComplete, "Clears a specific randomat active event", FCVAR_SERVER_CAN_EXECUTE)
 
-concommand.Add("ttt_randomat_clearevents", function()
+concommand.Add("ttt_randomat_clearevents", function(ply, cc, arg)
     Randomat:EndActiveEvents()
+    CallHook("TTTRandomatCommand", nil, ply, cc, arg)
 end, nil, "Clears all active events", FCVAR_SERVER_CAN_EXECUTE)
 
 local function TriggerAutoComplete(cmd, args)
@@ -1327,15 +1376,18 @@ end
 
 concommand.Add("ttt_randomat_safetrigger", function(ply, cc, arg)
     Randomat:SafeTriggerEvent(arg[1], nil, true)
+    CallHook("TTTRandomatCommand", nil, ply, cc, arg)
 end, TriggerAutoComplete, "Triggers a specific randomat event with conditions", FCVAR_SERVER_CAN_EXECUTE)
 
 concommand.Add("ttt_randomat_trigger", function(ply, cc, arg)
     Randomat:TriggerEvent(arg[1], nil)
+    CallHook("TTTRandomatCommand", nil, ply, cc, arg)
 end, TriggerAutoComplete, "Triggers a specific randomat event without conditions", FCVAR_SERVER_CAN_EXECUTE)
 
-concommand.Add("ttt_randomat_triggerrandom", function()
+concommand.Add("ttt_randomat_triggerrandom", function(ply, cc, arg)
     local rdmply = Randomat:GetValidPlayer(nil)
     Randomat:TriggerRandomEvent(rdmply)
+    CallHook("TTTRandomatCommand", nil, ply, cc, arg)
 end, nil, "Triggers a random  randomat event", FCVAR_SERVER_CAN_EXECUTE)
 
 --[[

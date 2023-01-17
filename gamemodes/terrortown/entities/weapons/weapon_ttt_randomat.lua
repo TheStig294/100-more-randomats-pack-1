@@ -2,7 +2,7 @@
 -- This is the randomat weapon itself bought by the detective
 -- Doesn't check for Malivil's version since that was causing issues and Malivil doesn't update this file much anyway
 if SERVER then
-    AddCSLuaFile("shared.lua")
+    AddCSLuaFile()
     resource.AddFile("materials/VGUI/ttt/icon_randomat.vmt")
     util.AddNetworkString("TTT_ResetBuyableWeaponsCache")
 end
