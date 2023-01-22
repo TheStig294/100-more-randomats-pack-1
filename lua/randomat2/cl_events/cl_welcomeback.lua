@@ -17,9 +17,10 @@ surface.CreateFont("WelcomeBackRandomatOverlayFont", {
     shadow = true
 })
 
-local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, yalign)
+local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, yalign, ply)
     surface.SetFont(font)
     local w, h = surface.GetTextSize(text)
+    local XPos = x
 
     if (xalign == TEXT_ALIGN_CENTER) then
         x = x - (bordersize + w / 2)
@@ -40,6 +41,22 @@ local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, y
     draw.RoundedBox(bordersize, x - xDiff / 2 - boxOutlineSize, y + bordersize / 1.3 - boxOutlineSize, boxWidth + boxOutlineSize * 2, h + bordersize / 2 + boxOutlineSize * 2, COLOR_WHITE)
     -- Box background
     draw.RoundedBox(bordersize, x - xDiff / 2, y + bordersize / 1.3, boxWidth, h + bordersize / 2, color)
+
+    -- Death X
+    if ply:GetNWBool("WelcomeBackCrossName") then
+        surface.SetFont("WelcomeBackRandomatOverlayFont")
+        local textWidth, textHeight = surface.GetTextSize(playerNames[ply])
+        -- And they said you'd never use this from maths class...
+        local angle = math.deg(math.atan2(textHeight, textWidth))
+        draw.NoTexture()
+        surface.SetDrawColor(255, 255, 255)
+        surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, angle)
+        surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, -angle)
+        surface.SetDrawColor(255, 0, 0)
+        surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, angle)
+        surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, -angle)
+    end
+
     -- Box text
     surface.SetTextColor(fontcolor.r, fontcolor.g, fontcolor.b, fontcolor.a)
     surface.SetTextPos(x + bordersize, y + bordersize)
@@ -220,7 +237,7 @@ local function CreateOverlay()
             -- But if the player still doesn't have a name yet, skip them
             if not playerNames[ply] then continue end
             -- Box and player name
-            local boxWidth = WordBox(boxBorderSize, XPos, YPos, playerNames[ply], "WelcomeBackRandomatOverlayFont", roleColour, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            local boxWidth = WordBox(boxBorderSize, XPos, YPos, playerNames[ply], "WelcomeBackRandomatOverlayFont", roleColour, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, ply)
 
             if not boxWidths[ply] then
                 boxWidths[ply] = boxWidth
@@ -231,21 +248,6 @@ local function CreateOverlay()
                 surface.SetMaterial(roleIcons[iconRole])
                 surface.SetDrawColor(255, 255, 255)
                 surface.DrawTexturedRect(XPos - iconSize / 2, iconSize / 6, iconSize, iconSize)
-            end
-
-            -- Death X
-            if ply:GetNWBool("WelcomeBackCrossName") then
-                surface.SetFont("WelcomeBackRandomatOverlayFont")
-                local textWidth, textHeight = surface.GetTextSize(playerNames[ply])
-                -- And they said you'd never use this from maths class...
-                local angle = math.deg(math.atan2(textHeight, textWidth))
-                draw.NoTexture()
-                surface.SetDrawColor(255, 255, 255)
-                surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, angle)
-                surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, -angle)
-                surface.SetDrawColor(255, 0, 0)
-                surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, angle)
-                surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, -angle)
             end
         end
     end)
