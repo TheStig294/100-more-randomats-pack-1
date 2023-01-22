@@ -235,16 +235,17 @@ local function CreateOverlay()
 
             -- Death X
             if ply:GetNWBool("WelcomeBackCrossName") then
-                -- You have to set the font using surface.SetFont() to use surface.GetTextSize(), even though surface.SetFont() is not used for any drawing
                 surface.SetFont("WelcomeBackRandomatOverlayFont")
-                local textWidth, _ = surface.GetTextSize(playerNames[ply])
+                local textWidth, textHeight = surface.GetTextSize(playerNames[ply])
+                -- And they said you'd never use this from maths class...
+                local angle = math.deg(math.atan2(textHeight, textWidth))
                 draw.NoTexture()
                 surface.SetDrawColor(255, 255, 255)
-                surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, 30)
-                surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, -30)
+                surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, angle)
+                surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, -angle)
                 surface.SetDrawColor(255, 0, 0)
-                surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, 30)
-                surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, -30)
+                surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, angle)
+                surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, -angle)
             end
         end
     end)
@@ -283,6 +284,7 @@ net.Receive("WelcomeBackRandomatPopup", function()
     image:SetPos(0, 0)
 
     timer.Create("WelcomeBackIntroPopupTimer", offsetLength / pixelOffset, pixelOffset * offsetLength, function()
+        if not IsValid(introPopup) then return end
         local repetitions = pixelOffset - timer.RepsLeft("WelcomeBackIntroPopupTimer")
         local currentXSize = xSize + repetitions
         local currentYSize = ySize + repetitions
@@ -295,6 +297,7 @@ net.Receive("WelcomeBackRandomatPopup", function()
     end)
 
     timer.Create("WelcomeBackCloseIntroPopup", 3.031, 1, function()
+        if not IsValid(introPopup) then return end
         introPopup:Close()
     end)
 
