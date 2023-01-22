@@ -4,7 +4,7 @@ local YPos = 50
 local alpha = 0
 local iconSize = 40
 local playerNames = {}
-local minBoxWidth = 150
+local minBoxWidth = 170
 local boxOutlineSize = 2
 local boxPadding = 10
 local boxBorderSize = 28
@@ -17,44 +17,51 @@ surface.CreateFont("WelcomeBackRandomatOverlayFont", {
     shadow = true
 })
 
-local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, yalign, ply)
+local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, yalign, ply, roleIcons, iconRole)
     surface.SetFont(font)
-    local w, h = surface.GetTextSize(text)
+    local textWidth, textHeight = surface.GetTextSize(text)
     local XPos = x
 
     if (xalign == TEXT_ALIGN_CENTER) then
-        x = x - (bordersize + w / 2)
+        x = x - (bordersize + textWidth / 2)
     elseif (xalign == TEXT_ALIGN_RIGHT) then
-        x = x - (bordersize * 2 + w)
+        x = x - (bordersize * 2 + textWidth)
     end
 
     if (yalign == TEXT_ALIGN_CENTER) then
-        y = y - (bordersize + h / 2)
+        y = y - (bordersize + textHeight / 2)
     elseif (yalign == TEXT_ALIGN_BOTTOM) then
-        y = y - (bordersize * 2 + h)
+        y = y - (bordersize * 2 + textHeight)
     end
 
-    local boxWidth = w + bordersize * 2
-    boxWidth = math.max(minBoxWidth, boxWidth)
-    local xDiff = boxWidth - (w + bordersize * 2)
+    local boxHeight = textHeight + bordersize
+    local boxWidthOrig = textWidth + bordersize * 2 + iconSize
+    local boxWidth = math.max(minBoxWidth, boxWidthOrig)
+    local xDiff = boxWidth - (textWidth + bordersize * 2)
     -- Box outline
-    draw.RoundedBox(bordersize, x - xDiff / 2 - boxOutlineSize, y + bordersize / 1.3 - boxOutlineSize, boxWidth + boxOutlineSize * 2, h + bordersize / 2 + boxOutlineSize * 2, COLOR_WHITE)
+    draw.RoundedBox(bordersize, x - xDiff / 2 - boxOutlineSize, y + bordersize / 1.3 - boxOutlineSize, boxWidth + boxOutlineSize * 2, textHeight + bordersize / 2 + boxOutlineSize * 2, COLOR_WHITE)
     -- Box background
-    draw.RoundedBox(bordersize, x - xDiff / 2, y + bordersize / 1.3, boxWidth, h + bordersize / 2, color)
+    draw.RoundedBox(bordersize, x - xDiff / 2, y + bordersize / 1.3, boxWidth, textHeight + bordersize / 2, color)
 
     -- Death X
     if ply:GetNWBool("WelcomeBackCrossName") then
         surface.SetFont("WelcomeBackRandomatOverlayFont")
-        local textWidth, textHeight = surface.GetTextSize(playerNames[ply])
         -- And they said you'd never use this from maths class...
-        local angle = math.deg(math.atan2(textHeight, textWidth))
+        local angle = math.deg(math.atan2(boxHeight, boxWidth))
         draw.NoTexture()
         surface.SetDrawColor(255, 255, 255)
-        surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, angle)
-        surface.DrawTexturedRectRotated(XPos, YPos, textWidth + 1, 6, -angle)
+        surface.DrawTexturedRectRotated(XPos, YPos, boxWidth * 0.6 + 1, 6, angle)
+        surface.DrawTexturedRectRotated(XPos, YPos, boxWidth * 0.6 + 1, 6, -angle)
         surface.SetDrawColor(255, 0, 0)
-        surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, angle)
-        surface.DrawTexturedRectRotated(XPos, YPos, textWidth, 5, -angle)
+        surface.DrawTexturedRectRotated(XPos, YPos, boxWidth * 0.6, 5, angle)
+        surface.DrawTexturedRectRotated(XPos, YPos, boxWidth * 0.6, 5, -angle)
+    end
+
+    -- Role icons
+    if iconRole then
+        surface.SetMaterial(roleIcons[iconRole])
+        surface.SetDrawColor(255, 255, 255, 200)
+        surface.DrawTexturedRect(XPos - boxWidth / 2 + iconSize / 4, YPos - iconSize / 2, iconSize, iconSize)
     end
 
     -- Box text
@@ -62,7 +69,9 @@ local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, y
     surface.SetTextPos(x + bordersize, y + bordersize)
     surface.DrawText(text)
 
-    return boxWidth
+    if not boxWidths[ply] then
+        boxWidths[ply] = boxWidth
+    end
 end
 
 local function OverrideColours()
@@ -236,19 +245,8 @@ local function CreateOverlay()
 
             -- But if the player still doesn't have a name yet, skip them
             if not playerNames[ply] then continue end
-            -- Box and player name
-            local boxWidth = WordBox(boxBorderSize, XPos, YPos, playerNames[ply], "WelcomeBackRandomatOverlayFont", roleColour, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, ply)
-
-            if not boxWidths[ply] then
-                boxWidths[ply] = boxWidth
-            end
-
-            -- Role icons
-            if iconRole then
-                surface.SetMaterial(roleIcons[iconRole])
-                surface.SetDrawColor(255, 255, 255)
-                surface.DrawTexturedRect(XPos - iconSize / 2, iconSize / 6, iconSize, iconSize)
-            end
+            -- Name box drawing
+            WordBox(boxBorderSize, XPos, YPos, playerNames[ply], "WelcomeBackRandomatOverlayFont", roleColour, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, ply, roleIcons, iconRole)
         end
     end)
 end
