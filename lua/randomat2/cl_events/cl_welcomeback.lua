@@ -4,11 +4,16 @@ local YPos = 50
 local alpha = 0
 local iconSize = 40
 local playerNames = {}
-local minBoxWidth = 170
+local minBoxWidth = 180
 local boxOutlineSize = 2
 local boxPadding = 10
 local boxBorderSize = 28
 local boxWidths = {}
+local largeScreen = ScrW() >= 1920
+
+if not largeScreen then
+    minBoxWidth = 150
+end
 
 surface.CreateFont("WelcomeBackRandomatOverlayFont", {
     font = "Trebuchet24",
@@ -35,8 +40,14 @@ local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, y
     end
 
     local boxHeight = textHeight + bordersize
-    local boxWidthOrig = textWidth + bordersize * 2 + iconSize
-    local boxWidth = math.max(minBoxWidth, boxWidthOrig)
+    local boxWidth = textWidth + bordersize * 2
+
+    -- Make the boxes wider to fit the icons on the side if the screen is large
+    if largeScreen then
+        boxWidth = boxWidth + iconSize
+    end
+
+    boxWidth = math.max(minBoxWidth, boxWidth)
     local xDiff = boxWidth - (textWidth + bordersize * 2)
     -- Box outline
     draw.RoundedBox(bordersize, x - xDiff / 2 - boxOutlineSize, y + bordersize / 1.3 - boxOutlineSize, boxWidth + boxOutlineSize * 2, textHeight + bordersize / 2 + boxOutlineSize * 2, COLOR_WHITE)
@@ -61,7 +72,13 @@ local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, y
     if iconRole then
         surface.SetMaterial(roleIcons[iconRole])
         surface.SetDrawColor(255, 255, 255, 200)
-        surface.DrawTexturedRect(XPos - boxWidth / 2 + iconSize / 4, YPos - iconSize / 2, iconSize, iconSize)
+
+        -- Draw the icons in the middle of each box if the screen size doesn't permit drawing them to the side of each name
+        if largeScreen then
+            surface.DrawTexturedRect(XPos - boxWidth / 2 + iconSize / 4, YPos - iconSize / 2, iconSize, iconSize)
+        else
+            surface.DrawTexturedRect(XPos - iconSize / 2, iconSize / 6, iconSize, iconSize)
+        end
     end
 
     -- Box text
