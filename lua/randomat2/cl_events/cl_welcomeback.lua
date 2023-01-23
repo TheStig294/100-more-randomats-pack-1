@@ -109,9 +109,28 @@ local function OverrideColours()
     return colourTable
 end
 
+local function CalculateBoxWidths()
+    local screenWidth = ScrW()
+    local overlayWidth = 0
+
+    for _, ply in ipairs(player.GetAll()) do
+        if ply:IsSpec() then continue end
+        overlayWidth = overlayWidth + boxPadding + boxWidths[ply]
+    end
+
+    local leftMargin = screenWidth / 2 - overlayWidth / 2
+    local boxOffset = 0
+
+    for _, ply in ipairs(player.GetAll()) do
+        if ply:IsSpec() then continue end
+        boxOffset = boxOffset + boxWidths[ply] / 2
+        overlayPositions[ply] = leftMargin + boxOffset
+        boxOffset = boxOffset + boxPadding + boxWidths[ply] / 2
+    end
+end
+
 local function CreateOverlay()
     local playerCount = 0
-    local screenWidth = ScrW()
 
     -- Grabbing player names and the number of them
     for i, ply in ipairs(player.GetAll()) do
@@ -123,12 +142,14 @@ local function CreateOverlay()
     for _, ply in ipairs(player.GetAll()) do
         if ply:IsSpec() then
             overlayPositions[ply] = nil
-        else
+        elseif not overlayPositions[ply] then
             overlayPositions[ply] = 0
         end
     end
 
     -- Fallback colours to use if CR for TTT is not installed
+    local defaultColour = Color(100, 100, 100)
+
     local colourTable = {
         [ROLE_INNOCENT] = Color(25, 200, 25, 200),
         [ROLE_TRAITOR] = Color(200, 25, 25, 200),
@@ -166,7 +187,6 @@ local function CreateOverlay()
         end
     end
 
-    local defaultColour = Color(100, 100, 100)
     alpha = 0
 
     timer.Create("WelcomeBackStartFade", 3.031, 1, function()
@@ -175,25 +195,14 @@ local function CreateOverlay()
         end)
     end)
 
-    boxWidths = {}
+    local boxWidthsCalculated = false
 
-    timer.Simple(1, function()
-        local overlayWidth = 0
+    timer.Simple(0.1, function()
+        CalculateBoxWidths()
 
-        for _, ply in ipairs(player.GetAll()) do
-            if ply:IsSpec() then continue end
-            overlayWidth = overlayWidth + boxPadding + boxWidths[ply]
-        end
-
-        local leftMargin = screenWidth / 2 - overlayWidth / 2
-        local boxOffset = 0
-
-        for _, ply in ipairs(player.GetAll()) do
-            if ply:IsSpec() then continue end
-            boxOffset = boxOffset + boxWidths[ply] / 2
-            overlayPositions[ply] = leftMargin + boxOffset
-            boxOffset = boxOffset + boxPadding + boxWidths[ply] / 2
-        end
+        timer.Simple(1, function()
+            boxWidthsCalculated = true
+        end)
     end)
 
     hook.Add("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay", function()
@@ -202,10 +211,21 @@ local function CreateOverlay()
         for ply, XPos in SortedPairsByValue(overlayPositions) do
             if not IsValid(ply) then continue end
             local roleColour = defaultColour
-            local iconRole
+            local iconRole = nil
 
-            -- Reveal yourself, searched players, detectives (when their roles aren't hidden) to everyone, loot goblins (when they are shown to everyone), revealed turncoats and revealed beggars
-            if ply == LocalPlayer() or ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 or ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") or (ply.IsLootGoblin and ply:IsLootGoblin() and ply:IsRoleActive() and GetGlobalInt("ttt_lootgoblin_announce") == 4) or (ply.IsTurncoat and ply:IsTurncoat() and ply:IsTraitorTeam()) or ply.IsBeggar and ply:IsBeggar() and ply:ShouldRevealBeggar() then
+            if GetRoundState() == ROUND_PREP or not boxWidthsCalculated then
+                -- If the round hasn't started yet,
+                -- or in the split-second where the overlay is not displayed properly as box widths are being calculated,
+                -- display everyone as a grey rectangle
+                roleColour = defaultColour
+                iconRole = nil
+            elseif GetRoundState() == ROUND_POST then
+                -- At the end of the round, display everyone's role
+                local role = ply:GetRole()
+                roleColour = colourTable[role]
+                iconRole = role
+            elseif ply == LocalPlayer() or ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 or ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") or (ply.IsLootGoblin and ply:IsLootGoblin() and ply:IsRoleActive() and GetGlobalInt("ttt_lootgoblin_announce") == 4) or (ply.IsTurncoat and ply:IsTurncoat() and ply:IsTraitorTeam()) or ply.IsBeggar and ply:IsBeggar() and ply:ShouldRevealBeggar() then
+                -- Reveal yourself, searched players, detectives (when their roles aren't hidden) to everyone, loot goblins (when they are shown to everyone), revealed turncoats and revealed beggars
                 local role = ply:GetRole()
 
                 if roleIcons then
@@ -224,8 +244,8 @@ local function CreateOverlay()
                 if roleIcons and role == ROLE_DETECTIVE and (GetGlobalInt("ttt_detective_hide_special_mode", 0) == 1 or (GetGlobalInt("ttt_detective_hide_special_mode", 0) == 2 and ply ~= LocalPlayer())) then
                     iconRole = ROLE_NONE
                 end
-                -- Reveal fellow traitors as plain traitors until they're searched, when there is a glitch
             elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackTraitor") and not (LocalPlayer().IsGlitch and LocalPlayer():IsGlitch()) then
+                -- Reveal fellow traitors as plain traitors until they're searched, when there is a glitch
                 if GetGlobalBool("WelcomeBackGlitchExists") then
                     roleColour = colourTable[ROLE_TRAITOR]
 
