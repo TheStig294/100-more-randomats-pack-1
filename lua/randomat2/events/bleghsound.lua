@@ -32,29 +32,28 @@ function EVENT:Begin()
         local plushSharkOffsetDucked = Vector(0, 0, 28)
         local playerModelSets = {}
 
-        local poonSharky = {
+        local pirate = {
             model = plushSharkModel,
             viewOffset = plushSharkOffset,
             viewOffsetDucked = plushSharkOffsetDucked,
             skin = 1,
             playerColor = Color(255, 255, 255):ToVector(),
             bodygroupValues = {
-                [0] = 1,
-                [1] = 0,
-                [2] = 2,
-                [3] = 0,
+                [0] = 3,
+                [1] = 1,
+                [2] = 5,
+                [3] = 1,
                 [4] = 0,
-                [5] = 1,
-                [6] = 4,
+                [5] = 4,
+                [6] = 0,
                 [7] = 0,
-                [8] = 0,
-                [9] = 0
+                [8] = 0
             }
         }
 
-        table.insert(playerModelSets, poonSharky)
+        table.insert(playerModelSets, pirate)
 
-        local executionerSharky = {
+        local executioner = {
             model = plushSharkModel,
             viewOffset = plushSharkOffset,
             viewOffsetDucked = plushSharkOffsetDucked,
@@ -63,86 +62,82 @@ function EVENT:Begin()
             bodygroupValues = {
                 [0] = 2,
                 [1] = 0,
-                [2] = 4,
+                [2] = 3,
                 [3] = 1,
                 [4] = 1,
-                [5] = 0,
+                [5] = 1,
                 [6] = 1,
-                [7] = 0,
-                [8] = 1,
-                [9] = 0
+                [7] = 1,
+                [8] = 1
             }
         }
 
-        table.insert(playerModelSets, executionerSharky)
+        table.insert(playerModelSets, executioner)
 
-        local pirateSharky = {
+        local christmas = {
             model = plushSharkModel,
             viewOffset = plushSharkOffset,
             viewOffsetDucked = plushSharkOffsetDucked,
-            playerColor = Color(85, 96, 255):ToVector(),
-            skin = 1,
-            bodygroupValues = {
-                [0] = 3,
-                [1] = 0,
-                [2] = 5,
-                [3] = 1,
-                [4] = 2,
-                [5] = 0,
-                [6] = 3,
-                [7] = 0,
-                [8] = 0,
-                [9] = 0
-            }
-        }
-
-        table.insert(playerModelSets, pirateSharky)
-
-        local christmasSharky = {
-            model = plushSharkModel,
-            viewOffset = plushSharkOffset,
-            viewOffsetDucked = plushSharkOffsetDucked,
-            playerColor = Color(21, 172, 21):ToVector(),
+            playerColor = Color(255, 0, 0):ToVector(),
             skin = 1,
             bodygroupValues = {
                 [0] = 4,
                 [1] = 0,
-                [2] = 0,
+                [2] = 1,
                 [3] = 0,
-                [4] = 0,
-                [5] = 0,
-                [6] = 5,
+                [4] = 3,
+                [5] = 5,
+                [6] = 0,
                 [7] = 0,
-                [8] = 0,
-                [9] = 0
+                [8] = 0
             }
         }
 
-        table.insert(playerModelSets, christmasSharky)
+        table.insert(playerModelSets, christmas)
 
-        local spaceMarineSharky = {
+        local original = {
             model = plushSharkModel,
             viewOffset = plushSharkOffset,
             viewOffsetDucked = plushSharkOffsetDucked,
-            playerColor = Color(0, 0, 255):ToVector(),
-            skin = 1,
+            playerColor = Color(255, 255, 255):ToVector(),
+            skin = 0,
             bodygroupValues = {
                 [0] = 0,
                 [1] = 0,
-                [2] = 2,
-                [3] = 1,
-                [4] = 1,
-                [5] = 1,
-                [6] = 2,
-                [7] = 1,
-                [8] = 1,
-                [9] = 1
+                [2] = 0,
+                [3] = 0,
+                [4] = 4,
+                [5] = 0,
+                [6] = 0,
+                [7] = 0,
+                [8] = 0
             }
         }
 
-        table.insert(playerModelSets, spaceMarineSharky)
+        table.insert(playerModelSets, original)
 
-        local rainbowSharky = {
+        local zombie = {
+            model = plushSharkModel,
+            viewOffset = plushSharkOffset,
+            viewOffsetDucked = plushSharkOffsetDucked,
+            playerColor = Color(25, 100, 0):ToVector(),
+            skin = 1,
+            bodygroupValues = {
+                [0] = 1,
+                [1] = 1,
+                [2] = 1,
+                [3] = 1,
+                [4] = 2,
+                [5] = 5,
+                [6] = 0,
+                [7] = 0,
+                [8] = 0
+            }
+        }
+
+        table.insert(playerModelSets, zombie)
+
+        local rainbow = {
             model = plushSharkModel,
             viewOffset = plushSharkOffset,
             viewOffsetDucked = plushSharkOffsetDucked,
@@ -151,18 +146,17 @@ function EVENT:Begin()
             bodygroupValues = {
                 [0] = 0,
                 [1] = 2,
-                [2] = 4,
+                [2] = 2,
                 [3] = 0,
-                [4] = 1,
-                [5] = 0,
-                [6] = 5,
+                [4] = 0,
+                [5] = 5,
+                [6] = 0,
                 [7] = 0,
-                [8] = 0,
-                [9] = 0
+                [8] = 0
             }
         }
 
-        table.insert(playerModelSets, rainbowSharky)
+        table.insert(playerModelSets, rainbow)
 
         -- The original left shark playermodel can also be given, if it's installed as well
         if util.IsValidModel("models/freeman/player/left_shark.mdl") then
@@ -210,7 +204,7 @@ function EVENT:Begin()
 
         self:AddHook("Think", function()
             for _, ply in ipairs(self:GetAlivePlayers()) do
-                if chosenPlayermodels[ply] == rainbowSharky then
+                if chosenPlayermodels[ply] == rainbow then
                     local vector = ply:GetPlayerColor()
 
                     if rainbowPhase == 1 then
