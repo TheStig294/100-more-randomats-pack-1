@@ -26,6 +26,11 @@ local pairs = pairs
 local resource = resource
 local CallHook = hook.Call
 
+-- HACK: Workaround to make sure this is defined until the x86-64 branch is updated
+if not string.StartsWith then
+    string.StartsWith = string.StartWith
+end
+
 local function AddServer(fil)
     if SERVER then
         include(fil)
@@ -141,4 +146,11 @@ local clientfiles, _ = file.Find("randomat2/cl_events/*.lua", "LUA")
 
 for _, fil in ipairs(clientfiles) do
     AddClient("randomat2/cl_events/" .. fil)
+end
+
+local sharedfiles, _ = file.Find("randomat2/sh_events/*.lua", "LUA")
+
+for _, fil in ipairs(sharedfiles) do
+    AddServer("randomat2/sh_events/" .. fil)
+    AddClient("randomat2/sh_events/" .. fil)
 end

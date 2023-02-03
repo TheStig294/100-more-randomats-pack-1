@@ -7,6 +7,7 @@ util.AddNetworkString("AlertTriggerFinal")
 util.AddNetworkString("alerteventtrigger")
 util.AddNetworkString("RdmtSetSpeedMultiplier")
 util.AddNetworkString("RdmtSetSpeedMultiplier_WithWeapon")
+util.AddNetworkString("RdmtSetSpeedMultiplier_Sprinting")
 util.AddNetworkString("RdmtRemoveSpeedMultiplier")
 util.AddNetworkString("RdmtRemoveSpeedMultipliers")
 util.AddNetworkString("RdmtEventBegin")
@@ -59,6 +60,7 @@ local CallHook = hook.Call
 local EntsCreate = ents.Create
 local GetAllPlayers = player.GetAll
 local GetAllEnts = ents.GetAll
+local COLOR_BLANK = Color(0, 0, 0, 0)
 --[[
  Event History
 ]]
@@ -161,16 +163,6 @@ end)
  Event Notifications
 ]]
 --
-function Randomat:NotifyDescription(event)
-    -- Show this if "secret" is active if we're specifically showing the description for "secret"
-    if event.Id ~= "secret" and Randomat:IsEventActive("secret") then return end
-    net.Start("randomat_message")
-    net.WriteBool(false)
-    net.WriteString(event.Description)
-    net.WriteUInt(0, 8)
-    net.Broadcast()
-end
-
 function Randomat:ChatDescription(ply, event, has_description)
     -- Show this if "secret" is active if we're specifically showing the description for "secret"
     if event.Id ~= "secret" and Randomat:IsEventActive("secret") then return end
@@ -236,9 +228,10 @@ local function TriggerEvent(event, ply, options, ...)
     if not silent then
         local has_description = event.Description ~= nil and #event.Description > 0
 
-        if has_description and GetConVar("ttt_randomat_event_hint"):GetBool() then
-            -- Show the small description message but don't use SmallNotify because it specifically mutes when "secret" is running and we want to show this if this event IS "secret"
-            Randomat:NotifyDescription(event)
+        -- Show description on screen if it has one, the notification is enabled,
+        -- and if "secret" is not active or if we're specifically showing the description for "secret"
+        if has_description and GetConVar("ttt_randomat_event_hint"):GetBool() and (not Randomat:IsEventActive("secret") or event.Id == "secret") then
+            Randomat:SmallNotify(event.Description, nil, nil, false, true)
         end
 
         if GetConVar("ttt_randomat_event_hint_chat"):GetBool() then
@@ -618,9 +611,9 @@ function Randomat:SilentTriggerHiddenEvent(cmd, ply, reason, ...)
     end
 end
 
-local function SendNotify(msg, big, length, targ, silent)
-    -- Don't broadcast anything when "Secret" is running
-    if Randomat:IsEventActive("secret") then return end
+local function SendNotify(msg, big, length, targ, silent, allow_secret, font_color)
+    -- Don't broadcast anything when "Secret" is running unless we're told to bypass that
+    if not allow_secret and Randomat:IsEventActive("secret") then return end
 
     if not isnumber(length) then
         length = 0
@@ -630,6 +623,7 @@ local function SendNotify(msg, big, length, targ, silent)
     net.WriteBool(big)
     net.WriteString(msg)
     net.WriteUInt(length, 8)
+    net.WriteColor(font_color or COLOR_BLANK)
 
     if not targ then
         net.Broadcast()
@@ -638,12 +632,12 @@ local function SendNotify(msg, big, length, targ, silent)
     end
 end
 
-function Randomat:SmallNotify(msg, length, targ, silent)
-    SendNotify(msg, false, length, targ, silent)
+function Randomat:SmallNotify(msg, length, targ, silent, allow_secret, font_color)
+    SendNotify(msg, false, length, targ, silent, allow_secret, font_color)
 end
 
-function Randomat:Notify(msg, length, targ, silent)
-    SendNotify(msg, true, length, targ, silent)
+function Randomat:Notify(msg, length, targ, silent, allow_secret, font_color)
+    SendNotify(msg, true, length, targ, silent, allow_secret, font_color)
 end
 
 function Randomat:EventNotify(title)
@@ -923,7 +917,7 @@ function Randomat:GetReadableCategory(category)
         return "Game Mode"
     elseif category == "entityspawn" then
         return "Entity Spawn"
-    elseif string.StartWith(category, "biased_") then
+    elseif string.StartsWith(category, "biased_") then
         local parts = string.Explode("_", category)
 
         for k, p in ipairs(parts) do
@@ -1024,8 +1018,8 @@ function randomat_meta:GetDeadPlayers(shuffle)
     return Randomat:GetPlayers(shuffle, false, true)
 end
 
-function randomat_meta:SmallNotify(msg, length, targ)
-    Randomat:SmallNotify(msg, length, targ)
+function randomat_meta:SmallNotify(msg, length, targ, silent, allow_secret, font_color)
+    Randomat:SmallNotify(msg, length, targ, silent, allow_secret, font_color)
 end
 
 function randomat_meta:AddHook(hooktype, callbackfunc, suffix)
@@ -1324,6 +1318,31 @@ function randomat_meta:AddEntityCullingBypass(ply_pred, tgt_pred)
             end
         end
     end, "Entities")
+end
+
+-- Credit to The Stig
+function randomat_meta:DisableRoundEndSounds()
+    -- Disables round end sounds mod and 'Ending Flair' event
+    -- So events that that play sounds at the end of the round can do so without overlapping with other sounds/music
+    SetGlobalBool("StopEndingFlairRandomat", true)
+    local roundEndSounds = false
+
+    if ConVarExists("ttt_roundendsounds") and GetConVar("ttt_roundendsounds"):GetBool() then
+        GetConVar("ttt_roundendsounds"):SetBool(false)
+        roundEndSounds = true
+    end
+
+    self:AddHook("TTTEndRound", function()
+        -- Re-enable round end sounds and 'Ending Flair' event
+        timer.Simple(1, function()
+            SetGlobalBool("StopEndingFlairRandomat", false)
+
+            -- Don't turn on round end sounds if they weren't on already
+            if roundEndSounds then
+                GetConVar("ttt_roundendsounds"):SetBool(true)
+            end
+        end)
+    end, "DisableRoundEndSounds")
 end
 
 --[[
