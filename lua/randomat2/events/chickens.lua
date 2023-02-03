@@ -18,6 +18,13 @@ local sndTabPain = {"chickens/pain1.mp3", "chickens/pain2.mp3", "chickens/pain3.
 
 local maxHealth = {}
 
+function EVENT:RemoveBodyDependentRole(ply)
+    if IsBodyDependentRole(ply) then
+        self:StripRoleWeapons(ply)
+        SetToBasicRole(ply)
+    end
+end
+
 function EVENT:Begin()
     local hp = GetConVar("randomat_chickens_hp"):GetInt()
     local sc = GetConVar("randomat_chickens_sc"):GetFloat()
@@ -36,10 +43,11 @@ function EVENT:Begin()
             ply:SetMaxHealth(hp)
         end
 
-        if IsBodyDependentRole(ply) then
-            self:StripRoleWeapons(ply)
-            SetToBasicRole(ply)
-        end
+        self:RemoveBodyDependentRole(ply)
+
+        timer.Simple(2, function()
+            self:RemoveBodyDependentRole(ply)
+        end)
     end
 
     SendFullStateUpdate()
