@@ -241,12 +241,25 @@ hook.Add("TTTBeginRound", "RandomatGetBeginPlayermodels", function()
     end
 end)
 
+local function SetHands(ent, model)
+    if not IsValid(ent) then return end
+    local simpleModelName = player_manager.TranslateToPlayerModelName(model)
+    local handsData = player_manager.TranslatePlayerHands(simpleModelName)
+
+    if handsData then
+        ent:SetModel(handsData.model)
+        ent:SetSkin(handsData.skin)
+        ent:SetBodyGroups(handsData.body)
+    end
+end
+
 function ForceSetPlayermodel(ply, data)
     if IsPlayer(ply) then
         -- If just a model by itself is passed, just set the model and leave it at that
         if not istable(data) then
             if (not isstring(data)) or not util.IsValidModel(data) then return end
             FindMetaTable("Entity").SetModel(ply, data)
+            SetHands(ply:GetHands(), data)
 
             return
         end
@@ -254,6 +267,7 @@ function ForceSetPlayermodel(ply, data)
         -- Else, set everything that's in the data table
         if util.IsValidModel(data.model) then
             FindMetaTable("Entity").SetModel(ply, data.model)
+            SetHands(ply:GetHands(), data.model)
         end
 
         if data.playerColor then
