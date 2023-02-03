@@ -76,8 +76,14 @@ function EVENT:Begin()
         local attacker = dmg:GetAttacker()
         if not IsPlayer(attacker) then return end
         local inflictor = attacker:GetActiveWeapon()
+        if not IsValid(inflictor) then return end
 
-        if IsValid(inflictor) and inflictor:GetClass() == "weapon_ttt_duel_revolver_randomat" then
+        if inflictor:GetClass() == "weapon_zm_improvised" then
+            local duelAttacker = target:GetNWEntity("WesternDuellingPlayer")
+            local duelTarget = attacker:GetNWEntity("WesternDuellingPlayer")
+            attacker:PrintMessage(HUD_PRINTCENTER, "Can't crowbar duelling players!")
+            if IsPlayer(duelAttacker) or IsPlayer(duelTarget) then return true end
+        elseif inflictor:GetClass() == "weapon_ttt_duel_revolver_randomat" then
             local duelAttacker = target:GetNWEntity("WesternDuellingPlayer")
             local duelTarget = attacker:GetNWEntity("WesternDuellingPlayer")
             if not (IsPlayer(duelAttacker) and IsPlayer(duelTarget) and attacker == duelAttacker and target == duelTarget) then return true end
