@@ -1049,6 +1049,63 @@ Tuer quelqu'un avec vos griffes le transformera en {azombie}.
 Appuyez sur la {menukey} pour recevoir votre équipement spécial!]]
 L.zom_claws_help_pri = "Appuyez sur {primaryfire} pour attaquer."
 L.zom_claws_help_sec = "Appuyez sur {secondfire} pour sauter. Appuyez sur {reload} pour cracher."
+-- 2022 Custom Roles translation update
+L.win_lovers = "Les amants ont survécu à tout le monde !"
+L.hilite_lovers_primary = "LES AMOUREUX GAGNENT"
+L.hilite_lovers_secondary = "ET LES AMOUREUX GAGNENT"
+L.ev_win_lovers = "Les amants ont gagné la manche!"
+L.scoreboard_cupid_your_lover = "VOTRE AMANT"
+L.scoreboard_cupid_lover = "AMOUREUSE"
+L.score_cupid_pairnames = "{lover1} et {lover2}"
+L.score_cupid_paired = "Jumelé"
+L.ev_cupid_paired = "{cupid} a fait tomber {lover1} et {lover2} amoureux"
+L.info_popup_cupid_jester = [[Vous êtes {role}! {traitors} pensent que vous êtes {ajester} et vous
+n'inflige aucun dégât. Cependant, vous pouvez utiliser votre arc pour faire deux
+les joueurs tombent amoureux pour gagner/mourir ensemble.]]
+L.info_popup_cupid_indep = [[Vous êtes {role}! Vous pouvez utiliser votre arc pour faire deux
+les joueurs tombent amoureux pour gagner/mourir ensemble.]]
+L.infscanner_help_pri = "Regardez un joueur pour commencer à scanner."
+L.infscanner_help_sec = "Gardez le champ de vision ou vous perdrez votre cible."
+L.infscanner_team = "ÉQUIPE"
+L.infscanner_role = "RÔLE"
+L.infscanner_track = "PISTE"
+L.informant_config_show_radius = "Afficher le cercle du rayon de suivi"
+L.info_popup_informant = [[Vous êtes {role}! {comrades}
+Tenez votre scanner tout en regardant un joueur pour en savoir plus sur lui.
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.marshalbadge_help_pri = "Maintenez {primaryfire} pour suppléer un joueur."
+L.marshalbadge_help_sec = "Le joueur ciblé deviendra un adjoint ou un imitateur"
+L.ev_marshal_deputize = "{target} a été suppléé par {marshal}"
+L.marshal_deputize_announce = "{amarshal} a promu {target} comme {adeputy}"
+L.info_popup_marshal = [[Vous êtes {role}! En tant qu'{adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Vous avez un badge {deputy} qui peut transformer n'importe quel joueur en {deputy}.
+Soyez prudent, cependant! S'il est utilisé sur un mauvais joueur, il deviendra {animpersonator} à la place!
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+L.shadow_find_target = "TROUVEZ VOTRE CIBLE - {time}"
+L.shadow_return_target = "RETOUR A VOTRE CIBLE - {time}"
+L.shadow_target = "VOTRE CIBLE"
+L.ev_win_shadow = "Le {role} est resté proche de sa cible et a également remporté la manche!"
+L.score_shadow_following = "Suivante"
+L.info_popup_shadow = [[Vous êtes {role}! Trouvez votre cible rapidement
+et reste près d'eux. Si vous ne le faites pas, vous mourrez.
+Survivez jusqu'à la fin du tour pour gagner.]]
+L.ev_turncoat = "{nick} est {role} et a rejoint les {traitors}"
+L.tur_changer = "Changeur d'équipe"
+L.tur_changer_help_pri = "Appuyez sur {primaryfire} pour changer d'équipe."
+L.tur_changer_help_sec = "Faire attention! Tout le monde sera informé."
+L.info_popup_turncoat = [[Vous êtes {role}! Vous êtes {aninnocent} qui possède un appareil
+qui vous basculera dans l'équipe {traitor} mais
+l'annoncer à tout le monde. Fais-en bon usage!]]
+L.ev_infected_succumbed = "Le {infected} ({victim}) a succombé à sa maladie et est devenu {azombie}"
+L.infected_hud = "Vous succomberez dans: {time}"
+L.info_popup_infected = [[Vous êtes {role}! Vous avez une maladie secrète
+qui finira par vous transformer en {azombie}!
+Aidez votre équipe à gagner ou attendez que vous tourniez
+et répandre ta maladie jusqu'à la victoire...]]
+L.info_popup_sapper = [[Vous êtes {role}! En tant qu'{adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Vous disposez d'une aura de protection contre les explosions visible par tous.
+Gardez vos amis près de vous, mais ne laissez surtout pas vos ennemis s'approcher!
+Appuyez sur {menukey} pour recevoir votre équipement!]]
 -- Jingle Jam 2021 role translations
 -- Boxer
 L.box_gloves_help_pri = "Utilisez {primaryfire} pour faire tomber les armes des mains des joueurs"

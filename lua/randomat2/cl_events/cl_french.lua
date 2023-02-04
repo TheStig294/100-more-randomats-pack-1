@@ -70,6 +70,7 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Boxeur"] = ROLE_BOXER
     translatedRoles["Pitre"] = ROLE_CLOWN
     translatedRoles["Communiste"] = ROLE_COMMUNIST
+    translatedRoles["Cupidon"] = ROLE_CUPID
     translatedRoles["Adjoint"] = ROLE_DEPUTY
     translatedRoles["Détective"] = ROLE_DETECTIVE
     translatedRoles["Médecin"] = ROLE_DOCTOR
@@ -93,6 +94,7 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Homme Aléatoire"] = ROLE_RANDOMAN
     translatedRoles["Vengeur"] = ROLE_REVENGER
     translatedRoles["Père Noël"] = ROLE_SANTA
+    translatedRoles["Ombre"] = ROLE_SHADOW
     translatedRoles["Échangeur"] = ROLE_SWAPPER
     translatedRoles["Taxidermiste"] = ROLE_TAXIDERMIST
     translatedRoles["Traqueur"] = ROLE_TRACKER
@@ -117,6 +119,7 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Un Boxeur"] = ROLE_BOXER
     translatedRoles["Un Pitre"] = ROLE_CLOWN
     translatedRoles["Un Communiste"] = ROLE_COMMUNIST
+    translatedRoles["Un Cupidon"] = ROLE_CUPID
     translatedRoles["Un Adjoint"] = ROLE_DEPUTY
     translatedRoles["Un Détective"] = ROLE_DETECTIVE
     translatedRoles["Un Médecin"] = ROLE_DOCTOR
@@ -140,6 +143,7 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Un Homme Aléatoire"] = ROLE_RANDOMAN
     translatedRoles["Un Vengeur"] = ROLE_REVENGER
     translatedRoles["Un Père Noël"] = ROLE_SANTA
+    translatedRoles["Un Ombre"] = ROLE_SHADOW
     translatedRoles["Un Échangeur"] = ROLE_SWAPPER
     translatedRoles["Un Taxidermiste"] = ROLE_TAXIDERMIST
     translatedRoles["Un Traqueur"] = ROLE_TRACKER
@@ -164,6 +168,7 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Boxeurs"] = ROLE_BOXER
     translatedRoles["Pitres"] = ROLE_CLOWN
     translatedRoles["Communistes"] = ROLE_COMMUNIST
+    translatedRoles["Cupidons"] = ROLE_CUPID
     translatedRoles["Adjoints"] = ROLE_DEPUTY
     translatedRoles["Détectives"] = ROLE_DETECTIVE
     translatedRoles["Médecins"] = ROLE_DOCTOR
@@ -187,6 +192,7 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Hommes Aléatoire"] = ROLE_RANDOMAN
     translatedRoles["Vengeurs"] = ROLE_REVENGER
     translatedRoles["Père Noëls"] = ROLE_SANTA
+    translatedRoles["Ombres"] = ROLE_SHADOW
     translatedRoles["Échangeurs"] = ROLE_SWAPPER
     translatedRoles["Taxidermistes"] = ROLE_TAXIDERMIST
     translatedRoles["Traqueurs"] = ROLE_TRACKER
@@ -1312,6 +1318,18 @@ net.Receive("FrenchRandomatBegin", function()
         },
         weapon_qua_fake_cure = {
             name = "Guérir les parasites"
+        },
+        weapon_cup_bow = {
+            name = "L'arc de Cupidon"
+        },
+        weapon_mhl_badge = {
+            name = "Insigne d'adjoint"
+        },
+        weapon_old_dbshotgun = {
+            name = "Double baril"
+        },
+        weapon_pha_exorcism = {
+            name = "Dispositif d'exorcisme"
         }
     }
 
