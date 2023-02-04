@@ -131,11 +131,15 @@ if SERVER then
 end
 
 AddServer("randomat2/randomat_base_stig.lua")
+AddServer("randomat2/stig_randomat_server_functions.lua")
 AddServer("randomat2/randomat_shared_stig.lua")
 AddClient("randomat2/randomat_shared_stig.lua")
+AddServer("randomat2/stig_randomat_shared_functions.lua")
+AddClient("randomat2/stig_randomat_shared_functions.lua")
 AddClient("randomat2/cl_common_stig.lua")
 AddClient("randomat2/cl_message_stig.lua")
 AddClient("randomat2/cl_networkstrings_stig.lua")
+AddClient("randomat2/stig_randomat_client_functions.lua")
 local files, _ = file.Find("randomat2/events/*.lua", "LUA")
 
 for _, fil in ipairs(files) do
