@@ -275,6 +275,7 @@ Effects.meme = {
             -- StigMemeASCII table is found in lua/autorun/stig_meme_ascii.lua
             net.WriteString(StigMemeASCII[math.random(1, #StigMemeASCII)])
             net.WriteUInt(5, 8)
+            net.WriteColor(Color(255, 200, 0, 255), true)
             net.Send(ply)
             ply.MakeMemeRandomatCooldown = true
 
@@ -389,6 +390,7 @@ function EVENT:Begin()
         net.WriteBool(true)
         net.WriteString(randomatName)
         net.WriteUInt(5, 8)
+        net.WriteColor(Color(255, 200, 0, 255), true)
         net.Broadcast()
 
         -- Displays the description
@@ -397,6 +399,7 @@ function EVENT:Begin()
             net.WriteBool(false)
             net.WriteString(randomatDesc)
             net.WriteUInt(5, 8)
+            net.WriteColor(Color(255, 200, 0, 255), true)
             net.Broadcast()
         end)
 
