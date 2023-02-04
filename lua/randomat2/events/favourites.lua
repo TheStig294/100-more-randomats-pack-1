@@ -30,14 +30,12 @@ function EVENT:Begin()
         -- Also effectively sets the player's most bought item to the body armour and radar as a fail-safe if the player has never bought anything before
         equipmentStats["item_radar"] = 1
         equipmentStats["item_armor"] = 1
-        local wepKind = 10
         local itemCount = math.min(GetConVar("randomat_favourites_given_items_count"):GetInt(), table.Count(equipmentStats))
 
         for i = 1, itemCount do
             local mostBoughtItem = table.GetWinningKey(equipmentStats)
-            GiveEquipmentByIdOrClass(ply, mostBoughtItem, wepKind)
+            GivePassiveOrActiveItem(ply, mostBoughtItem, true)
             equipmentStats[mostBoughtItem] = 0
-            wepKind = wepKind + 1
         end
     end
 end

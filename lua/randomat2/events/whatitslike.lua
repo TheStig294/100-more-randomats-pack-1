@@ -44,7 +44,6 @@ function EVENT:Begin()
         equipmentStats[mostBoughtItem] = 0
     end
 
-    local wepKind = 10
     local playermodelData = GetPlayerModelData(randomPly)
 
     for _, ply in pairs(self:GetAlivePlayers()) do
@@ -58,8 +57,7 @@ function EVENT:Begin()
 
         -- Give everyone the chosen player's most bought items
         for _, item in ipairs(mostBoughtItems) do
-            GiveEquipmentByIdOrClass(ply, item, wepKind)
-            wepKind = wepKind + 1
+            GivePassiveOrActiveItem(ply, item, true)
         end
     end
 
