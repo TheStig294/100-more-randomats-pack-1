@@ -26,99 +26,70 @@ function EVENT:Begin()
     eventTriggered = true
     self.Description = GetDescription()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua
-    local stats = randomatPlayerStats
-    -- Functionality of GetDetectiveBuyable() and GetTraitorBuyable() can be found in stig_randomat_base_functions.lua and stig_randomat_client_functions.lua
-    local detectiveBuyable = GetDetectiveBuyable()
-    local traitorBuyable = GetTraitorBuyable()
-    local buyableEquipment = table.GetKeys(table.Merge(detectiveBuyable, traitorBuyable))
-    local boughtEmAllPlayers = {}
+    local stats = GetRandomatPlayerStats()
+    -- GetTraitorDetectiveBuyable() is from stig_randomat_server_functions.lua
+    local buyableEquipment = table.GetKeys(GetTraitorDetectiveBuyable())
+    local boughtAllPlys = {}
 
     for _, ply in pairs(self:GetAlivePlayers()) do
-        local ID = ply:SteamID()
-        local equipmentStats = table.Copy(stats[ID]["EquipmentItems"])
+        local equipmentStats = table.Copy(stats[ply:SteamID()]["EquipmentItems"])
         local boughtEquipment = table.GetKeys(equipmentStats)
         local unboughtEquipment = table.Copy(buyableEquipment)
 
-        for i, equipment in ipairs(unboughtEquipment) do
-            local item = tonumber(equipment)
-
-            if item then
-                item = math.floor(item)
-                local itemTable = GetEquipmentItem(ROLE_DETECTIVE, item) or GetEquipmentItem(ROLE_TRAITOR, item)
-                local name
-
-                if itemTable then
-                    name = itemTable.name
-                end
-
-                if name then
-                    unboughtEquipment[i] = name
-                end
-            end
-        end
-
         -- Remove all bought weapons from the unboughtEquipment table
-        for _, equipment in ipairs(boughtEquipment) do
-            table.RemoveByValue(unboughtEquipment, equipment)
+        -- Doing it this way avoids counting traitor items that have been since removed from the server counting towards the total number bought
+        for _, equ in ipairs(boughtEquipment) do
+            table.RemoveByValue(unboughtEquipment, equ)
         end
 
-        if table.IsEmpty(unboughtEquipment) then
-            ply:PrintMessage(HUD_PRINTTALK, "==CONGRATS! YOU BOUGHT 'EM ALL!==\nYou get to choose a randomat at the start of each round!")
-            ply:PrintMessage(HUD_PRINTCENTER, "CONGRATS! YOU BOUGHT 'EM ALL!")
+        if table.IsEmpty(unboughtEquipment) or unboughtEquipment == {} then
+            ply:PrintMessage(HUD_PRINTTALK, "For buying every detective/traitor item at least once,\nyou get to make a randomat at the start of each round,\nuntil the next map!")
             -- This table is needed in case multiple players bought everything
-            -- in which case, a random player will be chosen out of each of them to choose a randomat at the start of each round
-            table.insert(boughtEmAllPlayers, ply)
+            -- in which case, a random player will be chosen out of each of them to make a randomat at the start of each round
+            table.insert(boughtAllPlys, ply)
             continue
         end
 
         -- Shuffle the table and only give out as many items as the player has unbought
         -- So if the player has 1 unbought item, they should get 1 item
-        local itemCount = math.min(GetConVar("randomat_buyemall_given_items_count"):GetInt(), table.Count(unboughtEquipment))
+        local itemCount = math.min(GetConVar("randomat_buyemall_given_items_count"):GetInt(), #unboughtEquipment)
         table.Shuffle(unboughtEquipment)
-        local wepKind = 10
 
+        -- Giving unbought items, if any
         for i = 1, itemCount do
-            GiveEquipmentByIdOrClass(ply, unboughtEquipment[i], wepKind)
-            wepKind = wepKind + 1
+            GivePassiveOrActiveItem(ply, unboughtEquipment[i], true)
         end
     end
 
-    local choices = GetConVar("randomat_choose_choices"):GetInt()
-
-    if not table.IsEmpty(boughtEmAllPlayers) then
-        GetConVar("randomat_choose_choices"):SetInt(5)
-
+    if not table.IsEmpty(boughtAllPlys) and boughtAllPlys ~= {} then
         -- Displays a randomat alert and message to chat for everyone displaying which players have bought all weapons
         timer.Simple(5, function()
             Randomat:SmallNotify("One or more players bought 'em all!")
-            PrintMessage(HUD_PRINTTALK, "Players who have bought every item at least once:")
+            PrintMessage(HUD_PRINTTALK, "Players who have bought every traitor/detective item at least once:")
 
-            for _, ply in ipairs(boughtEmAllPlayers) do
+            for _, ply in ipairs(boughtAllPlys) do
                 PrintMessage(HUD_PRINTTALK, ply:Nick())
             end
         end)
 
         timer.Simple(10, function()
-            Randomat:SmallNotify("They now get to choose a randomat at the start of every round, for the rest of the map!")
+            Randomat:SmallNotify("They now get to make a randomat at the start of every round, for the rest of the map!")
         end)
 
-        -- At the start of every round, for the rest of the current map, a random player that bought every weapon gets to choose the randomat for that round
+        -- At the start of every round, for the rest of the current map, a random player that bought every weapon gets to make the randomat for that round
         hook.Add("TTTRandomatShouldAuto", "BuyEmAllPreventAutoRandomat", function(id, owner) return false end)
 
         hook.Add("TTTBeginRound", "BoughtEmAllRandomat", function()
-            Randomat:SilentTriggerEvent("choose", table.Random(boughtEmAllPlayers), false, false)
-        end)
-
-        hook.Add("ShutDown", "BoughtEmAllResetConvar", function()
-            GetConVar("randomat_choose_choices"):SetInt(choices)
+            local rdmPly = boughtAllPlys[math.random(#boughtAllPlys)]
+            rdmPly:ChatPrint("Make a randomat because you bought 'em all!")
+            Randomat:SilentTriggerEvent("make", rdmPly)
         end)
     end
 end
 
 function EVENT:Condition()
-    -- This event is reliant on 'Choose an Event!' existing, can only trigger once a map, 
-    -- and uses GetDetective/TraitorBuyable(), so this event cannot run before those functions are ready to use
-    return Randomat:CanEventRun("choose") and DoneSendingDetectiveTraitorBuyable() and not eventTriggered
+    -- This event can only trigger once a map to prevent multiple people making randomats at once
+    return not eventTriggered
 end
 
 function EVENT:GetConVars()
