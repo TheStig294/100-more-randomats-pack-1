@@ -1,7 +1,7 @@
-local roleStringsOrig = {}
-local roleStringsExtOrig = {}
-local roleStringsPluralOrig = {}
-local customPassiveItemsOrig = {}
+local roleStringsOrig
+local roleStringsExtOrig
+local roleStringsPluralOrig
+local customPassiveItemsOrig
 local flagPanelFrame
 local music
 
@@ -214,6 +214,8 @@ net.Receive("FrenchRandomatBegin", function()
     if not isnumber(ROLE_MAX) then
         ROLE_MAX = 2
     end
+
+    customPassiveItemsOrig = {}
 
     for role = 1, ROLE_MAX do
         if SHOP_ROLES[role] then
@@ -1396,14 +1398,16 @@ end)
 net.Receive("FrenchRandomatEnd", function()
     RunConsoleCommand("ttt_language", "auto")
     -- Resets the names of roles
-    ROLE_STRINGS = roleStringsOrig
-    ROLE_STRINGS_EXT = roleStringsExtOrig
-    ROLE_STRINGS_PLURAL = roleStringsPluralOrig
+    ROLE_STRINGS = roleStringsOrig or ROLE_STRINGS
+    ROLE_STRINGS_EXT = roleStringsExtOrig or ROLE_STRINGS_EXT
+    ROLE_STRINGS_PLURAL = roleStringsPluralOrig or ROLE_STRINGS_PLURAL
 
     -- Resets the names of custom passive items
-    for role = 1, ROLE_MAX do
-        if SHOP_ROLES[role] then
-            EquipmentItems[role] = customPassiveItemsOrig[role]
+    if customPassiveItemsOrig then
+        for role = 1, ROLE_MAX do
+            if SHOP_ROLES[role] then
+                EquipmentItems[role] = customPassiveItemsOrig[role] or EquipmentItems[role]
+            end
         end
     end
 
