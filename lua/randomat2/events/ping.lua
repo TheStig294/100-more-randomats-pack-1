@@ -83,7 +83,7 @@ function EVENT:Begin()
 
     self:AddHook("PostPlayerDeath", function(ply)
         if not GetConVar("randomat_ping_spectators"):GetBool() then return end
-        SpectatorRandomatAlert(ply, EVENT)
+        Randomat:SpectatorRandomatAlert(ply, EVENT)
     end)
 
     -- Forces the area around pings to load so they can always be seen through walls

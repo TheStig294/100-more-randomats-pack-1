@@ -1,3 +1,26 @@
+-- Displaying a message if an incompatible randomat mod is installed
+if engine.ActiveGamemode() == "terrortown" and file.Exists("sound/weapons/randomat_revolver.wav", "GAME") and file.Exists("randomat2/randomat_shared.lua", "lsv") then
+    local roundCount = 0
+
+    hook.Add("TTTBeginRound", "StigDemRandomatInstallMessage", function()
+        roundCount = roundCount + 1
+
+        if (roundCount == 1) or (roundCount == 2) then
+            timer.Simple(4, function()
+                PrintMessage(HUD_PRINTTALK, "Server has 2 incompatible randomat mods installed!\nPRESS 'Y', TYPE /2randomat AND ONLY INSTALL ONE OR THE OTHER\nor see the workshop pages for 'Randomat 2.0',\nand 'Randomat 2.0 for Custom Roles for TTT'.")
+            end)
+        end
+    end)
+
+    hook.Add("PlayerSay", "StigDemRandomatInstallCommand", function(ply, text)
+        if string.lower(text) == "/2randomat" then
+            ply:SendLua("steamworks.ViewFile(\"1406495040\")")
+
+            return ""
+        end
+    end)
+end
+
 util.AddNetworkString("RandomatGetEquipmentPrintNames")
 util.AddNetworkString("RandomatReceiveEquipmentPrintName")
 local traitorBuyable = {}
@@ -34,16 +57,16 @@ hook.Add("TTTPrepareRound", "RandomatPrepareRoundRunOnce", function()
     -- Getting the lists of all buyable equipment by detectives and traitors
     -- First check if its on the SWEP list
     for _, SWEP in pairs(weapons.GetList()) do
-        if IsBuyableItem(ROLE_TRAITOR, SWEP) then
+        if Randomat:IsBuyableItem(ROLE_TRAITOR, SWEP) then
             traitorBuyable[SWEP.ClassName] = true
-        elseif IsBuyableItem(ROLE_DETECTIVE, SWEP) then
+        elseif Randomat:IsBuyableItem(ROLE_DETECTIVE, SWEP) then
             detectiveBuyable[SWEP.ClassName] = true
         end
     end
 
     -- If its not on the SWEP list, then check the equipment items table
     for _, item in pairs(EquipmentItems[ROLE_TRAITOR]) do
-        if IsBuyableItem(ROLE_TRAITOR, item) then
+        if Randomat:IsBuyableItem(ROLE_TRAITOR, item) then
             -- Use name and not ID because this is used for randomat stats and we need a unique identifier
             -- If equipment items are uninstalled from the server, old equipment could start using IDs previously held by other equipment
             -- And thus stats could become mixed with another equipment's stats
@@ -52,7 +75,7 @@ hook.Add("TTTPrepareRound", "RandomatPrepareRoundRunOnce", function()
     end
 
     for _, item in pairs(EquipmentItems[ROLE_DETECTIVE]) do
-        if IsBuyableItem(ROLE_DETECTIVE, item) then
+        if Randomat:IsBuyableItem(ROLE_DETECTIVE, item) then
             -- Use name and not ID because this is used for randomat stats and we need a unique identifier
             -- If equipment items are uninstalled from the server, old equipment could start using IDs previously held by other equipment
             -- And thus stats could become mixed with another equipment's stats
@@ -89,15 +112,15 @@ hook.Add("TTTRoleWeaponUpdated", "RandomatBuyableEquipmentUpdate", function(role
     end
 end)
 
-function GetTraitorBuyable()
+function Randomat:GetTraitorBuyable()
     return traitorBuyable
 end
 
-function GetDetectiveBuyable()
+function Randomat:GetDetectiveBuyable()
     return detectiveBuyable
 end
 
-function GetTraitorDetectiveBuyable()
+function Randomat:GetTraitorDetectiveBuyable()
     return traitorDetectiveBuyable
 end
 
@@ -109,7 +132,7 @@ net.Receive("RandomatReceiveEquipmentPrintName", function(len, ply)
     equPrintNames[id] = printname
 end)
 
-function GetEquipmentPrintName(id)
+function Randomat:GetEquipmentPrintName(id)
     id = tostring(id)
 
     return equPrintNames[id]
@@ -118,7 +141,7 @@ end
 -- Choosing an arbitrary weapon kind so all weapons get given regardless of weapon slots
 local wepKind = 103
 
-function GivePassiveOrActiveItem(ply, equipment, printChat)
+function Randomat:GivePassiveOrActiveItem(ply, equipment, printChat)
     local SWEP = weapons.Get(equipment)
     local givenItem
     local itemID
@@ -179,9 +202,9 @@ function GivePassiveOrActiveItem(ply, equipment, printChat)
             local name
 
             if itemID then
-                name = GetEquipmentPrintName(tostring(itemID))
+                name = Randomat:GetEquipmentPrintName(itemID)
             else
-                name = GetEquipmentPrintName(equipment)
+                name = Randomat:GetEquipmentPrintName(equipment)
             end
 
             ply:ChatPrint("You received a " .. name .. "!")
@@ -191,7 +214,7 @@ function GivePassiveOrActiveItem(ply, equipment, printChat)
     return givenItem
 end
 
-function SetToBasicRole(ply)
+function Randomat:SetToBasicRole(ply)
     if Randomat:IsTraitorTeam(ply) then
         Randomat:SetRole(ply, ROLE_TRAITOR)
     elseif Randomat:IsGoodDetectiveLike(ply) then
@@ -205,14 +228,14 @@ function SetToBasicRole(ply)
     ply:Give("weapon_ttt_unarmed")
 end
 
-function IsBodyDependentRole(ply)
+function Randomat:IsBodyDependentRole(ply)
     local role = ply:GetRole()
     if role == ROLE_PARASITE and ConVarExists("ttt_parasite_respawn_mode") and GetConVar("ttt_parasite_respawn_mode"):GetInt() == 1 then return true end
 
     return role == ROLE_MADSCIENTIST or role == ROLE_HYPNOTIST or role == ROLE_BODYSNATCHER or role == ROLE_PARAMEDIC or role == ROLE_PHANTOM or role == ROLE_TAXIDERMIST
 end
 
-function SpectatorRandomatAlert(ply, EVENT)
+function Randomat:SpectatorRandomatAlert(ply, EVENT)
     ply:PrintMessage(HUD_PRINTCENTER, "Spectator Randomat Active!")
     local title = EVENT.Title or EVENT.AltTitle or "A spectator randomat"
     local desc = EVENT.Description or EVENT.ExtDescription or ""
@@ -228,31 +251,5 @@ function SpectatorRandomatAlert(ply, EVENT)
                 ply:PrintMessage(HUD_PRINTCENTER, title)
             end
         end)
-    end)
-end
-
-function DisableRoundEndSounds()
-    -- Disables round end sounds mod and 'Ending Flair' event
-    -- So events that that play sounds at the end of the round can do so without overlapping with other sounds/music
-    SetGlobalBool("StopEndingFlairRandomat", true)
-    local roundEndSounds = false
-
-    if ConVarExists("ttt_roundendsounds") and GetConVar("ttt_roundendsounds"):GetBool() then
-        GetConVar("ttt_roundendsounds"):SetBool(false)
-        roundEndSounds = true
-    end
-
-    hook.Add("TTTEndRound", "RandomatReenableRoundEndSounds", function()
-        -- Re-enable round end sounds and 'Ending Flair' event
-        timer.Simple(1, function()
-            SetGlobalBool("StopEndingFlairRandomat", false)
-
-            -- Don't turn on round end sounds if they weren't on already
-            if roundEndSounds then
-                GetConVar("ttt_roundendsounds"):SetBool(true)
-            end
-        end)
-
-        hook.Remove("TTTEndRound", "RandomatReenableRoundEndSounds")
     end)
 end

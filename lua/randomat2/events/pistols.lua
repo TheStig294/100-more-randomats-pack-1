@@ -29,7 +29,7 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
-    DisableRoundEndSounds()
+    self:DisableRoundEndSounds()
 
     self:AddHook("Think", function()
         -- Initial trigger code runs once

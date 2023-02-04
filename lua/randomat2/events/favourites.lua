@@ -34,7 +34,7 @@ function EVENT:Begin()
 
         for i = 1, itemCount do
             local mostBoughtItem = table.GetWinningKey(equipmentStats)
-            GivePassiveOrActiveItem(ply, mostBoughtItem, true)
+            Randomat:GivePassiveOrActiveItem(ply, mostBoughtItem, true)
             equipmentStats[mostBoughtItem] = 0
         end
     end

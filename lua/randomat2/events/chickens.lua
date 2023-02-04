@@ -19,9 +19,9 @@ local sndTabPain = {"chickens/pain1.mp3", "chickens/pain2.mp3", "chickens/pain3.
 local maxHealth = {}
 
 function EVENT:RemoveBodyDependentRole(ply)
-    if IsBodyDependentRole(ply) then
+    if Randomat:IsBodyDependentRole(ply) then
         self:StripRoleWeapons(ply)
-        SetToBasicRole(ply)
+        Randomat:SetToBasicRole(ply)
     end
 end
 
@@ -32,7 +32,7 @@ function EVENT:Begin()
     maxHealth = {}
 
     for k, ply in pairs(self:GetAlivePlayers()) do
-        ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
+        Randomat:ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
         maxHealth[ply] = ply:GetMaxHealth()
 
         if hp < ply:Health() then
@@ -111,7 +111,7 @@ function EVENT:Begin()
     -- Sets a player's model to a chicken and set health if they respawn
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
+            Randomat:ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
 
             if hp < ply:Health() then
                 ply:SetHealth(hp)
@@ -125,7 +125,7 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    ForceResetAllPlayermodels()
+    Randomat:ForceResetAllPlayermodels()
     timer.Remove("RdmtChickenIdleSounds")
     timer.Remove("RdmtChickenHp")
     -- Reset the player speed on the client
@@ -152,7 +152,7 @@ function EVENT:Condition()
     local bodyDependentRoleExists = false
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
-        if IsBodyDependentRole(ply) then
+        if Randomat:IsBodyDependentRole(ply) then
             bodyDependentRoleExists = true
             break
         end

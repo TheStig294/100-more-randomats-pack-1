@@ -15,7 +15,7 @@ function EVENT:Begin()
 
     -- Players who RDM have their head forced down
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
-        if victim and attacker and victim ~= attacker and victim:IsPlayer() and attacker:IsPlayer() and IsSameTeam(attacker, victim) then
+        if victim and attacker and victim ~= attacker and victim:IsPlayer() and attacker:IsPlayer() and Randomat:IsSameTeam(attacker, victim) then
             net.Start("GuiltyRandomatTrigger")
             net.WriteInt(GetConVar("randomat_guilt_time"):GetInt(), 8)
             net.Send(attacker)

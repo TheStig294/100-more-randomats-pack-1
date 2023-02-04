@@ -44,10 +44,10 @@ EVENT.Categories = {"largeimpact"}
 function EVENT:Begin()
     self.Description = GetDescription()
     local chosenPly = table.Random(self:GetAlivePlayers())
-    local chosenPlyModelData = GetPlayerModelData(chosenPly)
+    local chosenPlyModelData = Randomat:GetPlayerModelData(chosenPly)
 
     for k, ply in pairs(self:GetAlivePlayers()) do
-        ForceSetPlayermodel(ply, chosenPlyModelData)
+        Randomat:ForceSetPlayermodel(ply, chosenPlyModelData)
 
         if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
             -- If CR is not installed, use the fallback method of hiding names by using TTT's in-built disguiser functionality
@@ -66,7 +66,7 @@ function EVENT:Begin()
     -- Sets someone's playermodel again when respawning
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            ForceSetPlayermodel(ply, chosenPlyModelData)
+            Randomat:ForceSetPlayermodel(ply, chosenPlyModelData)
 
             if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
                 ply:SetNWBool("disguised", true)
@@ -81,7 +81,7 @@ function EVENT:End()
         net.Broadcast()
     end
 
-    ForceResetAllPlayermodels()
+    Randomat:ForceResetAllPlayermodels()
 end
 
 function EVENT:GetConVars()

@@ -7,9 +7,9 @@ EVENT.Categories = {"deathtrigger", "smallimpact", "biased_traitor", "biased"}
 
 function EVENT:Begin()
     for _, ply in ipairs(self:GetAlivePlayers()) do
-        if IsBodyDependentRole(ply) then
+        if Randomat:IsBodyDependentRole(ply) then
             self:StripRoleWeapons(ply)
-            SetToBasicRole(ply)
+            Randomat:SetToBasicRole(ply)
         end
     end
 
@@ -32,7 +32,7 @@ function EVENT:Condition()
     local bodyDependentRoleExists = false
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
-        if IsBodyDependentRole(ply) then
+        if Randomat:IsBodyDependentRole(ply) then
             bodyDependentRoleExists = true
             break
         end

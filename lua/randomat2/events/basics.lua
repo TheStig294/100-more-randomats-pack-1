@@ -246,12 +246,12 @@ function EVENT:Begin()
     -- Sets someone's playermodel again when respawning
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            ForceSetPlayermodel(ply, chosenModel)
+            Randomat:ForceSetPlayermodel(ply, chosenModel)
         end)
     end)
 
     for _, ply in pairs(player.GetAll()) do
-        ForceSetPlayermodel(ply, chosenModel)
+        Randomat:ForceSetPlayermodel(ply, chosenModel)
 
         -- Removing passive items
         if Randomat:IsTraitorTeam(ply) or Randomat:IsGoodDetectiveLike(ply) then
@@ -424,7 +424,7 @@ function EVENT:End()
             end
         end
 
-        ForceResetAllPlayermodels()
+        Randomat:ForceResetAllPlayermodels()
 
         if ConVarExists("ttt_round_summary_tabs") then
             GetConVar("ttt_round_summary_tabs"):SetString(summaryTabs)

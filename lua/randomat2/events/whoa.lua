@@ -48,7 +48,7 @@ function EVENT:Begin()
 
     for k, ply in pairs(player.GetAll()) do
         if modelExists then
-            ForceSetPlayermodel(ply, "models/bandicoot/bandicoot.mdl")
+            Randomat:ForceSetPlayermodel(ply, "models/bandicoot/bandicoot.mdl")
         end
     end
 
@@ -85,7 +85,7 @@ function EVENT:Begin()
     if modelExists then
         self:AddHook("PlayerSpawn", function(ply)
             timer.Simple(1, function()
-                ForceSetPlayermodel(ply, "models/bandicoot/bandicoot.mdl")
+                Randomat:ForceSetPlayermodel(ply, "models/bandicoot/bandicoot.mdl")
             end)
         end)
     end
@@ -99,7 +99,7 @@ end
 
 function EVENT:End()
     timer.Remove("RandomatWhoaTimer")
-    ForceResetAllPlayermodels()
+    Randomat:ForceResetAllPlayermodels()
 end
 
 function EVENT:Condition()

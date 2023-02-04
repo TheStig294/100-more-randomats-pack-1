@@ -44,7 +44,7 @@ function EVENT:Begin()
         end)
 
         self:AddHook("PostPlayerDeath", function(ply)
-            SpectatorRandomatAlert(ply, EVENT)
+            Randomat:SpectatorRandomatAlert(ply, EVENT)
         end)
     end)
 end
@@ -58,7 +58,7 @@ function EVENT:Condition()
         if ply:IsSpec() then return false end
     end
 
-    return MapHasProps()
+    return Randomat:MapHasProps()
 end
 
 function EVENT:GetConVars()

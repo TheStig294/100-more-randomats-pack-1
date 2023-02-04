@@ -8,12 +8,12 @@ EVENT.Categories = {"fun", "moderateimpact"}
 function EVENT:Begin()
     -- Petrify all players
     for i, ply in pairs(self:GetAlivePlayers()) do
-        ForceSetPlayermodel(ply, "models/player.mdl")
+        Randomat:ForceSetPlayermodel(ply, "models/player.mdl")
         ply.soundPlaying = false
 
-        if IsBodyDependentRole(ply) then
+        if Randomat:IsBodyDependentRole(ply) then
             self:StripRoleWeapons(ply)
-            SetToBasicRole(ply)
+            Randomat:SetToBasicRole(ply)
         end
     end
 
@@ -42,7 +42,7 @@ function EVENT:Begin()
     -- Sets someone's playermodel again when respawning
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            ForceSetPlayermodel(ply, "models/player.mdl")
+            Randomat:ForceSetPlayermodel(ply, "models/player.mdl")
             ply.soundPlaying = false
         end)
     end)
@@ -54,7 +54,7 @@ function EVENT:End()
         ply:StopSound("physics\\concrete\\concrete_scrape_smooth_loop1.wav")
     end
 
-    ForceResetAllPlayermodels()
+    Randomat:ForceResetAllPlayermodels()
 end
 
 -- Checking if someone is a body dependent role and if it isn't at the start of the round, prevent the event from running
@@ -62,7 +62,7 @@ function EVENT:Condition()
     local bodyDependentRoleExists = false
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
-        if IsBodyDependentRole(ply) then
+        if Randomat:IsBodyDependentRole(ply) then
             bodyDependentRoleExists = true
             break
         end

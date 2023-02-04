@@ -1,4 +1,4 @@
---Disabling fg addon's chat message to clear up chat box for randomat alerts (if installed)
+-- Disabling fg addon's chat message to clear up chat box for randomat alerts (if installed)
 RunConsoleCommand("ttt_fgaddons_textmessage", "0")
 
 -- Just to catch any poorly written randomat packs that call the register function on the client somehow

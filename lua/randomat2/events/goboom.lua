@@ -16,7 +16,7 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    return MapHasProps()
+    return Randomat:MapHasProps()
 end
 
 Randomat:register(EVENT)

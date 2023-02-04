@@ -9,9 +9,9 @@ EVENT.Categories = {"biased_innocent", "biased", "moderateimpact"}
 
 function EVENT:Begin()
     for _, ply in ipairs(self:GetAlivePlayers()) do
-        if IsMeleeDamageRole(ply) then
+        if Randomat:IsMeleeDamageRole(ply) then
             self:StripRoleWeapons(ply)
-            SetToBasicRole(ply)
+            Randomat:SetToBasicRole(ply)
         end
     end
 
@@ -34,7 +34,7 @@ function EVENT:Condition()
     local meleeDamageRoleExists = false
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
-        if IsMeleeDamageRole(ply) then
+        if Randomat:IsMeleeDamageRole(ply) then
             meleeDamageRoleExists = true
             break
         end

@@ -75,7 +75,7 @@ function EVENT:Begin()
     if modelExists then
         for i, ply in ipairs(self:GetAlivePlayers()) do
             if ply:GetModel() == "models/bna/michiru.mdl" or ply:Nick() == "boba" then
-                ForceSetPlayermodel(ply, "models/vinrax/player/mgs_solid_snake.mdl")
+                Randomat:ForceSetPlayermodel(ply, "models/vinrax/player/mgs_solid_snake.mdl")
                 ply:ChatPrint("Your name or model has triggered an easter egg!\nYour playermodel has changed for this randomat")
             end
         end
@@ -83,7 +83,7 @@ function EVENT:Begin()
         self:AddHook("PlayerSpawn", function(ply)
             timer.Simple(1, function()
                 if ply:GetModel() == "models/bna/michiru.mdl" or ply:Nick() == "boba" then
-                    ForceSetPlayermodel(ply, "models/vinrax/player/mgs_solid_snake.mdl")
+                    Randomat:ForceSetPlayermodel(ply, "models/vinrax/player/mgs_solid_snake.mdl")
                 end
             end)
         end)
@@ -101,7 +101,7 @@ function EVENT:End()
 
         timer.Remove("SpeedrunRandomatAnnouncerTimer")
         -- Prevent the end function from being run until this randomat triggers again
-        ForceResetAllPlayermodels()
+        Randomat:ForceResetAllPlayermodels()
     end
 end
 

@@ -71,7 +71,7 @@ function EVENT:Begin()
             ply:SetDefaultCredits()
 
             if util.IsValidModel("models/player/jenssons/kermit.mdl") then
-                ForceSetPlayermodel(ply, "models/player/jenssons/kermit.mdl")
+                Randomat:ForceSetPlayermodel(ply, "models/player/jenssons/kermit.mdl")
             end
         end
     end
@@ -111,7 +111,7 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    ForceResetAllPlayermodels()
+    Randomat:ForceResetAllPlayermodels()
 end
 
 Randomat:register(EVENT)

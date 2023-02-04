@@ -13,7 +13,7 @@ local playermodelData = {}
 function EVENT:Begin()
     for _, ply in pairs(self:GetAlivePlayers()) do
         playerModels[ply] = ply:GetModel()
-        playermodelData[ply:GetModel()] = GetPlayerModelData(ply)
+        playermodelData[ply:GetModel()] = Randomat:GetPlayerModelData(ply)
     end
 
     -- Initially add all player's models to the pool of models not yet picked
@@ -33,8 +33,8 @@ function EVENT:Begin()
         if table.IsEmpty(remainingModels) then
             for _, rdmply in ipairs(self:GetAlivePlayers(true)) do
                 if ply ~= rdmply then
-                    ForceSetPlayermodel(rdmply, GetPlayerModelData(ply))
-                    ForceSetPlayermodel(ply, GetPlayerModelData(rdmply))
+                    Randomat:ForceSetPlayermodel(rdmply, Randomat:GetPlayerModelData(ply))
+                    Randomat:ForceSetPlayermodel(ply, Randomat:GetPlayerModelData(rdmply))
                     break
                 end
             end
@@ -42,7 +42,7 @@ function EVENT:Begin()
             -- Randomly choose a playermodel that hasn't yet been chosen
             local chosenModel = table.Random(remainingModels)
             -- Set them to that model
-            ForceSetPlayermodel(ply, playermodelData[chosenModel])
+            Randomat:ForceSetPlayermodel(ply, playermodelData[chosenModel])
             -- Keep track of who received that playermodel
             swapModels[ply] = chosenModel
             -- And remove that model from the pool of possible playermodels
@@ -58,7 +58,7 @@ function EVENT:Begin()
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
             if swapModels[ply] ~= nil then
-                ForceSetPlayermodel(ply, playermodelData[swapModels[ply]])
+                Randomat:ForceSetPlayermodel(ply, playermodelData[swapModels[ply]])
             end
         end)
     end)
@@ -70,7 +70,7 @@ function EVENT:End()
     table.Empty(remainingModels)
     table.Empty(playerModels)
     table.Empty(playermodelData)
-    ForceResetAllPlayermodels()
+    Randomat:ForceResetAllPlayermodels()
 end
 
 Randomat:register(EVENT)

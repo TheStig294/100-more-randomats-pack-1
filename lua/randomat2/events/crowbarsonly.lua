@@ -31,9 +31,9 @@ function EVENT:Begin()
 
     -- Give out crowbars in case players don't have one
     for i, ply in pairs(self:GetAlivePlayers()) do
-        if IsMeleeDamageRole(ply) then
+        if Randomat:IsMeleeDamageRole(ply) then
             self:StripRoleWeapons(ply)
-            SetToBasicRole(ply)
+            Randomat:SetToBasicRole(ply)
         end
 
         timer.Simple(0.1, function()
@@ -68,7 +68,7 @@ function EVENT:Condition()
     local meleeDamageRoleExists = false
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
-        if IsMeleeDamageRole(ply) then
+        if Randomat:IsMeleeDamageRole(ply) then
             meleeDamageRoleExists = true
             break
         end

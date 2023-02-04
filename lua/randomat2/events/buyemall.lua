@@ -27,8 +27,8 @@ function EVENT:Begin()
     self.Description = GetDescription()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua
     local stats = GetRandomatPlayerStats()
-    -- GetTraitorDetectiveBuyable() is from stig_randomat_server_functions.lua
-    local buyableEquipment = table.GetKeys(GetTraitorDetectiveBuyable())
+    -- Randomat:GetTraitorDetectiveBuyable() is from stig_randomat_server_functions.lua
+    local buyableEquipment = table.GetKeys(Randomat:GetTraitorDetectiveBuyable())
     local boughtAllPlys = {}
 
     for _, ply in pairs(self:GetAlivePlayers()) do
@@ -57,7 +57,7 @@ function EVENT:Begin()
 
         -- Giving unbought items, if any
         for i = 1, itemCount do
-            GivePassiveOrActiveItem(ply, unboughtEquipment[i], true)
+            Randomat:GivePassiveOrActiveItem(ply, unboughtEquipment[i], true)
         end
     end
 

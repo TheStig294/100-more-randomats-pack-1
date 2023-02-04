@@ -46,7 +46,7 @@ function EVENT:Begin()
         local chair
 
         if model == rythianModel then
-            ForceSetPlayermodel(ply, rythianModel)
+            Randomat:ForceSetPlayermodel(ply, rythianModel)
         else
             ply.oldViewOffset = ply:GetViewOffset()
             ply.oldViewOffsetDucked = ply:GetViewOffsetDucked()

@@ -43,14 +43,14 @@ function EVENT:Begin()
     net.WriteEntity(copycat)
     net.Broadcast()
     -- Model
-    local modelData = GetPlayerModelData(copiedPlayer)
-    ForceSetPlayermodel(copycat, modelData)
+    local modelData = Randomat:GetPlayerModelData(copiedPlayer)
+    Randomat:ForceSetPlayermodel(copycat, modelData)
 
     self:AddHook("PlayerSpawn", function(ply)
         if ply ~= copycat then return end
 
         timer.Simple(1, function()
-            ForceSetPlayermodel(ply, modelData)
+            Randomat:ForceSetPlayermodel(ply, modelData)
         end)
     end)
 

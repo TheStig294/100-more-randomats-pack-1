@@ -13,7 +13,7 @@ function EVENT:Begin()
     self:AddHook("PostPlayerDeath", function(ply)
         net.Start("DiscordSoundRandomatBegin")
         net.Send(ply)
-        SpectatorRandomatAlert(ply, EVENT)
+        Randomat:SpectatorRandomatAlert(ply, EVENT)
     end)
 
     self:AddHook("PlayerButtonDown", function(ply, button)

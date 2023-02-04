@@ -11,12 +11,12 @@ function math.randomseed(seed)
 end
 
 -- Returns whether or not the current map has a navmesh. Used for randomats that use ai-based weapons that need a navmesh to work, such as the guard dog or killer snail randomats
-function MapHasAI()
+function Randomat:MapHasAI()
     return file.Exists("maps/" .. game.GetMap() .. ".nav", "GAME")
 end
 
 -- Takes 2 players and checks if they are on the same team, checking one team at a time
-function IsSameTeam(attacker, victim)
+function Randomat:IsSameTeam(attacker, victim)
     if (Randomat:IsInnocentTeam(attacker, false) and Randomat:IsInnocentTeam(victim, false)) or (Randomat:IsTraitorTeam(attacker) and Randomat:IsTraitorTeam(victim)) or (Randomat:IsMonsterTeam(attacker) and Randomat:IsMonsterTeam(victim)) then
         return true
     else
@@ -24,7 +24,7 @@ function IsSameTeam(attacker, victim)
     end
 end
 
-function IsBuyableItem(role, wep)
+function Randomat:IsBuyableItem(role, wep)
     if isstring(wep) then
         wep = weapons.Get(wep)
     end
@@ -81,7 +81,7 @@ end
 -- Other than avoiding jankyness with the timing of net messages, 
 -- this function ensures playermodel changing randomats reset players to their actual playermodels
 -- when multiple playermodel changing randomats trigger in one round
-function GetPlayerModelData(ply)
+function Randomat:GetPlayerModelData(ply)
     local data = {}
     data.model = ply:GetModel()
     data.viewOffset = ply:GetViewOffset()
@@ -110,7 +110,7 @@ local function SetHands(ent, model)
     end
 end
 
-function ForceSetPlayermodel(ply, data)
+function Randomat:ForceSetPlayermodel(ply, data)
     if IsPlayer(ply) then
         -- If just a model by itself is passed, just set the model and leave it at that
         if not istable(data) then
@@ -165,31 +165,31 @@ local playermodelData = {}
 
 hook.Add("TTTBeginRound", "RandomatGetBeginPlayermodels", function()
     for _, ply in ipairs(player.GetAll()) do
-        playermodelData[ply] = GetPlayerModelData(ply)
+        playermodelData[ply] = Randomat:GetPlayerModelData(ply)
     end
 end)
 
-function ForceResetAllPlayermodels()
+function Randomat:ForceResetAllPlayermodels()
     for _, ply in ipairs(player.GetAll()) do
         if playermodelData[ply] then
-            ForceSetPlayermodel(ply, playermodelData[ply])
+            Randomat:ForceSetPlayermodel(ply, playermodelData[ply])
         end
     end
 end
 
-function IsMeleeDamageRole(ply)
+function Randomat:IsMeleeDamageRole(ply)
     local role = ply:GetRole()
 
     return role == ROLE_ZOMBIE or role == ROLE_KILLER or role == ROLE_MADSCIENTIST
 end
 
-function IsKillCommandSensitiveRole(ply)
+function Randomat:IsKillCommandSensitiveRole(ply)
     local role = ply:GetRole()
 
     return role == ROLE_MADSCIENTIST or role == ROLE_ZOMBIE or role == ROLE_PARASITE or role == ROLE_REVENGER or role == ROLE_PHANTOM
 end
 
-function MapHasProps()
+function Randomat:MapHasProps()
     local propCount = table.Count(ents.FindByClass("prop_physics*")) + table.Count(ents.FindByClass("prop_dynamic"))
 
     return propCount > 5

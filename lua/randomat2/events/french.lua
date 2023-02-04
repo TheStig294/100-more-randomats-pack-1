@@ -67,7 +67,7 @@ function EVENT:Begin()
 
     -- Disable round end sounds and 'Ending Flair' event so ending music can play
     if musicConvar:GetBool() then
-        DisableRoundEndSounds()
+        self:DisableRoundEndSounds()
     end
 
     -- Gives anyone that respawns the baguette again

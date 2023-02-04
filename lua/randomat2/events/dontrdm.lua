@@ -26,7 +26,7 @@ end
 function EVENT:Begin()
     self:AddHook("PlayerDeath", function(victim, inflictor, attacker)
         -- Only proceed if the player didn't suicide, and the attacker is another player.
-        if attacker:IsPlayer() and attacker ~= victim and IsSameTeam(attacker, victim) then
+        if attacker:IsPlayer() and attacker ~= victim and Randomat:IsSameTeam(attacker, victim) then
             self:RemoveHook("PlayerDeath")
 
             timer.Create("respawndelaydontrdm", 0.1, 0, function()

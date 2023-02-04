@@ -124,7 +124,7 @@ function EVENT:Begin()
 
     -- Disable round end sounds and 'Ending Flair' event so victory royale music can play
     if GetConVar("randomat_battleroyale2_music"):GetBool() then
-        DisableRoundEndSounds()
+        self:DisableRoundEndSounds()
     end
 end
 

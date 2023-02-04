@@ -44,11 +44,11 @@ function EVENT:Begin()
         equipmentStats[mostBoughtItem] = 0
     end
 
-    local playermodelData = GetPlayerModelData(randomPly)
+    local playermodelData = Randomat:GetPlayerModelData(randomPly)
 
     for _, ply in pairs(self:GetAlivePlayers()) do
         -- Set playermodels and hide names
-        ForceSetPlayermodel(ply, playermodelData)
+        Randomat:ForceSetPlayermodel(ply, playermodelData)
 
         if not CR_VERSION and GetConVar("randomat_whatitslike_disguise"):GetBool() then
             -- Traitors still see names if CR is not installed
@@ -57,7 +57,7 @@ function EVENT:Begin()
 
         -- Give everyone the chosen player's most bought items
         for _, item in ipairs(mostBoughtItems) do
-            GivePassiveOrActiveItem(ply, item, true)
+            Randomat:GivePassiveOrActiveItem(ply, item, true)
         end
     end
 
@@ -69,7 +69,7 @@ function EVENT:Begin()
     -- Sets someone's playermodel again when respawning
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            ForceSetPlayermodel(ply, playermodelData)
+            Randomat:ForceSetPlayermodel(ply, playermodelData)
 
             if not CR_VERSION and GetConVar("randomat_whatitslike_disguise"):GetBool() then
                 ply:SetNWBool("disguised", true)
@@ -79,7 +79,7 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    ForceResetAllPlayermodels()
+    Randomat:ForceResetAllPlayermodels()
 
     if CR_VERSION then
         net.Start("WhatItsLikeRandomatEnd")

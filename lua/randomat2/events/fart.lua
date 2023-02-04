@@ -37,7 +37,7 @@ function EVENT:Begin()
                 givenModel = ravsModel
             end
 
-            ForceSetPlayermodel(ply, givenModel)
+            Randomat:ForceSetPlayermodel(ply, givenModel)
             givenPlayermodels[ply] = givenModel
         end
     end
@@ -46,7 +46,7 @@ function EVENT:Begin()
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
             if givenPlayermodels[ply] then
-                ForceSetPlayermodel(ply, givenPlayermodels[ply])
+                Randomat:ForceSetPlayermodel(ply, givenPlayermodels[ply])
             end
         end)
     end)
