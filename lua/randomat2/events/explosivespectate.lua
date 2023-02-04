@@ -11,10 +11,12 @@ CreateConVar("randomat_explosivespectate_damage", 100, {FCVAR_ARCHIVE, FCVAR_NOT
 
 function EVENT:Begin()
     if GetConVar("randomat_explosivespectate_timer"):GetInt() > 0 then
-        self.Description = "After " .. GetConVar("randomat_explosivespectate_timer"):GetInt() .. " seconds, spectators can left-click while prop-possessing to explode!"
+        self.Description = "After " .. GetConVar("randomat_explosivespectate_timer"):GetInt() .. " seconds, dead players can left-click while prop-possessing to explode!"
     else
-        self.Description = "Left-click while prop-possessing to explode!"
+        self.Description = "Players killed from now on can left-click while prop-possessing to explode!"
     end
+
+    local killedPlys = {}
 
     timer.Create("ExplosiveSpectateRandomatActivation", GetConVar("randomat_explosivespectate_timer"):GetInt(), 1, function()
         if GetConVar("randomat_explosivespectate_timer"):GetInt() > 0 then
@@ -28,24 +30,30 @@ function EVENT:Begin()
                 local ent = ply.propspec and ply.propspec.ent
 
                 if IsValid(ent) then
-                    -- Then create an explosion where the prop is
-                    local explode = ents.Create("env_explosion")
-                    explode:SetPos(ent:GetPos())
-                    explode:SetOwner(victim)
-                    explode:Spawn()
-                    explode:SetKeyValue("iMagnitude", GetConVar("randomat_explosivespectate_damage"):GetString())
-                    explode:SetKeyValue("iRadiusOverride", "256")
-                    explode:Fire("Explode", 0, 0)
-                    explode:EmitSound("weapon_AWP.Single", 200, 200)
-                    -- And remove the prop
-                    ent:Remove()
+                    -- And were killed this round and didn't spawn as a spectator
+                    if killedPlys[ply] then
+                        -- Then create an explosion where the prop is
+                        local explode = ents.Create("env_explosion")
+                        explode:SetPos(ent:GetPos())
+                        explode:SetOwner(victim)
+                        explode:Spawn()
+                        explode:SetKeyValue("iMagnitude", GetConVar("randomat_explosivespectate_damage"):GetString())
+                        explode:SetKeyValue("iRadiusOverride", "256")
+                        explode:Fire("Explode", 0, 0)
+                        explode:EmitSound("weapon_AWP.Single", 200, 200)
+                        -- And remove the prop
+                        ent:Remove()
+                    else
+                        ply:PrintMessage(HUD_PRINTCENTER, "'" .. self.Title .. "' only affects players killed after the event triggered!")
+                    end
                 end
             end
         end)
+    end)
 
-        self:AddHook("PostPlayerDeath", function(ply)
-            Randomat:SpectatorRandomatAlert(ply, EVENT)
-        end)
+    self:AddHook("PostPlayerDeath", function(ply)
+        Randomat:SpectatorRandomatAlert(ply, EVENT)
+        killedPlys[ply] = true
     end)
 end
 
