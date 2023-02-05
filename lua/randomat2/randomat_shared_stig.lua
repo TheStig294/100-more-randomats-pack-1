@@ -505,3 +505,108 @@ function Randomat:SendChatToAll(msg, tbl)
         p:PrintMessage(HUD_PRINTTALK, msg)
     end
 end
+
+-- Player Model functions, credit to The Stig
+local playermodelData = {}
+
+function Randomat:GetPlayerModelData(ply)
+    if not IsPlayer(ply) then return nil end
+    local bodygroupValues = {}
+
+    for _, value in ipairs(ply:GetBodyGroups()) do
+        bodygroupValues[value.id] = ply:GetBodygroup(value.id)
+    end
+
+    return {
+        model = ply:GetModel(),
+        viewOffset = ply:GetViewOffset(),
+        viewOffsetDucked = ply:GetViewOffsetDucked(),
+        playerColor = ply:GetPlayerColor(),
+        skin = ply:GetSkin(),
+        bodyGroups = ply:GetBodyGroups(),
+        bodygroupValues = bodygroupValues
+    }
+end
+
+local function SetHands(ent, model)
+    if not IsValid(ent) then return end
+    local simpleModelName = player_manager.TranslateToPlayerModelName(model)
+    local handsData = player_manager.TranslatePlayerHands(simpleModelName)
+
+    if handsData then
+        ent:SetModel(handsData.model)
+        ent:SetSkin(handsData.skin)
+        ent:SetBodyGroups(handsData.body)
+    end
+end
+
+function Randomat:ForceSetPlayermodel(ply, data)
+    if not IsPlayer(ply) then return end
+    -- Use the entity SetModel meta function to bypass model blocking things like in Enhanced Player Model Selector
+    local SetModel = FindMetaTable("Entity").SetModel
+
+    -- If just a model by itself is passed, just set the model and leave it at that
+    if not istable(data) then
+        if not isstring(data) or not util.IsValidModel(data) then return end
+        SetModel(ply, data)
+        SetHands(ply:GetHands(), data)
+
+        return
+    end
+
+    -- Else, set everything that's in the data table
+    if util.IsValidModel(data.model) then
+        SetModel(ply, data.model)
+        SetHands(ply:GetHands(), data.model)
+    end
+
+    if data.playerColor then
+        ply:SetPlayerColor(data.playerColor)
+    end
+
+    if data.skin then
+        ply:SetSkin(data.skin)
+    end
+
+    if data.bodyGroups then
+        for _, value in pairs(data.bodyGroups) do
+            ply:SetBodygroup(value.id, data.bodygroupValues[value.id])
+        end
+    elseif data.bodygroupValues then
+        for id = 0, #data.bodygroupValues do
+            ply:SetBodygroup(id, data.bodygroupValues[id])
+        end
+    end
+
+    timer.Simple(0.1, function()
+        if data.viewOffset then
+            ply:SetViewOffset(data.viewOffset)
+        else
+            ply:SetViewOffset(Vector(0, 0, 64))
+        end
+
+        if data.viewOffsetDucked then
+            ply:SetViewOffsetDucked(data.viewOffsetDucked)
+        else
+            ply:SetViewOffsetDucked(Vector(0, 0, 28))
+        end
+    end)
+end
+
+function Randomat:ForceResetAllPlayermodels()
+    for _, ply in ipairs(player.GetAll()) do
+        local sid64 = ply:SteamID64()
+
+        if playermodelData[sid64] then
+            Randomat:ForceSetPlayermodel(ply, playermodelData[sid64])
+        end
+    end
+end
+
+hook.Add("TTTBeginRound", "RdmtGetStartingPlayerModels", function()
+    table.Empty(playermodelData)
+
+    for _, ply in ipairs(player.GetAll()) do
+        playermodelData[ply:SteamID64()] = Randomat:GetPlayerModelData(ply)
+    end
+end)
