@@ -1,3 +1,5 @@
+Randomat = Randomat or {}
+
 -- Displaying a message if an incompatible randomat mod is installed
 if engine.ActiveGamemode() == "terrortown" and file.Exists("sound/weapons/randomat_revolver.wav", "GAME") and file.Exists("randomat2/randomat_shared.lua", "lsv") then
     local roundCount = 0

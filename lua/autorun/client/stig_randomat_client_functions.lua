@@ -1,3 +1,4 @@
+Randomat = Randomat or {}
 -- Disabling fg addon's chat message to clear up chat box for randomat alerts (if installed)
 RunConsoleCommand("ttt_fgaddons_textmessage", "0")
 

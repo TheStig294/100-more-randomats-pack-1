@@ -1,3 +1,4 @@
+Randomat = Randomat or {}
 -- Seeding random numbers in Garry's Mod to help with the same randomats being picked over and over, running only once
 math.randomseed(os.time())
 
