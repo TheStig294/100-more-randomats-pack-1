@@ -16,15 +16,22 @@ function Randomat:MapHasAI()
     return file.Exists("maps/" .. game.GetMap() .. ".nav", "GAME")
 end
 
--- Takes 2 players and checks if they are on the same team, checking one team at a time
 function Randomat:IsSameTeam(attacker, victim)
-    if (Randomat:IsInnocentTeam(attacker, false) and Randomat:IsInnocentTeam(victim, false)) or (Randomat:IsTraitorTeam(attacker) and Randomat:IsTraitorTeam(victim)) or (Randomat:IsMonsterTeam(attacker) and Randomat:IsMonsterTeam(victim)) then
-        return true
+    -- First check if CR's plymeta:IsSameTeam() is available, and if so, just use that
+    if attacker.IsSameTeam and isfunction(attacker.IsSameTeam) then
+        return attacker:IsSameTeam(victim)
     else
-        return false
+        -- Else use the randomat's in-built team functions
+        if (Randomat:IsInnocentTeam(attacker, false) and Randomat:IsInnocentTeam(victim, false)) or (Randomat:IsTraitorTeam(attacker) and Randomat:IsTraitorTeam(victim)) or (Randomat:IsMonsterTeam(attacker) and Randomat:IsMonsterTeam(victim)) then
+            return true
+        else
+            return false
+        end
     end
 end
 
+-- Checking if an item is in a role's buy menu,
+-- and hasn't been edited out, or has been edited in, using Custom Role's buy menu editing system
 function Randomat:IsBuyableItem(role, wep)
     if isstring(wep) then
         wep = weapons.Get(wep)
