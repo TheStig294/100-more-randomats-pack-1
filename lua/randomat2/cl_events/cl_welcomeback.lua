@@ -115,6 +115,25 @@ local function CalculateBoxWidths()
 
     for _, ply in ipairs(player.GetAll()) do
         if ply:IsSpec() then continue end
+
+        if not boxWidths[ply] then
+            surface.SetFont("RoleOverlayFont")
+            local text = ply:Nick()
+            local textWidth = surface.GetTextSize(text)
+            local boxWidth = textWidth + boxBorderSize * 2
+
+            -- Make the boxes wider to fit the icons on the side if the screen is large
+            if largeScreen then
+                boxWidth = boxWidth + iconSize
+            end
+
+            boxWidth = math.max(minBoxWidth, boxWidth)
+
+            if not boxWidths[ply] then
+                boxWidths[ply] = boxWidth
+            end
+        end
+
         overlayWidth = overlayWidth + boxPadding + boxWidths[ply]
     end
 
