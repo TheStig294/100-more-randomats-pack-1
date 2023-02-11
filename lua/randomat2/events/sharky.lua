@@ -7,7 +7,7 @@ EVENT.Categories = {"stats", "rolechange", "moderateimpact", "biased_traitor", "
 
 function EVENT:Begin()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua
-    local stats = randomatPlayerStats
+    local stats = GetRandomatPlayerStats()
     local alivePlayers = self:GetAlivePlayers(true)
     local chosenTraitor = alivePlayers[1]
     local ID = chosenTraitor:SteamID()

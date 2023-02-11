@@ -21,7 +21,7 @@ EVENT.Categories = {"stats", "item", "moderateimpact"}
 function EVENT:Begin()
     self.Description = GetDescription()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua
-    local stats = randomatPlayerStats
+    local stats = GetRandomatPlayerStats()
 
     for _, ply in pairs(self:GetAlivePlayers()) do
         local ID = ply:SteamID()

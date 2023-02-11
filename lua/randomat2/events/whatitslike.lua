@@ -28,7 +28,7 @@ function EVENT:Begin()
     local randomPly = table.Random(self:GetAlivePlayers())
     Randomat:EventNotifySilent("What it's like to be " .. randomPly:Nick())
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua
-    local stats = randomatPlayerStats
+    local stats = GetRandomatPlayerStats()
     local ID = randomPly:SteamID()
     local equipmentStats = table.Copy(stats[ID]["EquipmentItems"])
     -- Set buy count of the radar and body armour to 1 to prevent these from always being a player's most bought item

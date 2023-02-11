@@ -7,7 +7,7 @@ EVENT.Categories = {"biased_innocent", "biased", "stats", "smallimpact"}
 
 function EVENT:Begin()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua
-    local stats = randomatPlayerStats
+    local stats = GetRandomatPlayerStats()
     local alivePlayers = self:GetAlivePlayers(true)
     local detectiveWinrates = {}
     local chosenDetective
