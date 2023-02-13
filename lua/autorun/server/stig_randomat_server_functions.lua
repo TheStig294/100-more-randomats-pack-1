@@ -217,7 +217,7 @@ function Randomat:GivePassiveOrActiveItem(ply, equipment, printChat)
 end
 
 function Randomat:SetToBasicRole(ply)
-    if Randomat:IsTraitorTeam(ply) then
+    if Randomat:IsTraitorTeam(ply) or Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply) then
         Randomat:SetRole(ply, ROLE_TRAITOR)
     elseif Randomat:IsGoodDetectiveLike(ply) then
         Randomat:SetRole(ply, ROLE_DETECTIVE)
