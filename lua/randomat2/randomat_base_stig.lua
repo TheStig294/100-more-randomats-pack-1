@@ -215,10 +215,11 @@ local function TriggerEvent(event, ply, options, ...)
     end
 
     local owner = Randomat:GetValidPlayer(ply)
-    local index = table.insert(Randomat.ActiveEvents, event)
-    Randomat.ActiveEvents[index].owner = owner
-    Randomat.ActiveEvents[index].Silent = silent
-    Randomat.ActiveEvents[index]:Begin(...)
+    table.insert(Randomat.ActiveEvents, event)
+    event.owner = owner
+    event.Owner = owner
+    event.Silent = silent
+    event:Begin(...)
     -- Run this after the "Begin" so we have the latest title and description
     local title = Randomat:GetEventTitle(event)
     local message = "[RANDOMAT] Event '" .. title .. "' (" .. event.Id .. ") started by " .. owner:Nick()
@@ -1336,6 +1337,22 @@ function randomat_meta:AddEntityCullingBypass(ply_pred, tgt_pred)
 end
 
 -- Misc.
+function randomat_meta:NotifyTeamChange(newMembers, roleTeam)
+    if #newMembers <= 0 then return end
+    local members = Randomat:GetPlayerNameListString(newMembers, true)
+    local verb = " has "
+
+    if #newMembers > 1 then
+        verb = " have "
+    end
+
+    -- Delay this message slightly in case it's being shown when an event starts
+    -- The delay pushes it below the event description chat message
+    timer.Simple(0.1, function()
+        Randomat:SendMessageToTeam(members .. verb .. "joined your team", roleTeam, false, false, {HUD_PRINTTALK, HUD_PRINTCENTER}, newMembers)
+    end)
+end
+
 -- Credit to The Stig
 function randomat_meta:DisableRoundEndSounds()
     -- Disables round end sounds mod and 'Ending Flair' event
