@@ -1,6 +1,8 @@
 local EVENT = {}
 
-CreateConVar("randomat_boomerang_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons", 0, 1)
+CreateConVar("randomat_boomerang_timer", 2, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds between giving boomerangs if they don't return", 1, 15)
+
+local strip = CreateConVar("randomat_boomerang_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons", 0, 1)
 
 CreateConVar("randomat_boomerang_weaponid", "weapon_ttt_boomerang_randomat", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
 
@@ -11,12 +13,15 @@ EVENT.id = "boomerang"
 EVENT.Categories = {"item", "largeimpact"}
 
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
-if GetConVar("randomat_boomerang_strip"):GetBool() then
+if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+    table.insert(EVENT.Categories, "rolechange")
 end
 
 function EVENT:Begin()
-    --Remove all weapons from the ground (Which also removes all non-bought weapons from players)
+    strip = GetConVar("randomat_boomerang_strip"):GetBool()
+
+    -- Remove all weapons from the ground
     if GetConVar("randomat_boomerang_strip"):GetBool() then
         for _, ent in pairs(ents.GetAll()) do
             if ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE and ent.AutoSpawnable then
@@ -26,47 +31,47 @@ function EVENT:Begin()
     end
 
     for i, ply in pairs(self:GetAlivePlayers()) do
-        --Strip all living players' weapons, if enabled
-        if GetConVar("randomat_boomerang_strip"):GetBool() then
+        -- Strip all living players' weapons, if enabled
+        if strip then
             ply:StripWeapons()
+            ply:SetFOV(0, 0.2)
+
+            -- Set assassins to ordinary traitors as their damage bonus doesn't work with boomerangs
+            if ply:GetRole() == ROLE_ASSASSIN then
+                Randomat:SetRole(ply, ROLE_TRAITOR)
+
+                timer.Simple(0.1, function()
+                    ply:ChatPrint("Boomerangs are not affected by your assassin damage bonus.\nYou have been changed from an assassin to a traitor.")
+                    ply:PrintMessage(HUD_PRINTCENTER, "Role changed to traitor")
+                end)
+            end
         end
 
-        ply:SetFOV(0, 0.2)
-        --Give everyone their initial boomerang
+        -- Give everyone their initial boomerang
         ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
-
-        -- Set assassins to ordinary traitors as their damage bonus doesn't work with boomerangs
-        if ply:GetRole() == ROLE_ASSASSIN and GetConVar("randomat_boomerang_strip"):GetBool() then
-            Randomat:SetRole(ply, ROLE_TRAITOR)
-            ply:ChatPrint("Boomerangs are not affected by your assassin damage bonus.\nYou have been changed from an assassin to a traitor.")
-            ply:PrintMessage(HUD_PRINTCENTER, "Role changed to traitor")
-        end
     end
 
     SendFullStateUpdate()
 
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
-            --Strip all living players' weapons, if enabled
-            if GetConVar("randomat_boomerang_strip"):GetBool() then
+            if strip then
                 ply:StripWeapons()
+                ply:SetFOV(0, 0.2)
             end
 
-            --Give  their initial boomerang
             ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
         end)
     end)
 end
 
---Stop periodically giving out boomerangs
 function EVENT:End()
     for i, ent in ipairs(ents.FindByClass(GetConVar("randomat_boomerang_weaponid"):GetString())) do
         ent:Remove()
     end
 
-    if GetConVar("randomat_boomerang_strip"):GetBool() then
+    if strip then
         for i, ply in ipairs(self:GetAlivePlayers()) do
-            timer.Remove(ply:SteamID64() .. "BoomerangRandomatTimer")
             ply:Give("weapon_zm_improvised")
             ply:Give("weapon_zm_carry")
             ply:Give("weapon_ttt_unarmed")
@@ -82,6 +87,7 @@ function EVENT:GetConVars()
 
         if ConVarExists(name) then
             local convar = GetConVar(name)
+            convar:Revert()
 
             table.insert(sliders, {
                 cmd = v,

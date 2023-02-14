@@ -137,15 +137,13 @@ function SWEP:PrimaryAttack()
         phys:SetVelocity(owner:GetAimVector():GetNormalized() * 10)
         phys:AddAngleVelocity(Vector(0, -10, 0))
 
-        timer.Create(owner:SteamID64() .. "BoomerangRandomatTimer", 2, 1, function()
-            if not owner:HasWeapon(GetConVar("randomat_boomerang_weaponid"):GetString()) then
-                --If enabled,
+        -- Fail-safe to give back a boomerang after a certain amount of time if it does not return
+        timer.Create(owner:SteamID64() .. "BoomerangRandomatTimer", GetConVar("randomat_boomerang_timer"):GetInt(), 1, function()
+            if not owner:HasWeapon(GetConVar("randomat_boomerang_weaponid"):GetString()) and Randomat:IsEventActive("boomerang") then
                 if GetConVar("randomat_boomerang_strip"):GetBool() then
-                    --Strip all their weapons
                     owner:StripWeapons()
                 end
 
-                --And give them a boomerang
                 owner:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
             end
         end)
