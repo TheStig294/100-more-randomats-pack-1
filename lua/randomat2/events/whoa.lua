@@ -122,6 +122,16 @@ function EVENT:Begin()
         return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_whoa_weaponid"):GetString()
     end)
 
+    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+        if not strip or not IsValid(ply) then return end
+
+        if not is_item then
+            ply:ChatPrint("You can only buy passive items during '" .. Randomat:GetEventTitle(EVENT) .. "'!\nYour purchase has been refunded.")
+
+            return false
+        end
+    end)
+
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
         -- Silence their usual death noise
         dmginfo:SetDamageType(DMG_SLASH)
