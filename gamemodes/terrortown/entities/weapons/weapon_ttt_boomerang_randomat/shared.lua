@@ -140,10 +140,6 @@ function SWEP:PrimaryAttack()
         -- Fail-safe to give back a boomerang after a certain amount of time if it does not return
         timer.Create(owner:SteamID64() .. "BoomerangRandomatTimer", GetConVar("randomat_boomerang_timer"):GetInt(), 1, function()
             if not owner:HasWeapon(GetConVar("randomat_boomerang_weaponid"):GetString()) and Randomat:IsEventActive("boomerang") then
-                if GetConVar("randomat_boomerang_strip"):GetBool() then
-                    owner:StripWeapons()
-                end
-
                 owner:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
             end
         end)
