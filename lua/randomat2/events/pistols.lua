@@ -54,7 +54,6 @@ function EVENT:Begin()
 
     SendFullStateUpdate()
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-    table.Empty(new_traitors)
     self:DisableRoundEndSounds()
 
     self:AddHook("Think", function()
@@ -76,6 +75,7 @@ function EVENT:Begin()
 
             timer.Simple(triggerDelay, function()
                 local updated = false
+                new_traitors = {}
 
                 for i, ply in pairs(self:GetAlivePlayers()) do
                     ply:SetCredits(0)
@@ -110,7 +110,6 @@ function EVENT:Begin()
                 if updated then
                     SendFullStateUpdate()
                     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-                    table.Empty(new_traitors)
                 end
             end)
 
@@ -141,6 +140,7 @@ function EVENT:Begin()
 
             if table.IsEmpty(traitorPlayers) or table.IsEmpty(innocentPlayers) or #innocentPlayers + #traitorPlayers == 2 or #alivePlayers == 2 then
                 winBlocked = true
+                new_traitors = {}
 
                 -- Transform all jesters to innocents and independents to traitors so we know there can only be an innocent or traitor win
                 for _, v in ipairs(self:GetAlivePlayers()) do
@@ -153,7 +153,6 @@ function EVENT:Begin()
 
                 SendFullStateUpdate()
                 self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-                table.Empty(new_traitors)
                 local oneOnOneShowdown = false
 
                 if table.IsEmpty(traitorPlayers) then
