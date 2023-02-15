@@ -285,3 +285,19 @@ function Randomat:SpectatorRandomatAlert(ply, EVENT)
         end)
     end)
 end
+
+-- Returns false if there's an incompatible role or the round hasn't just started, to be used in event condition functions
+function Randomat:CheckForIncompatibleRole(RoleCheckFunction, CheckForRoundStart)
+    local incompatibleRoleExists = false
+
+    for _, ply in ipairs(player.GetAll()) do
+        if ply:IsSpec() or not ply:Alive() then continue end
+
+        if RoleCheckFunction(ply) then
+            incompatibleRoleExists = true
+            break
+        end
+    end
+
+    return not incompatibleRoleExists and Randomat:GetRoundCompletePercent() < 5 and CheckForRoundStart
+end

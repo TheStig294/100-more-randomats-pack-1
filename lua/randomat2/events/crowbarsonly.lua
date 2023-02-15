@@ -74,16 +74,7 @@ end
 
 -- Checking if someone is a melee damage role and if it isn't at the start of the round, prevent the event from running
 function EVENT:Condition()
-    local meleeDamageRoleExists = false
-
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsMeleeDamageRole(ply) then
-            meleeDamageRoleExists = true
-            break
-        end
-    end
-
-    return Randomat:GetRoundCompletePercent() < 5 or not meleeDamageRoleExists
+    return Randomat:CheckForIncompatibleRole(Randomat.IsMeleeDamageRole, true)
 end
 
 Randomat:register(EVENT)
