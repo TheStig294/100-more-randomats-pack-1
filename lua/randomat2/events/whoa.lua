@@ -32,6 +32,8 @@ EVENT.id = "whoa"
 
 EVENT.Categories = {"item", "largeimpact", "deathtrigger"}
 
+strip = strip:GetBool()
+
 if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
     table.insert(EVENT.Categories, "rolechange")

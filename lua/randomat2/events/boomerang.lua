@@ -12,8 +12,10 @@ EVENT.id = "boomerang"
 
 EVENT.Categories = {"item", "largeimpact"}
 
--- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
+strip = strip:GetBool()
+
 if strip then
+    -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
     table.insert(EVENT.Categories, "rolechange")
 end
