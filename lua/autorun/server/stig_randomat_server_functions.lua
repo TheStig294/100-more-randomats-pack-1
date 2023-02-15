@@ -253,6 +253,8 @@ function Randomat:SetToBasicRole(ply)
         ply:PrintMessage(HUD_PRINTCENTER, changedTeamMessage)
         ply:PrintMessage(HUD_PRINTTALK, extendedChangedTeamMessage)
     end)
+
+    return teamName == "Traitor"
 end
 
 function Randomat:IsBodyDependentRole(ply)
