@@ -229,7 +229,7 @@ function Randomat:SetToBasicRole(ply, noMessageRole)
     elseif ply:GetRole() ~= ROLE_DETECTIVE and Randomat:IsGoodDetectiveLike(ply) then
         Randomat:SetRole(ply, ROLE_DETECTIVE)
         teamName = "Detective"
-    elseif ply:GetRole() ~= ROLE_INNOCENT then
+    elseif ply:GetRole() ~= ROLE_INNOCENT and (Randomat:IsJesterTeam(ply) or Randomat:IsInnocentTeam(ply)) then
         -- Jesters and special innocents become normal innocents
         Randomat:SetRole(ply, ROLE_INNOCENT)
         teamName = "Innocent"
@@ -264,7 +264,7 @@ function Randomat:IsBodyDependentRole(ply)
     local role = ply:GetRole()
     if role == ROLE_PARASITE and ConVarExists("ttt_parasite_respawn_mode") and GetConVar("ttt_parasite_respawn_mode"):GetInt() == 1 then return true end
 
-    return role == ROLE_MADSCIENTIST or role == ROLE_HYPNOTIST or role == ROLE_BODYSNATCHER or role == ROLE_PARAMEDIC or role == ROLE_PHANTOM or role == ROLE_TAXIDERMIST
+    return role == ROLE_MADSCIENTIST or role == ROLE_ZOMBIE or role == ROLE_HYPNOTIST or role == ROLE_BODYSNATCHER or role == ROLE_PARAMEDIC or role == ROLE_PHANTOM or role == ROLE_TAXIDERMIST
 end
 
 function Randomat:SpectatorRandomatAlert(ply, EVENT)
@@ -284,20 +284,4 @@ function Randomat:SpectatorRandomatAlert(ply, EVENT)
             end
         end)
     end)
-end
-
--- Returns false if there's an incompatible role or the round hasn't just started, to be used in event condition functions
-function Randomat:CheckForIncompatibleRole(RoleCheckFunction, CheckForRoundStart)
-    local incompatibleRoleExists = false
-
-    for _, ply in ipairs(player.GetAll()) do
-        if ply:IsSpec() or not ply:Alive() then continue end
-
-        if RoleCheckFunction(ply) then
-            incompatibleRoleExists = true
-            break
-        end
-    end
-
-    return not incompatibleRoleExists and Randomat:GetRoundCompletePercent() < 5 and CheckForRoundStart
 end
