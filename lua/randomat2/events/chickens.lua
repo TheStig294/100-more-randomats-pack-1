@@ -18,18 +18,12 @@ local sndTabPain = {"chickens/pain1.mp3", "chickens/pain2.mp3", "chickens/pain3.
 
 local maxHealth = {}
 
-function EVENT:RemoveBodyDependentRole(ply)
-    if Randomat:IsBodyDependentRole(ply) then
-        self:StripRoleWeapons(ply)
-        Randomat:SetToBasicRole(ply)
-    end
-end
-
 function EVENT:Begin()
     local hp = GetConVar("randomat_chickens_hp"):GetInt()
     local sc = GetConVar("randomat_chickens_sc"):GetFloat()
     local sp = GetConVar("randomat_chickens_sp"):GetFloat()
     maxHealth = {}
+    local new_traitors = {}
 
     for k, ply in pairs(self:GetAlivePlayers()) do
         Randomat:ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
@@ -43,14 +37,29 @@ function EVENT:Begin()
             ply:SetMaxHealth(hp)
         end
 
-        self:RemoveBodyDependentRole(ply)
+        if Randomat:IsBodyDependentRole(ply) then
+            self:StripRoleWeapons(ply)
+            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor")
 
+            if isTraitor then
+                table.insert(new_traitors, ply)
+            end
+        end
+
+        -- Server can get overwelmed when this event triggers, so attempt to remove incompatible roles a second time
         timer.Simple(2, function()
-            self:RemoveBodyDependentRole(ply)
+            self:StripRoleWeapons(ply)
+            Randomat:SetToBasicRole(ply, "Traitor")
         end)
     end
 
+    -- Send message to the traitor team if new traitors joined
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
     SendFullStateUpdate()
+
+    timer.Simple(2, function()
+        SendFullStateUpdate()
+    end)
 
     self:AddHook("Think", function()
         for k, ply in pairs(self:GetAlivePlayers()) do
@@ -149,16 +158,16 @@ end
 
 -- Checking if someone is a body dependent role and if it isn't at the start of the round, prevent the event from running
 function EVENT:Condition()
-    local bodyDependentRoleExists = false
+    local incompatibleRoleExists = false
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsBodyDependentRole(ply) then
-            bodyDependentRoleExists = true
+            incompatibleRoleExists = true
             break
         end
     end
 
-    return Randomat:GetRoundCompletePercent() < 5 or not bodyDependentRoleExists
+    return not incompatibleRoleExists or Randomat:GetRoundCompletePercent() < 5
 end
 
 function EVENT:GetConVars()
