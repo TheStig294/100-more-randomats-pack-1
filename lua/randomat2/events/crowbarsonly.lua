@@ -3,7 +3,7 @@ EVENT.Title = "Crowbars Only!"
 EVENT.Description = "Can only use, or be damaged by, a buffed crowbar"
 EVENT.id = "crowbarsonly"
 
-EVENT.Categories = {"biased_innocent", "biased", "item", "largeimpact"}
+EVENT.Categories = {"biased_innocent", "biased", "item", "rolechange", "largeimpact"}
 
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
@@ -29,13 +29,20 @@ function EVENT:Begin()
         end
     end)
 
-    -- Give out crowbars in case players don't have one
+    local new_traitors = {}
+
     for i, ply in pairs(self:GetAlivePlayers()) do
+        -- Melee roles don't have crowbars, so anyone who is one of those roles needs to be changed
         if Randomat:IsMeleeDamageRole(ply) then
             self:StripRoleWeapons(ply)
-            Randomat:SetToBasicRole(ply)
+            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor")
+
+            if isTraitor then
+                table.insert(new_traitors, ply)
+            end
         end
 
+        -- Give out crowbars in case players don't have one
         timer.Simple(0.1, function()
             ply:SetFOV(0, 0.2)
             ply:Give("weapon_zm_improvised")
@@ -43,6 +50,8 @@ function EVENT:Begin()
         end)
     end
 
+    -- Send message to the traitor team if new traitors joined
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
     SendFullStateUpdate()
     -- Buff the crowbar
     crowbarPushForce = GetConVar("ttt_crowbar_pushforce"):GetFloat()
