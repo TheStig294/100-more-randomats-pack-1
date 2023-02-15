@@ -218,13 +218,12 @@ end
 
 function Randomat:SetToBasicRole(ply, noMessageRole)
     local teamName
-    local isTraitor
+    local changedToTraitorTeam = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
 
     -- Independents, monsters and special traitors become traitors
-    if ply:GetRole() ~= ROLE_TRAITOR and (Randomat:IsTraitorTeam(ply) or Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)) then
+    if ply:GetRole() ~= ROLE_TRAITOR and (Randomat:IsTraitorTeam(ply) or changedToTraitorTeam) then
         Randomat:SetRole(ply, ROLE_TRAITOR)
         teamName = "Traitor"
-        isTraitor = true
         -- Special detectives become normal detectives
     elseif ply:GetRole() ~= ROLE_DETECTIVE and Randomat:IsGoodDetectiveLike(ply) then
         Randomat:SetRole(ply, ROLE_DETECTIVE)
@@ -257,7 +256,7 @@ function Randomat:SetToBasicRole(ply, noMessageRole)
         ply:PrintMessage(HUD_PRINTTALK, extendedChangedTeamMessage)
     end)
 
-    return isTraitor
+    return changedToTraitorTeam
 end
 
 function Randomat:IsBodyDependentRole(ply)
