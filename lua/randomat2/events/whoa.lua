@@ -76,6 +76,7 @@ function EVENT:Begin()
 
     SendFullStateUpdate()
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+    table.Empty(new_traitors)
 
     -- Periodically gives everyone the spin attack weapon
     timer.Create("RandomatWhoaTimer", GetConVar("randomat_whoa_timer"):GetInt(), 0, function()
