@@ -216,19 +216,20 @@ function Randomat:GivePassiveOrActiveItem(ply, equipment, printChat)
     return givenItem
 end
 
-function Randomat:SetToBasicRole(ply, noMessageRole)
+function Randomat:SetToBasicRole(ply, noMessageRole, independentMonsterAsInnocent)
     local teamName
-    local changedToTraitorTeam = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
+    local monsterIndependentRole = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
+    local changeToTraitorTeam = monsterIndependentRole and not independentMonsterAsInnocent
 
     -- Independents, monsters and special traitors become traitors
-    if ply:GetRole() ~= ROLE_TRAITOR and (Randomat:IsTraitorTeam(ply) or changedToTraitorTeam) then
+    if ply:GetRole() ~= ROLE_TRAITOR and (Randomat:IsTraitorTeam(ply) or changeToTraitorTeam) then
         Randomat:SetRole(ply, ROLE_TRAITOR)
         teamName = "Traitor"
         -- Special detectives become normal detectives
     elseif ply:GetRole() ~= ROLE_DETECTIVE and Randomat:IsGoodDetectiveLike(ply) then
         Randomat:SetRole(ply, ROLE_DETECTIVE)
         teamName = "Detective"
-    elseif ply:GetRole() ~= ROLE_INNOCENT and (Randomat:IsJesterTeam(ply) or Randomat:IsInnocentTeam(ply)) then
+    elseif ply:GetRole() ~= ROLE_INNOCENT and (Randomat:IsJesterTeam(ply) or Randomat:IsInnocentTeam(ply) or (monsterIndependentRole and independentMonsterAsInnocent)) then
         -- Jesters and special innocents become normal innocents
         Randomat:SetRole(ply, ROLE_INNOCENT)
         teamName = "Innocent"
@@ -251,12 +252,12 @@ function Randomat:SetToBasicRole(ply, noMessageRole)
     local extendedChangedTeamMessage = changedTeamMessage .. " due to being a role incompatible with a running event"
 
     timer.Simple(0.1, function()
-        if noMessageRole == teamName then return end
+        if noMessageRole and noMessageRole == teamName then return end
         ply:PrintMessage(HUD_PRINTCENTER, changedTeamMessage)
         ply:PrintMessage(HUD_PRINTTALK, extendedChangedTeamMessage)
     end)
 
-    return changedToTraitorTeam
+    return changeToTraitorTeam
 end
 
 function Randomat:IsBodyDependentRole(ply)
