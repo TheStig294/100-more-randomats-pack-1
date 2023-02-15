@@ -217,17 +217,42 @@ function Randomat:GivePassiveOrActiveItem(ply, equipment, printChat)
 end
 
 function Randomat:SetToBasicRole(ply)
-    if Randomat:IsTraitorTeam(ply) or Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply) then
+    local teamName
+
+    -- Independents, monsters and special traitors become traitors
+    if ply:GetRole() ~= ROLE_TRAITOR and (Randomat:IsTraitorTeam(ply) or Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)) then
         Randomat:SetRole(ply, ROLE_TRAITOR)
-    elseif Randomat:IsGoodDetectiveLike(ply) then
+        teamName = "Traitor"
+        -- Special detectives become normal detectives
+    elseif ply:GetRole() ~= ROLE_DETECTIVE and Randomat:IsGoodDetectiveLike(ply) then
         Randomat:SetRole(ply, ROLE_DETECTIVE)
-    else
+        teamName = "Detective"
+    elseif ply:GetRole() ~= ROLE_INNOCENT then
+        -- Jesters and special innocents become normal innocents
         Randomat:SetRole(ply, ROLE_INNOCENT)
+        teamName = "Innocent"
+    else
+        -- Anyone already a basic role isn't affected
+        return
     end
 
+    -- Some roles don't have the basic weapons, give them now
     ply:Give("weapon_zm_improvised")
     ply:Give("weapon_zm_carry")
     ply:Give("weapon_ttt_unarmed")
+    -- Notify the player why their role was changed
+    local changedTeamMessage = "You have joined the " .. teamName .. " team"
+
+    if teamName == "Detective" then
+        changedTeamMessage = "You have become an ordinary detective"
+    end
+
+    local extendedChangedTeamMessage = changedTeamMessage .. " due to being a role incompatible with a running event"
+
+    timer.Simple(0.1, function()
+        ply:PrintMessage(HUD_PRINTCENTER, changedTeamMessage)
+        ply:PrintMessage(HUD_PRINTTALK, extendedChangedTeamMessage)
+    end)
 end
 
 function Randomat:IsBodyDependentRole(ply)
