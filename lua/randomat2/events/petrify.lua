@@ -3,20 +3,28 @@ EVENT.Title = "Petrify!"
 EVENT.Description = "Turns players into a stone like figure, playing a quite annoying sound when they move."
 EVENT.id = "petrify"
 
-EVENT.Categories = {"fun", "moderateimpact"}
+EVENT.Categories = {"fun", "rolechange", "moderateimpact", "biased_traitor", "biased"}
 
 function EVENT:Begin()
     -- Petrify all players
-    for i, ply in pairs(self:GetAlivePlayers()) do
+    local new_traitors = {}
+
+    for _, ply in ipairs(self:GetAlivePlayers()) do
         Randomat:ForceSetPlayermodel(ply, "models/player.mdl")
         ply.soundPlaying = false
 
         if Randomat:IsBodyDependentRole(ply) then
             self:StripRoleWeapons(ply)
-            Randomat:SetToBasicRole(ply)
+            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
+
+            if isTraitor then
+                table.insert(new_traitors, ply)
+            end
         end
     end
 
+    -- Send message to the traitor team if new traitors joined
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
     SendFullStateUpdate()
 
     -- Player sound when moving

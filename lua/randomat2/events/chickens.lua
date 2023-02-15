@@ -10,7 +10,7 @@ EVENT.Title = "BAWK!"
 EVENT.Description = "Transforms everyone into chickens!"
 EVENT.id = "chickens"
 
-EVENT.Categories = {"fun", "largeimpact", "biased_traitor", "biased"}
+EVENT.Categories = {"fun", "largeimpact", "rolechange", "biased_traitor", "biased"}
 
 local sndTabIdle = {"chickens/idle1.mp3", "chickens/idle2.mp3", "chickens/idle3.mp3", "chickens/alert.mp3"}
 
@@ -39,7 +39,7 @@ function EVENT:Begin()
 
         if Randomat:IsBodyDependentRole(ply) then
             self:StripRoleWeapons(ply)
-            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor")
+            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
 
             if isTraitor then
                 table.insert(new_traitors, ply)
@@ -48,8 +48,10 @@ function EVENT:Begin()
 
         -- Server can get overwelmed when this event triggers, so attempt to remove incompatible roles a second time
         timer.Simple(2, function()
-            self:StripRoleWeapons(ply)
-            Randomat:SetToBasicRole(ply, "Traitor")
+            if Randomat:IsBodyDependentRole(ply) then
+                self:StripRoleWeapons(ply)
+                Randomat:SetToBasicRole(ply, "Traitor", true)
+            end
         end)
     end
 

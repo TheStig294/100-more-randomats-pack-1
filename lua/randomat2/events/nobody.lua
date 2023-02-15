@@ -3,16 +3,24 @@ EVENT.Title = "Nobody"
 EVENT.Description = "Anyone killed doesn't leave behind a body"
 EVENT.id = "nobody"
 
-EVENT.Categories = {"deathtrigger", "smallimpact", "biased_traitor", "biased"}
+EVENT.Categories = {"deathtrigger", "smallimpact", "rolechange", "biased_traitor", "biased"}
 
 function EVENT:Begin()
+    local new_traitors = {}
+
     for _, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsBodyDependentRole(ply) then
             self:StripRoleWeapons(ply)
-            Randomat:SetToBasicRole(ply)
+            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
+
+            if isTraitor then
+                table.insert(new_traitors, ply)
+            end
         end
     end
 
+    -- Send message to the traitor team if new traitors joined
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
     SendFullStateUpdate()
 
     self:AddHook("TTTOnCorpseCreated", function(corpse)
