@@ -216,13 +216,15 @@ function Randomat:GivePassiveOrActiveItem(ply, equipment, printChat)
     return givenItem
 end
 
-function Randomat:SetToBasicRole(ply)
+function Randomat:SetToBasicRole(ply, noMessageRole)
     local teamName
+    local isTraitor
 
     -- Independents, monsters and special traitors become traitors
     if ply:GetRole() ~= ROLE_TRAITOR and (Randomat:IsTraitorTeam(ply) or Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)) then
         Randomat:SetRole(ply, ROLE_TRAITOR)
         teamName = "Traitor"
+        isTraitor = true
         -- Special detectives become normal detectives
     elseif ply:GetRole() ~= ROLE_DETECTIVE and Randomat:IsGoodDetectiveLike(ply) then
         Randomat:SetRole(ply, ROLE_DETECTIVE)
@@ -250,11 +252,12 @@ function Randomat:SetToBasicRole(ply)
     local extendedChangedTeamMessage = changedTeamMessage .. " due to being a role incompatible with a running event"
 
     timer.Simple(0.1, function()
+        if noMessageRole == teamName then return end
         ply:PrintMessage(HUD_PRINTCENTER, changedTeamMessage)
         ply:PrintMessage(HUD_PRINTTALK, extendedChangedTeamMessage)
     end)
 
-    return teamName == "Traitor"
+    return isTraitor
 end
 
 function Randomat:IsBodyDependentRole(ply)
