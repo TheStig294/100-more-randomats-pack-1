@@ -8,13 +8,21 @@ EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 EVENT.Categories = {"biased_innocent", "biased", "moderateimpact"}
 
 function EVENT:Begin()
+    local new_traitors = {}
+
     for _, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsMeleeDamageRole(ply) then
             self:StripRoleWeapons(ply)
-            Randomat:SetToBasicRole(ply)
+            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor")
+
+            if isTraitor then
+                table.insert(new_traitors, ply)
+            end
         end
     end
 
+    -- Send message to the traitor team if new traitors joined
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
     SendFullStateUpdate()
 
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
