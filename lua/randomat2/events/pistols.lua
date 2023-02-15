@@ -5,12 +5,34 @@ EVENT.id = "pistols"
 
 EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_MUSIC}
 
-EVENT.Categories = {"gamemode", "largeimpact"}
+EVENT.Categories = {"gamemode", "rolechange", "largeimpact"}
 
 util.AddNetworkString("PistolsPrepareShowdown")
 util.AddNetworkString("PistolsBeginShowdown")
 util.AddNetworkString("PistolsRandomatWinTitle")
 util.AddNetworkString("PistolsEndEvent")
+
+function EVENT:HandleRoleWeapons(ply)
+    local updated = false
+    local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
+
+    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
+    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or changing_teams then
+        Randomat:SetRole(ply, ROLE_TRAITOR)
+        updated = true
+    elseif Randomat:IsJesterTeam(ply) then
+        Randomat:SetRole(ply, ROLE_INNOCENT)
+        updated = true
+    end
+
+    -- Remove role weapons from anyone on the traitor team now
+    if Randomat:IsTraitorTeam(ply) then
+        self:StripRoleWeapons(ply)
+    end
+
+    return updated, changing_teams
+end
+
 local eventTriggered = false
 local triggerShowdown = false
 
@@ -19,16 +41,20 @@ function EVENT:Begin()
     local triggerDelay = 1
     triggerShowdown = false
     eventTriggered = true
+    -- Transform all jesters to innocents and independents to traitors so we know there can only be an innocent or traitor win
+    local new_traitors = {}
 
-    -- Transform all jesters/independents to innocents so we know there can only be an innocent or traitor win
-    for i, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsIndependentTeam(ply) or Randomat:IsMonsterTeam(ply) then
-            self:StripRoleWeapons(ply)
-            Randomat:SetRole(ply, ROLE_INNOCENT)
+    for _, v in ipairs(self:GetAlivePlayers()) do
+        local _, new_traitor = self:HandleRoleWeapons(v)
+
+        if new_traitor then
+            table.insert(new_traitors, v)
         end
     end
 
     SendFullStateUpdate()
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+    table.Empty(new_traitors)
     self:DisableRoundEndSounds()
 
     self:AddHook("Think", function()
@@ -49,6 +75,8 @@ function EVENT:Begin()
             end
 
             timer.Simple(triggerDelay, function()
+                local updated = false
+
                 for i, ply in pairs(self:GetAlivePlayers()) do
                     ply:SetCredits(0)
 
@@ -67,6 +95,22 @@ function EVENT:Begin()
                         ply:Give("weapon_ttt_pistol_randomat")
                         ply:SelectWeapon("weapon_ttt_pistol_randomat")
                     end
+
+                    -- Workaround the case where people can respawn as Zombies while this is running
+                    updatedPly, new_traitor = self:HandleRoleWeapons(ply)
+                    updated = updated or updatedPly
+
+                    if new_traitor then
+                        table.insert(new_traitors, ply)
+                    end
+                end
+
+                -- If anyone's role changed, send the update
+                -- If anyone became a traitor, notify all other traitors
+                if updated then
+                    SendFullStateUpdate()
+                    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+                    table.Empty(new_traitors)
                 end
             end)
 
@@ -98,15 +142,18 @@ function EVENT:Begin()
             if table.IsEmpty(traitorPlayers) or table.IsEmpty(innocentPlayers) or #innocentPlayers + #traitorPlayers == 2 or #alivePlayers == 2 then
                 winBlocked = true
 
-                -- Transform any zombies into innocents as they can't hold guns
-                for _, ply in ipairs(alivePlayers) do
-                    if ply.IsZombie and ply:IsZombie() then
-                        Randomat:SetRole(ply, ROLE_INNOCENT)
-                        ply:ChatPrint("Zombies can't hold guns, so you're now an innocent!")
+                -- Transform all jesters to innocents and independents to traitors so we know there can only be an innocent or traitor win
+                for _, v in ipairs(self:GetAlivePlayers()) do
+                    _, new_traitor = self:HandleRoleWeapons(v)
+
+                    if new_traitor then
+                        table.insert(new_traitors, v)
                     end
                 end
 
                 SendFullStateUpdate()
+                self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+                table.Empty(new_traitors)
                 local oneOnOneShowdown = false
 
                 if table.IsEmpty(traitorPlayers) then
@@ -170,13 +217,6 @@ function EVENT:End()
             timer.Remove("PistolsGivePistols")
         end
     end
-end
-
--- Don't let 'rise from your grave' run at the same time as zombies can't hold guns
--- Prevent 'Contagious Morality' from triggering at the same time as events that
--- require 1 player to be alive for the round to end
-function EVENT:Condition()
-    return not (Randomat:IsEventActive("grave") or Randomat:IsEventActive("contagiousmorality"))
 end
 
 Randomat:register(EVENT)
