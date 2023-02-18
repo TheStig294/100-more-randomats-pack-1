@@ -208,19 +208,19 @@ Effects.fling = {
     }
 }
 
-Effects.fov = {
-    ["id"] = "fov",
-    ["Desc"] = "your FOV is randomly changed!",
+Effects.speed = {
+    ["id"] = "speed",
+    ["Desc"] = "your speed is randomly changed!",
     ["Functions"] = {
         function(arg1, arg2)
             local ply = CheckForPlayer(arg1, arg2)
             if not ply then return end
-            ply:SetFOV(math.random(50, 125), 0)
+            ply:SetLaggedMovementValue(math.random() * 2 + 0.2)
         end
     },
     ["Reset"] = function()
         for _, ply in ipairs(player.GetAll()) do
-            ply:SetFOV(0, 0)
+            ply:SetLaggedMovementValue(1)
         end
     end
 }
