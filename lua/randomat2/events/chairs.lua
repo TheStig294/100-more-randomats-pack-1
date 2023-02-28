@@ -8,7 +8,12 @@ EVENT.Categories = {"fun", "largeimpact"}
 function EVENT:Begin()
     local rythianModel = "models/player_phoenix.mdl"
 
-    local chairModels = {"models/nova/chair_plastic01.mdl", "models/chairs/armchair.mdl", "models/nova/chair_office01.mdl", "models/nova/chair_office02.mdl", "models/nova/chair_wood01.mdl", "models/props_c17/chair02a.mdl", "models/props_c17/chair_kleiner03a.mdl", "models/props_c17/chair_office01a.mdl", "models/props_c17/chair_stool01a.mdl", "models/props_interiors/furniture_chair01a.mdl", "models/props_interiors/furniture_chair03a.mdl"}
+    local chairModels = {"models/nova/chair_plastic01.mdl", "models/nova/chair_office01.mdl", "models/nova/chair_office02.mdl", "models/nova/chair_wood01.mdl", "models/props_c17/chair_office01a.mdl", "models/props_interiors/furniture_chair01a.mdl", "models/props_interiors/furniture_chair03a.mdl"}
+
+    local addZModels = {
+        ["models/props_interiors/furniture_chair01a.mdl"] = true,
+        ["models/props_interiors/furniture_chair03a.mdl"] = true
+    }
 
     local turn90Models = {
         ["models/nova/chair_plastic01.mdl"] = true,
@@ -18,18 +23,10 @@ function EVENT:Begin()
         ["models/props_c17/chair_office01a.mdl"] = true
     }
 
-    local turn180Models = {
-        ["models/props_c17/chair_kleiner03a.mdl"] = true
-    }
-
     local playerChairs = {}
     local chosenModels = {}
     local notChairPlys = {}
     local rythianModelGiven = false
-
-    if util.IsValidModel(rythianModel) then
-        table.insert(chairModels, rythianModel)
-    end
 
     -- Turns you invisible and puts a chair model on top of you the follows you around an faces the way you do
     for _, ply in ipairs(self:GetAlivePlayers(true)) do
@@ -38,7 +35,7 @@ function EVENT:Begin()
         -- Force anyone using the Rythian model to become a blue chair
         if ply:GetModel() == rythianModel then
             model = "models/nova/chair_plastic01.mdl"
-        elseif not rythianModelGiven then
+        elseif util.IsValidModel(rythianModel) and not rythianModelGiven then
             model = rythianModel
             rythianModelGiven = true
         end
@@ -61,12 +58,12 @@ function EVENT:Begin()
 
         chosenModels[ply] = model
 
-        if turn90Models[model] then
-            chair.Turn90 = true
+        if addZModels[model] then
+            chair.AddZ = true
         end
 
-        if turn180Models[model] then
-            chair.Turn180 = true
+        if turn90Models[model] then
+            chair.Turn90 = true
         end
     end
 
@@ -87,17 +84,20 @@ function EVENT:Begin()
             return
         end
 
-        chair:SetPos(ply:GetPos())
+        -- Some chairs are in the ground for some reason...
+        local pos = ply:GetPos()
+
+        if chair.AddZ then
+            pos.z = pos.z + 25
+        end
+
+        chair:SetPos(pos)
         -- Makes the chair look the same direction as the player
         -- Chair spawns rotated 90 degrees the wrong way for some reason...
         local angles = ply:GetAngles()
 
         if chair.Turn90 then
             angles.y = angles.y - 90
-        end
-
-        if chair.Turn180 then
-            angles.y = angles.y - 180
         end
 
         angles.x = 0
