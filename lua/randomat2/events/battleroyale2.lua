@@ -37,12 +37,12 @@ function EVENT:Begin()
             ply2:SetNWEntity("BattleRoyalePartner", ply)
             local plyMessage = "Your partner is: " .. ply2:Nick()
             local ply2Message = "Your partner is: " .. ply:Nick()
-            ply:PrintMessage(HUD_PRINTTALK, plyMessage)
-            ply2:PrintMessage(HUD_PRINTTALK, ply2Message)
             ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
             ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
 
             timer.Simple(2, function()
+                ply:PrintMessage(HUD_PRINTTALK, plyMessage)
+                ply2:PrintMessage(HUD_PRINTTALK, ply2Message)
                 ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
                 ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
             end)
@@ -64,7 +64,12 @@ function EVENT:Begin()
         end
 
         if ply:GetNWEntity("BattleRoyalePartner") == NULL then
-            ply:ChatPrint("You don't have a partner :(")
+            ply:PrintMessage(HUD_PRINTCENTER, "You have no partner :(")
+
+            timer.Simple(2, function()
+                ply:PrintMessage(HUD_PRINTTALK, "You have no partner :(")
+                ply:PrintMessage(HUD_PRINTCENTER, "You have no partner :(")
+            end)
         end
     end
 

@@ -3,6 +3,18 @@ net.Receive("RandomatBattleroyale2Begin", function()
     local playMusic = net.ReadBool()
 
     if customRolesInstalled then
+        local partners = {}
+
+        timer.Create("BattleRoyale2RandomatGetPartners", 2, 1, function()
+            for _, ply in ipairs(player.GetAll()) do
+                local partner = ply:GetNWEntity("BattleRoyalePartner")
+
+                if IsValid(partner) then
+                    partners[ply] = partner
+                end
+            end
+        end)
+
         hook.Add("TTTScoringWinTitle", "RandomatBattleRoyale2WinTitle", function(wintype, wintitles, title)
             local winner
             local winner2
@@ -10,7 +22,7 @@ net.Receive("RandomatBattleroyale2Begin", function()
             for _, ply in ipairs(player.GetAll()) do
                 if ply:Alive() and not ply:IsSpec() then
                     winner = ply
-                    winner2 = winner:GetNWEntity("BattleRoyalePartner")
+                    winner2 = partners[ply]
                     break
                 end
             end
@@ -18,7 +30,7 @@ net.Receive("RandomatBattleroyale2Begin", function()
             if not winner then return end
             local winString
 
-            if winner2 ~= NULL then
+            if IsValid(winner2) then
                 winString = winner:Nick() .. " and " .. winner2:Nick() .. " win!"
             else
                 winString = winner:Nick() .. "  wins!"
