@@ -667,10 +667,10 @@ function Randomat:GetPlayers(shuffle, alive_only, dead_only)
         plys = GetAllPlayers()
     else
         for _, ply in ipairs(GetAllPlayers()) do
-            if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()))) then
+            if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()) and ply:GetRole() ~= ROLE_NONE)) then
                 -- Anybody
                 -- Alive and non-spec
-                -- Dead or spec
+                -- Dead but not spec
                 table.insert(plys, ply)
             end
         end
