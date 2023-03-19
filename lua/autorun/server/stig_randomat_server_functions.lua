@@ -209,7 +209,11 @@ function Randomat:GivePassiveOrActiveItem(ply, equipment, printChat)
                 name = Randomat:GetEquipmentPrintName(equipment)
             end
 
-            ply:ChatPrint("You received a " .. name .. "!")
+            if name then
+                ply:ChatPrint("You received a " .. name .. "!")
+            else
+                ply:ChatPrint("You received an item!")
+            end
         end)
     end
 
