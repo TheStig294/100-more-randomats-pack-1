@@ -4,6 +4,7 @@ end
 
 ENT.Base = "base_anim"
 ENT.Type = "anim"
+ENT.PrintName = "Bus"
 
 -- Set the prop to a bucket
 function ENT:Initialize()
@@ -11,11 +12,11 @@ function ENT:Initialize()
         self:SetTrigger(true)
     end
 
-    self:SetModel("models/props_junk/metalbucket01a.mdl")
+    self:SetModel("models/randomat/bus/bus.mdl")
     self:PhysicsInit(SOLID_VPHYSICS)
     self:SetMoveType(MOVETYPE_VPHYSICS)
     self:SetSolid(SOLID_VPHYSICS)
-    self:GetPhysicsObject():SetMass(0.5)
+    self:GetPhysicsObject():SetMass(1)
 end
 
 -- Kill any player that touches it
@@ -27,5 +28,6 @@ function ENT:StartTouch(ent)
         dmg:SetInflictor(self)
         dmg:SetAttacker(self)
         ent:TakeDamageInfo(dmg)
+        self:EmitSound("bus/bus_horn.mp3")
     end
 end
