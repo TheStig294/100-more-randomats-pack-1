@@ -6,7 +6,7 @@ ENT.Base = "base_anim"
 ENT.Type = "anim"
 ENT.PrintName = "Bus"
 
--- Set the prop to a bucket
+-- Set the prop to a bus
 function ENT:Initialize()
     if SERVER then
         self:SetTrigger(true)

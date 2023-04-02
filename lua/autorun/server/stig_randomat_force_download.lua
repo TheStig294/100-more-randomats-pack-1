@@ -12,4 +12,7 @@ if SERVER then
     resource.AddFile("models/boomerang/boomerang.vvd")
     resource.AddFile("models/boomerang/boomerang.dx80")
     resource.AddFile("models/boomerang/v_shuriken.mdl")
+    -- The bus prop, used by 'The Bus' randomat
+    resource.AddFile("models/randomat/bus/bus.mdl")
+    resource.AddFile("materials/models/randomat/bus/bus.vmt")
 end
