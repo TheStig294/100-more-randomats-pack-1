@@ -85,8 +85,12 @@ net.Receive("BasicsRandomatClientStart", function()
         end)
 
         -- Disabling sprinting
-        hook.Remove("Think", "TTTSprintThink")
-        hook.Remove("Think", "TTTSprint4Think")
+        hook.Add("TTTSprintStaminaPost", "BasicsRandomatStopSprintStamina", function() return 0 end)
+
+        timer.Simple(0.1, function()
+            hook.Remove("Think", "TTTSprintThink")
+            hook.Remove("Think", "TTTSprint4Think")
+        end)
     end
 
     -- Default active buy menu items only
@@ -166,4 +170,5 @@ net.Receive("BasicsRandomatClientEnd", function()
     RunConsoleCommand("ttt_reset_weapons_cache")
     hook.Remove("PlayerBindPress", "BasicsRandomatDisableSprinting")
     hook.Remove("PlayerBindPress", "BasicsRandomatDisableBuyMenu")
+    hook.Remove("TTTSprintStaminaPost", "BasicsRandomatStopSprintStamina")
 end)
