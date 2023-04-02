@@ -34,9 +34,6 @@ function EVENT:Begin()
         chosenPartner = table.GetWinningKey(traitorWinRates)
     end
 
-    -- Setting the chosen player and their best partner to be traitors
-    -- First, re-select everyone's roles so a player not being a detective anymore isn't suspicious
-    SelectRoles()
     -- Now counting the number of traitors alive, so their number is preserved
     local originalTraitorCount = 0
 
@@ -55,7 +52,7 @@ function EVENT:Begin()
         end
     end
 
-    -- Setting the roles of everyone else to innocent, if there are now more traitors than when everyone's roles were re-selected
+    -- Setting the roles of extra traitors to innocent
     local traitorCount = 2
 
     for _, ply in ipairs(alivePlayers) do
