@@ -65,6 +65,25 @@ function EVENT:Begin()
             ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
         end)
     end)
+
+    -- Only allows players to pick up boomerangs if weapon stripping is enabled
+    self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+        if not strip then return end
+
+        return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_boomerang_weaponid"):GetString()
+    end)
+
+    -- Prevents players from buying non-passive items
+    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+        if not strip or not IsValid(ply) then return end
+
+        if not is_item then
+            ply:PrintMessage(HUD_PRINTCENTER, "Passive items only!")
+            ply:ChatPrint("You can only buy passive items during '" .. Randomat:GetEventTitle(EVENT) .. "'\nYour purchase has been refunded.")
+
+            return false
+        end
+    end)
 end
 
 function EVENT:End()
