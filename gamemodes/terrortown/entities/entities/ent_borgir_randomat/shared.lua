@@ -1,5 +1,6 @@
 AddCSLuaFile()
 ENT.Type = "anim"
+ENT.PrintName = "Borgir"
 
 function ENT:Initialize()
     self:SetModel("models/food/burger.mdl")
