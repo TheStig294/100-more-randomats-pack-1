@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "First come, first served!"
 EVENT.Description = "Only the 1st person to search a body can see its role"
 EVENT.id = "firstsearch"
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"moderateimpact"}
 
