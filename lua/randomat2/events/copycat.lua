@@ -103,9 +103,17 @@ function EVENT:End()
     net.Broadcast()
 end
 
--- This event uses custom roles hooks to work
+-- Don't run if there aren't at least 2 traitors alive as the round could end instantly
 function EVENT:Condition()
-    return #self:GetAlivePlayers() > 1
+    local traitorCount = 0
+
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if Randomat:IsTraitorTeam(ply) then
+            traitorCount = traitorCount + 1
+        end
+    end
+
+    return traitorCount > 1
 end
 
 Randomat:register(EVENT)
