@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Triggered"
 EVENT.Description = "After someone dies, everyone gets 'triggered' for a split second"
 EVENT.id = "triggered"
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"biased_innocent", "biased", "largeimpact"}
 
