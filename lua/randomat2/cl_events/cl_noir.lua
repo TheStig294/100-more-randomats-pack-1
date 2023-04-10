@@ -60,6 +60,20 @@ net.Receive("randomat_noir", function()
                 surface.PlaySound("noir/deadly_roulette.mp3")
             end
         end)
+
+        timer.Simple(5, function()
+            chat.AddText("Press 'M' to mute music")
+        end)
+
+        hook.Add("PlayerButtonDown", "NoirMuteMusicButton", function(ply, button)
+            if button == KEY_M then
+                RunConsoleCommand("stopsound")
+                chat.AddText("Music muted")
+                music = false
+                timer.Remove("NoirRandomatMusicLoop")
+                hook.Remove("PlayerButtonDown", "NoirMuteMusicButton")
+            end
+        end)
     end
 end)
 
@@ -90,5 +104,6 @@ net.Receive("randomat_noir_end", function()
     timer.Simple(9, function()
         hook.Remove("RenderScreenspaceEffects", "NoirRandomatGreyscaleEffect")
         hook.Remove("HUDPaintBackground", "NoirRandomatDrawBars")
+        hook.Remove("PlayerButtonDown", "NoirMuteMusicButton")
     end)
 end)

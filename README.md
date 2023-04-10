@@ -749,6 +749,7 @@ All unspent credits are removed, no other guns/grenades/weapons other than the r
 If innocents/traitors win, the winners have a free-for-all instead!\
 \
 _ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled\
+_randomat_pistols_music_ - Default: 1 - Whether music is enabled during showdown\
 \
 Credit for the copyright-free music used:\
 "Rattlesnake Railroad" by Brett Van Donsel <https://incompetech.com/> \
@@ -989,7 +990,7 @@ This randomat's name is a randomly chosen western film trope/reference:
 - The innocent, the traitors, and the ugly
 - This town ain't big enough for both of us...
 - Go ahead... make my day
-- They say he's the fastest draw in the west...
+- They say he's the fastest gun in the west...
 - The quick, and the dead
 
 _ttt_randomat_western_ - Default: 1 - Whether this randomat is enabled\

@@ -1410,6 +1410,20 @@ net.Receive("FrenchRandomatBegin", function()
         timer.Create("FrenchRandomatMusicLoop", 61.7, 0, function()
             surface.PlaySound("french/chic_magnet.mp3")
         end)
+
+        timer.Simple(5, function()
+            chat.AddText("\nPress 'M' to mute music!\n\nerr I mean... Appuyez sur 'M' pour couper la musique!")
+        end)
+
+        hook.Add("PlayerButtonDown", "FrenchMuteMusicButton", function(ply, button)
+            if button == KEY_M then
+                RunConsoleCommand("stopsound")
+                chat.AddText("Music muted")
+                music = false
+                timer.Remove("FrenchRandomatMusicLoop")
+                hook.Remove("PlayerButtonDown", "FrenchMuteMusicButton")
+            end
+        end)
     end
 end)
 
@@ -1470,6 +1484,8 @@ net.Receive("FrenchRandomatEnd", function()
             surface.PlaySound("french/chic_magnet_end.mp3")
         end)
     end
+
+    hook.Remove("PlayerButtonDown", "FrenchMuteMusicButton")
 
     -- Remove the French flag overlay,
     -- if music is playing, in time with the music ending

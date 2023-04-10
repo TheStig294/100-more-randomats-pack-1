@@ -7,6 +7,8 @@ EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_MUSIC}
 
 EVENT.Categories = {"gamemode", "rolechange", "largeimpact"}
 
+local musicCvar = CreateConVar("randomat_pistols_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether music is enabled during showdown", 0, 1)
+
 util.AddNetworkString("PistolsPrepareShowdown")
 util.AddNetworkString("PistolsBeginShowdown")
 util.AddNetworkString("PistolsRandomatWinTitle")
@@ -84,6 +86,7 @@ function EVENT:Begin()
         if triggerShowdown then
             if pistolsTriggerOnce == false then
                 net.Start("PistolsPrepareShowdown")
+                net.WriteBool(musicCvar:GetBool())
                 net.Broadcast()
 
                 -- After a delay, trigger a notification and let players see through walls if that randomat is added by another mod,
@@ -234,6 +237,25 @@ function EVENT:End()
             end)
         end
     end
+end
+
+function EVENT:GetConVars()
+    local checks = {}
+
+    for _, v in pairs({"music"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checks, {
+                cmd = v,
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    return {}, checks
 end
 
 Randomat:register(EVENT)

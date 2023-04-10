@@ -60,6 +60,20 @@ net.Receive("WesternBeginEvent", function()
                 surface.PlaySound("pistols/rattlesnake_railroad.mp3")
             end
         end)
+
+        timer.Simple(5, function()
+            chat.AddText("Press 'M' to mute music")
+        end)
+
+        hook.Add("PlayerButtonDown", "WesternMuteMusicButton", function(ply, button)
+            if button == KEY_M then
+                RunConsoleCommand("stopsound")
+                chat.AddText("Music muted")
+                music = false
+                timer.Remove("WesternRandomatMusicLoop")
+                hook.Remove("PlayerButtonDown", "WesternMuteMusicButton")
+            end
+        end)
     end
 
     -- Prevents players from walking around while in a duel
@@ -74,11 +88,14 @@ end)
 net.Receive("WesternEndEvent", function()
     hook.Remove("StartCommand", "WesternRandomatStopDuelMovement")
     timer.Remove("WesternRandomatMusicLoop")
-    RunConsoleCommand("stopsound")
 
-    timer.Simple(0.1, function()
-        surface.PlaySound("pistols/rattlesnake_railroad_end.mp3")
-    end)
+    if music then
+        RunConsoleCommand("stopsound")
+
+        timer.Simple(0.1, function()
+            surface.PlaySound("pistols/rattlesnake_railroad_end.mp3")
+        end)
+    end
 
     -- Fades in colour and moves black bars off the screen over 2 seconds
     timer.Simple(4, function()
@@ -97,5 +114,6 @@ net.Receive("WesternEndEvent", function()
     timer.Simple(9, function()
         hook.Remove("RenderScreenspaceEffects", "WesternRandomatTintEffect")
         hook.Remove("HUDPaintBackground", "WesternRandomatDrawBars")
+        hook.Remove("PlayerButtonDown", "WesternMuteMusicButton")
     end)
 end)

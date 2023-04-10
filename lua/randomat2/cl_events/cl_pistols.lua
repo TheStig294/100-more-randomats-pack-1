@@ -7,8 +7,11 @@ local xPos2
 local yPos2
 local width2
 local height2
+local music
 
 net.Receive("PistolsPrepareShowdown", function()
+    music = net.ReadBool()
+
     -- Adds a near-black-and-white filter to the screen
     color_tbl = {
         ["$pp_colour_addr"] = 0,
@@ -58,8 +61,23 @@ net.Receive("PistolsPrepareShowdown", function()
         yPos2 = yPos2 - 1
     end)
 
-    for i = 1, 2 do
-        surface.PlaySound("pistols/rattlesnake_railroad.mp3")
+    if music then
+        for i = 1, 2 do
+            surface.PlaySound("pistols/rattlesnake_railroad.mp3")
+        end
+
+        timer.Simple(5, function()
+            chat.AddText("Press 'M' to mute music")
+        end)
+
+        hook.Add("PlayerButtonDown", "PistolsMuteMusicButton", function(ply, button)
+            if button == KEY_M then
+                RunConsoleCommand("stopsound")
+                chat.AddText("Music muted")
+                music = false
+                hook.Remove("PlayerButtonDown", "PistolsMuteMusicButton")
+            end
+        end)
     end
 end)
 
@@ -108,11 +126,14 @@ end)
 net.Receive("PistolsEndEvent", function()
     hook.Remove("PreDrawHalos", "PistolsRandomatHalos")
     hook.Remove("TTTScoringWinTitle", "RandomatPistolsWinTitle")
-    RunConsoleCommand("stopsound")
 
-    timer.Simple(0.1, function()
-        surface.PlaySound("pistols/rattlesnake_railroad_end.mp3")
-    end)
+    if music then
+        RunConsoleCommand("stopsound")
+
+        timer.Simple(0.1, function()
+            surface.PlaySound("pistols/rattlesnake_railroad_end.mp3")
+        end)
+    end
 
     -- Fades in colour and moves black bars off the screen over 3 seconds
     timer.Simple(4, function()
@@ -134,5 +155,6 @@ net.Receive("PistolsEndEvent", function()
     timer.Simple(9, function()
         hook.Remove("RenderScreenspaceEffects", "PistolsRandomatTintEffect")
         hook.Remove("HUDPaintBackground", "PistolsRandomatDrawBars")
+        hook.Remove("PlayerButtonDown", "PistolsMuteMusicButton")
     end)
 end)
