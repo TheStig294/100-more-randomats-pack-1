@@ -24,22 +24,11 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Go home, you're drunk! - Makes everyone look drunk
 1. Copycat! - Someone copies someone else's attributes!
 1. Discord Sounds - Dead players can play discord sounds!
 1. Borgir - Spawns "borgirs" that increase/decrease your speed
 1. The Michael Rosen Rap - Replaces game sounds with Michael Rosen sounds!
-1. Memes - Everyone sees a meme every 30 seconds!
-1. YEET - Get 'yeeted' when you take damage
-1. Who has the best spray? - You automatically use your spray!
-1. Nice - Hear a "\*Click\* Nice" sound in place of a hitmarker
-1. Combo - Triggers a random interesting combo of randomats
-1. LAST \*PAIR\* ALIVE WINS! Duos battle royale! - Battle royale, in pairs!
-1. My planet needs me! - Ragdolls move around
-1. Hot Pursuit - Move faster as players are killed
-1. Shoot and Loot! - Killed players drop buyable weapons!
-1. You spin me right round baby... - Taking damage rotates you
-1. Drop Shot! - While not crouching, damage you deal heals instead
-1. Doomed! - You can only look side-to-side
 
 # Randomats
 
@@ -497,6 +486,12 @@ Changed name from "Troll Prop"\
 _ttt_randomat_revenge_ - Default: 1 - Whether this randomat is enabled\
 _randomat_revenge_multiplier_ - Default: 4 - Multiplier to all prop possession stats\
 _randomat_revenge_timer_ - Default: 0 - Seconds until this event activates
+
+## Go home, you're drunk
+
+Makes everyone's models' bones a jigglebone, and adds a blur effect to the edges of the screen.\
+\
+_ttt_randomat_drunk_ - Default: 1 - Whether this randomat is enabled
 
 ## Gotta buy 'em all
 
