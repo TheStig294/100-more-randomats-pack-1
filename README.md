@@ -24,11 +24,11 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Back of the Cupboard - Gives everyone their least bought items!
 1. Go home, you're drunk! - Makes everyone look drunk
 1. Copycat! - Someone copies someone else's attributes!
 1. Discord Sounds - Dead players can play discord sounds!
 1. Borgir - Spawns "borgirs" that increase/decrease your speed
-1. The Michael Rosen Rap - Replaces game sounds with Michael Rosen sounds!
 
 # Randomats
 
@@ -58,17 +58,14 @@ _randomat_speedjumphealth_multiplier_ - Default: 50 - Percent multiplier to stat
 
 Originally made by [HagenSNKL](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819)
 
-## BAWK
+## Back of the Cupboard
 
-Turns everyone's models into chickens, corpses disappear on death, a set amount of health, and everyone makes chicken noises.\
+Gives everyone their 2 least bought items\
 \
-_ttt_randomat_chickens_ - Default: 1 - Whether this randomat is enabled\
-_randomat_chickens_hp_ - Default: 60 - The HP players are set to\
-_randomat_chickens_sc_ - Default: 0.25 - The fraction of size players are shrunk to\
-_randomat_chickens_sp_ - Default: 0.75 - The movement speed multiplier\
+_ttt_randomat_cupboard_ - Default: 1 - Whether this randomat is enabled\
+_randomat_cupboard_given_items_count_ - Default: 2 - How many most bought items to give out\
 \
-Converted to work with randomat 2.0 rather than TTT2, added much more chicken sounds, fixed playermodels not being reset at the start of the next round, removed zombie chicken\
-Originally made by [Miko0l](https://steamcommunity.com/sharedfiles/filedetails/?id=2224127289)
+Idea from Corvatile on the Custom Roles discord\
 
 ## Back to Basics
 
@@ -87,6 +84,18 @@ Strips everything back to base TTT, as much as possible.
 _ttt_randomat_basics_ - Default: 1 - Whether this randomat is enabled\
 _randomat_basics_sprinting_ - Default: 0 - Whether sprinting is enabled\
 _randomat_basics_multi_jump_ - Default: 0 - Whether multi-jumping is enabled
+
+## BAWK
+
+Turns everyone's models into chickens, corpses disappear on death, a set amount of health, and everyone makes chicken noises.\
+\
+_ttt_randomat_chickens_ - Default: 1 - Whether this randomat is enabled\
+_randomat_chickens_hp_ - Default: 60 - The HP players are set to\
+_randomat_chickens_sc_ - Default: 0.25 - The fraction of size players are shrunk to\
+_randomat_chickens_sp_ - Default: 0.75 - The movement speed multiplier\
+\
+Converted to work with randomat 2.0 rather than TTT2, added much more chicken sounds, fixed playermodels not being reset at the start of the next round, removed zombie chicken\
+Originally made by [Miko0l](https://steamcommunity.com/sharedfiles/filedetails/?id=2224127289)
 
 ## Ban a Randomat
 
