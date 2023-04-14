@@ -5,14 +5,16 @@ EVENT.id = "greedy"
 
 EVENT.Categories = {"biased_innocent", "biased", "item", "largeimpact"}
 
-CreateConVar("randomat_greedy_timer_min", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Min seconds before a weapon tries to be given", 1, 120)
+local minCvar = CreateConVar("randomat_greedy_timer_min", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Min seconds before a weapon tries to be given", 1, 120)
 
-CreateConVar("randomat_greedy_timer_max", 60, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Max seconds before a weapon tries to be given", 1, 120)
+local maxCvar = CreateConVar("randomat_greedy_timer_max", 60, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Max seconds before a weapon tries to be given", 1, 120)
+
+local soundCvar = CreateConVar("randomat_greedy_slap_sound", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether a slap sound should play on death", 0, 1)
 
 local droppableWeapons = {}
 
 local function CreateTimer(ply)
-    local time = math.random(GetConVar("randomat_greedy_timer_min"):GetInt(), GetConVar("randomat_greedy_timer_max"):GetInt())
+    local time = math.random(minCvar:GetInt(), maxCvar:GetInt())
 
     timer.Create("GreedyRandomatTimer" .. ply:SteamID64(), time, 0, function()
         -- Don't display messages while the player isn't alive
@@ -22,6 +24,11 @@ local function CreateTimer(ply)
         for _, wep in ipairs(ply:GetWeapons()) do
             if wep.Kind and wep.Kind >= WEAPON_EQUIP and wep.Kind ~= WEAPON_ROLE then
                 ply:Kill()
+
+                if soundCvar:GetBool() then
+                    BroadcastLua("surface.PlaySound(\"greedy/greedy.mp3\")")
+                end
+
                 EVENT:SmallNotify(ply:Nick() .. " got too greedy!")
                 hadItem = true
             end
@@ -85,7 +92,22 @@ function EVENT:GetConVars()
         end
     end
 
-    return sliders
+    local checks = {}
+
+    for _, v in pairs({"slap_sound"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checks, {
+                cmd = v,
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    return sliders, checks
 end
 
 Randomat:register(EVENT)

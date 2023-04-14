@@ -287,7 +287,8 @@ Everyone gets buyable items over time, but if they're already holding one, they 
 \
 _ttt_randomat_greedy_ - Default: 1 - Whether this randomat is enabled\
 _randomat_greedy_timer_min_ - Default: 10 - Min seconds before a weapon tries to be given\
-_randomat_greedy_timer_max_ - Default: 60 - Max seconds before a weapon tries to be given
+_randomat_greedy_timer_max_ - Default: 60 - Max seconds before a weapon tries to be given\
+_randomat_greedy_slap_sound_ - Default: 0 - Whether a slap sound should play on death
 
 ## Don't Miss
 
