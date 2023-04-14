@@ -69,7 +69,7 @@ local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, y
     end
 
     -- Role icons
-    if iconRole then
+    if roleIcons and iconRole then
         surface.SetMaterial(roleIcons[iconRole])
         surface.SetDrawColor(255, 255, 255, 200)
 
