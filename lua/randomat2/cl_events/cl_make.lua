@@ -77,7 +77,12 @@ local function makeRandomat(causeID, effectID)
     local nameHeight = 25
     NameEntry:SetPos(width / 2 - nameWidth / 2, height / 2 - nameHeight / 2)
     NameEntry:SetSize(nameWidth, nameHeight)
-    NameEntry:SetText("(name)")
+    NameEntry:SetText("(Enter name here)")
+
+    -- Make the text field clear when you click into it.
+    NameEntry.OnGetFocus = function(self)
+        self:SetText("")
+    end
 
     NameEntry.OnEnter = function(self)
         randomatName = self:GetValue()
