@@ -22,8 +22,7 @@ function EVENT:SetPlayerSize(randomSize, ply)
     a, b = ply:GetHullDuck()
     ply:SetHullDuck(a * randomSize, b * randomSize)
     ply:SetHealth(ply:Health() * randomSize)
-    ply:SetMaxHealth(ply:Health() * randomSize)
-    ply:SetGravity(randomSize)
+    ply:SetMaxHealth(ply:GetMaxHealth() * randomSize)
     ply:SetStepSize(ply:GetStepSize() * randomSize)
     -- Reduce the player speed on the client
     local speed_factor = math.Clamp(ply:GetStepSize() / 9, 0.25, 1)
@@ -63,7 +62,6 @@ function EVENT:ResetPlayerSize(ply)
     -- Reset their model size, ability to jump, hitbox and step size
     ply:ResetHull()
     ply:SetModelScale(1, 1)
-    ply:SetGravity(1)
     ply:SetStepSize(18)
     ply:SetHealth(100)
     -- Reset the player speed on the client
