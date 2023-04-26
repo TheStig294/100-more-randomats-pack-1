@@ -10,6 +10,7 @@ local altSoundCvar = CreateConVar("randomat_fart_alt_sound", "0", {FCVAR_ARCHIVE
 local ravsModel = "models/solidsnakemgs4/solidsnakemgs4.mdl"
 local garfieldModel = "models/player/garfield/buff_garfield.mdl"
 local ps1RavsModel = "models/vinrax/player/MGS_Solid_Snake.mdl"
+local ravsModelExists = util.IsValidModel(ravsModel)
 
 if ravsModelExists then
     EVENT.Description = EVENT.Description .. ", everyone is a master of stealth!"
@@ -20,7 +21,7 @@ function EVENT:Begin()
     local givenPlayermodels = {}
 
     -- Sets everyone's models
-    if util.IsValidModel(ravsModel) then
+    if ravsModelExists then
         local alivePlys = self:GetAlivePlayers(true)
         local ps1RavsModelExists = util.IsValidModel(ps1RavsModel)
 
