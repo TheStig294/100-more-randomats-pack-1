@@ -2,7 +2,7 @@
 -- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if GetGlobalBool("DisableStigRandomatBase") then return end
 -- Event Tracking
-local show_count = CreateClientConVar("cl_randomat_show_count", "0", true, false, "Whether to show the active Randomat count on the HUD", 0, 1)
+local show_count = CreateClientConVar("cl_randomat_show_active", "1", true, false, "Whether to show the active Randomat count on the HUD", 0, 1)
 Randomat.ActiveEvents = Randomat.ActiveEvents or {}
 
 net.Receive("RdmtEventBegin", function()
@@ -94,7 +94,7 @@ hook.Add("TTTSettingsTabs", "RandomatEventTrackingTTTSettingsTabs", function(dta
     if CR_VERSION then
         local dsettings = vgui.Create("DForm", drdmt)
         dsettings:SetName("Randomat Client Settings")
-        dsettings:CheckBox("Show active Randomat count on UI", "cl_randomat_show_count")
+        dsettings:CheckBox("Show active Randomat count on UI", "cl_randomat_show_active")
         drdmt:AddItem(dsettings)
     end
 

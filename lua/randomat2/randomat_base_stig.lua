@@ -58,6 +58,7 @@ local table = table
 local timer = timer
 local CallHook = hook.Call
 local EntsCreate = ents.Create
+local EntsFindByClass = ents.FindByClass
 local GetAllPlayers = player.GetAll
 local GetAllEnts = ents.GetAll
 local COLOR_BLANK = Color(0, 0, 0, 0)
@@ -219,6 +220,7 @@ local function TriggerEvent(event, ply, options, ...)
     event.owner = owner
     event.Owner = owner
     event.Silent = silent
+    event.StartTime = CurTime()
     event:Begin(...)
     -- Run this after the "Begin" so we have the latest title and description
     local title = Randomat:GetEventTitle(event)
@@ -574,6 +576,8 @@ function Randomat:GetReadableCategory(category)
         return "Game Mode"
     elseif category == "entityspawn" then
         return "Entity Spawn"
+    elseif category == "modelchange" then
+        return "Model Change"
     elseif string.StartsWith(category, "biased_") then
         local parts = string.Explode("_", category)
 
@@ -1319,12 +1323,19 @@ function randomat_meta:AddCullingBypass(ply_pred, tgt_pred)
 end
 
 -- Entities
-function randomat_meta:AddEntityCullingBypass(ply_pred, tgt_pred)
+function randomat_meta:AddEntityCullingBypass(ply_pred, tgt_pred, class)
     self:AddHook("SetupPlayerVisibility", function(ply)
         if ply.ShouldBypassCulling and not ply:ShouldBypassCulling() then return end
         if ply_pred and not ply_pred(ply) then return end
+        local ent_table
 
-        for _, v in ipairs(GetAllEnts()) do
+        if class then
+            ent_table = EntsFindByClass(class)
+        else
+            ent_table = GetAllEnts()
+        end
+
+        for _, v in ipairs(ent_table) do
             if tgt_pred and not tgt_pred(ply, v) then continue end
             if ply:TestPVS(v) then continue end
             local pos = v:GetPos()
