@@ -32,6 +32,10 @@ EVENT.id = "whoa"
 
 EVENT.Categories = {"item", "largeimpact", "deathtrigger"}
 
+if modelExists then
+    table.insert(EVENT.Categories, 1, "modelchange")
+end
+
 strip = strip:GetBool()
 
 if strip then

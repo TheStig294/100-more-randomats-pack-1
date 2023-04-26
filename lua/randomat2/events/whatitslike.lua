@@ -19,7 +19,7 @@ EVENT.id = "whatitslike"
 EVENT.Description = GetDescription()
 EVENT.AltTitle = "What it's like to be..."
 
-EVENT.Categories = {"stats", "item", "largeimpact"}
+EVENT.Categories = {"stats", "modelchange", "item", "largeimpact"}
 
 CreateConVar("randomat_whatitslike_disguise", 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Hide player names")
 

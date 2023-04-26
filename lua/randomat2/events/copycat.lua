@@ -27,7 +27,7 @@ EVENT.Title = "Copycat!"
 EVENT.Description = GetDescription()
 EVENT.id = "copycat"
 
-EVENT.Categories = {"rolechange", "item", "moderateimpact"}
+EVENT.Categories = {"rolechange", "modelchange", "item", "moderateimpact"}
 
 util.AddNetworkString("CopycatRandomatBegin")
 util.AddNetworkString("CopycatRandomatEnd")

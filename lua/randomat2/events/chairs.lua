@@ -3,7 +3,7 @@ EVENT.Title = "Take a seat!"
 EVENT.Description = "Turns everyone into chairs!"
 EVENT.id = "chairs"
 
-EVENT.Categories = {"fun", "largeimpact"}
+EVENT.Categories = {"modelchange", "fun", "largeimpact"}
 
 function EVENT:Begin()
     local rythianModel = "models/player_phoenix.mdl"

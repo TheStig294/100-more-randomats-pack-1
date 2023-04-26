@@ -3,7 +3,7 @@ EVENT.Title = "Petrify!"
 EVENT.Description = "Turns players into a stone like figure, playing a quite annoying sound when they move."
 EVENT.id = "petrify"
 
-EVENT.Categories = {"fun", "rolechange", "moderateimpact", "biased_traitor", "biased"}
+EVENT.Categories = {"modelchange", "fun", "rolechange", "moderateimpact", "biased_traitor", "biased"}
 
 function EVENT:Begin()
     -- Petrify all players

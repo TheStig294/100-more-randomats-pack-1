@@ -39,7 +39,7 @@ EVENT.id = "duncanevent"
 EVENT.Description = GetDescription()
 EVENT.AltTitle = "It's ..."
 
-EVENT.Categories = {"largeimpact"}
+EVENT.Categories = {"modelchange", "largeimpact"}
 
 function EVENT:Begin()
     self.Description = GetDescription()

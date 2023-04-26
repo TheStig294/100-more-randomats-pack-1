@@ -1,15 +1,16 @@
 local EVENT = {}
 EVENT.Title = "Blegh"
 EVENT.Description = "Everyone hears a 'Blegh!' sound when someone dies"
+EVENT.id = "bleghsound"
+
+EVENT.Categories = {"deathtrigger", "smallimpact", "biased_innocent", "biased"}
+
 local plushSharkModel = "models/bradyjharty/yogscast/sharky.mdl"
 
 if util.IsValidModel(plushSharkModel) then
     EVENT.Description = "Make a 'Blegh!' sound when you die, everyone is a sharky!"
+    table.insert(EVENT.Categories, 1, "modelchange")
 end
-
-EVENT.id = "bleghsound"
-
-EVENT.Categories = {"deathtrigger", "smallimpact", "biased_innocent", "biased"}
 
 util.AddNetworkString("BleghRandomatSound")
 

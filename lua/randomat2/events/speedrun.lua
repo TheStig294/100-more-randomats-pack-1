@@ -8,11 +8,16 @@ EVENT.id = "speedrun"
 
 EVENT.Categories = {"biased_innocent", "biased", "largeimpact"}
 
+local modelExists = util.IsValidModel("models/vinrax/player/mgs_solid_snake.mdl")
+
+if modelExists then
+    table.insert(EVENT.Categories, "modelchange")
+end
+
 util.AddNetworkString("SpeedrunRandomatPlayAlertSound")
 local speedrunRandomat = false
 local hasteMode = false
 local hasteMinutes = 0.5
-local modelExists = util.IsValidModel("models/vinrax/player/mgs_solid_snake.mdl")
 
 function EVENT:Begin()
     speedrunRandomat = true

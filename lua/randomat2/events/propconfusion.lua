@@ -4,7 +4,7 @@ EVENT.Description = "Someone sees everyone else as props!"
 EVENT.id = "propconfusion"
 EVENT.StartSecret = true
 
-EVENT.Categories = {"fun", "moderateimpact"}
+EVENT.Categories = {"modelchange", "fun", "moderateimpact"}
 
 util.AddNetworkString("PropConfusionRandomatBegin")
 util.AddNetworkString("PropConfusionRandomatEnd")

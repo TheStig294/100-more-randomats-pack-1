@@ -3,7 +3,7 @@ EVENT.Title = "Who's Who?"
 EVENT.Description = "Everyone swaps playermodels"
 EVENT.id = "whoswho"
 
-EVENT.Categories = {"fun", "largeimpact"}
+EVENT.Categories = {"modelchange", "fun", "largeimpact"}
 
 local swapModels = {}
 local playerModels = {}

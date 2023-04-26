@@ -3,7 +3,7 @@ EVENT.Title = "Back to Basics"
 EVENT.Description = "It's time for a round of original TTT!"
 EVENT.id = "basics"
 
-EVENT.Categories = {"rolechange", "gamemode", "largeimpact"}
+EVENT.Categories = {"rolechange", "modelchange", "gamemode", "largeimpact"}
 
 CreateConVar("randomat_basics_sprinting", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether sprinting is enabled", 0, 1)
 

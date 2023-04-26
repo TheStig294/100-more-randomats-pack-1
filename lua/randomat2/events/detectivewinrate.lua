@@ -5,6 +5,10 @@ EVENT.id = "detectivewinrate"
 
 EVENT.Categories = {"biased_innocent", "biased", "stats", "smallimpact"}
 
+if util.IsValidModel("models/player/jenssons/kermit.mdl") then
+    table.insert(EVENT.Categories, 1, "modelchange")
+end
+
 function EVENT:Begin()
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua
     local stats = GetRandomatPlayerStats()

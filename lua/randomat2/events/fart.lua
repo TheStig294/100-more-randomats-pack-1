@@ -13,6 +13,7 @@ local ps1RavsModel = "models/vinrax/player/MGS_Solid_Snake.mdl"
 
 if ravsModelExists then
     EVENT.Description = EVENT.Description .. ", everyone is a master of stealth!"
+    table.insert(EVENT.Categories, "modelchange")
 end
 
 function EVENT:Begin()

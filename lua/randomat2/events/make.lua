@@ -312,7 +312,7 @@ EVENT.Description = GetEventDescription()
 EVENT.id = "make"
 EVENT.Type = EVENT_TYPE_VOTING
 
-EVENT.Categories = {"eventtrigger", "largeimpact"}
+EVENT.Categories = {"eventtrigger", "modelchange", "largeimpact"}
 
 util.AddNetworkString("MakeRandomatTrigger")
 util.AddNetworkString("PlayerMadeRandomat")
