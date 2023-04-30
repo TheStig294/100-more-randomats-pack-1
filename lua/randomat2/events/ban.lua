@@ -53,17 +53,19 @@ function EVENT:Begin()
     local x = 0
 
     for _, v in RandomPairs(Randomat.Events) do
-        if x < GetConVar("randomat_ban_choices"):GetInt() and Randomat:CanEventRun(v) and v.id ~= "ban" then
-            x = x + 1
-            local title = Randomat:GetEventTitle(v)
-            EventChoices[x] = title
-            EventVotes[title] = 0
+        if x < GetConVar("randomat_ban_choices"):GetInt() then
+            if Randomat:CanEventRun(v) and v.id ~= "ban" then
+                x = x + 1
+                local title = Randomat:GetEventTitle(v)
+                EventChoices[x] = title
+                EventVotes[title] = 0
+            end
         end
     end
 
     if GetConVar("randomat_ban_vote"):GetBool() then
         net.Start("BanVoteTrigger")
-        net.WriteInt(GetConVar("randomat_ban_choices"):GetInt(), 8)
+        net.WriteInt(GetConVarNumber("randomat_ban_choices"), 32)
         net.WriteTable(EventChoices)
         net.Broadcast()
 
@@ -107,7 +109,7 @@ function EVENT:Begin()
         end)
     else
         net.Start("BanEventTrigger")
-        net.WriteInt(GetConVar("randomat_ban_choices"):GetInt(), 8)
+        net.WriteInt(GetConVarNumber("randomat_ban_choices"), 32)
         net.WriteTable(EventChoices)
         net.Send(owner)
     end
@@ -166,13 +168,13 @@ net.Receive("PlayerBannedEvent", function()
 
         if title == str then
             if v.id == "ban" then
-                EVENT:SmallNotify("Very funny... Nothing gets banned then.")
+                self:SmallNotify("Very funny... Nothing gets banned then.")
             else
                 local lastBan = GetConVar("randomat_ban_last_banned_randomat"):GetString()
                 RunConsoleCommand("ttt_randomat_" .. lastBan, 1)
                 RunConsoleCommand("ttt_randomat_" .. v.id, 0)
                 GetConVar("randomat_ban_last_banned_randomat"):SetString(v.id)
-                EVENT:SmallNotify(title .. " is banned.")
+                self:SmallNotify(title .. " is banned.")
             end
         end
     end

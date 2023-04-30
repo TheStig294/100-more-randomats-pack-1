@@ -43,7 +43,7 @@ local function openFrame(x)
 end
 
 net.Receive("BanEventTrigger", function()
-    local x = net.ReadInt(8)
+    local x = net.ReadInt(32)
     local tbl = net.ReadTable()
     local frame = openFrame(x)
     --Event List
