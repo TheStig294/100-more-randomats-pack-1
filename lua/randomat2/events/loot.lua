@@ -23,7 +23,14 @@ function EVENT:Begin()
             end
 
             local ragdoll = victim.server_ragdoll or victim:GetRagdollEntity()
-            local pos = ragdoll:GetPos() + Vector(0, 0, 25)
+            local pos
+
+            if IsValid(ragdoll) then
+                pos = ragdoll:GetPos() + Vector(0, 0, 25)
+            else
+                pos = victim:GetPos() + Vector(0, 0, 25)
+            end
+
             local idx = math.random(1, #lootTable)
             local wep = lootTable[idx]
             table.remove(lootTable, idx)
