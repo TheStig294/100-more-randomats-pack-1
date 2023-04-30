@@ -24,7 +24,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
-1. Back of the Cupboard - Gives everyone their least bought items!
 1. Go home, you're drunk! - Makes everyone look drunk
 1. Copycat! - Someone copies someone else's attributes!
 1. Discord Sounds - Dead players can play discord sounds!
@@ -57,15 +56,6 @@ _ttt_randomat_speedjumphealth_ - Default: 1 - Whether this randomat is enabled\
 _randomat_speedjumphealth_multiplier_ - Default: 50 - Percent multiplier to stats
 
 Originally made by [HagenSNKL](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819)
-
-## Back of the Cupboard
-
-Gives everyone their 2 least bought items\
-\
-_ttt_randomat_cupboard_ - Default: 1 - Whether this randomat is enabled\
-_randomat_cupboard_given_items_count_ - Default: 2 - How many most bought items to give out\
-\
-Idea from Corvatile on the Custom Roles discord\
 
 ## Back to Basics
 
