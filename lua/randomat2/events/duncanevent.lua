@@ -19,12 +19,12 @@
 util.AddNetworkString("DuncanEventRandomatHideNames")
 util.AddNetworkString("DuncanEventRandomatEnd")
 
-CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Hide player names")
+local disguiseCvar = CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Hide player names")
 
 local function GetDescription()
     local description = "Everyone has the same playermodel"
 
-    if GetConVar("randomat_duncanevent_disguise"):GetBool() then
+    if disguiseCvar:GetBool() then
         description = description .. ", names are hidden"
     end
 
@@ -45,11 +45,12 @@ function EVENT:Begin()
     self.Description = GetDescription()
     local chosenPly = table.Random(self:GetAlivePlayers())
     local chosenPlyModelData = Randomat:GetPlayerModelData(chosenPly)
+    local disguise = disguiseCvar:GetBool()
 
     for k, ply in pairs(self:GetAlivePlayers()) do
         Randomat:ForceSetPlayermodel(ply, chosenPlyModelData)
 
-        if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
+        if not CR_VERSION and disguise then
             -- If CR is not installed, use the fallback method of hiding names by using TTT's in-built disguiser functionality
             -- Unfortunately, this will mean that traitors can still see everyone's names, as that's how the disguiser works
             ply:SetNWBool("disguised", true)
@@ -58,8 +59,9 @@ function EVENT:Begin()
 
     Randomat:EventNotifySilent("It's " .. chosenPly:Nick() .. "!")
 
-    if CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
+    if CR_VERSION and disguise then
         net.Start("DuncanEventRandomatHideNames")
+        net.WriteBool(disguise)
         net.Broadcast()
     end
 
@@ -68,7 +70,7 @@ function EVENT:Begin()
         timer.Simple(1, function()
             Randomat:ForceSetPlayermodel(ply, chosenPlyModelData)
 
-            if not CR_VERSION and GetConVar("randomat_duncanevent_disguise"):GetBool() then
+            if not CR_VERSION and disguise then
                 ply:SetNWBool("disguised", true)
             end
         end)
