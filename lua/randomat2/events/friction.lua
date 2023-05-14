@@ -39,7 +39,13 @@ function EVENT:Begin()
 
     -- Removing all explosive barrels from the map as people will not expect them to explode when they walk into them
     for i, barrel in ipairs(ents.FindByModel("models/props_c17/oildrum001_explosive.mdl")) do
-        barrel:Remove()
+        local class = barrel:GetClass()
+
+        -- Check if the barrel is actually a physics prop first and not a prop disguised player
+        if string.StartWith(class, "prop_physics") and not barrel.IsADisguise then
+            print(barrel)
+            barrel:Remove()
+        end
     end
 
     -- Refund credits if players are holding weapons that don't work during this event
