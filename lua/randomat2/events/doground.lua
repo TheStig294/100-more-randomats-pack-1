@@ -5,7 +5,6 @@ EVENT.id = "doground"
 
 EVENT.Categories = {"biased_traitor", "biased", "entityspawn", "largeimpact"}
 
-EVENT.MaxAmmo = false
 EVENT.ZombieSpawns = {}
 EVENT.PlayerPositions = {}
 EVENT.ChosenSpawns = 0
@@ -101,8 +100,11 @@ function EVENT:EndDogRound()
     net.Broadcast()
 
     timer.Simple(5, function()
-        self.MaxAmmo = true
         Randomat:EventNotifySilent("Max Ammo!")
+
+        if Randomat:CanEventRun("ammo") then
+            Randomat:SilentTriggerEvent("ammo")
+        end
     end)
 
     timer.Simple(10, function()
@@ -112,7 +114,6 @@ function EVENT:EndDogRound()
 end
 
 function EVENT:Begin()
-    self.MaxAmmo = false
     net.Start("DogRoundRandomatBegin")
     net.WriteFloat(fogDist:GetFloat())
     net.Broadcast()
@@ -167,20 +168,6 @@ function EVENT:Begin()
 
             if killedZombies == zombieSpawnCount then
                 self:EndDogRound()
-            end
-        end
-    end)
-
-    -- Grants all players infinite ammo when all zombies are killed
-    -- Taken from Dem's "Infinite ammo" randomat event, from the original randomat 2.0 mod
-    self:AddHook("Think", function()
-        if self.MaxAmmo then
-            for _, v in ipairs(self:GetAlivePlayers()) do
-                local active_weapon = v:GetActiveWeapon()
-
-                if IsValid(active_weapon) and active_weapon.AutoSpawnable and not active_weapon.CanBuy then
-                    active_weapon:SetClip1(active_weapon.Primary.ClipSize)
-                end
             end
         end
     end)
