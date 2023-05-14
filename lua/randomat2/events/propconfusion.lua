@@ -11,12 +11,7 @@ util.AddNetworkString("PropConfusionRandomatEnd")
 local randomPly
 
 function EVENT:Begin()
-    for _, ply in ipairs(self:GetAlivePlayers(true)) do
-        randomPly = ply
-        -- If someone is using the "Lewis" playermodel, force the chosen player to be them
-        if ply:GetModel() == "models/bradyjharty/yogscast/lewis.mdl" then break end
-    end
-
+    randomPly = self:GetAlivePlayers(true)[1]
     net.Start("PropConfusionRandomatBegin")
     net.Send(randomPly)
 end
