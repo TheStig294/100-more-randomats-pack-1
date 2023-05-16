@@ -5,7 +5,7 @@ EVENT.id = "basics"
 
 EVENT.Categories = {"rolechange", "modelchange", "gamemode", "largeimpact"}
 
-CreateConVar("randomat_basics_sprinting", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether sprinting is enabled", 0, 1)
+local sprintingCvar = CreateConVar("randomat_basics_sprinting", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether sprinting is enabled", 0, 1)
 
 CreateConVar("randomat_basics_multi_jump", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether multi-jumping is enabled", 0, 1)
 
@@ -25,6 +25,7 @@ local traitorHalos = true
 local excludeWepsExistDetective = false
 local excludeWepsExistTraitor = false
 local floorWeaponsGiver = false
+local sprintingWasOn = false
 
 function EVENT:Begin()
     eventTriggered = true
@@ -397,6 +398,13 @@ function EVENT:Begin()
         floorWeaponsGiver = true
         GetConVar("ttt_floor_weapons_giver"):SetBool(false)
     end
+
+    -- Disabling sprinting
+    if not sprintingCvar:GetBool() then
+        sprintingWasOn = GetGlobalBool("ttt_sprint_enabled")
+        SetGlobalBool("ttt_sprint_enabled", false)
+        self:AddHook("TTTSprintStaminaPost", function() return 0 end)
+    end
 end
 
 function EVENT:End()
@@ -450,6 +458,11 @@ function EVENT:End()
 
         if floorWeaponsGiver then
             GetConVar("ttt_floor_weapons_giver"):SetBool(true)
+        end
+
+        -- Re-enabling sprinting
+        if sprintingWasOn then
+            SetGlobalBool("ttt_sprint_enabled", true)
         end
     end
 end
