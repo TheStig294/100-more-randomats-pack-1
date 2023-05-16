@@ -43,7 +43,6 @@ function EVENT:Begin()
 
         -- Check if the barrel is actually a physics prop first and not a prop disguised player
         if string.StartWith(class, "prop_physics") and not barrel.IsADisguise then
-            print(barrel)
             barrel:Remove()
         end
     end
