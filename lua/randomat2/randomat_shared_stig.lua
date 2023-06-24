@@ -132,6 +132,10 @@ function Randomat:ShouldActLikeJester(ply)
 end
 
 function Randomat:GetRoleColor(role)
+    if type(role) == "Player" then
+        role = role:GetRole()
+    end
+
     local color = nil
 
     if type(ROLE_COLORS) == "table" then
@@ -503,8 +507,8 @@ function Randomat:SetPlayerInvisible(ply)
 end
 
 function Randomat:SetPlayerVisible(ply)
-    ply:SetColor(Color(255, 255, 255, 255))
-    ply:SetMaterial("models/glass")
+    ply:SetColor(COLOR_WHITE)
+    ply:SetMaterial("")
     ply:SetNWBool("RdmtInvisible", false)
     ply:SetRenderMode(RENDERMODE_NORMAL)
 end
