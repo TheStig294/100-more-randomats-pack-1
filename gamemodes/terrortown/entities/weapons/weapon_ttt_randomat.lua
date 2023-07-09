@@ -59,6 +59,9 @@ SWEP.Primary.ClipSize = -1
 SWEP.Primary.ClipMax = -1
 SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Sound = ""
+SWEP.EventId = nil
+SWEP.EventSilent = false
+SWEP.EventArgs = nil
 
 function SWEP:SetupDataTables()
     self:DTVar("Bool", 0, "limited_stock")
@@ -95,7 +98,21 @@ end
 function SWEP:PrimaryAttack()
     if SERVER and IsFirstTimePredicted() then
         if self.EventId then
-            Randomat:TriggerEvent(self.EventId, self:GetOwner())
+            local args = {}
+
+            if self.EventId then
+                if type(self.EventArgs) == "table" then
+                    args = self.EventArgs
+                else
+                    args = {self.EventArgs}
+                end
+            end
+
+            if self.EventSilent then
+                Randomat:SilentTriggerEvent(self.EventId, self:GetOwner(), unpack(args))
+            else
+                Randomat:TriggerEvent(self.EventId, self:GetOwner(), unpack(args))
+            end
         else
             if GetConVar("ttt_randomat_chooseevent"):GetBool() then
                 Randomat:SilentTriggerEvent("choose", self:GetOwner())
