@@ -86,7 +86,9 @@ net.Receive("PropConfusionRandomatBegin", function()
             ply:SetNoDraw(true)
             if props[ply] then continue end
             local prop = ents.CreateClientProp()
-            prop:SetPos(ply:GetPos())
+            local pos = ply:GetPos()
+            pos.z = pos.z + 30
+            prop:SetPos(pos)
             local model
 
             -- If someone is wearing a yogscast model, and they have a special model, set them to it!
