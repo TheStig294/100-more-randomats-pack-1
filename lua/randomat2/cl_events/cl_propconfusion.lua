@@ -62,11 +62,17 @@ net.Receive("PropConfusionRandomatBegin", function()
 
     -- These are the props Lewis mistook members of the yogscast for while playing TTT
     local yogsProps = {
+        -- Zoey and Boba were traffic cones
         ["models/luria/night_in_the_woods/playermodels/mae.mdl"] = "models/props_junk/TrafficCone001a.mdl",
         ["models/luria/night_in_the_woods/playermodels/mae_astral.mdl"] = "models/props_junk/TrafficCone001a.mdl",
+        ["models/player/funnyrat/rat.mdl"] = "models/props_junk/TrafficCone001a.mdl",
+        -- Rythian was a chair
         ["models/player_phoenix.mdl"] = "models/props_c17/chair02a.mdl",
+        -- Ben was a blue barrel
         ["models/bradyjharty/yogscast/sharky.mdl"] = "models/props_borealis/bluebarrel001.mdl",
-        ["models/solidsnakemgs4/solidsnakemgs4.mdl"] = "models/props_trainstation/trainstation_column001.mdl"
+        ["models/freeman/player/left_shark.mdl"] = "models/props_borealis/bluebarrel001.mdl",
+        -- Ravs was a chimney
+        ["models/solidsnakemgs4/solidsnakemgs4.mdl"] = "models/props_trainstation/trainstation_column001.mdl",
     }
 
     -- An assortment of human-scale in-built props
