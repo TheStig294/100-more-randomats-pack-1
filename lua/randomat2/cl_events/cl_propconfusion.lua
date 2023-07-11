@@ -119,7 +119,6 @@ net.Receive("PropConfusionRandomatEnd", function()
         ply:SetNoDraw(false)
     end
 
-    chat.AddText("You can now see who was what prop!")
     hook.Remove("NotifyShouldTransmit", "PropConfusionPropParentingFix")
     netMsgRecieved = true
 end)
