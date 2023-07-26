@@ -30,6 +30,7 @@ function EVENT:Begin()
         local timerName = rag:EntIndex() .. "PlanetRandomat"
         table.insert(ragTimers, timerName)
         local physObj = rag:GetPhysicsObject()
+        if not IsValid(physObj) then return end
         physObj:SetInertia(Vector(1, 1, 1))
         physObj:SetMass(0)
         physObj:EnableGravity(false)
