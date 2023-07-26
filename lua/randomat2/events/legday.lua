@@ -37,8 +37,6 @@ function EVENT:Begin()
 
     for _, p in ipairs(player.GetAll()) do
         -- Set viewheight for players as well
-        p.oldViewOffset = p:GetViewOffset()
-        p.oldViewOffsetDucked = p:GetViewOffsetDucked()
         p:SetViewOffset(Vector(0, 0, viewHeight))
         p:SetViewOffsetDucked(Vector(0, 0, 28))
     end
@@ -46,17 +44,8 @@ end
 
 function EVENT:End()
     ScalePlayerLegs(1, 1, 0)
-
     -- Reset viewheight for players as well
-    for _, ply in ipairs(player.GetAll()) do
-        if ply.oldViewOffset then
-            ply:SetViewOffset(ply.oldViewOffset)
-        end
-
-        if ply.oldViewOffsetDucked then
-            ply:SetViewOffsetDucked(ply.oldViewOffsetDucked)
-        end
-    end
+    Randomat:ForceResetAllPlayermodels()
 end
 
 function EVENT:GetConVars()
