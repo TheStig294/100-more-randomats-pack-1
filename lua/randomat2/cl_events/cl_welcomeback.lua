@@ -224,6 +224,8 @@ local function CreateOverlay()
         end)
     end)
 
+    local hideDetectiveMode = Randomat:HandleReplicatedValue(function() return GetConVar("ttt_detectives_hide_special_mode"):GetInt() end, function() return GetGlobalInt("ttt_detective_hide_special_mode") end)
+
     hook.Add("DrawOverlay", "WelcomeBackRandomatDrawNameOverlay", function()
         surface.SetAlphaMultiplier(alpha)
 
@@ -254,13 +256,13 @@ local function CreateOverlay()
                 if ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 then
                     role = ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1)
                     iconRole = ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1)
-                elseif ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and GetGlobalInt("ttt_detective_hide_special_mode", 0) ~= 0 then
+                elseif ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and hideDetectiveMode ~= 0 then
                     role = ROLE_DETECTIVE
                 end
 
                 roleColour = colourTable[role]
 
-                if roleIcons and role == ROLE_DETECTIVE and (GetGlobalInt("ttt_detective_hide_special_mode", 0) == 1 or (GetGlobalInt("ttt_detective_hide_special_mode", 0) == 2 and ply ~= LocalPlayer())) then
+                if roleIcons and role == ROLE_DETECTIVE and (hideDetectiveMode == 1 or (hideDetectiveMode == 2 and ply ~= LocalPlayer())) then
                     iconRole = ROLE_NONE
                 end
             elseif LocalPlayer():GetNWBool("WelcomeBackTraitor") and ply:GetNWBool("WelcomeBackTraitor") and not (LocalPlayer().IsGlitch and LocalPlayer():IsGlitch()) then
@@ -278,7 +280,7 @@ local function CreateOverlay()
                         iconRole = ply:GetRole()
                     end
                 end
-            elseif (ply:GetNWBool("WelcomeBackIsDetectiveLike") and ply:GetNWBool("HasPromotion")) or (ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and GetGlobalInt("ttt_detective_hide_special_mode", 0) == 1) then
+            elseif (ply:GetNWBool("WelcomeBackIsDetectiveLike") and ply:GetNWBool("HasPromotion")) or (ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") and hideDetectiveMode == 1) then
                 -- Reveal promoted detective-like players like the impersonator, or special detectives while the hide convar is on, as ordinary detectives
                 roleColour = colourTable[ROLE_DETECTIVE]
 

@@ -331,6 +331,7 @@ function EVENT:Begin()
     if ConVarExists("ttt_round_summary_tabs") then
         summaryTabs = GetConVar("ttt_round_summary_tabs"):GetString()
         GetConVar("ttt_round_summary_tabs"):SetString("hilite,events,scores")
+        -- Remove after CR Replicated convar change is old
         SetGlobalString("ttt_round_summary_tabs", "hilite,events,scores")
     end
 
@@ -345,14 +346,22 @@ function EVENT:Begin()
     end
 
     -- Letting everyone search bodies
-    if ConVarExists("ttt_detective_search_only") then
+    -- CR Replicated convar
+    if ConVarExists("ttt_detectives_search_only") then
+        detectiveOnlySearch = GetConVar("ttt_detectives_search_only"):GetBool()
+        GetConVar("ttt_detectives_search_only"):SetBool(false)
+    elseif ConVarExists("ttt_detective_search_only") then
         detectiveOnlySearch = GetConVar("ttt_detective_search_only"):GetBool()
         GetConVar("ttt_detective_search_only"):SetBool(false)
         SetGlobalBool("ttt_detective_search_only", false)
     end
 
     -- Preventing traitors from seeing each other with a red outline
-    if ConVarExists("ttt_traitor_vision_enable") then
+    -- CR Replicated convar
+    if ConVarExists("ttt_traitors_vision_enable") then
+        traitorHalos = GetConVar("ttt_traitors_vision_enable"):GetBool()
+        GetConVar("ttt_traitors_vision_enable"):SetBool(false)
+    elseif ConVarExists("ttt_traitor_vision_enable") then
         traitorHalos = GetConVar("ttt_traitor_vision_enable"):GetBool()
         GetConVar("ttt_traitor_vision_enable"):SetBool(false)
         SetGlobalBool("ttt_traitor_vision_enable", false)
@@ -400,9 +409,16 @@ function EVENT:Begin()
     end
 
     -- Disabling sprinting
+    -- CR Replicated convar
     if not sprintingCvar:GetBool() then
-        sprintingWasOn = GetGlobalBool("ttt_sprint_enabled")
-        SetGlobalBool("ttt_sprint_enabled", false)
+        Randomat:HandleReplicatedValue(function()
+            sprintingWasOn = GetConVar("ttt_sprint_enabled"):GetBool()
+            GetConVar("ttt_sprint_enabled"):SetBool(false)
+        end, function()
+            sprintingWasOn = GetGlobalBool("ttt_sprint_enabled")
+            SetGlobalBool("ttt_sprint_enabled", false)
+        end)
+
         self:AddHook("TTTSprintStaminaPost", function() return 0 end)
     end
 end
@@ -436,6 +452,7 @@ function EVENT:End()
 
         if ConVarExists("ttt_round_summary_tabs") then
             GetConVar("ttt_round_summary_tabs"):SetString(summaryTabs)
+            -- Remove after CR Replicated convar change is old
             SetGlobalString("ttt_round_summary_tabs", summaryTabs)
         end
 
@@ -445,11 +462,13 @@ function EVENT:End()
 
         if ConVarExists("ttt_detective_search_only") then
             GetConVar("ttt_detective_search_only"):SetBool(detectiveOnlySearch)
+            -- Remove after CR Replicated convar change is old
             SetGlobalBool("ttt_detective_search_only", detectiveOnlySearch)
         end
 
         if ConVarExists("ttt_traitor_vision_enable") then
             GetConVar("ttt_traitor_vision_enable"):SetBool(traitorHalos)
+            -- Remove after CR Replicated convar change is old
             SetGlobalBool("ttt_traitor_vision_enable", traitorHalos)
         end
 
@@ -461,8 +480,13 @@ function EVENT:End()
         end
 
         -- Re-enabling sprinting
+        -- CR Replicated convar
         if sprintingWasOn then
-            SetGlobalBool("ttt_sprint_enabled", true)
+            Randomat:HandleReplicatedValue(function()
+                GetConVar("ttt_sprint_enabled"):SetBool(true)
+            end, function()
+                SetGlobalBool("ttt_sprint_enabled", true)
+            end)
         end
     end
 end

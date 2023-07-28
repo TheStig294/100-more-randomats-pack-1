@@ -102,3 +102,9 @@ function Randomat:MapHasProps()
 
     return propCount > 5
 end
+
+function Randomat:HandleReplicatedValue(onreplicated, onglobal)
+    if isfunction(CRVersion) and CRVersion("1.9.3") then return onreplicated() end
+
+    return onglobal()
+end
