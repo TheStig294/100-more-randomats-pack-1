@@ -20,7 +20,7 @@ function EVENT:Begin()
 
         detectiveSearch = GetConVar("ttt_detectives_search_only"):GetBool()
         GetConVar("ttt_detectives_search_only"):SetBool(false)
-    elseif ConVarExists("ttt_detectives_search_only") then
+    elseif ConVarExists("ttt_detective_search_only") then
         if GetConVar("ttt_detective_search_only"):GetBool() then
             self.Description = "Only the 1st person to search a body can see its role, everyone can search!"
         else
@@ -69,7 +69,12 @@ end
 
 function EVENT:End()
     if detectiveSearch ~= "unset" then
-        GetConVar("ttt_detective_search_only"):SetBool(detectiveSearch)
+        -- CR Replicated convar
+        if ConVarExists("ttt_detectives_search_only") then
+            GetConVar("ttt_detectives_search_only"):SetBool(detectiveSearch)
+        elseif ConVarExists("ttt_detective_search_only") then
+            GetConVar("ttt_detective_search_only"):SetBool(detectiveSearch)
+        end
     end
 
     if announceBody ~= "unset" then
