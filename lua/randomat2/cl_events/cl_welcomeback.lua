@@ -303,6 +303,7 @@ local function CreateOverlay()
 
             -- But if the player still doesn't have a name yet, skip them
             if not playerNames[ply] then continue end
+            roleColour = roleColour or defaultColour
             -- Name box drawing
             WordBox(boxBorderSize, XPos, YPos, playerNames[ply], "WelcomeBackRandomatOverlayFont", roleColour, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, ply, roleIcons, iconRole)
         end
