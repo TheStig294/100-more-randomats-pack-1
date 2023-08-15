@@ -26,11 +26,6 @@ local pairs = pairs
 local resource = resource
 local CallHook = hook.Call
 
--- HACK: Workaround to make sure this is defined until the x86-64 branch is updated
-if not string.StartsWith then
-    string.StartsWith = string.StartWith
-end
-
 local function AddServer(fil)
     if SERVER then
         include(fil)
@@ -46,6 +41,10 @@ local function AddClient(fil)
         include(fil)
     end
 end
+
+local auto = CreateConVar("ttt_randomat_auto", 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Whether the Randomat should automatically trigger on round start.")
+
+CreateConVar("ttt_randomat_allow_client_list", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Whether to allow the client to view the list of active events.")
 
 if SERVER then
     resource.AddSingleFile("materials/icon16/rdmt.png")
@@ -77,8 +76,6 @@ if SERVER then
         CallHook("TTTRandomatCommand", nil, ply, cc, arg)
     end)
 
-    local auto = CreateConVar("ttt_randomat_auto", 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Whether the Randomat should automatically trigger on round start.")
-
     local auto_min_rounds = CreateConVar("ttt_randomat_auto_min_rounds", 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The minimum number of completed rounds before auto-Randomat can trigger.")
 
     local auto_chance = CreateConVar("ttt_randomat_auto_chance", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Chance of the auto-Randomat triggering.")
@@ -97,10 +94,7 @@ if SERVER then
 
     CreateConVar("ttt_randomat_event_history", 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How many events to keep in history to prevent duplication.")
 
-    local allow_client_list = CreateConVar("ttt_randomat_allow_client_list", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Whether to allow the client to view the list of active events.")
-
     hook.Add("TTTBeginRound", "AutoRandomat", function()
-        SetGlobalBool("ttt_randomat_allow_client_list", allow_client_list:GetBool())
         local rounds_complete = Randomat:GetRoundsComplete()
         local min_rounds = auto_min_rounds:GetInt()
         local should_auto = auto:GetBool() and math.random() <= auto_chance:GetFloat() and (min_rounds <= 0 or rounds_complete >= min_rounds)
