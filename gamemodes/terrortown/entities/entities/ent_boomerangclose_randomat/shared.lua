@@ -23,9 +23,10 @@ function ENT:Initialize()
     self:SetMoveType(MOVETYPE_VPHYSICS)
     self:SetSolid(SOLID_VPHYSICS)
     self:GetPhysicsObject():SetMass(0.5)
+    self.Damage = self.Damage or 50
 end
 
-function ENT:PhysicsCollide(data, phys)
+function ENT:PhysicsCollide(data, _)
     if self.Drop or self.Hits >= 4 then return end
     local hitEntity = data.HitEntity
     local owner = self:GetOwner()
@@ -40,7 +41,7 @@ function ENT:PhysicsCollide(data, phys)
 
     if IsValid(hitEntity) then
         if hitEntity:IsPlayer() or hitEntity:GetClass() ~= "prop_ragdoll" then
-            self:SetPos(self:GetPos() + (self.LastVelocity:GetNormalized() * 40))
+            self:SetPos(self:GetPos() + self.LastVelocity:GetNormalized() * 40)
             self:SetAngles(Angle(20, 0, 90))
             self:GetPhysicsObject():AddAngleVelocity(Vector(0, -1000, 0) - self:GetPhysicsObject():GetAngleVelocity())
         end
@@ -56,7 +57,7 @@ function ENT:PhysicsCollide(data, phys)
         self:EmitSound("weapons/crossbow/hitbod1.wav")
         local dmg = DamageInfo()
         dmg:SetAttacker(owner)
-        dmg:SetDamage(50)
+        dmg:SetDamage(self.Damage)
         dmg:SetDamageForce(self:GetVelocity() * 100)
         dmg:SetInflictor(self)
         dmg:SetDamageType(DMG_SLASH)
@@ -87,7 +88,7 @@ function ENT:PhysicsCollide(data, phys)
 
             self.Drop = true
         else
-            self:SetPos(self:GetPos() + ((owner:GetShootPos() - self:GetPos()):GetNormalized() * 20))
+            self:SetPos(self:GetPos() + (owner:GetShootPos() - self:GetPos()):GetNormalized() * 20)
             self:GoYourWayBack(20, 600)
         end
     else
@@ -107,7 +108,7 @@ function ENT:Think()
     local owner = self:GetOwner()
     local ownerPos = owner:GetShootPos()
 
-    if not self.TargetReached and (targetPos:Distance(Pos) < 500) then
+    if not self.TargetReached and targetPos:Distance(Pos) < 500 then
         self:GoYourWayBack(40, 2000)
 
         return
@@ -117,7 +118,7 @@ function ENT:Think()
         self:GetPhysicsObject():ApplyForceCenter((ownerPos - Pos):GetNormalized() * 1000)
     end
 
-    if (self.TargetReached and self:NearOwner()) then
+    if self.TargetReached and self:NearOwner() then
         owner:Give("weapon_ttt_boomerang_randomat")
         local boomerang = owner:GetWeapon("weapon_ttt_boomerang_randomat")
         boomerang.Hits = self.Hits
@@ -133,7 +134,7 @@ function ENT:GoYourWayBack(up, power)
     local ownerPos = self:GetOwner():GetShootPos()
     self:SetVelocity(Vector(0, 0, 0))
     self:GetPhysicsObject():ApplyForceCenter(((ownerPos + Vector(0, 0, up)) - Pos):GetNormalized() * power)
-    self.LastVelocity = (-1) * self.LastVelocity
+    self.LastVelocity = -1 * self.LastVelocity
     self.TargetReached = true
     self:GetPhysicsObject():AddAngleVelocity(Vector(0, -10, 0) - self:GetPhysicsObject():GetAngleVelocity())
 end
