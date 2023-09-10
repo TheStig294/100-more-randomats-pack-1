@@ -460,15 +460,19 @@ function EVENT:End()
             GetConVar("multijump_default_jumps"):SetInt(orginalJumps)
         end
 
-        if ConVarExists("ttt_detective_search_only") then
-            GetConVar("ttt_detective_search_only"):SetBool(detectiveOnlySearch)
+        if ConVarExists("ttt_detectives_search_only") then
+            GetConVar("ttt_detectives_search_only"):SetBool(detectiveOnlySearch)
+        elseif ConVarExists("ttt_detective_search_only") then
             -- Remove after CR Replicated convar change is old
+            GetConVar("ttt_detective_search_only"):SetBool(detectiveOnlySearch)
             SetGlobalBool("ttt_detective_search_only", detectiveOnlySearch)
         end
 
-        if ConVarExists("ttt_traitor_vision_enable") then
-            GetConVar("ttt_traitor_vision_enable"):SetBool(traitorHalos)
+        if ConVarExists("ttt_traitors_vision_enable") then
+            GetConVar("ttt_traitors_vision_enable"):SetBool(traitorHalos)
+        elseif ConVarExists("ttt_traitor_vision_enable") then
             -- Remove after CR Replicated convar change is old
+            GetConVar("ttt_traitor_vision_enable"):SetBool(traitorHalos)
             SetGlobalBool("ttt_traitor_vision_enable", traitorHalos)
         end
 
