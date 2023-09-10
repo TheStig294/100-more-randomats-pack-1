@@ -5,67 +5,81 @@ EVENT.id = "chairs"
 
 EVENT.Categories = {"modelchange", "fun", "largeimpact"}
 
+local rythianModel = "models/player_phoenix.mdl"
+
+local chairModels = {"models/nova/chair_plastic01.mdl", "models/nova/chair_office01.mdl", "models/nova/chair_office02.mdl", "models/nova/chair_wood01.mdl", "models/props_c17/chair_office01a.mdl", "models/props_interiors/furniture_chair01a.mdl", "models/props_interiors/furniture_chair03a.mdl"}
+
+local addZModels = {
+    ["models/props_interiors/furniture_chair01a.mdl"] = true,
+    ["models/props_interiors/furniture_chair03a.mdl"] = true
+}
+
+local turn90Models = {
+    ["models/nova/chair_plastic01.mdl"] = true,
+    ["models/nova/chair_office01.mdl"] = true,
+    ["models/nova/chair_office02.mdl"] = true,
+    ["models/nova/chair_wood01.mdl"] = true,
+    ["models/props_c17/chair_office01a.mdl"] = true
+}
+
+local playerChairs = {}
+local chosenModels = {}
+local notChairPlys = {}
+local rythianModelGiven = false
+
+local function ApplyChairModel(ply)
+    local model = chosenModels[ply] or chairModels[math.random(1, #chairModels)]
+
+    -- Force anyone using the Rythian model to become a blue chair
+    if ply:GetModel() == rythianModel then
+        model = "models/nova/chair_plastic01.mdl"
+    elseif util.IsValidModel(rythianModel) and not rythianModelGiven then
+        model = rythianModel
+        rythianModelGiven = true
+    end
+
+    local chair
+
+    if model == rythianModel then
+        Randomat:ForceSetPlayermodel(ply, rythianModel)
+    else
+        ply.oldViewOffset = ply:GetViewOffset()
+        ply.oldViewOffsetDucked = ply:GetViewOffsetDucked()
+        ply:SetViewOffset(Vector(0, 0, 40))
+        ply:SetViewOffsetDucked(Vector(0, 0, 28))
+        chair = ents.Create("prop_dynamic")
+        chair:SetModel(model)
+        chair:Spawn()
+        ply:SetNoDraw(true)
+        playerChairs[ply] = chair
+        notChairPlys[ply] = false
+    end
+
+    chosenModels[ply] = model
+
+    if addZModels[model] then
+        chair.AddZ = true
+    end
+
+    if turn90Models[model] then
+        chair.Turn90 = true
+    end
+end
+
 function EVENT:Begin()
-    local rythianModel = "models/player_phoenix.mdl"
-
-    local chairModels = {"models/nova/chair_plastic01.mdl", "models/nova/chair_office01.mdl", "models/nova/chair_office02.mdl", "models/nova/chair_wood01.mdl", "models/props_c17/chair_office01a.mdl", "models/props_interiors/furniture_chair01a.mdl", "models/props_interiors/furniture_chair03a.mdl"}
-
-    local addZModels = {
-        ["models/props_interiors/furniture_chair01a.mdl"] = true,
-        ["models/props_interiors/furniture_chair03a.mdl"] = true
-    }
-
-    local turn90Models = {
-        ["models/nova/chair_plastic01.mdl"] = true,
-        ["models/nova/chair_office01.mdl"] = true,
-        ["models/nova/chair_office02.mdl"] = true,
-        ["models/nova/chair_wood01.mdl"] = true,
-        ["models/props_c17/chair_office01a.mdl"] = true
-    }
-
-    local playerChairs = {}
-    local chosenModels = {}
-    local notChairPlys = {}
-    local rythianModelGiven = false
+    table.Empty(playerChairs)
+    table.Empty(chosenModels)
+    table.Empty(notChairPlys)
+    rythianModelGiven = false
 
     -- Turns you invisible and puts a chair model on top of you the follows you around an faces the way you do
     for _, ply in ipairs(self:GetAlivePlayers(true)) do
-        local model = chairModels[math.random(1, #chairModels)]
-
-        -- Force anyone using the Rythian model to become a blue chair
-        if ply:GetModel() == rythianModel then
-            model = "models/nova/chair_plastic01.mdl"
-        elseif util.IsValidModel(rythianModel) and not rythianModelGiven then
-            model = rythianModel
-            rythianModelGiven = true
-        end
-
-        local chair
-
-        if model == rythianModel then
-            Randomat:ForceSetPlayermodel(ply, rythianModel)
-        else
-            ply.oldViewOffset = ply:GetViewOffset()
-            ply.oldViewOffsetDucked = ply:GetViewOffsetDucked()
-            ply:SetViewOffset(Vector(0, 0, 40))
-            ply:SetViewOffsetDucked(Vector(0, 0, 28))
-            chair = ents.Create("prop_dynamic")
-            chair:SetModel(model)
-            chair:Spawn()
-            ply:SetNoDraw(true)
-            playerChairs[ply] = chair
-        end
-
-        chosenModels[ply] = model
-
-        if addZModels[model] then
-            chair.AddZ = true
-        end
-
-        if turn90Models[model] then
-            chair.Turn90 = true
-        end
+        ApplyChairModel(ply)
     end
+
+    self:AddHook("PlayerSpawn", function(ply)
+        ApplyChairModel(ply)
+    end)
 
     self:AddHook("PlayerPostThink", function(ply)
         if notChairPlys[ply] then return end
