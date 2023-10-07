@@ -602,7 +602,10 @@ Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool
 Everyone gets a radar after 2 minutes to prevent camping.\
 \
 _ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
-_randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar\
+_randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar (Set to 0 to disable)\
+_randomat_battleroyale_storm_zones_ - Default: 4 - The number of zones until the storm covers the map (Set to 0 to disable)\
+_randomat_battleroyale_storm_wait_time_ - Default: 30 - Seconds after the next zone is announced before the storm moves\
+_randomat_battleroyale_storm_move_time_ - Default: 30 - Seconds it takes for the storm to move\
 randomat_battleroyale_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
 ## LAST \*PAIR\* ALIVE WINS! Duos battle royale
@@ -612,7 +615,10 @@ Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool
 Everyone gets a radar after 2 minutes to prevent camping.\
 \
 _ttt_randomat_battleroyale2_ - Default: 1 - Whether this randomat is enabled\
-_randomat_battleroyale2_radar_time_ - Default: 120 - Seconds before everyone is given a radar\
+_randomat_battleroyale2_radar_time_ - Default: 120 - Seconds before everyone is given a radar (Set to 0 to disable)\
+_randomat_battleroyale2_storm_zones_ - Default: 4 - The number of zones until the storm covers the map (Set to 0 to disable)\
+_randomat_battleroyale2_storm_wait_time_ - Default: 30 - Seconds after the next zone is announced before the storm moves\
+_randomat_battleroyale2_storm_move_time_ - Default: 30 - Seconds it takes for the storm to move\
 randomat_battleroyale2_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
 ## Let's mix it up
