@@ -100,6 +100,7 @@ function EVENT:Begin()
         end
 
         for _, ent in ipairs(pingEntities) do
+            if not IsValid(ent) then continue end
             local pos = ent:GetPos()
             if ply:TestPVS(pos) then continue end
 
