@@ -80,6 +80,11 @@ function EVENT:Begin()
     end)
 
     self:DisableRoundEndSounds()
+    local showTriggerMessage = false
+
+    timer.Create("PistolsTriggerMessageAllow", 5, 1, function()
+        showTriggerMessage = true
+    end)
 
     self:AddHook("Think", function()
         -- Initial trigger code runs once
@@ -161,20 +166,21 @@ function EVENT:Begin()
                 SendFullStateUpdate()
                 self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
                 timer.Remove("PistolsRoleChangeTimer")
-                local oneOnOneShowdown = false
+                local oneOnOneShowdown = #alivePlayers == 2
 
-                if table.IsEmpty(traitorPlayers) then
-                    Randomat:SmallNotify("Innocents Win... But now it's a free-for-all!", messageDelay)
-                elseif table.IsEmpty(innocentPlayers) then
-                    Randomat:SmallNotify("Traitors Win... But now it's a free-for-all!", messageDelay)
-                elseif #alivePlayers == 2 then
-                    Randomat:SmallNotify("One innocent and traitor remain, it's time for a pistol showdown!", messageDelay)
-                    oneOnOneShowdown = true
+                if showTriggerMessage then
+                    if table.IsEmpty(traitorPlayers) then
+                        Randomat:SmallNotify("Innocents Win... But now it's a free-for-all!", messageDelay)
+                    elseif table.IsEmpty(innocentPlayers) then
+                        Randomat:SmallNotify("Traitors Win... But now it's a free-for-all!", messageDelay)
+                    elseif oneOnOneShowdown then
+                        Randomat:SmallNotify("One innocent and traitor remain, it's time for a pistol showdown!", messageDelay)
+                    end
                 end
 
                 -- Strip all weapons from the ground and players
                 for _, ent in pairs(ents.GetAll()) do
-                    if (ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE or ent.Base == "weapon_tttbase") then
+                    if ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE or ent.Base == "weapon_tttbase" then
                         ent:Remove()
                     end
                 end
