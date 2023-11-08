@@ -8,31 +8,35 @@ local yPos2
 local width2
 local height2
 local music
+local yellowTint
 
 net.Receive("PistolsPrepareShowdown", function()
     music = net.ReadBool()
+    yellowTint = net.ReadBool()
 
     -- Adds a near-black-and-white filter to the screen
-    color_tbl = {
-        ["$pp_colour_addr"] = 0,
-        ["$pp_colour_addg"] = 0,
-        ["$pp_colour_addb"] = 0,
-        ["$pp_colour_brightness"] = 0,
-        ["$pp_colour_contrast"] = 1,
-        ["$pp_colour_colour"] = 1,
-        ["$pp_colour_mulr"] = 0,
-        ["$pp_colour_mulg"] = 0,
-        ["$pp_colour_mulb"] = 0
-    }
+    if yellowTint then
+        color_tbl = {
+            ["$pp_colour_addr"] = 0,
+            ["$pp_colour_addg"] = 0,
+            ["$pp_colour_addb"] = 0,
+            ["$pp_colour_brightness"] = 0,
+            ["$pp_colour_contrast"] = 1,
+            ["$pp_colour_colour"] = 1,
+            ["$pp_colour_mulr"] = 0,
+            ["$pp_colour_mulg"] = 0,
+            ["$pp_colour_mulb"] = 0
+        }
 
-    hook.Add("RenderScreenspaceEffects", "PistolsRandomatTintEffect", function()
-        DrawColorModify(color_tbl)
-        cam.Start3D(EyePos(), EyeAngles())
-        render.SuppressEngineLighting(true)
-        render.SetColorModulation(1, 1, 1)
-        render.SuppressEngineLighting(false)
-        cam.End3D()
-    end)
+        hook.Add("RenderScreenspaceEffects", "PistolsRandomatTintEffect", function()
+            DrawColorModify(color_tbl)
+            cam.Start3D(EyePos(), EyeAngles())
+            render.SuppressEngineLighting(true)
+            render.SetColorModulation(1, 1, 1)
+            render.SuppressEngineLighting(false)
+            cam.End3D()
+        end)
+    end
 
     -- Draws 2 black bars on the screen, to make a cinematic letterbox effect
     xPos = 0
@@ -52,7 +56,7 @@ net.Receive("PistolsPrepareShowdown", function()
 
     -- Makes the black bars initially slide onto the screen, along with a yellow tint being slowly applied
     timer.Create("PistolsRandomatFadeOIn", 0.01, 100, function()
-        if color_tbl["$pp_colour_addr"] + 0.001 < 0.1 then
+        if yellowTint and color_tbl["$pp_colour_addr"] + 0.001 < 0.1 then
             color_tbl["$pp_colour_addr"] = color_tbl["$pp_colour_addr"] + 0.001
             color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] + 0.001
         end
@@ -92,7 +96,7 @@ net.Receive("PistolsBeginShowdown", function()
             end
         end
 
-        halo.Add(alivePlys, Color(0, 255, 0), 0, 0, 1, true, true)
+        halo.Add(alivePlys, Color(255, 255, 255), 1, 1, 2, true, true)
     end)
 end)
 
@@ -138,7 +142,7 @@ net.Receive("PistolsEndEvent", function()
     -- Fades in colour and moves black bars off the screen over 3 seconds
     timer.Simple(4, function()
         timer.Create("PistolsRandomatFadeOut", 0.01, 100, function()
-            if color_tbl["$pp_colour_addr"] and color_tbl["$pp_colour_addr"] - 0.0005 >= 0 then
+            if yellowTint and color_tbl["$pp_colour_addr"] and color_tbl["$pp_colour_addr"] - 0.0005 >= 0 then
                 color_tbl["$pp_colour_addr"] = color_tbl["$pp_colour_addr"] - 0.001
                 color_tbl["$pp_colour_addg"] = color_tbl["$pp_colour_addg"] - 0.001
             end
