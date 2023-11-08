@@ -751,6 +751,7 @@ If innocents/traitors win, the winners have a free-for-all instead!\
 \
 _ttt_randomat_pistols_ - Default: 1 - Whether this randomat is enabled\
 _randomat_pistols_music_ - Default: 1 - Whether music is enabled during showdown\
+_randomat_pistols_yellow_tint_ - Default: 1 - Whether a yellow tint screen effect is applied during the duel\
 \
 Credit for the copyright-free music used:\
 "Rattlesnake Railroad" by Brett Van Donsel <https://incompetech.com/> \
