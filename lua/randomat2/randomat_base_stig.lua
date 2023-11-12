@@ -201,6 +201,7 @@ end
 
 local function TriggerEvent(event, ply, options, ...)
     options = options or {}
+    event:BeforeEventTrigger(ply, options, ...)
     local silent = options.Silent
 
     if not silent then
@@ -410,9 +411,9 @@ function Randomat:CanEventRun(event, ignore_history)
             elseif type(event.Type) == "table" then
                 if table.HasValue(event.Type, evt.Type) then return false, "Event with same type (" .. evt.Type .. ") is already running" end
             elseif evt.Type == event.Type then
-                -- If neither are tables, don't allow the types to match
                 return false, "Event with same type (" .. event.Type .. ") is already running"
             end
+            -- If neither are tables, don't allow the types to match
         end
     end
 
@@ -848,7 +849,7 @@ local function CanIncludeWeapon(role, weap, blocklist, droppable_only)
 end
 
 local function GetRandomRoleWeapon(roles, blocklist, droppable_only)
-    local selected = math.random(1, #roles)
+    local selected = math.random(#roles)
     local role = roles[selected]
     local tbl = table.Copy(EquipmentItems[role]) or {}
 
@@ -860,7 +861,7 @@ local function GetRandomRoleWeapon(roles, blocklist, droppable_only)
 
     if #tbl == 0 then return nil, nil, nil end
     table.Shuffle(tbl)
-    local item = table.Random(tbl)
+    local item = tbl[math.random(#tbl)]
     local item_id = tonumber(item.id)
     local swep_table = (not item_id) and weapons.GetStored(item.ClassName) or nil
 
@@ -890,9 +891,8 @@ function Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tra
     if item_id then
         -- If this is an item and we shouldn't get players items or the player already has this item, try again
         if not include_equipment or not ply or ply:HasEquipmentItem(item_id) then
-            -- Otherwise return it
             return Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tracking, settrackingvar, droppable_only)
-        else
+        else -- Otherwise return it
             settrackingvar(0)
 
             return item, item_id, swep_table
@@ -1103,6 +1103,9 @@ function randomat_meta:Enabled()
 end
 
 function randomat_meta:GetConVars()
+end
+
+function randomat_meta:BeforeEventTrigger(ply, options, ...)
 end
 
 -- Players
