@@ -28,7 +28,7 @@ local notChairPlys = {}
 local rythianModelGiven = false
 
 local function ApplyChairModel(ply)
-    local model = chosenModels[ply] or chairModels[math.random(1, #chairModels)]
+    local model = chosenModels[ply] or chairModels[math.random(#chairModels)]
 
     -- Force anyone using the Rythian model to become a blue chair
     if ply:GetModel() == rythianModel then

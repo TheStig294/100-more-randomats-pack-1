@@ -27,7 +27,7 @@ local musicConvar = CreateConVar("randomat_noir_music", "1", {FCVAR_ARCHIVE, FCV
 function EVENT:Begin()
     noirRandomat = true
     -- Picking a random name
-    EVENT.Title = table.Random(eventnames)
+    EVENT.Title = eventnames[math.random(#eventnames)]
     Randomat:EventNotifySilent(EVENT.Title)
 
     -- Remove all weapons on players and the ground that take up the pistol slot

@@ -82,7 +82,7 @@ function EVENT:Begin()
     -- Play a random clip of a French soccer commentator when someone dies
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
         dmginfo:SetDamageType(DMG_SLASH) -- Slashing damage mutes the normal death sound
-        sound.Play("french/death" .. math.random(1, 6) .. ".mp3", ply:GetPos(), 0, 100, 1)
+        sound.Play("french/death" .. math.random(6) .. ".mp3", ply:GetPos(), 0, 100, 1)
     end)
 
     -- If we're switching from a TFA weapon to the disguiser while it's running, JUST DO IT!

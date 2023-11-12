@@ -35,7 +35,7 @@ local function CreateTimer(ply)
         end
 
         if not hadItem then
-            local weapon = droppableWeapons[math.random(1, #droppableWeapons)]
+            local weapon = droppableWeapons[math.random(#droppableWeapons)]
             ply:Give(weapon.ClassName)
             ply:PrintMessage(HUD_PRINTCENTER, "You received an item!")
             ply:PrintMessage(HUD_PRINTTALK, "You received an item!")

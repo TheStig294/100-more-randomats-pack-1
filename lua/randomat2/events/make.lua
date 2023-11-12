@@ -273,7 +273,7 @@ Effects.meme = {
             net.Start("randomat_message")
             net.WriteBool(false)
             -- StigMemeASCII table is found in lua/autorun/stig_meme_ascii.lua
-            net.WriteString(StigMemeASCII[math.random(1, #StigMemeASCII)])
+            net.WriteString(StigMemeASCII[math.random(#StigMemeASCII)])
             net.WriteUInt(5, 8)
             net.WriteColor(Color(255, 200, 0, 255), true)
             net.Send(ply)

@@ -130,7 +130,7 @@ local function makeEffectsList(frame, noOfLines, noOfChoices, secsToMakeChoice, 
     -- If the time to choose an effect runs out, pick a random choice
     timer.Create("MakeRandomatEffectsTimer", secsToMakeChoice, 1, function()
         chat.AddText(COLOR_RED, "Took too long to choose! An effect was chosen randomly.")
-        makeRandomat(causeID, effectsChoices[math.random(1, #effectsChoices)])
+        makeRandomat(causeID, effectsChoices[math.random(#effectsChoices)])
     end)
 end
 
@@ -163,6 +163,6 @@ net.Receive("MakeRandomatTrigger", function()
     -- If the time to choose a cause runs out, pick a random choice
     timer.Create("MakeRandomatCausesTimer", secsToMakeChoice, 1, function()
         chat.AddText(COLOR_RED, "Took too long to choose! A cause was chosen randomly.")
-        makeEffectsList(frame, noOfLines, noOfChoices, secsToMakeChoice, causesChoices[math.random(1, #causesChoices)])
+        makeEffectsList(frame, noOfLines, noOfChoices, secsToMakeChoice, causesChoices[math.random(#causesChoices)])
     end)
 end)

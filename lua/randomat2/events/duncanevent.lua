@@ -43,11 +43,12 @@ EVENT.Categories = {"modelchange", "largeimpact"}
 
 function EVENT:Begin()
     self.Description = GetDescription()
-    local chosenPly = table.Random(self:GetAlivePlayers())
+    local alivePlys = self:GetAlivePlayers(true)
+    local chosenPly = alivePlys[1]
     local chosenPlyModelData = Randomat:GetPlayerModelData(chosenPly)
     local disguise = disguiseCvar:GetBool()
 
-    for k, ply in pairs(self:GetAlivePlayers()) do
+    for k, ply in pairs(alivePlys) do
         Randomat:ForceSetPlayermodel(ply, chosenPlyModelData)
 
         if not CR_VERSION and disguise then

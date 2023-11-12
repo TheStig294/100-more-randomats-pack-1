@@ -11,7 +11,7 @@ util.AddNetworkString("WelcomeBackRandomatEnd")
 
 function EVENT:Begin()
     -- Puts the intro popup on the screen for all players
-    local randomIntroSound = "welcomeback/intro" .. math.random(1, 3) .. ".mp3"
+    local randomIntroSound = "welcomeback/intro" .. math.random(3) .. ".mp3"
     net.Start("WelcomeBackRandomatPopup")
     net.WriteString(randomIntroSound)
     net.Broadcast()

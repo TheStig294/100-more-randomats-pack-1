@@ -77,7 +77,7 @@ function EVENT:Begin()
     local triggerSound
 
     if GetConVar("randomat_michaelrosen_trigger_sound"):GetBool() then
-        triggerSound = trigger_sounds[math.random(1, #trigger_sounds)]
+        triggerSound = trigger_sounds[math.random(#trigger_sounds)]
     else
         triggerSound = "nosound"
     end
@@ -88,7 +88,7 @@ function EVENT:Begin()
 
     for _, ply in ipairs(player.GetAll()) do
         for _, wep in ipairs(ply:GetWeapons()) do
-            local chosen_sound = gunshot_sounds[math.random(1, #gunshot_sounds)]
+            local chosen_sound = gunshot_sounds[math.random(#gunshot_sounds)]
             Randomat:OverrideWeaponSound(wep, chosen_sound)
         end
     end
@@ -97,7 +97,7 @@ function EVENT:Begin()
         timer.Create("MichaelRosenDelay", 0.1, 1, function()
             net.Start("TriggerMichaelRosen")
             net.Send(ply)
-            local chosen_sound = gunshot_sounds[math.random(1, #gunshot_sounds)]
+            local chosen_sound = gunshot_sounds[math.random(#gunshot_sounds)]
             Randomat:OverrideWeaponSound(wep, chosen_sound)
         end)
     end)
@@ -108,7 +108,7 @@ function EVENT:Begin()
 
         for pattern, sounds in pairs(sound_mapping) do
             if string.find(current_sound, pattern) then
-                new_sound = sounds[math.random(1, #sounds)]
+                new_sound = sounds[math.random(#sounds)]
             end
         end
 
@@ -119,9 +119,9 @@ function EVENT:Begin()
             return true
         elseif current_sound == "doors/default_move.wav" then
             if DoorIsOpen(data.Entity) then
-                data.SoundName = door_closing_sounds[math.random(1, #door_closing_sounds)]
+                data.SoundName = door_closing_sounds[math.random(#door_closing_sounds)]
             else
-                data.SoundName = door_opening_sounds[math.random(1, #door_opening_sounds)]
+                data.SoundName = door_opening_sounds[math.random(#door_opening_sounds)]
             end
 
             -- Increase the volume of these so they can be heard
@@ -130,7 +130,7 @@ function EVENT:Begin()
 
             return true
         else
-            local chosen_sound = gunshot_sounds[math.random(1, #gunshot_sounds)]
+            local chosen_sound = gunshot_sounds[math.random(#gunshot_sounds)]
 
             return Randomat:OverrideWeaponSoundData(data, chosen_sound)
         end

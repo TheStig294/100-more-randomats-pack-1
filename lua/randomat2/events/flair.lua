@@ -95,27 +95,27 @@ function EVENT:Begin()
         end
 
         if sounds["oldmanwin"][1] ~= nil and oldman then
-            oldmanWinSound = "flair/oldmanwin/" .. sounds["oldmanwin"][math.random(1, #sounds["oldmanwin"])]
+            oldmanWinSound = "flair/oldmanwin/" .. sounds["oldmanwin"][math.random(#sounds["oldmanwin"])]
         elseif sounds["oldmanloss"][1] ~= nil and oldman then
-            oldmanLossSound = "flair/oldmanloss/" .. sounds["oldmanloss"][math.random(1, #sounds["oldmanloss"])]
+            oldmanLossSound = "flair/oldmanloss/" .. sounds["oldmanloss"][math.random(#sounds["oldmanloss"])]
         end
 
         if winningTeam == "innocent" or winningTeam == "traitor" or winningTeam == "time" then
             -- Choose a win/lose sound if the innocents or traitors win, or the time runs out (because it is its own win condition, but displays as an innocent win)
-            winSound = "flair/win/" .. sounds["win"][math.random(1, #sounds["win"])]
-            lossSound = "flair/loss/" .. sounds["loss"][math.random(1, #sounds["loss"])]
+            winSound = "flair/win/" .. sounds["win"][math.random(#sounds["win"])]
+            lossSound = "flair/loss/" .. sounds["loss"][math.random(#sounds["loss"])]
         elseif winningTeam ~= "noteam" and sounds[winningTeam] ~= nil then
             -- Choose a random sound from the winning team's pool of sounds
-            chosenSound = "flair/" .. winningTeam .. "/" .. sounds[winningTeam][math.random(1, #sounds[winningTeam])]
+            chosenSound = "flair/" .. winningTeam .. "/" .. sounds[winningTeam][math.random(#sounds[winningTeam])]
         elseif winningTeam == "monster" then
             -- If the monster team wins, and there are no monster team sounds, choose a random zombies sound
-            chosenSound = "flair/zombie/" .. sounds["zombie"][math.random(1, #sounds["zombie"])]
+            chosenSound = "flair/zombie/" .. sounds["zombie"][math.random(#sounds["zombie"])]
         elseif winningTeam == "bee" then
             -- If it's a bee win, and there are no bee win sounds, choose a random bees win sound
-            chosenSound = "flair/bees/" .. sounds["bees"][math.random(1, #sounds["bees"])]
+            chosenSound = "flair/bees/" .. sounds["bees"][math.random(#sounds["bees"])]
         elseif sounds["loss"][1] ~= nil and result ~= WIN_NONE then
             -- If a win condition happens that's not in the "wins" table, (E.g. a new role's win), choose a random 'loss' sound to play for everyone
-            chosenSound = "flair/loss/" .. sounds["loss"][math.random(1, #sounds["loss"])]
+            chosenSound = "flair/loss/" .. sounds["loss"][math.random(#sounds["loss"])]
         end
 
         -- Play the sound for everyone
@@ -141,8 +141,8 @@ function EVENT:Begin()
     end)
 end
 
+-- This event cannot trigger more than once a map, and cannot trigger at all if the round end sounds mod is installed as that makes this event redundant
 function EVENT:Condition()
-    -- This event cannot trigger more than once a map, and cannot trigger at all if the round end sounds mod is installed as that makes this event redundant
     return not (eventTriggered or file.Exists("autorun/_round_end_sounds.lua", "lsv"))
 end
 

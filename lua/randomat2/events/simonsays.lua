@@ -195,7 +195,7 @@ function EVENT:SelectLeader()
 
     -- If the leader doesn't have any guns, give them a random default one
     if table.IsEmpty(self.leader:GetWeapons()) then
-        local wep = self.leader:Give(self.defaultHeavys[math.random(1, #self.defaultHeavys)])
+        local wep = self.leader:Give(self.defaultHeavys[math.random(#self.defaultHeavys)])
         self.leader:SelectWeapon(wep)
     end
 
@@ -223,7 +223,7 @@ function EVENT:CopyGuns()
         self.weapons = {}
 
         if table.IsEmpty(self.leader:GetWeapons()) then
-            local classname = WEPS.GetClass(autoSpawnHeavyWeps[math.random(1, #autoSpawnHeavyWeps)])
+            local classname = WEPS.GetClass(autoSpawnHeavyWeps[math.random(#autoSpawnHeavyWeps)])
             local wep = self.leader:Give(classname)
             wep.leaderLocked = true
         end

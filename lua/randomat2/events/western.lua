@@ -25,7 +25,7 @@ local eventTriggered
 function EVENT:Begin()
     eventTriggered = true
     -- Picking a random name
-    self.Title = table.Random(eventnames)
+    self.Title = eventnames[math.random(#eventnames)]
     Randomat:EventNotifySilent(self.Title)
 
     -- Remove all weapons on players and the ground that take up the pistol slot
@@ -88,7 +88,7 @@ function EVENT:Begin()
             local duelTarget = attacker:GetNWEntity("WesternDuellingPlayer")
             if not (IsPlayer(duelAttacker) and IsPlayer(duelTarget) and attacker == duelAttacker and target == duelTarget) then return true end
             -- Play a bullet ricochet sound for everyone when someone is shot by the duel revolver
-            BroadcastLua("surface.PlaySound(\"western/ricochet" .. math.random(1, 6) .. ".mp3\")")
+            BroadcastLua("surface.PlaySound(\"western/ricochet" .. math.random(6) .. ".mp3\")")
         end
     end)
 

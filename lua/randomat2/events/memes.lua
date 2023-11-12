@@ -12,7 +12,7 @@ function EVENT:Begin()
     self.Description = "Displays an ASCII art meme every " .. GetConVar("randomat_memes_timer"):GetInt() .. " seconds"
 
     timer.Create("MemesRandomatTimer", GetConVar("randomat_memes_timer"):GetInt(), 0, function()
-        self:SmallNotify(StigMemeASCII[math.random(1, #StigMemeASCII)])
+        self:SmallNotify(StigMemeASCII[math.random(#StigMemeASCII)])
     end)
 end
 

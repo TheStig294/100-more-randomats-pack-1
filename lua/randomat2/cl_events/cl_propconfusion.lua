@@ -95,7 +95,7 @@ net.Receive("PropConfusionRandomatBegin", function()
             if yogsProps[ply:GetModel()] then
                 model = yogsProps[ply:GetModel()]
             else
-                model = models[math.random(1, #models)]
+                model = models[math.random(#models)]
             end
 
             prop:SetModel(model)

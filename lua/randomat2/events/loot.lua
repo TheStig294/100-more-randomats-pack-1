@@ -31,7 +31,7 @@ function EVENT:Begin()
                 pos = victim:GetPos() + Vector(0, 0, 25)
             end
 
-            local idx = math.random(1, #lootTable)
+            local idx = math.random(#lootTable)
             local wep = lootTable[idx]
             table.remove(lootTable, idx)
             local ent = ents.Create(wep)

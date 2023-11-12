@@ -3,7 +3,7 @@ Randomat = Randomat or {}
 math.randomseed(os.time())
 
 -- Pre-emptively calculating unused random numbers to improve the randomness when math.random() is actually used
-for i = 1, 2000 do
+for i = 1, 1000 do
     math.random()
 end
 

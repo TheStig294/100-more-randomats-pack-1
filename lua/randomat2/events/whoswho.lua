@@ -40,7 +40,7 @@ function EVENT:Begin()
             end
         else
             -- Randomly choose a playermodel that hasn't yet been chosen
-            local chosenModel = table.Random(remainingModels)
+            local chosenModel = remainingModels[math.random(#remainingModels)]
             -- Set them to that model
             Randomat:ForceSetPlayermodel(ply, playermodelData[chosenModel])
             -- Keep track of who received that playermodel

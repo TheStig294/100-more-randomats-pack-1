@@ -27,7 +27,7 @@ EVENT.Categories = {"biased_traitor", "biased", "moderateimpact"}
 
 function EVENT:Begin()
     -- Picking a random name
-    EVENT.Title = table.Random(eventnames)
+    EVENT.Title = eventnames[math.random(#eventnames)]
     Randomat:EventNotifySilent(EVENT.Title)
 
     -- Display this randomat's description after a delay

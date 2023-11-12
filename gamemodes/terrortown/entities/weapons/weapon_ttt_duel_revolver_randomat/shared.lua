@@ -110,10 +110,10 @@ function SWEP:PrimaryAttack()
         timer.Simple(0.1, function()
             if IsPlayer(target) and (target:IsSpec() or not target:Alive()) then
                 hook.Remove("PreDrawHalos", "DuelRevolverHalo")
+                -- If hitting the player's target, or not shooting a player, trigger the usual gunshot behaviour
             end
         end)
 
-        -- If hitting the player's target, or not shooting a player, trigger the usual gunshot behaviour
         return self.BaseClass.PrimaryAttack(self)
     end
 
@@ -131,8 +131,8 @@ function SWEP:PrimaryAttack()
         owner:Freeze(true)
         target:Freeze(true)
         -- Play the high noon sound effect for the duelling players
-        owner:SendLua("surface.PlaySound(\"western/duelquote" .. math.random(1, 8) .. ".mp3\")")
-        target:SendLua("surface.PlaySound(\"western/duelquote" .. math.random(1, 8) .. ".mp3\")")
+        owner:SendLua("surface.PlaySound(\"western/duelquote" .. math.random(8) .. ".mp3\")")
+        target:SendLua("surface.PlaySound(\"western/duelquote" .. math.random(8) .. ".mp3\")")
         local timerID = "DuelRevolver" .. owner:SteamID64()
 
         timer.Create(timerID, 1, 5, function()

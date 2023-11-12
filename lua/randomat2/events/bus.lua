@@ -23,7 +23,7 @@ function EVENT:Begin()
         local pos = ent:GetPos()
 
         -- Using the positions of weapon, ammo and player spawns
-        if (string.StartWith(classname, "info_")) and not IsValid(ent:GetParent()) then
+        if string.StartWith(classname, "info_") and not IsValid(ent:GetParent()) then
             local tooClose = false
 
             for _, plyPos in ipairs(playerPositions) do
@@ -48,7 +48,7 @@ function EVENT:Begin()
         end)
     end
 
-    local pos = possibleSpawns[math.random(1, #possibleSpawns)]
+    local pos = possibleSpawns[math.random(#possibleSpawns)]
     local bus = ents.Create("ent_bus_randomat")
     bus:SetPos(pos + Vector(0, 0, 10))
     bus:Spawn()

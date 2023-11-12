@@ -161,7 +161,7 @@ function EVENT:Begin()
             util.Effect("HelicopterMegaBomb", effect, true, true)
             ent:Remove()
             net.Start("DogRoundRandomatPlaySound")
-            net.WriteString("doground/death" .. math.random(1, 3) .. ".mp3")
+            net.WriteString("doground/death" .. math.random(3) .. ".mp3")
             net.Broadcast()
             -- Keep track of the number of zombies killed to trigger the "max ammo" reward when all are killed
             killedZombies = killedZombies + 1

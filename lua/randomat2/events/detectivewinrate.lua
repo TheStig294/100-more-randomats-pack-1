@@ -29,7 +29,7 @@ function EVENT:Begin()
     -- Grabbing the Steam nickname of the player with the highest detective winrate
     if table.IsEmpty(detectiveWinrates) then
         -- If the chosen player hasn't been a traitor with anyone yet, pick a random player
-        chosenDetective = table.Random(alivePlayers)
+        chosenDetective = alivePlayers[math.random(#alivePlayers)]
     else
         -- Else, finding the chosen player's best partner
         chosenDetective = table.GetWinningKey(detectiveWinrates)

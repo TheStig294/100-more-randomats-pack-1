@@ -53,7 +53,7 @@ local function GiveNewWeapon(ply)
     end
 
     -- Give them a random weapon
-    local wepGiven = weps[math.random(1, #weps)]
+    local wepGiven = weps[math.random(#weps)]
     local wep = ply:Give(wepGiven)
     wep.AllowDrop = false
 

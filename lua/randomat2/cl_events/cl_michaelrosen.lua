@@ -64,7 +64,7 @@ net.Receive("TriggerMichaelRosen", function()
 
             for pattern, sounds in pairs(sound_mapping) do
                 if string.find(current_sound, pattern) then
-                    new_sound = sounds[math.random(1, #sounds)]
+                    new_sound = sounds[math.random(#sounds)]
                 end
             end
 
@@ -73,7 +73,7 @@ net.Receive("TriggerMichaelRosen", function()
 
                 return true
             else
-                local chosen_sound = gunshot_sounds[math.random(1, #gunshot_sounds)]
+                local chosen_sound = gunshot_sounds[math.random(#gunshot_sounds)]
 
                 return Randomat:OverrideWeaponSoundData(data, chosen_sound)
             end
@@ -86,7 +86,7 @@ net.Receive("TriggerMichaelRosen", function()
     if not IsValid(client) then return end
 
     for _, wep in ipairs(client:GetWeapons()) do
-        local chosen_sound = gunshot_sounds[math.random(1, #gunshot_sounds)]
+        local chosen_sound = gunshot_sounds[math.random(#gunshot_sounds)]
         Randomat:OverrideWeaponSound(wep, chosen_sound)
     end
 end)

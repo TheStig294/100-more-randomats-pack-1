@@ -233,7 +233,7 @@ function EVENT:Begin()
                 wepsTable = defaultNades
             end
 
-            local wep = ents.Create(wepsTable[math.random(1, #defaultPistols)])
+            local wep = ents.Create(wepsTable[math.random(#defaultPistols)])
             wep:SetPos(pos)
             wep:Spawn()
         elseif ent:IsWeapon() and ent.Kind and (ent.Kind == WEAPON_MELEE or ent.Kind == WEAPON_ROLE or ent.Kind == WEAPON_EQUIP1 or ent.Kind == WEAPON_EQUIP2 or ent.Kind > WEAPON_ROLE) then
@@ -242,7 +242,7 @@ function EVENT:Begin()
     end
 
     -- Choosing a random default model for everyone
-    local chosenModel = defaultModels[math.random(1, #defaultModels)]
+    local chosenModel = defaultModels[math.random(#defaultModels)]
 
     -- Sets someone's playermodel again when respawning
     self:AddHook("PlayerSpawn", function(ply)

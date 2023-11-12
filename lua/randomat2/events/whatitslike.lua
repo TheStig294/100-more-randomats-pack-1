@@ -25,7 +25,7 @@ CreateConVar("randomat_whatitslike_disguise", 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 
 
 function EVENT:Begin()
     self.Description = GetDescription()
-    local randomPly = table.Random(self:GetAlivePlayers())
+    local randomPly = self:GetAlivePlayers(true)[1]
     Randomat:EventNotifySilent("What it's like to be " .. randomPly:Nick())
     -- The stats data is recorded from another lua file, lua/autorun/server/stig_randomat_player_stats.lua
     local stats = GetRandomatPlayerStats()

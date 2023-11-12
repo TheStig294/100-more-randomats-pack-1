@@ -100,7 +100,7 @@ function EVENT:Begin()
     -- Play a random chicken hurt sound when a player is hurt
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
         if IsValid(ent) and ent:IsPlayer() then
-            ent:EmitSound(sndTabPain[math.random(1, #sndTabPain)], 100, 100)
+            ent:EmitSound(sndTabPain[math.random(#sndTabPain)], 100, 100)
         end
     end)
 
@@ -113,8 +113,8 @@ function EVENT:Begin()
     -- Plays random idle chicken sounds
     timer.Create("RdmtChickenIdleSounds", 5, 0, function()
         for i, ply in pairs(self:GetAlivePlayers()) do
-            timer.Simple(math.random(1, 4), function()
-                ply:EmitSound(sndTabIdle[math.random(1, #sndTabIdle)], 100, 100)
+            timer.Simple(math.random(4), function()
+                ply:EmitSound(sndTabIdle[math.random(#sndTabIdle)], 100, 100)
             end)
         end
     end)
