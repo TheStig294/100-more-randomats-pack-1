@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Crowbars Only!"
 EVENT.Description = "Can only use, or be damaged by, a buffed crowbar"
 EVENT.id = "crowbarsonly"
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"biased_innocent", "biased", "item", "rolechange", "largeimpact"}
 

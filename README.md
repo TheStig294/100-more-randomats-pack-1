@@ -235,7 +235,7 @@ Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails
 
 Can only use, or be damaged by, a buffed crowbar.\
 \
-_ttt_randomat_crowbarsonly_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_crowbarsonly_ - Default: 0 - Whether this randomat is enabled
 
 ## Dead men tell no lies
 
