@@ -234,6 +234,7 @@ Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails
 ## Crowbars Only
 
 Can only use, or be damaged by, a buffed crowbar.\
+NOTE: This randomat is disabled by default as it's a bit too difficult for the traitors to win.\
 \
 _ttt_randomat_crowbarsonly_ - Default: 0 - Whether this randomat is enabled
 
@@ -933,8 +934,9 @@ Idea from Wolvinof on YouTube.
 ## Triggered
 
 Applies a red screen effect, shakes the screen and plays a loud sound when someone dies\
+NOTE: This randomat is disabled by default as the screen effect and sound is too overwhelming to those who have sensory sensitivity.\
 \
-_ttt_randomat_triggered_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_triggered_ - Default: 0 - Whether this randomat is enabled
 
 ## Unbelievable Guilt
 
