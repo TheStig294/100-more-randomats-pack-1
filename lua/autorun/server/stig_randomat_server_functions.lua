@@ -23,14 +23,6 @@ if engine.ActiveGamemode() == "terrortown" and file.Exists("sound/weapons/random
     end)
 end
 
--- Always triggering a specified event silently at the start of each round if specified in a convar
-local alwaysTriggerCvar = CreateConVar("ttt_randomat_always_silently_trigger", "", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Specify an event to always trigger silently at the start of each round")
-
-hook.Add("TTTBeginRound", "RandomatAlwaysSilentlyTrigger", function()
-    local event = alwaysTriggerCvar:GetString()
-    Randomat:SilentTriggerEvent(event)
-end)
-
 util.AddNetworkString("RandomatGetEquipmentPrintNames")
 util.AddNetworkString("RandomatReceiveEquipmentPrintName")
 local traitorBuyable = {}
