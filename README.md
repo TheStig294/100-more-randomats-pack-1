@@ -20,7 +20,9 @@ _ttt_randomat_rebuyable_ - Default: 0 - Whether you can buy more than one Random
 _ttt_randomat_event_weight_ - Default: 1 - The default selection weight each event should use.\
 _ttt_randomat_event_hint_ - Default: 1 - Whether the Randomat should print what each event does when they start.\
 _ttt_randomat_event_hint_chat_ - Default: 1 - Whether hints should also be put in chat.\
-_ttt_randomat_event_history_ - Default: 10 - How many events should be kept in history. Events in history will are ignored when searching for a random event to start.
+_ttt_randomat_event_history_ - Default: 10 - How many events should be kept in history. Events in history will are ignored when searching for a random event to start.\
+\
+_ttt_randomat_always_silently_trigger_ - Default: "" - Specify an event ID to always trigger that event silently at the start of each round. E.g. "basics" for the "Back to Basics" randomat
 
 # Newly added randomats
 
