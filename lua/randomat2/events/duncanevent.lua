@@ -21,6 +21,8 @@ util.AddNetworkString("DuncanEventRandomatEnd")
 
 local disguiseCvar = CreateConVar("randomat_duncanevent_disguise", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Hide player names")
 
+local announceCvar = CreateConVar("randomat_duncanevent_announce_player", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Announce player's model being used")
+
 local function GetDescription()
     local description = "Everyone has the same playermodel"
 
@@ -33,8 +35,18 @@ local function GetDescription()
     return description
 end
 
+local function GetTitle()
+    local title = ""
+
+    if not announceCvar:GetBool() then
+        title = "It's Duncan!"
+    end
+
+    return title
+end
+
 local EVENT = {}
-EVENT.Title = ""
+EVENT.Title = GetTitle()
 EVENT.id = "duncanevent"
 EVENT.Description = GetDescription()
 EVENT.AltTitle = "It's ..."
@@ -43,6 +55,7 @@ EVENT.Categories = {"modelchange", "largeimpact"}
 
 function EVENT:Begin()
     self.Description = GetDescription()
+    self.Title = GetTitle()
     local alivePlys = self:GetAlivePlayers(true)
     local chosenPly = alivePlys[1]
     local chosenPlyModelData = Randomat:GetPlayerModelData(chosenPly)
@@ -58,7 +71,9 @@ function EVENT:Begin()
         end
     end
 
-    Randomat:EventNotifySilent("It's " .. chosenPly:Nick() .. "!")
+    if announceCvar:GetBool() then
+        Randomat:EventNotifySilent("It's " .. chosenPly:Nick() .. "!")
+    end
 
     if CR_VERSION and disguise then
         net.Start("DuncanEventRandomatHideNames")

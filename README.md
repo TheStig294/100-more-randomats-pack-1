@@ -592,6 +592,7 @@ Changes everyone's playermodel to someone's on the server\
 \
 _ttt_randomat_duncanevent_ - Default: 1 - Whether this randomat is enabled\
 _randomat_duncanevent_disguise_ - Default: 1 - Hide player names or not (1 = on, 0 = off)
+_randomat_duncanevent_announce_player_ - Default: 1 - Announce player's model being used
 
 Added description, fixed not hiding names of players properly and not hiding names for traitors\
 Originally made by [Legendahkiin](https://steamcommunity.com/sharedfiles/filedetails/?id=2007014855)
