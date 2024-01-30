@@ -25,26 +25,28 @@ function EVENT:Begin()
     end
 
     timer.Create("GunGame3RandomatTimer", GetConVar("randomat_gungame3_timer"):GetInt(), 0, function()
-        for _, v in ipairs(player.GetAll()) do
-            local ac = false
+        for _, ply in ipairs(player.GetAll()) do
+            local activeWep = ply:GetActiveWeapon()
+            local strippedActiveWep = false
 
-            if IsValid(v:GetActiveWeapon()) and v:GetActiveWeapon().Kind >= WEAPON_EQUIP then
-                ac = true
+            -- Only strip equipment items, but not role weapons
+            if IsValid(activeWep) and activeWep.Kind >= WEAPON_EQUIP and activeWep.Kind ~= WEAPON_ROLE then
+                strippedActiveWep = true
             end
 
-            for _, wep in ipairs(v:GetWeapons()) do
-                if wep.Kind >= WEAPON_EQUIP then
-                    v:StripWeapon(wep.ClassName)
+            for _, wep in ipairs(ply:GetWeapons()) do
+                if wep.Kind >= WEAPON_EQUIP and wep.Kind ~= WEAPON_ROLE then
+                    ply:StripWeapon(wep.ClassName)
                 end
             end
 
             local wepGiven = weps[math.random(#weps)]
-            v:Give(wepGiven.ClassName)
+            ply:Give(wepGiven.ClassName)
             -- Reset FOV to unscope
-            v:SetFOV(0, 0.2)
+            ply:SetFOV(0, 0.2)
 
-            if ac then
-                v:SelectWeapon(wepGiven.ClassName)
+            if strippedActiveWep then
+                ply:SelectWeapon(wepGiven.ClassName)
             end
         end
     end)
