@@ -2,12 +2,9 @@ net.Receive("CopycatRandomatBegin", function()
     local copiedPlayer = net.ReadEntity()
     local copycat = net.ReadEntity()
     local name = copiedPlayer:Nick()
-    print(name)
 
     -- Name changed on scoreboard and when you look at the copycat
     hook.Add("TTTScoreboardPlayerName", "CopycatRandomatCopyName", function(ply, client, currentName)
-        print(ply)
-        print(copycat)
         if ply == copycat then return name end
     end)
 
