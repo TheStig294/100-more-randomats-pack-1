@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Explosive Jumping"
 EVENT.Description = "Super jump, make an explosion where you land, which only damages others!"
 EVENT.id = "explosivejumping"
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"fun", "largeimpact"}
 
@@ -37,7 +38,6 @@ function EVENT:Begin()
 
             return true
         elseif dmginfo:IsExplosionDamage() and IsPlayer(dmginfo:GetAttacker()) and dmginfo:GetAttacker() == ent then
-            -- Make everyone immune to their own explosions
             return true
         end
     end)

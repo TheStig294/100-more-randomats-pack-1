@@ -412,8 +412,9 @@ The explosion creation code was originally made by [HagenSNKL](https://steamcomm
 
 Everyone can super-jump, and creates an explosion when they land!\
 Everyone is immune to their own explosions.\
+NOTE: This randomat is disabled by default as it was causing issues with breaking the sv_gravity convar, and was too overwhelming.\
 \
-_ttt_randomat_explosivejumping_ - Default: 1 - Whether this randomat is enabled\
+_ttt_randomat_explosivejumping_ - Default: 0 - Whether this randomat is enabled\
 
 ## Explosive spectating
 
