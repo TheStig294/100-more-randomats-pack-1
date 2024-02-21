@@ -106,6 +106,20 @@ function Randomat:IsIndependentTeam(ply)
 end
 
 -- Role Functions
+function Randomat:CanRoleSpawn(role)
+    if not role or role == -1 then return false end
+    if util.CanRoleSpawn then return util.CanRoleSpawn(role) end
+    if role == ROLE_DETECTIVE or role == ROLE_INNOCENT or role == ROLE_TRAITOR then return true end
+
+    if ROLE_STRINGS_RAW or ROLE_STRINGS then
+        local cvar = "ttt_" .. (ROLE_STRINGS_RAW[role] or ROLE_STRINGS[role]) .. "_enabled"
+
+        return ConVarExists(cvar) and GetConVar(cvar):GetBool()
+    end
+
+    return false
+end
+
 function Randomat:IsDetectiveLike(ply)
     if ply.IsDetectiveLike then return ply:IsDetectiveLike() end
     local role = ply:GetRole()
@@ -330,6 +344,12 @@ function Randomat:GetRoleTeamName(role_team)
 end
 
 -- Weapon Functions
+function Randomat:IsWeaponBuyable(wep)
+    if not wep or not wep.CanBuy then return false end
+
+    return #wep.CanBuy > 0
+end
+
 function Randomat:RestoreWeaponSound(wep)
     if not IsValid(wep) or not wep.Primary then return end
 
@@ -362,6 +382,19 @@ end
 
 if SERVER then
     function Randomat:RemoveEquipmentItem(ply, item_id)
+        -- Use the new method if it exists
+        if ply.RemoveEquipmentItem then
+            if ply:HasEquipmentItem(item_id) then
+                ply:RemoveEquipmentItem(item_id)
+                -- Give the player enough credits to compensate for the equipment they can no longer use
+                ply:AddCredits(1)
+
+                return true
+            end
+
+            return false
+        end
+
         -- Keep track of what equipment the player had
         local i = 1
         local equip = {}
@@ -542,6 +575,30 @@ if SERVER then
 end
 
 -- Chat functions
+-- Shim the CR4TTT message constants
+if not MSG_PRINTBOTH then
+    MSG_PRINTBOTH = 1
+    MSG_PRINTTALK = HUD_PRINTTALK
+    MSG_PRINTCENTER = HUD_PRINTCENTER
+end
+
+function Randomat:PrintMessage(ply, msgtype, message)
+    -- QueueMessage already handles immediately printing MSG/HUD_PRINTTALK so there's no reason for us to think too much about it here
+    if CR_VERSION and msgtype ~= HUD_PRINTCONSOLE then
+        ply:QueueMessage(msgtype, message)
+
+        return
+    end
+
+    -- If we're trying to print to both without the new CR version, just do that manually
+    if msgtype == MSG_PRINTBOTH then
+        ply:PrintMessage(HUD_PRINTTALK, message)
+        ply:PrintMessage(HUD_PRINTCENTER, message)
+    else
+        ply:PrintMessage(msgtype, message)
+    end
+end
+
 function Randomat:SendChatToAll(msg, tbl)
     if type(tbl) ~= "table" then
         tbl = player.GetAll()
@@ -555,7 +612,7 @@ end
 if SERVER then
     function Randomat:SendMessageToTeam(msg, roleTeam, detectivesAreInnocent, aliveOnly, printTypes, excludedPlayers)
         -- This method only works with CR for TTT
-        if not CRVersion then return end
+        if not CR_VERSION then return end
         -- This is required
         if not roleTeam then return end
 

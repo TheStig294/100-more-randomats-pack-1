@@ -201,14 +201,15 @@ end
 
 local function TriggerEvent(event, ply, options, ...)
     options = options or {}
-    event:BeforeEventTrigger(ply, options, ...)
+    local owner = Randomat:GetValidPlayer(ply)
+    event:BeforeEventTrigger(owner, options, ...)
     local silent = options.Silent
 
     if not silent then
         -- If this event is supposed to start secretly, trigger "secret" with this specific event chosen
         -- Unless "secret" is already running in which case we don't care, just let it go
         if event.StartSecret and not Randomat:IsEventActive("secret") then
-            TriggerEvent(Randomat.Events["secret"], ply, nil, event.Id)
+            TriggerEvent(Randomat.Events["secret"], owner, nil, event.Id)
 
             return
         end
@@ -216,7 +217,6 @@ local function TriggerEvent(event, ply, options, ...)
         Randomat:EventNotify(event.Title)
     end
 
-    local owner = Randomat:GetValidPlayer(ply)
     table.insert(Randomat.ActiveEvents, event)
     event.owner = owner
     event.Owner = owner
@@ -364,6 +364,8 @@ function Randomat:register(tbl)
         MsgN("Event '" .. id .. "' weight (" .. weight:GetInt() .. ") matches default weight (" .. default_weight .. "), resetting to -1")
         weight:SetInt(-1)
     end
+
+    tbl:Initialize()
 end
 
 function Randomat:unregister(id)
@@ -716,7 +718,7 @@ function Randomat:GetEventsByType(etype)
 end
 
 -- Players
-function Randomat:GetPlayers(shuffle, alive_only, dead_only)
+function Randomat:GetPlayers(shuffle, alive_only, dead_only, dead_includes_spec)
     local plys = {}
 
     -- Optimize this to get the full raw list if both alive and dead should be included
@@ -724,10 +726,10 @@ function Randomat:GetPlayers(shuffle, alive_only, dead_only)
         plys = GetAllPlayers()
     else
         for _, ply in ipairs(GetAllPlayers()) do
-            if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()) and ply:GetRole() ~= ROLE_NONE)) then
+            if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()) and (dead_includes_spec or ply:GetRole() ~= ROLE_NONE))) then
                 -- Anybody
                 -- Alive and non-spec
-                -- Dead but not spec
+                -- Dead but not spec unless that's enabled
                 table.insert(plys, ply)
             end
         end
@@ -841,7 +843,7 @@ local function CanIncludeWeapon(role, weap, blocklist, droppable_only)
     -- Must be droppable if droppable_only is true
     if droppable_only and not weap.AllowDrop then return false end
     -- Must be buyable by the given role
-    if not weap.CanBuy or not table.HasValue(weap.CanBuy, role) then return false end
+    if not Randomat:IsWeaponBuyable(weap) or not table.HasValue(weap.CanBuy, role) then return false end
     -- Must not be blocked
     if blocklist and table.HasValue(blocklist, WEPS.GetClass(weap)) then return false end
 
@@ -849,19 +851,22 @@ local function CanIncludeWeapon(role, weap, blocklist, droppable_only)
 end
 
 local function GetRandomRoleWeapon(roles, blocklist, droppable_only)
-    local selected = math.random(#roles)
-    local role = roles[selected]
-    local tbl = table.Copy(EquipmentItems[role]) or {}
+    local tbl = {}
 
-    for _, v in ipairs(weapons.GetList()) do
-        if CanIncludeWeapon(role, v, blocklist, droppable_only) then
-            table.insert(tbl, v)
+    for _, role in ipairs(roles) do
+        for _, i in ipairs(table.Copy(EquipmentItems[role]) or {}) do
+            tbl[i.id] = i
+        end
+
+        for _, v in ipairs(weapons.GetList()) do
+            if CanIncludeWeapon(role, v, blocklist, droppable_only) then
+                tbl[v.ClassName] = v
+            end
         end
     end
 
     if #tbl == 0 then return nil, nil, nil end
-    table.Shuffle(tbl)
-    local item = tbl[math.random(#tbl)]
+    local item, _ = table.Random(tbl)
     local item_id = tonumber(item.id)
     local swep_table = (not item_id) and weapons.GetStored(item.ClassName) or nil
 
@@ -1088,6 +1093,9 @@ end
 ]]
 --
 -- Skeleton
+function randomat_meta:Initialize()
+end
+
 function randomat_meta:Begin(...)
 end
 
@@ -1118,8 +1126,8 @@ function randomat_meta:GetAlivePlayers(shuffle)
     return Randomat:GetPlayers(shuffle, true)
 end
 
-function randomat_meta:GetDeadPlayers(shuffle)
-    return Randomat:GetPlayers(shuffle, false, true)
+function randomat_meta:GetDeadPlayers(shuffle, include_spec)
+    return Randomat:GetPlayers(shuffle, false, true, include_spec)
 end
 
 -- Notifications
@@ -1423,7 +1431,7 @@ end
 -- Misc.
 function randomat_meta:NotifyTeamChange(newMembers, roleTeam)
     -- This method only works with CR for TTT
-    if not CRVersion then return end
+    if not CR_VERSION then return end
     if #newMembers <= 0 then return end
     local members = Randomat:GetPlayerNameListString(newMembers, true)
     local verb = " has "
@@ -1444,11 +1452,11 @@ function randomat_meta:NotifyTeamChange(newMembers, roleTeam)
         player.ExecuteAgainstTeamPlayers(roleTeam, true, false, function(ply)
             -- Tell players that changed teams what team they joined and why
             if table.HasValue(newMembers, ply) then
-                ply:PrintMessage(HUD_PRINTCENTER, changedTeamMessage)
+                Randomat:PrintMessage(ply, MSG_PRINTCENTER, changedTeamMessage)
                 ply:PrintMessage(HUD_PRINTTALK, extendedChangedTeamMessage)
                 -- Tell members of their new team who has joined them
             else
-                ply:PrintMessage(HUD_PRINTCENTER, joinedTeamMessage)
+                Randomat:PrintMessage(ply, MSG_PRINTCENTER, joinedTeamMessage)
                 ply:PrintMessage(HUD_PRINTTALK, extendedJoinedTeamMessage)
             end
         end)
