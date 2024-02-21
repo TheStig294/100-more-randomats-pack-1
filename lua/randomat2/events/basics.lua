@@ -272,12 +272,16 @@ function EVENT:Begin()
                 end
 
                 -- Double the index since this is a bit-mask
-                i = i * 2
+                if CRVersion and CRVersion("2.1.2") then
+                    i = i + 1
+                else
+                    i = i * 2
+                end
             end
 
             if itemRemoved then
                 timer.Simple(5, function()
-                    ply:ChatPrint("Your passive items may still be active!\n(E.g. Bruh bunker)")
+                    ply:ChatPrint("Your passive items may still be active!\n(E.g. Bruh Bunker)")
                 end)
             end
 
