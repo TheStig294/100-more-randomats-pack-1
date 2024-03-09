@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Don't Get Greedy..."
 EVENT.Description = "At random points in time, you get a buyable item or..."
 EVENT.id = "greedy"
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"biased_innocent", "biased", "item", "largeimpact"}
 
