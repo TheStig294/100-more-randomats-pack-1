@@ -24,6 +24,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. The Circle - Stay inside the shrinking circle, or else you take damage!
 1. Go home, you're drunk! - Makes everyone look drunk
 1. Copycat! - Someone copies someone else's attributes!
 1. Discord Sounds - Dead players can play discord sounds!
@@ -612,6 +613,8 @@ _randomat_battleroyale_storm_wait_time_ - Default: 30 - Seconds after the next z
 _randomat_battleroyale_storm_move_time_ - Default: 30 - Seconds it takes for the storm to move\
 randomat_battleroyale_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
+Functionality for the Fornite randomat's storm, by [Nick](https://steamcommunity.com/id/noxxflame)
+
 ## LAST \*PAIR\* ALIVE WINS! Duos battle royale
 
 Everyone is turned into an innocent, and placed into pairs, for a duos free-for-all!\
@@ -624,6 +627,8 @@ _randomat_battleroyale2_storm_zones_ - Default: 4 - The number of zones until th
 _randomat_battleroyale2_storm_wait_time_ - Default: 30 - Seconds after the next zone is announced before the storm moves\
 _randomat_battleroyale2_storm_move_time_ - Default: 30 - Seconds it takes for the storm to move\
 randomat_battleroyale2_music - Default: 1 - Whether to play vicotry royale music when someone wins
+
+Functionality for the Fornite randomat's storm, by [Nick](https://steamcommunity.com/id/noxxflame)
 
 ## Let's mix it up
 
@@ -914,6 +919,17 @@ Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/
 Spawns a bus somewhere on the map that kills anyone it touches...\
 \
 _ttt_randomat_bus_ - Default: 1 - Whether this randomat is enabled
+
+## The Cricle
+
+Stay inside the shrinking circle, or else you take damage!\
+\
+_ttt_randomat_circle_ - Default: 1 - Whether this randomat is enabled\
+_randomat_circle_zones_ - Default: 4 - The number of zones until the circle covers the map\
+_randomat_circle_wait_time_ - Default: 30 - Seconds after the next zone is announced before the circle moves\
+_randomat_circle_move_time_ - Default: 30 - Seconds it takes for the circle to move\
+\
+Functionality from the Battle Royale randomat's storm, by [Nick](https://steamcommunity.com/id/noxxflame)
 
 ## The Michael Rosen Rap
 
