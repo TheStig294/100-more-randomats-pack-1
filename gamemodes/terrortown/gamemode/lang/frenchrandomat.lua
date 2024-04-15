@@ -1031,77 +1031,144 @@ Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
 L.beggar_config_show_radius = "Afficher le cercle du rayon de suivi"
 L.ev_beggar_converted = "Le {beggar} ({victim}) a été converti en {team} par {attacker}"
 L.ev_beggar_killed = "Le {beggar} ({victim}) a été tué par {attacker} mais est réapparu"
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
+L.ev_beggar_killed_delay = "Le {beggar} ({victim}) a été tué par {attacker} mais réapparaîtra dans {delay} secondes"
+L.beggar_hidden_all_hud = "Vous apparaissez toujours comme {beggar} aux yeux des autres"
+L.beggar_hidden_innocent_hud = "Vous apparaissez toujours comme {beggar} aux yeux de {innocents}"
+L.beggar_hidden_traitor_hud = "beggar_hidden_traitor_hud"
+L.info_popup_beggar_jester = [[Vous êtes {role}! Les {traîtres} pensent que vous êtes un {ajester} et vous
+n'infliger aucun dégât. Cependant, si vous parvenez à convaincre quelqu'un de donner
+vous un article de la boutique, vous rejoindrez leur équipe.]]
+L.info_popup_beggar_indep = [[Vous êtes {role}! Si tu peux convaincre quelqu'un de donner
+vous un article de la boutique, vous rejoindrez leur équipe.]]
+-- Bodysnatcher
+L.ev_bodysnatch = "{attacker} corps arraché {role}, {victim}"
+L.ev_bodysnatch_killed = "Le {bodysnatch} ({victim}) a été tué par {attacker} mais est réapparu"
+L.ev_bodysnatch_killed_delay = "Le {bodysnatch} ({victim}) a été tué par {attacker} mais réapparaîtra dans {delay} secondes"
+L.bodysnatcher_hidden_all_hud = "Vous apparaissez toujours comme {bodysnatcher} aux autres"
+L.bodysnatcher_hidden_team_hud = "Seule votre équipe sait que vous n'êtes plus {bodysnatcher}"
+L.score_bodysnatcher_bodysnatched = "Corps arraché par"
+L.info_popup_bodysnatcher_jester = [[Vous êtes {role}! Les {traitors} pensent que vous êtes un {ajester} et vous
+n'infliger aucun dégât. Utilisez votre dispositif d'arrachage de corps sur un cadavre
+pour prendre leur rôle et rejoindre le combat!]]
+L.info_popup_bodysnatcher_indep = [[Vous êtes {role}! Utilisez votre dispositif d'arrachage de corps sur un cadavre
+pour assumer leur rôle et rejoindre l'équipe gagnante!]]
+-- Clown
+L.ev_clown = "Le clown, {player}, s'est déchaîné"
+L.win_clown = "Le {role} vous a tous assassiné!"
+L.ev_win_clown = "Le {role} vicieux a remporté la manche!"
+L.info_popup_clown = [[Vous êtes {role}! Les {traitors} pensent que vous êtes un {ajester} et vous
+n'infliger aucun dégât. Cependant, si une équipe gagnait la manche à la place, vous
+deviennent hostiles, sont révélés à tous les joueurs et peuvent infliger des dégâts
+normale. Soyez le dernier joueur à gagner.]]
+-- Lovers
+L.win_lovers = "Les amoureux ont survécu à tout le monde!"
+L.hilite_lovers_primary = "LES AMOUREUX GAGNENT"
+L.hilite_lovers_secondary = "ET LES AMOUREUX GAGNENT"
+L.ev_win_lovers = "Les amoureux ont gagné la manche!"
+L.scoreboard_cupid_your_lover = "VOTRE AMANT"
+L.scoreboard_cupid_lover = "AMOUREUSE"
+L.score_cupid_pairnames = "{lover1} et {lover2}"
+L.score_cupid_paired = "Jumelé"
+L.ev_cupid_paired = "{cupid} a fait tomber amoureux {lover1} et {lover2}"
+L.info_popup_cupid_jester = [[Vous êtes {role}! Les {traîtres} pensent que vous êtes un {ajesteur} et vous
+n'infliger aucun dégât. Cependant, vous pouvez utiliser votre arc pour en faire deux
+les joueurs tombent amoureux pour gagner/mourir ensemble.]]
+L.info_popup_cupid_indep = [[Vous êtes {role}! Vous pouvez utiliser votre arc pour en faire deux
+les joueurs tombent amoureux pour gagner/mourir ensemble.]]
+-- Deputy
+L.info_popup_deputy = [[Vous êtes {role}! Si le {detective} meurt, vous prendrez
+et obtenez la possibilité d'acheter des articles de magasin et des corps de recherche.]]
+-- Detective
+L.info_popup_detective = [[Vous êtes {role}! Le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Utilisez-les pour aider les {innocents} à survivre, mais soyez prudent:
+les {traitors} chercheront à vous éliminer en premier!
+
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+-- Detective-like
+L.ev_promote = "{player} a été promu {detective}"
+L.detective_promotion_hud = "Vous avez été promu {detective}"
+L.detective_special_hidden_hud = "Votre type {detective} est masqué aux autres"
+-- Doctor
+L.info_popup_doctor = [[Vous êtes {role}! Vous êtes ici pour garder vos coéquipiers en vie.
+Utilisez vos outils pour garder vos camarades {innocents} dans le combat!
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Drunk
+L.drunk_hud = "Vous redeviendrez sobre dans: {time}"
+L.ev_drunk = "{player} s'est souvenu qu'il était {team}"
+L.info_popup_drunk = [[Vous êtes {role}! Vous avez oublié à quelle équipe vous appartenez!
+Attendez d'être sobre et souvenez-vous. Essayez de faire profil bas en attendant.]]
+-- Glitch
+L.info_popup_glitch = [[Vous êtes {role}! Les {traitors} pensent que vous en faites partie.
+Essayez de vous fondre dans la masse et ne vous trahissez pas.]]
+-- Guesser
+L.guessingdevice_help_pri = "Appuyez sur {primaryfire} pour deviner le rôle d'un joueur."
+L.guessingdevice_help_sec = "Appuyez sur {secondaryfire} pour sélectionner un rôle."
+L.guessingdevice_title = "Sélection du devineur de rôle"
+L.guesser_selection = "Rôle sélectionné: "
+L.guesser_unguessable = "INDEVINABLE"
+L.score_guesser_guessed_by = "Deviné par"
+L.ev_guesser_correct = "{guesser} a correctement deviné le rôle de {victim}"
+L.ev_guesser_incorrect = "{guesser} a mal deviné le rôle de {victim}"
+L.info_popup_guesser = [[Vous êtes {role}! Les {traitors} pensent que vous êtes un {ajester} et vous ne faites rien
+dommage. Cependant, vous pouvez utiliser votre devineur de rôle pour essayer de deviner le rôle d'un joueur. Deviner
+correctement pour voler leur rôle. Devinez mal et vous mourez. Tu es immortel et si
+les joueurs tentent de vous endommager, vous apprendrez lentement des informations sur leur rôle.]]
+-- Hive Mind
+L.win_hivemind = "Nous sommes {role}!"
+L.ev_win_hivemind = "Le {role} a assimilé tout le monde!"
+L.info_popup_hivemind = [[Vous êtes {role}! Tuer les autres
+les joueurs les feront vous rejoindre, fusionnant leur santé
+piscine et armes disponibles dans le magasin.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Hypnotist
+L.brainwash_help_pri = "Maintenez {primaryfire} pour faire revivre le cadavre."
+L.brainwash_help_sec = "Le joueur ressuscité deviendra un traître."
+L.ev_hypno = "{victim} a été hypnotisée"
+L.info_popup_hypnotist = [[Vous êtes {role}! {camarades}
+
+Vous pouvez utiliser votre appareil de lavage de cerveau sur un cadavre pour le réanimer en tant que {traître}.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Impersonator
+L.info_popup_impersonator = [[Vous êtes {role}! {comrades}
+
+Si le {detective} meurt, vous apparaîtrez pour devenir un nouveau {detective} et gagnerez leur
+des capacités tout comme le {deputy}. Cependant, vous travaillez toujours pour les {traitors}.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Infected
+L.ev_infected_succumbed = "L'{infected} ({victim}) a succombé à sa maladie et est devenu {azombie}"
+L.infected_hud = "Vous succomberez dans: {time}"
+L.info_popup_infected = [[Vous êtes {role}! Tu as une maladie secrète
+cela finira par vous transformer en {azombie}!
+Aidez votre équipe à gagner ou attendez de tourner
+et propage ta maladie vers la victoire...]]
+-- Informant
+L.infscanner_help_pri = "Regardez un joueur pour lancer la numérisation."
+L.infscanner_help_sec = "Gardez la ligne de vue ou vous perdrez votre cible."
+L.infscanner_team = "ÉQUIPE"
+L.infscanner_role = "RÔLE"
+L.infscanner_track = "PISTE"
+L.informant_config_show_radius = "Afficher le cercle du rayon de suivi"
+L.info_popup_informant = [[Vous êtes {role}! {comrades}
+
+Tenez votre scanner tout en regardant un joueur pour en savoir plus sur lui.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Innocent
+L.info_popup_innocent = [[Vous êtes {role}! Mais il y a des {traîtres} dans le coin...
+À qui pouvez-vous faire confiance et qui veut vous remplir de balles ?
+
+Surveillez vos arrières et travaillez avec vos camarades pour vous en sortir vivant!]]
+-- Jester
+L.win_jester = "Le {role} vous a tous trompé!"
+L.ev_win_jester = "Le {role} délicat a remporté la manche!"
+L.score_jester_killedby = "Tue par"
+L.info_popup_jester = [[Vous êtes {role}! Tu veux mourir mais toi
+n'infligez aucun dégât, vous devez donc être tué par quelqu'un d'autre.]]
+-- Killer
 L.qmr_crate_name = ""
 L.qmr_crate_name = ""
 L.qmr_crate_name = ""
