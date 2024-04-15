@@ -1419,7 +1419,7 @@ L.zom_claws_help_pri = "Appuyez sur {primaryfire} pour attaquer."
 L.zom_claws_help_sec = "Appuyez sur {secondaryfire} pour sauter. Appuyez sur {reload} pour cracher."
 L.zom_claws_help_sec_noleap = "Appuyez sur {reload} pour cracher."
 L.zom_claws_help_sec_nospit = "Press {secondaryfire} to leap."
--- JINGLE JAM ROLE/RANDOMAT PACKS ---
+-- JINGLE JAM ROLE PACKS ---
 -- Jingle Jam 2021 Roles
 -- Boxer
 L.box_gloves_help_pri = "Utilisez {primaryfire} pour faire tomber les armes des mains des joueurs"
@@ -1566,6 +1566,57 @@ Utilisez votre appareil Health Tracker pour installer des trackers sur les joueu
 Ouvrez le tableau de bord pour afficher l'état de santé du joueur suivi, mais méfiez-vous de sa portée limitée!
 
 Appuyez sur {menukey} pour accéder à la boutique d'équipement standard, proposant une mise à niveau pour votre tracker.]]
+-- EXTERNAL ROLES --
+-- Announcer
+L.info_popup_announcer = [[Vous êtes {role}!
+Vous êtes {adetective} qui peut voir chaque fois que quelqu'un achète un article!]]
+-- Dread Thrall
+L.dreadthrall_powers_title = "Choisissez une capacité"
+L.dreadthrall_powers_subtitle = "   Toutes les capacités coûtent\en {credits} crédits) par utilisation"
+L.dreadthrall_powers_credits = "{credits} crédits disponibles"
+L.dreadthrall_powers_close = "Fermer"
+L.dreadthrall_powers_spiritwalk = "Marche spirituelle"
+L.dreadthrall_powers_spiritwalk_tooltip = "Devenez invisible et déplacez-vous rapidement pour vous échapper"
+L.dreadthrall_powers_blizzard = "Invocation de Blizzard"
+L.dreadthrall_powers_blizzard_tooltip = "Invoquez un brouillard semblable à un blizzard pour réduire la visibilité"
+L.dreadthrall_powers_cannibal = "Attaque cannibale"
+L.dreadthrall_powers_cannibal_tooltip = "Invoquez des cannibales agressifs près d'un ennemi vivant aléatoire"
+L.bonecharm_help_pri = "Utilisez {primaryfire} ou {secondaryfire} pour endommager vos ennemis"
+L.bonecharm_help_sec = "Appuyez sur {reload} pour sélectionner et utiliser une action spéciale"
+L.info_popup_dreadthrall = [[Vous êtes {role}! {comrades}
+
+Utilisez vos capacités de charme osseux pour aider votre équipe
+en battant vos ennemis.]]
+-- Enhanced Detectives
+L.target_haunted_medium = "Hanté par le médium"
+-- (Frenchman would be here but that is already translated of course!)
+-- Possum
+L.psm_disguiser = "Déguisement de la mort"
+L.psm_disguiser_charge = "DÉGUISEMENT RESTANT"
+L.psm_disguiser_charge_info = "Appuyez sur {secondaryfire} pour arrêter de faire le mort plus tôt"
+L.psm_disguiser_hud = "Déguisement de la mort actif"
+L.psm_disguiser_help_pri = "Utilisez {primaryfire} pour allumer et éteindre l'appareil"
+L.psm_disguiser_help_sec = "Lorsque l'appareil est actif, subir des dégâts vous fera faire le mort"
+L.info_popup_possum = [[Vous êtes {role}!
+
+Protégez-vous de vos ennemis en
+utiliser votre appareil pour faire le mort en cas d'attaque.]]
+-- Summoner
+L.info_popup_summoner = [[Vous êtes {role}! {comrades}
+
+Invoquez des serviteurs pour vous aider à vaincre vos ennemis.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- The Thing
+L.ev_thingcontam = "{victim} a été contaminée et transformée en {thething}!"
+L.ev_win_thething = "{role} a assimilé les vivants et pris le relais"
+L.win_thething = "La contamination de {role} a anéanti tous les ennemis"
+L.hilite_win_thething = "{role} WINS"
+L.info_popup_thething = [[Vous êtes {role}!
+
+Sacrifiez-vous en tuant vos ennemis
+pour les convertir et gagner par attrition.]]
+-- RANDOMAT TRANSLATIONS --
 -- Jingle Jam 2021 Randomats
 L.rdmtbox_gloves_help_pri = "Utilisez {primaryfire} pour faire tomber les armes des mains des joueurs"
 L.rdmtbox_gloves_help_sec = "Attaquez avec {secondaryfire} pour assommer les joueurs"
@@ -1588,37 +1639,10 @@ L.yeticlub_help_sec = "Appuyez sur {secondaryfire} pour lancer un projectile gel
 L.info_popup_yeti = [[Vous êtes {role}!
 
 Utilisez votre massue pour tuer vos ennemis ou les geler sur place!]]
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
-L.info_popup_santa = ""
+-- Malivil's Randomat 2.0 for Custom Roles
+L.rdmt_carepackage_name = "Paquet de soins"
+L.rdmt_carepackage_hint = "Appuyez sur '{usekey}' pour recevoir l'article"
+L.rdmt_count_hud = "{count} événements aléatoires actifs"
 L.info_popup_santa = ""
 L.info_popup_santa = ""
 L.info_popup_santa = ""
