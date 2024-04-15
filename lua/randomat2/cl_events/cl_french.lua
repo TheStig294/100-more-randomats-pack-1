@@ -267,6 +267,7 @@ net.Receive("FrenchRandomatBegin", function()
     end
 
     -- Renaming custom passive shop items
+    -- (Default TTT passive items like the rader are covered by the language file)
     if not istable(SHOP_ROLES) then
         SHOP_ROLES = {}
         SHOP_ROLES[ROLE_DETECTIVE] = true

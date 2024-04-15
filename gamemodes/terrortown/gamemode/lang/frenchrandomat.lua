@@ -1572,7 +1572,7 @@ L.info_popup_announcer = [[Vous êtes {role}!
 Vous êtes {adetective} qui peut voir chaque fois que quelqu'un achète un article!]]
 -- Dread Thrall
 L.dreadthrall_powers_title = "Choisissez une capacité"
-L.dreadthrall_powers_subtitle = "   Toutes les capacités coûtent\en {credits} crédits) par utilisation"
+L.dreadthrall_powers_subtitle = "   Toutes les capacités coûtent\n {credits} crédits) par utilisation"
 L.dreadthrall_powers_credits = "{credits} crédits disponibles"
 L.dreadthrall_powers_close = "Fermer"
 L.dreadthrall_powers_spiritwalk = "Marche spirituelle"
@@ -1697,7 +1697,7 @@ L.possess_switch_weapon = "Changer d'arme"
 L.possess_power = "Pouvoir"
 -- A second chance
 L.second_chance_desc = "Petite chance d'être réanimé à la mort. \n\nAprès avoir tué quelqu'un, les chances augmentent."
-L.second_chance_desc_nerf = "Réapparaissez sur votre corps après un délai. \in\Après l'achat, tout le monde est informé."
+L.second_chance_desc_nerf = "Réapparaissez sur votre corps après un délai. \n\nAprès l'achat, tout le monde est informé."
 L.second_chance_name = "Une seconde chance"
 L.second_chance_alert = "Quelqu'un a acheté une seconde chance!"
 L.second_chance_time_left = "Temps restant: "
