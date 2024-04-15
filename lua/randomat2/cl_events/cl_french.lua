@@ -361,15 +361,9 @@ net.Receive("FrenchRandomatBegin", function()
     -- Renaming weapons
     -- All in alphabetical order by printname
     local translatedWeapons = {
-        weapon_m9k_honeybadger = {
-            name = "AAC H-Blaireau",
-        },
         tfa_acidgat = {
             name = "Acide Gat",
             desc = [[Tire plusieurs explosifs qui collent aux joueurs et explosent après quelques secondes.]]
-        },
-        weapon_m9k_acr = {
-            name = "ACR",
         },
         weapon_ttt_adm_menu = {
             name = "Menu Administrateur",
@@ -388,33 +382,15 @@ net.Receive("FrenchRandomatBegin", function()
             Faites un clic gauche pour faire apparaître un hydroglisseur pilotable!
             N'endommage pas les joueurs.]]
         },
-        weapon_m9k_ak47 = {
-            name = "AK-47",
-        },
-        weapon_m9k_ak74 = {
-            name = "AK-74",
-        },
-        weapon_ttt_ak47 = {
-            name = "AK47",
-            desc = [[Fusil d'assaut avec des dégâts très élevés.
-
-            A un recul très élevé.]]
-        },
         ttt_player_pinger = {
             name = "Joueur Pinger",
             desc = [[Vous permet de voir tout le monde à travers les murs pendant une durée limitée!]]
-        },
-        weapon_m9k_amd65 = {
-            name = "AMD-65",
         },
         weapon_amongussummoner = {
             name = "Parmi l'invocateur",
             desc = [[Faites un clic gauche pour placer un piège invisible au sol.
 
             Si un joueur marche dessus, un monstre porteur d'explosifs apparaît et attaque!]]
-        },
-        weapon_m9k_an94 = {
-            name = "AN-94",
         },
         avengers_ttt_minifier = {
             name = "Costume D'homme Fourmi"
@@ -429,9 +405,6 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_m9k_ares_shrike = {
             name = "Pie-grièche D'Arès",
         },
-        tfa_bo3_argus = {
-            name = "Argus"
-        },
         weapon_ttt_artillery = {
             name = "Canon D'artillerie",
             desc = [[Génère un canon d'artillerie très puissant qui tire une grosse bombe sur une longue portée.
@@ -444,17 +417,6 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_ttt_aug = {
             name = "AOÛT",
         },
-        weapon_m9k_aw50 = {
-            name = "AW-50",
-        },
-        weapon_ttt_loudawp = {
-            name = "AWP",
-            desc = [[Fusil de précision AWP silencieux.
-
-            Il n'a que deux coups.
-            
-            Les victimes ne crieront pas lorsqu'elles seront tuées.]]
-        },
         weapon_ttt_titanfall_wingman = {
             name = "Ailier B3"
         },
@@ -465,15 +427,6 @@ net.Receive("FrenchRandomatBegin", function()
             Un fusil de chasse qui tire derrière vous et vous propulse vers l'avant.
             
             Faites un clic droit pour vous retourner instantanément.]]
-        },
-        weapon_ttt_baguette_randomat = {
-            name = "Baguette",
-        },
-        weapon_fre_baguette = {
-            name = "Baguette",
-        },
-        weapon_ballin = {
-            name = "Ballin'",
         },
         weapon_banana = {
             name = "Bombe banane",
@@ -491,12 +444,6 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Un piège extraterrestre mortel au plafond!
 
             Faites un clic gauche pour placer le piège au plafond, toute personne passant en dessous sera lentement tuée.]]
-        },
-        weapon_m9k_barret_m82 = {
-            name = "Barrette M82",
-        },
-        weapon_m9k_m98b = {
-            name = "Barrette M98B",
         },
         weapon_bat = {
             name = "Batte de Baseball",
@@ -519,14 +466,8 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Grenade à abeilles.
             Libère plusieurs abeilles hostiles lors de la détonation.]]
         },
-        weapon_m9k_m3 = {
-            name = "Benelli M3",
-        },
         tfa_dax_big_glock = {
             name = "Gros Glock"
-        },
-        weapon_m9k_bizonp19 = {
-            name = "Bizon PP19",
         },
         weapon_vadim_blink = {
             name = "Clignoter",
@@ -560,18 +501,6 @@ net.Receive("FrenchRandomatBegin", function()
 
             Une chauve-souris qui emprisonne ceux que vous frappez dans une cage pendant quelques secondes.]]
         },
-        weapon_ttt_boomerang = {
-            name = "Boomerang",
-            desc = [[Un boomerang mortel à lancer,
-
-            Clic gauche: tue en 1 coup et se déplace plus vite, mais ne revient pas.
-            
-            Clic droit: tue en 2 coups et se déplace plus lentement, mais revient.]]
-        },
-        weapon_ttt_boomerang_randomat = {
-            name = "Boomerang",
-            desc = [[Clic droit pour lancer]]
-        },
         tfa_staff_wind_ult = {
             name = "La fureur de Borée"
         },
@@ -589,9 +518,6 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_hyp_brainwash = {
             name = "Dispositif de Lavage de Cerveau",
             desc = [[Ressuscite un innocent en traître.]]
-        },
-        weapon_m9k_browningauto5 = {
-            name = "Browning Auto 5",
         },
         tfa_mercy_nope = {
             name = "Blaster de Caducée"
@@ -642,24 +568,12 @@ net.Receive("FrenchRandomatBegin", function()
             
             Certaines cartes peuvent avoir un mauvais éclairage et vous laisser un peu trop visible.]]
         },
-        weapon_ttt_randomatclub = {
-            name = "Club",
-        },
-        weapon_yeti_club = {
-            name = "Club",
-        },
         weapon_ttt_clutterbomb = {
             name = "Bombe Encombrant",
             desc = [[Une grenade hautement explosive.
 
             Prudent! Il peut exploser dans votre main si vous
             faites-le cuire trop longtemps!]]
-        },
-        weapon_m9k_colt1911 = {
-            name = "Colt 1911",
-        },
-        weapon_m9k_coltpython = {
-            name = "Colt Python",
         },
         weapon_com_manifesto = {
             name = "Manifeste Communiste",
@@ -837,15 +751,9 @@ net.Receive("FrenchRandomatBegin", function()
         ttt_perk_doubletap = {
             name = "Bière de Racine à Double Pression",
         },
-        weapon_dp = {
-            name = "DP-28",
-        },
         weapon_ttt_dragon_elites = {
             name = "Élites Dragons",
             desc = [[Pistolets à double usage avec une animation de rechargement sympa.]]
-        },
-        weapon_m9k_svu = {
-            name = "Dragunov SVU",
         },
         weapon_dubstepgun = {
             name = "Pistolet Dubstep",
@@ -868,12 +776,6 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Extincteur",
             desc = [[Vaporisez les traîtres et aveuglez-les]]
         },
-        weapon_m9k_famas = {
-            name = "FAMAS",
-        },
-        weapon_ttt_famas = {
-            name = "FAMAS",
-        },
         weapon_vam_fangs = {
             name = "Crocs",
             desc = [[Faites un clic gauche pour sucer le sang. Cliquez avec le bouton droit pour faire disparaître.]]
@@ -884,12 +786,6 @@ net.Receive("FrenchRandomatBegin", function()
         fp = {
             name = "Fassinateur",
             desc = [[Placez 5 barils explosifs autour de vos ennemis et profitez du désastre!]]
-        },
-        weapon_m9k_fg42 = {
-            name = "FG 42",
-        },
-        weapon_fg42 = {
-            name = "FG-42",
         },
         weapon_ttt_fingergun = {
             name = "Pistolet à Doigt",
@@ -924,25 +820,6 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Supprime toutes les armes de la cible,
             leur offre un "pistolet gratuit" imparable
             et les oblige à tirer une fois]]
-        },
-        weapon_ttt_flashbang = {
-            name = "Flashbang",
-            desc = [[Le meilleur Flash que vous ayez jamais vu - PAS POUR ISA!]]
-        },
-        weapon_m9k_f2000 = {
-            name = "FN F2000",
-        },
-        weapon_m9k_fal = {
-            name = "FN FAL",
-        },
-        weapon_ttt_p90 = {
-            name = "FN P90",
-            desc = [[SMG à tir extrêmement rapide.
-
-            Livré avec une lunette montée.]]
-        },
-        weapon_m9k_smgp90 = {
-            name = "FN P90",
         },
         weapon_ttt_foolsgoldengun = {
             name = "Le Pistolet F'or du Fou",
@@ -980,26 +857,11 @@ net.Receive("FrenchRandomatBegin", function()
             Les ballons éclateront s'ils sont tirés ou déployés à l'intérieur.
             Faites un clic droit pour définir une destination. Rechargez pour l'effacer.]]
         },
-        weapon_m9k_g36c = {
-            name = "G36C",
-        },
-        weapon_ttt_g3sg1 = {
-            name = "G3SG1",
-        },
         weapon_ttt_galil = {
             name = "Galille",
         },
-        weapon_gewehr43 = {
-            name = "Gewehr 43",
-        },
         weapon_ttt_gwh_ghosting = {
             name = "Dispositif Fantôme",
-        },
-        weapon_ttt_glock = {
-            name = "Glock",
-        },
-        weapon_m9k_glock = {
-            name = "Glock 18",
         },
         weapon_randomat_boxgloves = {
             name = "Gants",
@@ -1088,36 +950,6 @@ net.Receive("FrenchRandomatBegin", function()
         c_reaper_nope = {
             name = "Fusils de Chasse Hellfire"
         },
-        weapon_m9k_m416 = {
-            name = "HK 416",
-        },
-        weapon_m9k_g3a3 = {
-            name = "HK G3A3",
-        },
-        weapon_m9k_mp5 = {
-            name = "HK MP5",
-        },
-        weapon_m9k_mp5sd = {
-            name = "HK MP5SD",
-        },
-        weapon_m9k_mp7 = {
-            name = "HK MP7",
-        },
-        weapon_m9k_sl8 = {
-            name = "HK SL8",
-        },
-        weapon_m9k_ump45 = {
-            name = "HK UMP45",
-        },
-        weapon_m9k_usc = {
-            name = "HK USC",
-        },
-        weapon_m9k_usp = {
-            name = "HK USP",
-        },
-        weapon_m9k_hk45 = {
-            name = "HK45C",
-        },
         weapon_ttt_homebat = {
             name = "Batte de Circuit",
             desc = [[Frappez les gens très loin avec une batte!
@@ -1166,9 +998,6 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Homme de Fer",
             desc = [[Armure spécialisée conçue par Tony Stark. AVERTISSEMENT: Impossible de laisser tomber!]]
         },
-        weapon_m9k_ithacam37 = {
-            name = "Ithaque M37",
-        },
         weapon_ttt_jarate = {
             name = "Jaraté",
             desc = [[Un pot de pisse
@@ -1190,12 +1019,6 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Émulateur de bouffon",
             desc = [[Un M16 qui n'inflige aucun dégât.]]
         },
-        weapon_ttt_jetpack = {
-            name = "Jetpack",
-            desc = [[Sélectionnez-le et appuyez sur Sauter pour vous propulser vers le haut.
-
-            Attention à l'atterrissage.]]
-        },
         weapon_ttt_jetpackspawner = {
             name = "Déployeur Jetpack",
             desc = [[Faites un clic gauche pour déposer un jetpack, appuyez sur 'E' pour l'équiper.]]
@@ -1209,15 +1032,9 @@ net.Receive("FrenchRandomatBegin", function()
             name = "John Bombe",
             desc = [[Clic gauche pour vous faire EXPLOSER. Faites un clic droit pour narguer.]]
         },
-        ttt_perk_juggernog = {
-            name = "Juggernog",
-        },
         weapon_ttt_jumpgun = {
             name = "Pistolet de Saut",
             desc = [[Tirez pour aller dans la direction opposée (par exemple, tirez vers le bas pour monter).]]
-        },
-        weapon_m9k_kac_pdw = {
-            name = "KAC PDW",
         },
         ttt_kamehameha_swep = {
             name = "Kaméhaméha",
@@ -1235,23 +1052,11 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_m9k_vector = {
             name = "Kriss Vecteur",
         },
-        weapon_machete = {
-            name = "Kukri",
-        },
-        weapon_m9k_l85 = {
-            name = "L85",
-        },
         laserpointer = {
             name = "Pointeur Laser",
             desc = [[La 1ère arme blague que vous achetez est gratuite !
 
             Aveuglez temporairement quelqu'un en le pointant devant son visage.]]
-        },
-        weapon_lee = {
-            name = "Lee Enfield n°2",
-        },
-        weapon_enfield_4 = {
-            name = "Lee Enfield n°4",
         },
         weapon_ttt_liftgren = {
             name = "Grenade de Levage",
@@ -1292,61 +1097,14 @@ net.Receive("FrenchRandomatBegin", function()
 
             Un revolver ridiculement long.]]
         },
-        weapon_luger = {
-            name = "Luger",
-        },
-        weapon_m9k_m14sp = {
-            name = "M14",
-        },
-        weapon_ttt_m16 = {
-            name = "M16",
-        },
-        weapon_m9k_m16a4_acog = {
-            name = "M16A4 ACOG",
-        },
-        weapon_m9k_m1918bar = {
-            name = "BARRE M1918",
-        },
         weapon_catgun = {
             name = "Pistolet à Chat",
-        },
-        weapon_m9k_m24 = {
-            name = "M24",
-        },
-        weapon_m9k_m249lmg = {
-            name = "M249 LMG",
-        },
-        weapon_m9k_m29satan = {
-            name = "M29 Satan",
         },
         weapon_m3 = {
             name = "Pistolet Graisseur M3",
         },
-        weapon_m9k_m4a1 = {
-            name = "M4A1",
-        },
-        weapon_m9k_m60 = {
-            name = "M60",
-        },
-        weapon_m9k_m92beretta = {
-            name = "M92 Beretta",
-        },
-        weapon_zm_mac10 = {
-            name = "MAC10",
-        },
         c_sombra_gun_n = {
             name = "Pistolet-Mitrailleur"
-        },
-        maclunkey = {
-            name = "Maclunkey",
-            desc = [[N'infligez aucun dégât avec d'autres armes tant que vous avez cela sur vous.
-
-            A un tir qui tue instantanément mais prend un certain temps à tirer.
-            
-            Peut être lâché pour infliger à nouveau des dégâts avec d'autres armes.]]
-        },
-        weapon_m9k_magpulpdr = {
-            name = "Magpul PDR",
         },
         weapon_ttt_malfunctionpistol = {
             name = "Dysfonctionnement du Pistolet",
@@ -1375,9 +1133,6 @@ net.Receive("FrenchRandomatBegin", function()
 
             Les poursuit, tue au toucher et disparaît.]]
         },
-        doi_mg42 = {
-            name = "MG42",
-        },
         weapon_ttt_minic = {
             name = "Mimer le Générateur",
             desc = [[Lors de son utilisation, transforme des accessoires aléatoires sur la carte en accessoires d'imitation hostiles.
@@ -1399,34 +1154,10 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Minificateur",
             desc = [[Faites un clic gauche pour réduire votre taille et votre santé!]]
         },
-        weapon_minigun = {
-            name = "Minigun",
-        },
-        weapon_m9k_jackhammer = {
-            name = "MK3A1",
-        },
         weapon_ttt_moonball = {
             name = "Boule de Lune",
             desc = [[Maintenez le clic gauche pour modifier la quantité de force utilisée.
             Clic droit pour changer les couleurs.]]
-        },
-        weapon_m9k_mossberg590 = {
-            name = "Mossberg 590",
-        },
-        weapon_m9k_mp40 = {
-            name = "MP40",
-        },
-        weapon_ttt_mp5 = {
-            name = "MP5 Marine",
-        },
-        weapon_ttt_smg = {
-            name = "MP7",
-        },
-        weapon_m9k_mp9 = {
-            name = "MP9",
-        },
-        weapon_ap_mrca1 = {
-            name = "MR-CA1",
         },
         weapon_ttt_mud_device_randomat = {
             name = "Appareil D'analyse de Boue",
@@ -1473,12 +1204,6 @@ net.Receive("FrenchRandomatBegin", function()
             Achetez un chat portable dès aujourd'hui!
             Son nom est "Oscar"]]
         },
-        weapon_m9k_luger = {
-            name = "P08 Luger",
-        },
-        weapon_ttt_p228 = {
-            name = "P228",
-        },
         weapon_ttt_painkillers = {
             name = "Analgésiques",
             desc = [[Accorde un boost de santé qui guérit complètement l'utilisateur mais se désintègre avec le temps.]]
@@ -1509,9 +1234,6 @@ net.Receive("FrenchRandomatBegin", function()
             
             Faites un clic droit pour vous transformer!]]
         },
-        weapon_m9k_pkm = {
-            name = "PKM",
-        },
         weapon_teleport_gun_t = {
             name = "Pistolet d'échange de joueur",
             desc = [[Un pistolet de téléportation !
@@ -1521,9 +1243,6 @@ net.Receive("FrenchRandomatBegin", function()
         },
         weapon_rp_pocket = {
             name = "Fusil de Poche",
-        },
-        weapon_ttt_mc_poison = {
-            name = "Poison",
         },
         weapon_ttt_popupgun = {
             name = "Pistolet Contextuel",
@@ -1539,12 +1258,6 @@ net.Receive("FrenchRandomatBegin", function()
             name = "PossMelLancement",
             desc = [[Tirez sur des fragments à tête chercheuse avec une attaque principale
             et possédait des melons avec attaque secondaire]]
-        },
-        weapon_ap_pp19 = {
-            name = "PP19",
-        },
-        weapon_ppsh41 = {
-            name = "PPSH-41",
         },
         weapon_prop_blaster = {
             name = "Blaster à Accessoires",
@@ -1570,9 +1283,6 @@ net.Receive("FrenchRandomatBegin", function()
             Cela ressemble à un Magnet-O-Stick!
             Faites un clic gauche sur un accessoire, puis cliquez avec le bouton droit pour exploser !.]]
         },
-        weapon_m9k_psg1 = {
-            name = "PSG-1",
-        },
         tfa_tracer_nope = {
             name = "Pistolets à Impulsions"
         },
@@ -1584,9 +1294,6 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Devenez le pousseur de Bristol
             Clic gauche pour pousser
             Faites un clic droit pour narguer vos victimes]]
-        },
-        weapon_ttt_csgo_r8revolver = {
-            name = "Revolver R8",
         },
         weapon_pp_rbull = {
             name = "Taureau Furieux",
@@ -1627,27 +1334,6 @@ net.Receive("FrenchRandomatBegin", function()
             
             Sonne une alarme avant que le trou noir n'apparaisse.]]
         },
-        weapon_pp_remington = {
-            name = "Remington",
-        },
-        weapon_m9k_remington1858 = {
-            name = "Remington 1858",
-        },
-        weapon_m9k_remington7615p = {
-            name = "Remington 7615P",
-        },
-        weapon_m9k_remington870 = {
-            name = "Remington 870",
-        },
-        tfa_bo2_remington_nma = {
-            name = "Remington N.M.A."
-        },
-        weapon_ttt_randomatrevolver = {
-            name = "Revolver",
-        },
-        weapon_ttt_revolver_randomat = {
-            name = "Revolver",
-        },
         weapon_ttt_mc_jumppotion = {
             name = "Potion de Fusée",
         },
@@ -1677,10 +1363,6 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Désamorceur BCD",
             desc = [[Un diffuseur pour la Remote Sticky Bomb]]
         },
-        weapon_ttt_revolver = {
-            name = "S&W 500",
-            desc = [[Éliminez n'importe quel terroriste d'un seul coup.]]
-        },
         weapon_m9k_model3russian = {
             name = "Modèle S&W 3",
         },
@@ -1708,12 +1390,6 @@ net.Receive("FrenchRandomatBegin", function()
 
             L'explosif colle aux joueurs.]]
         },
-        weapon_ttt_sg550 = {
-            name = "SG550",
-        },
-        weapon_ttt_sg552 = {
-            name = "SG552",
-        },
         weapon_ttt_cloak_randomat = {
             name = "Cape D'ombre",
         },
@@ -1736,9 +1412,6 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_shovel = {
             name = "Pelle",
         },
-        weapon_m9k_sig_p229r = {
-            name = "SIG Sauer P229R",
-        },
         weapon_ttt_awp = {
             name = "AWP Silencieux",
             desc = [[Fusil de précision AWP silencieux.
@@ -1760,15 +1433,6 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_ttt_slam = {
             name = "CLAQUER",
             desc = [[Allez et claque!]]
-        },
-        ttt_slappers = {
-            name = "Slappers",
-            desc = [[La première arme blague que vous achetez une cartouche est gratuite!
-
-            Vous permet de gifler quelqu'un et de secouer son écran!
-            
-            Clic gauche - main gauche
-            Clic droit - main droite]]
         },
         tfa_sliquifier = {
             name = "Slicificateur",
@@ -1804,9 +1468,6 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Maintenez le clic gauche pour tirer avec ce canon laser MASSIF!
 
             Provoque une puissante explosion]]
-        },
-        weapon_m9k_spas12 = {
-            name = "SPA 12",
         },
         ttt_perk_speedcola = {
             name = "Cola Rapide",
@@ -1847,9 +1508,6 @@ net.Receive("FrenchRandomatBegin", function()
         },
         ttt_perk_staminup = {
             name = "Endurance",
-        },
-        weapon_m9k_sten = {
-            name = "STEN",
         },
         weapon_stenmk3 = {
             name = "Sten Mark Trois",
@@ -1893,20 +1551,8 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Soldats Surprises",
             desc = [[Générez un soldat combiné aléatoire là où vous tirez!]]
         },
-        weapon_m9k_dragunov = {
-            name = "SVD Dragounov",
-        },
-        weapon_m9k_svt40 = {
-            name = "SVT40",
-        },
-        weapon_svt40 = {
-            name = "SVT-40",
-        },
         weapon_syringegun = {
             name = "Pistolet à Seringue",
-        },
-        weapon_m9k_tar21 = {
-            name = "TAR-21",
         },
         weapon_taser_derens = {
             name = "Pistolet Paralysant",
@@ -1915,12 +1561,6 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_tax_kit = {
             name = "Kit de Taxidermie",
             desc = [[Ressuscite un innocent en traître.]]
-        },
-        weapon_ap_tec9 = {
-            name = "TEC-9",
-        },
-        weapon_m9k_tec9 = {
-            name = "TEC-9",
         },
         weapon_tf2pistol = {
             name = "Pistolet TF2",
@@ -1954,18 +1594,12 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Le Pistolet de Noël",
             desc = [[Tirez des cadeaux qui tuent d'un seul coup]]
         },
-        weapon_m9k_contender = {
-            name = "Thompson G2",
-        },
         weapon_ttt_knife_randomat = {
             name = "Couteau de lancer"
         },
         tfa_thundergun = {
             name = "Fusil-Tonnerre",
             desc = [[Tire une explosion aérienne massive qui envoie voler toute personne se trouvant à courte distance!]]
-        },
-        thw_swep = {
-            name = "Thwomp"
         },
         weapons_ttt_time_manipulator = {
             name = "Manipulateur de Temps",
@@ -1981,9 +1615,6 @@ net.Receive("FrenchRandomatBegin", function()
             Vous pouvez en tuer d'autres pendant qu'ils sont gelés.
             
             N'affecte pas les détectives!]]
-        },
-        weapon_tt = {
-            name = "Tokarev TT-33",
         },
         weapon_m9k_thompson = {
             name = "Mitraillette",
@@ -2006,12 +1637,6 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Grenade à tortue.
             Libère plusieurs tortues hostiles lors de la détonation.]]
         },
-        weapon_t14nambu = {
-            name = "Type 14 Nambu",
-        },
-        weapon_t38 = {
-            name = "Type 38 Arisaka",
-        },
         weapon_unoreverse = {
             name = "ONU inversé",
             desc = [[Lors de l'activation, renvoie TOUS LES DOMMAGES à l'attaquant!
@@ -2020,18 +1645,6 @@ net.Receive("FrenchRandomatBegin", function()
         },
         weapon_m9k_usas = {
             name = "États-Unis",
-        },
-        weapon_ttt_pistol = {
-            name = "USP",
-        },
-        weapon_m9k_uzi = {
-            name = "UZI",
-        },
-        tfa_vr11 = {
-            name = "V-R11",
-            desc = [[Tous ceux sur qui vous tirez ont le pouvoir de tuer instantanément avec des armes ordinaires!
-
-            Dure une durée limitée.]]
         },
         weapon_ap_vector = {
             name = "Vecteur",
@@ -2052,21 +1665,6 @@ net.Receive("FrenchRandomatBegin", function()
             Pendant qu'ils ne la regardent pas, la statue de l'ange se rapproche d'eux.
             
             Si la statue les touche, ils meurent.]]
-        },
-        weapon_welrod = {
-            name = "Welrod",
-        },
-        weapon_sp_winchester = {
-            name = "Winchester",
-        },
-        weapon_m9k_winchester73 = {
-            name = "Winchester '73",
-        },
-        weapon_m9k_1887winchester = {
-            name = "Winchester 1887",
-        },
-        weapon_m9k_1897winchester = {
-            name = "Winchester 1897",
         },
         tfa_wintershowl = {
             name = "Le Hurlement de L'hiver",
