@@ -1169,6 +1169,179 @@ L.score_jester_killedby = "Tue par"
 L.info_popup_jester = [[Vous êtes {role}! Tu veux mourir mais toi
 n'infligez aucun dégât, vous devez donc être tué par quelqu'un d'autre.]]
 -- Killer
+L.win_killer = "Le {role} vous a tous assassiné!"
+L.ev_win_killer = "Le {role} boucher a remporté la manche!"
+L.info_popup_killer = [[Vous êtes {role}! Essayez de tuer tout le monde et soyez le dernier survivant !
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.kil_knife_desc = [[
+Blesse gravement les cibles vivantes en silence.
+Tue instantanément les cibles blessées et
+silencieusement.
+
+Peut larguer une grenade fumigène en utilisant un tir alternatif.]]
+L.kil_crowbar_name = "Pied de biche jetable"
+L.kil_crowbar_desc = [[
+Utilisé pour se fondre dans les autres joueurs et infliger des dégâts mineurs.
+
+Peut être lancé en utilisant un tir alternatif.]]
+-- Loot Goblin
+L.ev_win_lootgoblin = "Le {role} s'est échappé et a également remporté la manche!"
+L.lootgoblin_hud = "Vous vous transformerez en: {time}"
+L.lootgoblin_config_radar_sound = "Jouer le son du ping radar"
+L.info_popup_lootgoblin = [[Vous êtes {role}! Tout ce que vous voulez, c'est accumuler votre
+butin! Mais soyez prudent... Tout le monde veut tuer
+vous et le voler pour eux-mêmes!]]
+-- Mad Scientist
+L.zombificator_help_pri = "Maintenez {primaryfire} pour zombifier le cadavre."
+L.zombificator_help_sec = "Le joueur ressuscité deviendra un zombie."
+L.info_popup_madscientist = [[Vous êtes {role}! Essayez de propager votre virus à
+tout le monde! Utiliser votre appareil de zombification sur un mort
+le corps les fera revivre en tant que {azombie}.]]
+-- Marshal
+L.marshalbadge_help_pri = "Maintenez {primaryfire} pour remplacer un joueur."
+L.marshalbadge_help_sec = "Le joueur ciblé deviendra un adjoint ou un imitateur"
+L.ev_marshal_deputize = "{target} a été suppléé par {marshal}"
+L.marshal_deputize_announce = "{amarshal} a promu {target} au rang de {adeputy}"
+L.info_popup_marshal = [[Vous êtes {role}! En tant que {détective}, le QG vous a donné des ressources spéciales pour trouver les {traîtres}.
+Vous disposez d'un badge {deputy} qui peut transformer n'importe quel joueur en {deputy}.
+Attention cependant ! S'ils sont utilisés sur un mauvais joueur, ils deviendront des {animpersonator} à la place!
+
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+-- Medium
+L.mdmseance_name = "NOM"
+L.mdmseance_team = "ÉQUIPE"
+L.mdmseance_role = "RÔLE"
+L.medium_reveal_name = "{medium} a effectué une séance et a découvert l'esprit de {spirit}."
+L.medium_reveal_role = "{medium} a effectué une séance et a découvert que {spirit} était {role}."
+L.info_popup_medium = [[Vous êtes {role}! En tant que {adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Vous pouvez voir les esprits des morts. Suivez les esprits
+pour découvrir des secrets qui ont été emportés dans la tombe.
+
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+-- Mercenary
+L.info_popup_mercenary = [[Vous êtes {role}! Essayez de survivre et d'aider vos amis {innocent}!
+
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+-- Old Man
+L.ev_win_oldman = "Le {role} a survécu d'une manière ou d'une autre et a également remporté la manche!"
+L.info_popup_oldman = [[Vous êtes {role}! La moindre brise pourrait tuer
+vous si vous ne faites pas attention. Peu importe qui gagne, tant que
+puisque vous êtes en vie à la fin du tour.]]
+-- Paladin
+L.info_popup_paladin = [[Vous êtes {role}! En tant que {adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Vous possédez une aura de guérison visible par tous.
+Gardez vos amis proches, mais ne laissez surtout pas vos ennemis se rapprocher!
+
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+-- Paramedic
+L.defibrillator_help_pri = "Maintenez {primaryfire} pour faire revivre le cadavre."
+L.defibrillator_help_sec = "Le joueur réanimé réapparaîtra à l'emplacement de son corps."
+L.info_popup_paramedic = [[Vous êtes {role}! Vous pouvez donner à vos camarades {innocents}
+une seconde chance avec votre défibrillateur. Reste en vie
+et ramenez le joueur le plus fort de votre équipe.]]
+-- Parasite
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
+L.qmr_crate_name = ""
 L.qmr_crate_name = ""
 L.qmr_crate_name = ""
 L.qmr_crate_name = ""
