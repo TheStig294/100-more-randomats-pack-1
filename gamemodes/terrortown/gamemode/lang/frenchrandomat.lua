@@ -1589,7 +1589,13 @@ Utilisez vos capacités de charme osseux pour aider votre équipe
 en battant vos ennemis.]]
 -- Enhanced Detectives
 L.target_haunted_medium = "Hanté par le médium"
--- (Frenchman would be here but that is already translated of course!)
+-- Frenchman
+L.ev_win_frenchman = "Le {role} a apporté le pain pour gagner la manche!"
+L.info_popup_frenchman = [[Vous êtes {role}! Votre objectif est de
+être endommagé par un autre joueur, ce qui
+vous permet d'infliger des dégâts et de vous rendre invincible pendant un certain temps!
+Tuez tous les autres pour gagner!]]
+L.hilite_win_frenchman = "LA VICTOIRE FRANÇAISE!"
 -- Possum
 L.psm_disguiser = "Déguisement de la mort"
 L.psm_disguiser_charge = "DÉGUISEMENT RESTANT"

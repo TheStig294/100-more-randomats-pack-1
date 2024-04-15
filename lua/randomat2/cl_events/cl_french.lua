@@ -9,7 +9,7 @@ net.Receive("FrenchRandomatBegin", function()
     RunConsoleCommand("ttt_language", "FrançaisRandomat")
     -- Renaming roles
     local translatedRoles = {}
-    -- Base custom roles
+    -- Base Custom Roles --
     translatedRoles["Aucune"] = ROLE_NONE
     translatedRoles["Innocente"] = ROLE_INNOCENT
     translatedRoles["Traitre"] = ROLE_TRAITOR
@@ -57,25 +57,34 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Devineur"] = ROLE_GUESSER
     translatedRoles["Intendante"] = ROLE_QUARTERMASTER
     translatedRoles["Indicateur De Redressement"] = ROLE_VINDICATOR
+    -- Jingle Jam Pack Roles --
+    translatedRoles["Boxeur"] = ROLE_BOXER
+    translatedRoles["Communiste"] = ROLE_COMMUNIST
+    translatedRoles["Homme Aléatoire"] = ROLE_RANDOMAN
+    translatedRoles["Père Noël"] = ROLE_SANTA
+    translatedRoles["Taxidermiste"] = ROLE_TAXIDERMIST
+    translatedRoles["Détective Clown"] = ROLE_DETECTOCLOWN
+    translatedRoles["Plus Faux"] = ROLE_FAKER
+    translatedRoles["Krampus"] = ROLE_KRAMPUS
+    translatedRoles["Administrateur"] = ROLE_ADMIN
+    translatedRoles["Chuchoteur Fantôme"] = ROLE_GHOSTWHISPERER
+    translatedRoles["Renégate"] = ROLE_RENEGADE
+    translatedRoles["Lié à L'âme"] = ROLE_SOULBOUND
+    translatedRoles["Âme Soeur"] = ROLE_SOULMAGE
+    translatedRoles["Élémentaliste"] = ROLE_ELEMENTALIST
+    translatedRoles["Médecin"] = ROLE_PHYSICIAN
+    -- External Roles --
     translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
+    translatedRoles["Serviteur De L'effroi"] = ROLE_DREADTHRALL
+    translatedRoles["Français"] = ROLE_FRENCHMAN
+    translatedRoles["Opossum"] = ROLE_POSSUM
+    translatedRoles["Invocateur"] = ROLE_SUMMONER
+    translatedRoles["La Chose"] = ROLE_THETHING
+    -- Randomat Roles --
+    translatedRoles["Yéti"] = ROLE_YETI
+    translatedRoles["Abeille"] = ROLE_BEE
+    translatedRoles["Reine Des Abeilles"] = ROLE_QUEENBEE
+    translatedRoles["Elfe"] = ROLE_ELF
 
     if istable(ROLE_STRINGS) then
         roleStringsOrig = table.Copy(ROLE_STRINGS)
