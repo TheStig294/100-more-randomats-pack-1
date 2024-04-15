@@ -1241,138 +1241,178 @@ L.info_popup_paramedic = [[Vous êtes {role}! Vous pouvez donner à vos camarade
 une seconde chance avec votre défibrillateur. Reste en vie
 et ramenez le joueur le plus fort de votre équipe.]]
 -- Parasite
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
-L.qmr_crate_name = ""
+L.cure_help_pri = "{primaryfire} pour soigner un autre joueur."
+L.cure_help_sec = "{secondaryfire} pour vous guérir."
+L.cure_desc = [[Utiliser sur un joueur pour le guérir des {parasites}.
+
+Utiliser ceci sur un joueur qui n'est pas infecté le tuera!]]
+L.target_infected = "INFECTÉ PAR UN PARASITE"
+L.infect_title = "INFECTION"
+L.infect_help = "Vous réapparaîtrez lorsque la barre d'infection sera pleine."
+L.ev_infect = "{victim} infecté {attacker}"
+L.info_popup_parasite = [[Vous êtes {role}! {comrades}
+
+Infectez ceux qui vous tuent et attendez patiemment une chance de prendre le contrôle.
+Assurez-vous de rester discret car votre hôte doit rester en vie pour que vous puissiez
+réapparaître. Essayez d'éviter de les guérir ou de les tuer!
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Phantom
+L.target_haunted = "Hanté par un fantôme"
+L.haunt_title = "VOLONTÉ"
+L.haunt_move = "DÉPLACER LES CLÉS: Déplacer (Coût: {num}%)"
+L.haunt_jump = "ESPACE: Saut (Coût: {num}%)"
+L.haunt_drop = "CLIC DROIT: Drop (Coût: {num}%)"
+L.haunt_attack = "CLIC GAUCHE: Attaque (Coût: {num}%)"
+L.ev_haunt = "{victim} a commencé à hanter {attacker}"
+L.exor_help_pri = "{victim} a commencé à hanter {attacker}"
+L.exor_help_sec = "{secondaryfire} pour vous purifier."
+L.exor_desc = "Utiliser sur un joueur pour exorciser un {phantom}"
+L.info_popup_phantom = [[Vous êtes {role}! Essayez de survivre et d'aider vos amis {innocent}! {abilities}]]
+L.info_popup_phantom_haunt = "Vous hanterez le joueur qui vous tue."
+L.info_popup_phantom_smoke = "Les joueurs hantés seront enveloppés de fumée noire."
+L.info_popup_phantom_respawn = "Si le joueur que vous hantez meurt, vous réapparaîtrez!"
+-- Quack
+L.fake_cure_desc = "Utilisez-le sur un joueur pour lui faire croire que vous avez guéri le {parasite}."
+L.bstation_name = "Station de bombes"
+L.bstation_hint = "Appuyez sur {usekey} pour faire semblant de recevoir de la santé. Frais: {num}."
+L.bstation_broken = "Votre station de bombes a été détruite!"
+L.bstation_help = "{primaryfire} place la station de bombes."
+L.bstation_desc = [[
+Apparaît comme un poste de santé pour les non-{traitors}.
+
+Explose lorsqu'il est utilisé par un non-{traitor}.
+Les {traitors} peuvent utiliser pour épuiser les fausses charges.]]
+L.stationb_name = "Bombe de gare"
+L.stationb_help = "Maintenez {primaryfire} pour ajouter une bombe à un poste de santé."
+L.stationb_desc = [[Convertit un {healthstation}
+dans une {bombstation}.]]
+L.info_popup_quack = [[Vous êtes {role}! {comrades}
+
+Essayez de convaincre les autres que vous êtes un vrai {doctor}! Cependant, vos outils nuisent
+au lieu de guérir. Vous savez que le meilleur remède à toute maladie est la mort.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Quartermaster
+L.info_popup_quartermaster = [[Vous êtes {role}! En tant que {adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Vous avez infiltré leurs lignes de ravitaillement, vous permettant ainsi de lâcher des caisses d'armes remplies de cadeaux pour vos alliés.
+
+Appuyez sur {menukey} pour procurer des équipements spéciaux aux autres!]]
+-- Revenger
+L.target_revenger_lover = "TON ÂME SOEUR"
+L.info_popup_revenger = [[Vous êtes {role}! Vous êtes impuissant amoureux de {lover}.
+Faites tout ce que vous pouvez pour les protéger. S'ils meurent, tu le feras
+pouvoir retrouver leur assassin et vous venger.]]
+-- Sapper
+L.info_popup_sapper = [[Vous êtes {role}! En tant que {adetective}, le QG vous a donné des ressources spéciales pour trouver les {traîtres}.
+Vous disposez d'une aura de protection contre les explosions visible par tout le monde.
+Gardez vos amis proches, mais ne laissez surtout pas vos ennemis se rapprocher!
+
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+-- Shadow
+L.info_popup_shadow = [[Vous êtes {role}! Trouvez rapidement votre cible
+et restez près d'eux. Si vous ne le faites pas, vous serez puni.
+
+Survivez jusqu'à la fin du tour pour gagner.]]
+L.shadow_delay_target = "Cible identifiée dans: {time}"
+L.shadow_find_target = "TROUVEZ VOTRE CIBLE - {time}"
+L.shadow_return_target = "RETOUR À VOTRE CIBLE - {time}"
+L.shadow_buff_progress = "ACTIVATION DU BUFF - {time}"
+L.shadow_buff_hud_active = "Cible {buff} active"
+L.shadow_buff_hud_time = "Temps jusqu'à ce que la cible {buff} soit active: {time}"
+L.shadow_buff_1 = "régénération de la santé"
+L.shadow_buff_2 = "réapparaître"
+L.shadow_buff_3 = "bonus de dégâts"
+L.shadow_buff_4 = "rejoindre l'équipe"
+L.shadow_buff_5 = "vol de rôle"
+L.shadow_target = "VOTRE CIBLE"
+L.ev_win_shadow = "Le {role} est resté proche de sa cible et a également remporté la manche!"
+L.score_shadow_following = "Suivante"
+-- Sponge
+L.win_sponge = "Le {role} s'est absorbé à mort!"
+L.ev_win_sponge = "Le {role} absorbant a remporté la manche!"
+L.spongifier_help_pri = "{primaryfire} pour vous transformer en éponge."
+L.spongifier_help_sec = "Commencer à utiliser l'appareil déclenchera une annonce globale."
+L.score_sponge_killedby = "Tue par"
+L.score_sponge_damaging = "{attacker} endommageant"
+L.info_popup_sponge = [[Vous êtes {role}! Tu veux mourir mais toi
+n'infliger aucun dégât, vous devez donc être tué en absorbant
+dégâts causés aux autres joueurs. Absorber les dégâts en
+garder les joueurs à l'intérieur de votre aura visible.]]
+-- Spy
+L.info_popup_spy = [[Vous êtes {role}! {comrades}
+
+Lorsque vous tuez un joueur, vous volez son identité.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Swapper
+L.ev_swap = "{victim} a échangé avec {attacker}"
+L.score_swapper_killed = "Tué"
+L.info_popup_swapper = [[Vous êtes {role}! Les {traitors} pensent que vous êtes un {ajester} et vous
+n'infligez aucun dégât cependant, si quelqu'un vous tue, il devient
+le {swapper} et vous prenez leur rôle et pouvez rejoindre le combat.]]
+-- Tracker
+L.info_popup_tracker = [[Vous êtes {role}! En tant que {adetective}, le QG vous a donné des ressources spéciales pour trouver les {traîtres}.
+Vous pouvez voir les traces des joueurs et suivre leurs traces.
+Utilisez vos compétences pour garder un œil sur où se trouvent les joueurs.
+
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+-- Traitor
+L.info_popup_traitor = [[Vous êtes {role}! {comrades}
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Trickster
+L.info_popup_trickster = [[Vous êtes {role}! Vous êtes {aninnocent} qui peut voir et
+utilisez des pièges {traitor} sur toute la carte. Amusez-vous!]]
+-- Turncoat
+L.ev_turncoat = "{nick} est {role} et a rejoint les {traitors}"
+L.tur_changer = "Changeur d'équipe"
+L.tur_changer_help_pri = "Appuyez sur {primaryfire} pour changer d'équipe."
+L.tur_changer_help_sec = "Sois prudent! Tout le monde le saura."
+L.info_popup_turncoat = [[Vous êtes {role}! Vous êtes {aninnocent} et possédez un appareil
+ce qui vous fera passer dans l'équipe {traitor} mais
+annoncez-le à tout le monde. Fais-en bon usage!]]
+-- Vampire
+L.win_vampires = "Les {role} ont pris le relais!"
+L.ev_win_vampire = "Les {role} ont vidé la vie de tout le monde!"
+L.ev_vampi = "{victim} a été transformée en {avampire}"
+L.ev_vampi_revert_converted = "Le dernier {vampire} Prime ({prime}) a été tué et tous leurs esclaves ont retrouvé leur humanité."
+L.ev_vampi_kill_converted = "Le dernier {vampire} Prime ({prime}) a été tué et a emmené tous ses esclaves avec lui"
+L.vam_fangs_help_pri = "Tenez {primaryfire} pour sucer le sang"
+L.vam_fangs_help_sec = "Appuyez sur {secondaryfire} pour disparaître de la vue."
+L.vam_fangs_convert = "CONVERTIR"
+L.vam_fangs_converting = "CONVERSION"
+L.vam_fangs_kill = "TUER"
+L.vam_fangs_killing = "MEURTRE"
+L.info_popup_vampire = [[Vous êtes {role}! {comrades}
+
+Vous pouvez utiliser vos crocs (maintenez le clic gauche) pour boire du sang et reconstituer votre santé ou pour disparaître de la vue (clic droit).
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Veteran
+L.info_popup_veteran = [[Vous êtes {role}! Vous travaillez mieux sous pression.
+Si vous êtes le dernier joueur {innocent} en vie, vous le ferez
+infliger des dégâts supplémentaires.]]
+-- Vindicator
+L.win_vindicator = "Le {role} a pris sa revanche!"
+L.ev_win_vindicator = "Le {role} a remporté la manche!"
+L.ev_vindicator_active = "{vindicator} traque leur assassin, {target}"
+L.ev_vindicator_success = "{vindicator} a pris sa revanche sur {target}"
+L.ev_vindicator_fail = "{vindicator} ne s'est pas vengé de {target}"
+L.score_vindicator_killedby = "Tue par"
+L.info_popup_vindicator = [[Vous êtes {role}! Travaillez avec les {innocents}
+pour essayer de retrouver les {traitors}! Si quelqu'un
+te tue, tu reviendras d'entre les morts
+pour vous venger de votre assassin.]]
+-- Zombie
+L.win_zombies = "Les {role} ont pris le relais!"
+L.ev_win_zombie = "L'infection {role} a conquis le monde!"
+L.ev_zombi = "{victim} a été transformée en {azombie}"
+L.info_popup_zombie = [[Vous êtes {role}! {comrades}
+Tous les dégâts que vous infligez avec des armes à feu sont réduits.
+Tuer quelqu'un avec vos griffes le transformera en {azombie}.
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+L.zom_claws_help_pri = "Appuyez sur {primaryfire} pour attaquer."
+L.zom_claws_help_sec = "Appuyez sur {secondaryfire} pour sauter. Appuyez sur {reload} pour cracher."
+L.zom_claws_help_sec_noleap = "Appuyez sur {reload} pour cracher."
+L.zom_claws_help_sec_nospit = "Press {secondaryfire} to leap."
