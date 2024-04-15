@@ -349,7 +349,7 @@ distinct.]]
 -- Health station
 L.hstation_name = "Station de Soins"
 L.hstation_hint = "Appuyez sur {usekey} pour recevoir des soins. Charge : {num}."
-L.hstation_hint_reduce = "Appuyez sur {usekey} pour réduire la santé maximale. Frais: {num}."
+L.hstation_hint_reduce = "Appuyez sur {usekey} pour réduire la santé maximale. Frais: {num}."
 L.hstation_broken = "Votre Station de Soins a été détruite !"
 L.hstation_help = "{primaryfire} place la Station de Soins."
 L.hstation_desc = [[
