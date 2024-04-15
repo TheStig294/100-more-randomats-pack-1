@@ -2131,7 +2131,7 @@ net.Receive("FrenchRandomatBegin", function()
                 SWEP.EquipMenuData.type = translatedWeapons[classname].type or "item_weapon"
             end
 
-            if SWEP.EquipMenuData and SWEP.EquipMenuData.desc then
+            if SWEP.EquipMenuData and SWEP.EquipMenuData.desc and translatedWeapons[classname].desc then
                 SWEP.EquipMenuData.origDesc = SWEP.EquipMenuData.desc
                 SWEP.EquipMenuData.desc = translatedWeapons[classname].desc
             end
