@@ -285,6 +285,7 @@ net.Receive("FrenchRandomatBegin", function()
             customPassiveItemsOrig[role] = table.Copy(EquipmentItems[role])
 
             for _, equ in pairs(EquipmentItems[role]) do
+                -- My version of the second chance, demoic possession, and clairvoyancy perk use role strings; however, not all versions on the workshop do, so we ALSO have to define hard-coded translations here
                 if equ.id and EQUIP_ASC and equ.id == EQUIP_ASC then
                     equ.name = "Un Deuxième Chance"
                     equ.desc = "Petite chance d'être ressuscité à la mort. \n\nAprès avoir tué quelqu'un, les chances augmentent."
@@ -312,6 +313,46 @@ net.Receive("FrenchRandomatBegin", function()
                 elseif equ.id and EQUIP_CLAIRVOYANT and equ.id == EQUIP_CLAIRVOYANT then
                     equ.name = "Voyance"
                     equ.desc = "Quand quelqu'un meurt, vous pouvez voir son corps pendant un bref instant."
+                elseif equ.id and EQUIP_PHS_TRACKER and equ.id == EQUIP_PHS_TRACKER then
+                    -- The Elementalist and Physician roles (at release) don't use translation strings.. so we also have to hard-code them here
+                    equ.name = "Mise à niveau du suivi de santé"
+                    equ.desc = "Améliore la portée et la qualité des informations du Health Tracker."
+                elseif equ.id and EQUIP_ELEMENTALIST_FROSTBITE and equ.id == EQUIP_ELEMENTALIST_FROSTBITE then
+                    equ.name = "Gelure"
+                    equ.desc = "Tirez sur les joueurs pour ralentir leur mouvement, la force du ralentissement dépend des dégâts infligés."
+                elseif equ.id and EQUIP_ELEMENTALIST_FROSTBITE_UP and equ.id == EQUIP_ELEMENTALIST_FROSTBITE_UP then
+                    equ.name = "Gelure+"
+                    equ.desc = "Mises à niveau Frostbite, les joueurs qui ont été ralentis ont une chance de se figer lorsqu'ils sont touchés, perdant ainsi tout mouvement."
+                elseif equ.id and EQUIP_ELEMENTALIST_PYROMANCER and equ.id == EQUIP_ELEMENTALIST_PYROMANCER then
+                    equ.name = "Pyromancien"
+                    equ.desc = "Tirez sur les joueurs pour les enflammer, la durée évoluant en fonction des dégâts infligés."
+                elseif equ.id and EQUIP_ELEMENTALIST_PYROMANCER_UP and equ.id == EQUIP_ELEMENTALIST_PYROMANCER_UP then
+                    equ.name = "Pyromancien+"
+                    equ.desc = "Mises à niveau du Pyromancien, les joueurs enflammés ont une chance d'exploser lorsqu'ils sont tirés, causant des dégâts à tout le monde autour d'eux."
+                elseif equ.id and EQUIP_ELEMENTALIST_WINDBURN and equ.id == EQUIP_ELEMENTALIST_WINDBURN then
+                    equ.name = "Coup de vent"
+                    equ.desc = "Tirer sur les joueurs les pousse vers l'arrière et les éloigne de vous, la force de poussée augmentant en fonction des dégâts infligés."
+                elseif equ.id and EQUIP_ELEMENTALIST_WINDBURN_UP and equ.id == EQUIP_ELEMENTALIST_WINDBURN_UP then
+                    equ.name = "Coup de vent+"
+                    equ.desc = "Mises à niveau Windburn, au lieu de pousser, lance occasionnellement des joueurs qui tirent dans les airs pour un atterrissage dur et douloureux."
+                elseif equ.id and EQUIP_ELEMENTALIST_DISCHARGE and equ.id == EQUIP_ELEMENTALIST_DISCHARGE then
+                    equ.name = "Décharge"
+                    equ.desc = "Tirez sur les joueurs pour les choquer, en frappant leur vue en fonction des dégâts infligés, en les désorientant."
+                elseif equ.id and EQUIP_ELEMENTALIST_DISCHARGE_UP and equ.id == EQUIP_ELEMENTALIST_DISCHARGE_UP then
+                    equ.name = "Décharge+"
+                    equ.desc = "La décharge de mise à niveau amène les joueurs abattus à commettre en outre des actions involontaires, telles que bouger, tirer ou sauter."
+                elseif equ.id and EQUIP_ELEMENTALIST_MIDNIGHT and equ.id == EQUIP_ELEMENTALIST_MIDNIGHT then
+                    equ.name = "Minuit"
+                    equ.desc = "Tirez sur les joueurs pour commencer à les aveugler, à assombrir leur écran et à rendre leur vision difficile."
+                elseif equ.id and EQUIP_ELEMENTALIST_MIDNIGHT_UP and equ.id == EQUIP_ELEMENTALIST_MIDNIGHT_UP then
+                    equ.name = "Minuit+"
+                    equ.desc = "Mises à niveau à minuit, les joueurs dont les écrans sont atténués ont une chance de devenir complètement aveugles lorsqu'on leur tire dessus, sans rien voir."
+                elseif equ.id and EQUIP_ELEMENTALIST_LIFESTEAL and equ.id == EQUIP_ELEMENTALIST_LIFESTEAL then
+                    equ.name = "Vol de vie"
+                    equ.desc = "Tirez sur les joueurs pour leur voler leur force vitale, une balle à la fois."
+                elseif equ.id and EQUIP_ELEMENTALIST_LIFESTEAL_UP and equ.id == EQUIP_ELEMENTALIST_LIFESTEAL_UP then
+                    equ.name = "Vol de vie+"
+                    equ.desc = "Améliore Lifesteal, exécute les joueurs qui tirent si leur santé devient trop faible, les tuant instantanément."
                 end
             end
         end

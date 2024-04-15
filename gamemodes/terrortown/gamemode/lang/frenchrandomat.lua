@@ -1743,3 +1743,6 @@ L.ww_desc_raygun = "PISTOLET À RAYONS: Tire des lasers à gros dégâts! Vous s
 L.ww_desc_jetgun = "LE PISTOLET À RÉACTION: Aspire les gens et tue instantanément ! Surchauffe s'il est utilisé trop longtemps."
 L.ww_desc_blundergat = "BLUNDERGAT: Un fusil de chasse incroyablement puissant !"
 L.ww_desc_acidgat = "ACIDE GAT: Tire une rafale d'explosifs collants qui explosent après un certain temps."
+-- Heartbeat monitor
+L.heartbeat_monitor_name = "Moniteur de rythme cardiaque"
+L.heartbeat_monitor_desc = "Alerte tous les terroristes de votre disparition prématurée."
