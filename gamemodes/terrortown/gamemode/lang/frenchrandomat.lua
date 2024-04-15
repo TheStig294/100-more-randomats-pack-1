@@ -1419,3 +1419,250 @@ L.zom_claws_help_pri = "Appuyez sur {primaryfire} pour attaquer."
 L.zom_claws_help_sec = "Appuyez sur {secondaryfire} pour sauter. Appuyez sur {reload} pour cracher."
 L.zom_claws_help_sec_noleap = "Appuyez sur {reload} pour cracher."
 L.zom_claws_help_sec_nospit = "Press {secondaryfire} to leap."
+-- JINGLE JAM ROLE/RANDOMAT PACKS ---
+-- Jingle Jam 2021 Roles
+-- Boxer
+L.box_gloves_help_pri = "Utilisez {primaryfire} pour faire tomber les armes des mains des joueurs"
+L.box_gloves_help_sec = "Attaquez avec {secondaryfire} pour assommer les joueurs"
+L.box_revive = "Appuyez sur '{usekey}' pour réactiver"
+L.ev_win_boxer = "Le {role} s'est frayé un chemin vers la victoire"
+L.win_boxer = "Le {role} a réussi un KO!"
+L.info_popup_boxer = [[Vous êtes {role}! Utilisez vos gants de boxe
+pour obliger les autres à lâcher leurs armes ou
+assommez-les.
+
+Éliminez tous les joueurs vivants à
+en même temps pour gagner!]]
+-- Communist
+L.manifesto_help_pri = "Utilisez {primaryfire} pour convertir un joueur au communisme"
+L.manifesto_help_sec = "Tous les {nameplural} gagnent ensemble"
+L.ev_communismconvert = "{victim} a été convertie et tournée vers le communisme!"
+L.ev_win_communist = "Les {role} ont converti tous les joueurs restants"
+L.win_communist = "Le communisme s'est propagé à tous les survivants"
+L.hilite_win_communist = "LE COMMUNISME GAGNE"
+L.hilite_lose_communist = "ET LE CAPITALISME GAGNE"
+L.info_popup_communist = [[Vous êtes {role}! Votre objectif est de
+convertir tous les joueurs au communisme
+en utilisant votre Manifeste Communiste]]
+-- Randoman
+L.win_randoman = "Le chaos du {role} a pris le dessus!"
+L.hilite_win_randoman = "LE {role} GAGNE"
+L.info_popup_randoman_independent = [[Vous êtes {role}!
+Achetez des randomats pour vous aider à tuer tous les autres et à gagner!]]
+L.info_popup_randoman = [[Vous êtes {role}!
+Vous êtes {adetective}, mais vous pouvez acheter des objets aléatoires au lieu d'objets {detective}!]]
+-- Santa
+L.santa_help_pri = "Utilisez {primaryfire} pour offrir des cadeaux à des enfants gentils"
+L.santa_help_sec = "Utilisez le {secondaryfire} pour tirer du charbon sur des enfants coquins"
+L.santa_load_gift = "Ouvrez votre menu d'achat avec {menukey} pour charger un cadeau!"
+L.info_popup_santa = [[Vous êtes {role}! En tant que {detective}, le QG vous a donné des ressources spéciales pour trouver les {traîtres}.
+Vous pouvez utiliser votre canon de Noël pour offrir des cadeaux aux enfants gentils et du charbon aux enfants coquins.
+
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+-- Taxidermist
+L.taxidermy_help_pri = "Utilisez {primaryfire} pour empailler un cadavre"
+L.taxidermy_help_sec = "Les cadavres taxidermiés ne peuvent pas être inspectés"
+L.info_popup_taxidermist = [[Vous êtes {role}! {comrades}
+
+Vous pouvez utiliser votre kit de taxidermie sur un cadavre pour le rendre impossible à identifier.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Jingle Jam 2022 Roles
+-- Detectoclown
+L.info_popup_detectoclown = [[Vous êtes {role}! 50 % clown, 50 % {deputy}, 100 % chaos.
+Les {traitors} pensent que vous êtes un {ajester} et vous n'infligez aucun dégât. Toutefois, si
+une équipe gagnerait la manche au lieu de cela, vous devenez hostile, sont révélés
+à tous les joueurs et peut infliger des dégâts normalement. Mais ce n'est pas tout, si
+le {detective} meurt, vous apparaîtrez pour devenir un nouveau {detective} et
+acquérez leurs capacités tout comme le {deputy}. Cependant tu es toujours
+visant à tuer tout le monde. Soyez le dernier joueur à gagner.]]
+-- Faker
+L.ev_win_faker = "Le {role} qui a évité les soupçons a également remporté la manche!"
+L.score_faker_fakes_used = "Utilisée"
+L.info_popup_faker = [[Vous êtes {role}! Achetez et utilisez un faux traître
+articles sans éveiller les soupçons!
+
+Utilisez suffisamment de fausses armes et survivez
+jusqu'à la fin du tour pour gagner!]]
+-- Krampus
+L.kra_carry_help_pri = "Appuyez sur {primaryfire} pour attraper un joueur."
+L.kra_carry_help_sec = "Appuyez sur {secondaryfire} pour libérer un joueur retenu."
+L.krampus_hud = "Temps restant pour chasser les joueurs coquins: {time}"
+L.target_krampus_target = "CIBLE"
+L.win_krampus = "Tous les joueurs coquins ont été tués par {role}!"
+L.ev_win_krampus = "Le {role} a éliminé tous les joueurs coquins et a remporté la manche!"
+L.info_popup_krampus = [[Vous êtes {role}! Votre travail consiste à traquer et à tuer les joueurs coquins ciblés.
+Tout joueur qui nuit à vous ou à des innocents est considéré comme méchant.
+{naughtylist}]]
+-- Jingle Jam 2023 Roles
+-- Admin
+L.adminmenu_help_pri = "Utilisez {primaryfire} pour ouvrir le menu administrateur"
+L.admin_power_title = "POUVOIR D'ADMINISTRATION"
+L.info_popup_admin = [[Vous êtes {role}! En tant que {adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.
+Vous pouvez utiliser votre menu d'administration pour accéder aux commandes
+cela aidera dans la bataille contre les {traitors}.
+
+Appuyez sur {menukey} pour recevoir votre équipement!]]
+-- Ghost Whisperer
+L.ghostingdevice_help_pri = "Maintenez {primaryfire} sur un cadavre pour permettre à ce joueur de parler dans le chat."
+L.info_popup_ghostwhisperer = [[Vous êtes {role}! Utilisez votre appareil fantôme pour
+permettre à un joueur mort de parler dans le chat.]]
+-- Renegade
+L.win_renegade = "Le {role} a vaincu ses ennemis pour gagner!"
+L.ev_win_renegade = "Le puissant {renegade} s'est frayé un chemin vers la victoire!"
+L.info_popup_renegade_glitch = [[Vous êtes {role}! Méfiez-vous des {traitors}!
+Vous pouvez voir qui ils sont, mais ils peuvent aussi voir qui vous êtes.
+Créer un partenariat silencieux ou travailler secrètement à les saper,
+c'est entièrement à vous de décider !
+
+MAIS MÉFIEZ-VOUS! Il y avait {aglitch} dans le système et un parmi les
+{traitors} ne poursuit pas le même objectif.
+
+Il peut s'agir ou non des {traitors}:
+{traitorlist}]]
+L.info_popup_renegade = [[Vous êtes {role}! Méfiez-vous des {traitors}!
+Vous pouvez voir qui ils sont, mais ils peuvent aussi voir qui vous êtes.
+Créer un partenariat silencieux ou travailler secrètement à les saper,
+c'est entièrement à vous de décider !
+
+Voici les {traitors}:
+{traitorlist}]]
+-- Soulbound
+L.c4_disarm_fake = "Coupez un fil pour désamorcer la bombe. C'est une fausse bombe, donc chaque fil entraînera une explosion de confettis."
+L.sbd_abilities_title = "Sélection des capacités"
+L.sbd_abilities_confirm = "Sélectionnez la capacité"
+L.sbd_abilities_random = "Select random ability"
+L.info_popup_soulbound = [[Vous êtes un {role}! {comrades}
+
+Voir ce message devrait être impossible! S'il vous plaît laissez
+nous savons comment vous voyez cela afin que nous puissions y remédier.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Soulmage
+L.soulbindingdevice_help_pri = "Maintenez {primaryfire} sur un cadavre pour le convertir en âme liée."
+L.info_popup_soulmage = [[Vous êtes un {role}! {comrades}
+
+Utilisez votre dispositif de liaison d'âme pour amener un joueur mort à
+aidez-vous, vous et vos camarades {traitors}, en faisant semblant
+être un fantôme innocent.
+
+Appuyez sur {menukey} pour recevoir votre équipement spécial!]]
+-- Elementalist
+L.info_popup_elementalist = [[Vous êtes un {role}! {comrades}
+
+Les balles que vous tirez peuvent activer des effets spéciaux lorsqu'elles atteignent votre cible.
+
+Appuyez sur {menukey} pour acheter de nouveaux effets tout en débloquant des points d'équipement supplémentaires!]]
+-- Physician
+L.phy_dead = "Pas de signal"
+L.phy_normal = "Normale"
+L.phy_elevated = "Élevé"
+L.phy_dangerous = "Dangereuse"
+L.phy_col_status = "Statut"
+L.phy_col_heartrate = "Rythme cardiaque"
+L.info_popup_physician = [[Vous êtes un {role}!
+
+Utilisez votre appareil Health Tracker pour installer des trackers sur les joueurs afin de surveiller leur rythme cardiaque.
+Ouvrez le tableau de bord pour afficher l'état de santé du joueur suivi, mais méfiez-vous de sa portée limitée!
+
+Appuyez sur {menukey} pour accéder à la boutique d'équipement standard, proposant une mise à niveau pour votre tracker.]]
+-- Jingle Jam 2021 Randomats
+L.rdmtbox_gloves_help_pri = "Utilisez {primaryfire} pour faire tomber les armes des mains des joueurs"
+L.rdmtbox_gloves_help_sec = "Attaquez avec {secondaryfire} pour assommer les joueurs"
+L.rdmtsanta_xmascannon_help_pri = "Utilisez {primaryfire} pour offrir des cadeaux à des enfants gentils"
+L.rdmtsanta_xmascannon_help_sec = "Utilisez le {secondaryfire} pour tirer du charbon sur des enfants coquins"
+-- Jingle Jam 2022 Randomats
+L.donate_name = "Faire un don"
+L.donate_send = "Envoyer un don"
+L.donate_menutitle = "Donner a une oeuvre de charité"
+L.donate_no_credits = "Aucun crédit disponible pour un don"
+L.equip_tooltip_donate = "Faire don de crédits à une œuvre caritative"
+L.equip_donation_amount = "Montant du don"
+L.equip_donation_message = "Faire un don"
+L.equip_donation_anon = "Faire un don anonyme"
+-- Jingle Jam 2023 Randomats
+L.win_yeti = "Le yéti a repoussé les chasseurs pour la victoire!"
+L.ev_win_yeti = "Le yéti a repoussé les chasseurs pour la victoire!"
+L.yeticlub_help_pri = "Appuyez sur {primaryfire} pour endommager et repousser les joueurs."
+L.yeticlub_help_sec = "Appuyez sur {secondaryfire} pour lancer un projectile gelant."
+L.info_popup_yeti = [[Vous êtes {role}!
+
+Utilisez votre massue pour tuer vos ennemis ou les geler sur place!]]
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
+L.info_popup_santa = ""
