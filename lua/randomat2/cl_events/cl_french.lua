@@ -359,1075 +359,1580 @@ net.Receive("FrenchRandomatBegin", function()
     end
 
     -- Renaming weapons
+    -- All in alphabetical order by printname
     local translatedWeapons = {
-        ttt_weapon_eagleflightgun = {
-            name = "Pistolet Eagleflight",
-            type = "item_weapon",
-            desc = [[Tirez pour vous jeter.
-            Si vous tombez sur un joueur, il mourra !
-            Sinon, appuyez à nouveau sur le bouton gauche de la souris pour exploser.]]
+        weapon_m9k_honeybadger = {
+            name = "AAC H-Blaireau",
         },
-        weapon_ttt_rsb_defuser = {
-            name = "Désamorceur RSB",
-            type = "item_weapon",
-            desc = [[Un diffuseur pour la Remote Sticky Bomb]]
+        tfa_acidgat = {
+            name = "Acide Gat",
+            desc = [[Tire plusieurs explosifs qui collent aux joueurs et explosent après quelques secondes.]]
         },
-        weapon_ttt_powerdeagle = {
-            name = "Pistolet d'or",
-            type = "item_weapon",
-            desc = [[Tirez sur un traître, ils meurent,
-            tirer sur un innocent, tu meurs,
-            tirez sur un bouffon, vous mourrez TOUS LES DEUX.]]
+        weapon_m9k_acr = {
+            name = "ACR",
         },
-        weapon_john_bomb = {
-            name = "Jean Bombe",
-            type = "item_weapon",
-            desc = [[Clic gauche pour vous faire EXPLOSER. Clic droit pour narguer.]]
+        weapon_ttt_adm_menu = {
+            name = "Menu Administrateur",
         },
-        weapon_ttt_medkit = {
-            name = "Kit médical",
-            type = "item_weapon",
-            desc = [[Faites un clic droit pour vous soigner
-
-            Clic gauche pour soigner quelqu'un devant vous]]
-        },
-        weapon_randomlauncher = {
-            name = "Lanceur aléatoire",
-            type = "item_weapon",
-            desc = [[Lance un objet aléatoire qui inflige beaucoup de dégâts, tuant généralement instantanément.]]
-        },
-        tfa_shrinkray = {
-            name = "Le fabricant de bébé",
-            type = "item_weapon",
-            desc = [[Tire un orbe qui rétrécit tous ceux qu'il touche!
-            Cela les réduit à 1 santé.
+        weapon_ttt_awp_advanced_silenced = {
+            name = "Av. AWP silencieux",
+            desc = [[Un tir, un mort. Les victimes ne crieront pas lorsqu'elles seront tuées.
+            Fournit des informations avancées sur le HUD.
             
-            Marcher dans n'importe qui alors qu'il est rétréci le tue.]]
-        },
-        weapon_ttt_thuge = {
-            name = "É.N.O.R.M.E-9001",
-            type = "item_weapon",
-            desc = [[Un LMG à dégâts élevés sans recul et avec une bonne précision.]]
-        },
-        weapon_ttt_chickenator = {
-            name = "Pistolet à poulet",
-            type = "item_weapon",
-            desc = [[Tire sur les poulets.
-            Ils attaquent quiconque s'approche.]]
-        },
-        weapon_ttt_fakedeath = {
-            name = "Faussaire de la mort",
-            type = "item_weapon",
-            desc = [[Génère un faux cadavre de vous-même à vos pieds!
-
-            Clic gauche: créer un corps
-            
-            Clic droit: Modifier le rôle de votre corps
-            
-            R: Changez la façon dont vous êtes mort]]
-        },
-        weapon_ttt_dete_playercam = {
-            name = "Caméra de joueur détective",
-            type = "item_weapon",
-            desc = [[Voyez la perspective de la personne que vous photographiez en haut à gauche de votre écran!]]
-        },
-        tfa_scavenger = {
-            name = "Charognard",
-            type = "item_weapon",
-            desc = [[Un fusil de sniper qui tire un explosif retardé qui explose après quelques secondes.
-
-            L'explosif colle aux joueurs.]]
-        },
-        weapon_hoff_mysterybox = {
-            name = "Boite mystère",
-            type = "item_weapon",
-            desc = [[Vous donne une arme miracle aléatoire!
-
-            Faites un clic gauche en regardant le sol pour faire apparaître une boîte.
-            Appuyez sur 'E' pour ramasser l'arme.]]
-        },
-        weapon_gnome_grenade = {
-            name = "Grenade gnome",
-            type = "item_weapon",
-            desc = [[Lancez un gnome qui explose au bout de quelques secondes.
-            Le lancer est très court.]]
-        },
-        tfa_jetgun = {
-            name = "Le pistolet à réaction",
-            type = "item_weapon",
-            desc = [[Aspire les gens et les tue instantanément.
-
-            Surchauffe et explose s'il est utilisé trop longtemps sans refroidir.]]
-        },
-        weapon_vadim_blink = {
-            name = "Clignoter",
-            type = "item_weapon",
-            desc = [[Téléportez-vous instantanément là où vous regardez!
-
-            Maintenez le clic gauche pour sélectionner un emplacement, le clic droit pour annuler.]]
-        },
-        weapon_ttt_slam = {
-            name = "Claquer M4",
-            type = "item_weapon",
-            desc = [[Un explosif déclenché à distance.
-
-            Clic gauche : Lancer au sol
-            Clic droit : Exploser
-            
-            Si vous faites un clic gauche sur un mur, il s'y collera et agira comme un piège à fil-piège. S'il est utilisé comme ça, il ne peut pas être déclenché à distance.]]
-        },
-        death_note_ttt = {
-            name = "Menace de mort",
-            type = "item_weapon",
-            desc = [[Tuer quelqu'un en écrivant son nom...
-
-            Tout en tenant ceci, tapez le nom de quelqu'un dans le chat et il mourra dans 40 secondes.
-            (Tant que vous êtes encore en vie à ce moment-là!)
-            
-            Clic gauche: modifier la cause de leur décès.]]
-        },
-        tfa_thundergun = {
-            name = "Pistolet Tonnerre",
-            type = "item_weapon",
-            desc = [[Tire un souffle d'air massif qui envoie n'importe qui dans un vol à courte portée!]]
-        },
-        weapon_ttt_artillery = {
-            name = "Canon d'artillerie",
-            type = "item_weapon",
-            desc = [[Génère un canon d'artillerie très puissant qui tire une grosse bombe à longue portée.
-
-            Pour contrôler, placez-vous juste derrière et appuyez sur "E" sur les commandes qui apparaissent.]]
-        },
-        rotgun = {
-            name = "Pistolet rotatif",
-            type = "item_weapon",
-            desc = [[Tirer sur quelqu'un avec ça le retourne.]]
-        },
-        weapon_ttt_bonk_bat = {
-            name = "Chauve-Souris Bonk",
-            type = "item_weapon",
-            desc = [[Envoie des gens en prison excitée!
-
-            Une chauve-souris qui emprisonne ceux que vous frappez dans une cage pendant quelques secondes.]]
-        },
-        weapon_ttt_timestop = {
-            name = "Arrêt Horaire",
-            type = "item_weapon",
-            desc = [[Fige le temps pendant quelques secondes.
-            Vous pouvez en tuer d'autres pendant qu'ils sont gelés.
-            
-            N'affecte pas les détectives!]]
-        },
-        ttt_dobbyhack_weapon = {
-            name = "Grenade ratière",
-            type = "item_weapon",
-            desc = [[Une grenade qui engendre un tas de Dobbies volants et posant en T...]]
-        },
-        weapon_ttt_boomerang_randomat = {
-            name = "Boomerang",
-            type = "item_weapon",
-            desc = [[Clic droit pour lancer]]
-        },
-        doncmk2_swep = {
-            name = "Marque de Donconnon 2",
-            type = "item_weapon",
-            desc = [[Tire une tête MASSIVE qui vole à travers les murs.
-
-            Inflige 50 dégâts à tous ceux qu'il touche.]]
-        },
-        weapon_ttt_barnacle = {
-            name = "Bernacle",
-            type = "item_weapon",
-            desc = [[Un piège extraterrestre mortel au plafond!
-
-            Clic gauche pour placer le piège au plafond, toute personne qui marche en dessous sera lentement tuée.]]
-        },
-        ttt_slappers = {
-            name = "Gifles",
-            type = "item_weapon",
-            desc = [[La 1ère arme farce que vous achetez une partie est gratuite!
-
-            Vous permet de gifler quelqu'un et de secouer son écran!
-            
-            Clic gauche - main gauche
-            Clic droit - main droite]]
-        },
-        weapon_ttt_death_link = {
-            name = "Lien de la mort",
-            type = "item_weapon",
-            desc = [[Utilisez sur n'importe quel lecteur. Une fois qu'ils meurent, vous mourez et vice versa.]]
-        },
-        ttt_combine_sniper_summoner = {
-            name = "Invocateur de tireur d'élite",
-            type = "item_weapon",
-            desc = [[Invoque un tireur d'élite qui tuera n'importe qui devant lui!
-
-            Fait face à la direction dans laquelle vous regardez.
-            
-            Cible à l'envers d'une surface plane.]]
-        },
-        weapon_dubstepgun = {
-            name = "Pistolet Dubstep",
-            type = "item_weapon",
-            desc = [[Maintenez le clic gauche enfoncé pour tirer des lasers musicaux qui infligent beaucoup de dégâts!]]
-        },
-        freeze_swep = {
-            name = "Hurlement des hivers",
-            type = "item_weapon",
-            desc = [[Tire un court souffle d'air froid qui fige les gens sur place pendant quelques secondes.
-
-            NE TUE PAS TOUT SEUL! TIREZ SUR LES PERSONNES QUE VOUS GELEZ!]]
-        },
-        weapon_ttt_peacekeeper = {
-            name = "Casque bleu",
-            type = "item_weapon",
-            desc = [[Tirez pour rester immobile et verrouillez toute personne que vous voyez.
-
-            Une fois que vous voyez un symbole de crâne sur quelqu'un, vous pouvez tirer pour le tuer instantanément.
-            
-            Tue tous ceux que vous avez verrouillés une fois que vous l'avez tiré.]]
-        },
-        ttt_m9k_harpoon = {
-            name = "Hwapoun",
-            type = "item_weapon",
-            desc = [[Harpon jetable]]
-        },
-        weapon_ttt_hwapoon = {
-            name = "Hwapoun",
-            type = "item_weapon",
-            desc = [[Lancez un harpon mortel ou "Hwapoon!"
-            Fait du bruit au lancer.]]
-        },
-        ttt_nisovin_wand = {
-            name = "Baguette des probabilités limitées",
-            type = "item_weapon",
-            desc = [[Effectue des attaques/effets aléatoires lorsque vous faites un clic gauche.
-
-            Spam clic gauche pour un chaos absolu.]]
-        },
-        weapon_ttt_handcuffs = {
-            name = "Menottes",
-            type = "item_weapon",
-            desc = [[Clic gauche: laisse tomber toutes les armes de quelqu'un et l'empêche d'en utiliser.
-
-            Clic droit : leur permettant d'utiliser à nouveau des armes.
-            
-            Vous ne pouvez pas menotter plus d'une personne à la fois.]]
-        },
-        weapon_ttt_impostor_knife_randomat = {
-            name = "Couteau de tueur de traître"
-        },
-        posswitch = {
-            name = "Échangeur de position",
-            type = "item_weapon",
-            desc = [[Échangez de place avec quelqu'un.
-
-            Clic droit: Marquer quelqu'un
-            
-            Clic gauche: Échanger les places avec le joueur marqué
-            
-            R: Décocher le joueur]]
-        },
-        weapon_controllable_manhack = {
-            name = "Manhack contrôlable",
-            type = "item_weapon",
-            desc = [[Un drone caméra télécommandé !
-
-            Clic gauche: Déployer
-            Clic droit: Contrôler/Arrêter le contrôle]]
-        },
-        wt_writingpad = {
-            name = "Bloc-notes",
-            type = "item_weapon",
-            desc = [[La 1ère arme farce que vous achetez une partie est gratuite!
-
-            Créez un message sur une pancarte que vous tenez, pour que tout le monde puisse le lire.
-             
-            Quelle meilleure utilisation de votre crédit ?]]
-        },
-        weapon_ttt_headlauncher = {
-            name = "Lanceur de crabe",
-            type = "item_weapon",
-            desc = [[Envoie un missile du ciel vers l'endroit où vous avez tiré.
-
-            Les extraterrestres " Headcrab " sortent du missile et commencent à attaquer quiconque se trouve à proximité.]]
-        },
-        weapons_ttt_time_manipulator = {
-            name = "Manipulateur de temps",
-            type = "item_weapon",
-            desc = [[Clic gauche : Ralentir le temps.
-
-            Clic droit : Accélérer le temps.
-            
-            R : Réinitialisez à la vitesse normale.]]
-        },
-        weapon_spraymhs = {
-            name = "Aérosol",
-            type = "item_weapon",
-            desc = [[Aérosol
-            La 1ère arme farce que vous achetez une partie est gratuite!
-            
-            Faites un clic droit pour changer de couleur.]]
-        },
-        weapon_ttt_zombievault = {
-            name = "Coffre de PNJ",
-            type = "item_weapon",
-            desc = [[Sélectionnez un type de PNJ et jetez-le au sol. Serrures
-            en place lorsqu'il est allumé. Plusieurs types de PNJ disponibles.
-            Le suivi peut être inégal, mais dépend du PNJ
-            et environnement.
-            Grande pièce = errer, petite pièce = tortue.]]
-        },
-        weapon_ttt_detective_lightsaber = {
-            name = "Sabre laser Jedi",
-            type = "item_weapon",
-            desc = [[Un sabre laser vert, vert puisque vous êtes détective.
-            Clic gauche : Swing
-            R: Modifier l'action de votre clic droit
-            Clic droit: Tout ce que vous avez défini avec 'R']]
-        },
-        weapon_discordgift = {
-            name = "Table d'harmonie Discord",
-            type = "item_weapon",
-            desc = [[La 1ère arme farce que vous achetez une partie est gratuite!
-
-            Est-ce que quelqu'un vient de rejoindre? Non! Juste votre propre table d'harmonie discord personnelle!
-             
-            Clic gauche - Rejoindre le son
-            Clic droit - Quitter le son
-            R - Son ping]]
-        },
-        weapon_ttt_confetti = {
-            name = "Canon à confettis",
-            type = "item_weapon",
-            desc = [[La 1ère arme farce que vous achetez une partie est gratuite!
-
-            Vaporise des confettis et fait un bruit de yay!]]
-        },
-        weapon_unoreverse = {
-            name = "ONU inverse",
-            type = "item_weapon",
-            desc = [[Renvoie TOUS LES DOMMAGES à l'attaquant tant qu'il est retenu!
-
-            Utilisable pendant 3 secondes.]]
-        },
-        crimson_new = {
-            name = "Roi Cramoisi",
-            type = "item_weapon",
-            desc = [[Des poings qui tuent en un coup de poing !
-
-            Vous devez attendre une seconde avant de pouvoir commencer à frapper.]]
-        },
-        weapon_ttt_freezegun = {
-            name = "Congeler le pistolet",
-            type = "item_weapon",
-            desc = [[Gèle la cible pendant 5 secondes.
-            La cible ne peut pas bouger, regarde autour,
-            tirer ou faire autre chose.
-            
-            4 coups]]
-        },
-        weapon_ttt_detectiveball = {
-            name = "Balle de détective",
-            type = "item_weapon",
-            desc = [[Lancez-vous sur un proche pour le transformer en d��tective !
-            Révèle plutôt son rôle s'il est un traître.
-            
-            Rien ne se passe s'il s'agit d'un innocent spécial ou d'un traître, comme un pépin ou un hypnotiseur.]]
-        },
-        weapon_hellsredeemer = {
-            name = "Rédempteur de l'enfer",
-            type = "item_weapon",
-            desc = [[Un tomahawk de retour !
-
-            Réduit de moitié la santé si elle est lancée dès que vous la tenez dans votre main,
-            Tue instantan����ment si vous le tenez un peu en premier.]]
-        },
-        ttt_cmdpmpt = {
-            name = "Invite de commandes",
-            type = "item_weapon",
-            desc = [[Clic gauche: accorde une puissante capacité aléatoire!
-
-            Une description de la capacité apparaît dans le chat]]
-        },
-        pusher_swep = {
-            name = "Pousseur",
-            type = "item_weapon",
-            desc = [[Faites un clic gauche pour pousser quelqu'un avec vos poings.
-
-            Ils sont impuissants lorsqu'ils sont étourdis au sol et peuvent être endommagés par une autre arme.
-            
-            Faites un clic droit pour écouter un mec britannique bourré.]]
-        },
-        weapon_ttt_prop_disguiser = {
-            name = "Déguisement d'accessoires",
-            type = "item_weapon",
-            desc = [[Déguisez-vous en objet !
-
-            R: Sélectionnez un objet que vous regardez
-            
-            Clic gauche: Activer le déguisement]]
-        },
-        weapon_randomat_boxgloves = {
-            name = "Des gants",
-            type = "item_weapon",
-            desc = [[Clic gauche pour attaquer]]
+            Créé par @josh_caratelli + Liam McLachlan.]]
         },
         equip_airboat = {
             name = "Générateur d'hydroglisseur",
-            type = "item_weapon",
-            desc = [[La 1ère arme farce que vous achetez une partie est gratuite!
+            desc = [[La 1ère arme blague que vous achetez est gratuite !
 
             Faites un clic gauche pour faire apparaître un hydroglisseur pilotable!
             N'endommage pas les joueurs.]]
         },
-        weapon_ttt_hotpotato = {
-            name = "Patate chaude",
-            type = "item_weapon",
-            desc = [[Pour vos proches !
-
-            Cuit à la perfection en 12 secondes. Ne le laissez pas tomber !]]
-        },
-        weapon_med_defib = {
-            name = "Défibrillateur",
-            type = "item_weapon",
-            desc = [[Ranime un joueur mort.]]
-        },
-        weapon_ttt_rmgrenade = {
-            name = "Bombe de matière rouge",
-            type = "item_weapon",
-            desc = [[Une grenade en forme de cube qui génère un trou noir!
-
-            Quiconque est trop proche se fait aspirer!
-            
-            Sonne une alarme avant que le trou noir n'apparaisse.]]
-        },
-        weapon_ttt_dragon_elites = {
-            name = "Dragons d'élite",
-            type = "item_weapon",
-            desc = [[Pistolets à double arme avec une recharge cool.]]
-        },
-        weapon_ttt_whoa_randomat = {
-            name = "Attaque Tournante",
-            type = "item_weapon",
-            desc = [[Cliquez pour tourner l'attaque.]]
-        },
-        tfa_raygun_mark2 = {
-            name = "Pistolet à Rayons Marque 2",
-            type = "item_weapon",
-            desc = [[Tire une rafale de lasers à dégâts élevés]]
-        },
-        weapon_detective_defib = {
-            name = "Défibrillateur",
-            type = "item_weapon",
-            desc = [[Ranime un joueur mort, sans changer son rôle.]]
-        },
-        tfa_staff_wind = {
-            name = "Bâton du vent",
-            type = "item_weapon",
-            desc = [[Tire des jets d'air à courte portée et à dégâts élevés!]]
-        },
-        maclunkey = {
-            name = "Maclunkey",
-            type = "item_weapon",
-            desc = [[N'inflige aucun dégât avec d'autres armes tant que tu l'as sur toi.
-
-            A un coup qui tue instantanément mais prend un certain temps à tirer.
-            
-            Peut être largué pour infliger à nouveau des d��gâts avec d'autres armes à feu.]]
-        },
-        weapon_ttt_cloak = {
-            name = "Dispositif de camouflage 2.0",
-            type = "item_weapon",
-            desc = [[Tenir pour devenir presque invisible
-
-            Ne cache pas les taches de sang ou votre popup nom/santé
-            
-            Certaines cartes peuvent avoir un mauvais éclairage et vous laisser un peu trop visible.]]
-        },
-        thw_swep = {
-            name = "Thwomp",
-            type = "item_weapon",
-            desc = [[Tirez sur le sol près de quelqu'un pour l'écraser avec un "thwomp".
-
-            Ne fonctionne pas s'il y a un plafond bas.]]
-        },
-        weapon_ttt_boomerang = {
-            name = "Boomerang",
-            type = "item_weapon",
-            desc = [[Un boomerang jetable mortel,
-
-            Clic gauche : Tue en 1 coup et se déplace plus vite, mais ne revient pas.
-            
-            Clic droit : tue en 2 coups et se déplace plus lentement, mais revient.]]
-        },
-        tfa_blundergat = {
-            name = "Blundergat",
-            type = "item_weapon",
-            desc = [[Un fusil de chasse incroyablement puissant !]]
-        },
-        corpselauncher = {
-            name = "Lanceur de cadavres",
-            type = "item_weapon",
-            desc = [[Tire sur un cadavre en créant une explosion à l'impact. Nécessite un cadavre pour tirer.
- 
-            A assez de munitions pour être tiré deux fois.
-             
-            Faites un clic droit pour charger un cadavre.
-            Clic gauche pour lancer le cadavre.]]
-        },
-        weapon_mad_zombificator = {
-            name = "Dispositif de zombification",
-            type = "item_weapon",
-            desc = [[Transforme les joueurs morts en zombies.]]
-        },
-        weapon_ttt_jetpackspawner = {
-            name = "Déployeur Jetpack",
-            type = "item_weapon",
-            desc = [[Clic gauche pour déposer un jetpack, appuyez sur 'E' pour l'équiper.]]
-        },
-        weapon_slazer_new = {
-            name = "Laser spartiate",
-            type = "item_weapon",
-            desc = [[Maintenez le clic gauche pour tirer avec ce canon laser MASSIF!
-
-            Provoque une explosion si puissante qu'elle gèlera le jeu pendant quelques secondes...]]
-        },
-        weapon_ttt_shocktrap = {
-            name = "Piège à choc",
-            type = "item_weapon",
-            desc = [[Posé au sol.
-
-            Toute personne autre que vous qui marche dessus est ravagée pendant quelques secondes.]]
-        },
-        alex_matrix_stopbullets = {
-            name = "Bloc matriciel",
-            type = "item_weapon",
-            desc = [[Maintenez le clic gauche pour bloquer les balles devant vous.]]
-        },
-        weapon_ttt_knife_randomat = {
-            name = "Couteau de lancer",
-            type = "item_weapon",
-            desc = [[knife_desc]]
-        },
-        weapon_ttt_popupgun = {
-            name = "Pistolet contextuel",
-            type = "item_weapon",
-            desc = [[SMG à tir rapide. Frapper quelqu'un ouvrira une fenêtre contextuelle sur son écran]]
-        },
-        the_xmas_gun = {
-            name = "Le pistolet de Noël",
-            type = "item_weapon",
-            desc = [[Tirez sur des cadeaux qui tuent en un seul coup]]
-        },
-        weapon_ttt_beenade = {
-            name = "Bénade",
-            type = "item_weapon",
-            desc = [[Grenade Abeille.
-            Libère une ruche remplie d'abeilles hostiles.]]
-        },
-        weapon_ttt_beenade2 = {
-            name = "Bénade",
-            type = "item_weapon",
-            desc = [[Grenade Abeille.
-            Libère une ruche remplie d'abeilles hostiles.]]
-        },
-        weapon_ttt_minifier = {
-            name = "Minificateur",
-            type = "item_weapon",
-            desc = [[Faites un clic gauche pour réduire votre taille et votre santé!]]
-        },
-        minecraft_swep = {
-            name = "Bloc Minecraft",
-            type = "item_weapon",
-            desc = [[Placez des blocs Minecraft!
-            Appuyez sur 'R' pour changer de bloc]]
-        },
-        weapon_ttt_traitor_case = {
-            name = "La valise en T",
-            type = "item_weapon",
-            desc = [[Recevez un objet de traître au hasard!]]
-        },
-        weapon_throw_crowbar = {
-            name = "Pied de biche jetable",
-            type = "item_weapon",
-            desc = [[Faites un clic droit pour lancer, ce qui tue instantanément!]]
-        },
-        weapon_undertale_sans = {
-            name = "Mauvais mode de temps",
-            type = "item_weapon",
-            desc = [[Clic gauche: tirez un laser mortel par-dessus votre épaule
-
-            Clic droit: tirer sur des os à dégâts modérés]]
-        },
-        weapon_hellsretriever = {
-            name = "Retriever de l'enfer",
-            type = "item_weapon",
-            desc = [[Un tomahawk de retour !
-
-            Réduit de moitié la santé si elle est lancée dès que vous la tenez dans votre main,
-            Tue instantanément si vous le tenez un peu en premier.]]
-        },
-        weapon_ttt_fortnite_building = {
-            name = "Bâtiment fortifié",
-            type = "item_weapon",
-            desc = [[Construisez des murs, des sols et des escaliers!
-
-            Frappez des objets avec un pied de biche pour obtenir des matériaux avec lesquels construire
-            
-            F: Changez la structure que vous construisez]]
-        },
-        one_punch_skin = {
-            name = "Un coup de poing !!!",
-            type = "item_weapon",
-            desc = [[Poings tueurs à un coup.
-
-            Joue de la musique et change de modèle de lecteur dès que vous le tenez!]]
-        },
-        weapon_ttt_gimnade = {
-            name = "Grenade à gravité",
-            type = "item_weapon",
-            desc = [[Une grenade qui fait flotter impuissant dans les airs toute personne prise dans l'explosion.]]
-        },
-        destiny_one_thousand_voices = {
-            name = "1000 voix",
-            type = "item_weapon",
-            desc = [[Maintenez le clic gauche pour un faisceau d'explosion retardé!]]
-        },
-        weapon_ttt_skeleton_pumpkin = {
-            name = "Citrouille Squelette",
-            type = "item_weapon",
-            desc = [[Une grenade citrouille !
-
-            Lorsqu'il est lancé, génère des squelettes hostiles.]]
-        },
-        weapon_ttt_detective_supersheep = {
-            name = "Mouton observateur",
-            type = "item_weapon",
-            desc = [[Libérez un mouton volant !
-
-            Votre appareil photo le suit pendant que vous restez immobile.
-            
-            Dirigez-le avec votre souris et faites un clic gauche sur quelqu'un pour le marquer et le voir à travers les murs.]]
-        },
-        weapon_ttt_rape = {
-            name = "Lutte câline",
-            type = "item_weapon",
-            desc = [[Faites un clic gauche pour se blottir avec quelqu'un à portée de mêlée, ce qui finit par le tuer.
-
-            Peut être réutilisé à l'infini.
-            
-            Peut tuer le bouffon sans qu'il gagne!]]
-        },
-        weapon_ttt_homingpigeon = {
-            name = "Pigeon voyageur",
-            type = "item_weapon",
-            desc = [[Un pigeon volant qui cherche une cible.]]
-        },
-        weapon_ttt_lightningar1 = {
-            name = "Foudre AR1",
-            type = "item_weapon",
-            desc = [[Une guitare-pistolet!
-
-            Un fusil musical à dégâts élevés avec des animations et des sons très sympas.]]
-        },
-        weapon_doncombinesummoner = {
-            name = "DoncomInvocateur",
-            type = "item_weapon",
-            desc = [[Invoque une monstruosité absolue...
-
-            Le "Doncombine" poursuivra et tirera sur tout le monde sauf vous.]]
-        },
-        weapon_prop_blaster = {
-            name = "Soutenir Blaster",
-            type = "item_weapon",
-            desc = [[Fait exploser des accessoires aléatoires dans des directions aléatoires]]
-        },
-        custom_pewgun = {
-            name = "Banc Pistolet",
-            type = "item_weapon",
-            desc = [[The PEW GUN
-            Shoots flaming blue lasers
-            Makes a cool PEW sound]]
-        },
-        weapon_portalgun = {
-            name = "Pistolet de portail",
-            type = "item_weapon",
-            desc = [[Clic gauche pour tirer un trou bleu dans un mur/sol, clic droit pour en tirer un orange.
-
-            Tout ce qui passe par un trou ressort par l'autre.]]
-        },
-        weapon_ttt_traitor_lightsaber = {
-            name = "Lightsaber",
-            type = "item_weapon",
-            desc = [[Un sabre laser rouge, rouge puisque tu es un traître.
-            Clic gauche : Swing
-            R: Modifier l'action de votre clic droit
-            Clic droit: Tout ce que vous avez défini avec 'R']]
-        },
-        weapon_shark_trap = {
-            name = "Piège à requin",
-            type = "item_weapon",
-            desc = [[Un piège à poser au sol.
-            Peut être ramassé avec un bâton de magnéto...]]
-        },
-        weapon_ttt_moonball = {
-            name = "Boule de lune",
-            type = "item_weapon",
-            desc = [[La 1ère arme farce que vous achetez une partie est gratuite!
-
-            Lancer à la tête de quelqu'un pour le renverser.
-            
-            Faites un clic droit pour changer les couleurs.
-            
-            Donne 10 boules de lune.]]
-        },
-        tfa_wavegun = {
-            name = "Pistolets Zap",
-            type = "item_weapon",
-            desc = [[Pistolets laser à double arme.
-            Appuyez sur le clic gauche ou droit pour tirer!]]
-        },
-        weapon_ttt_homebat = {
-            name = "Batte de coup de circuit",
-            type = "item_weapon",
-            desc = [[Frappez les gens très loin avec une batte.
-
-            A 3 coups.]]
-        },
-        weapon_ttt_obc = {
-            name = "Canon basse orbital",
-            type = "item_weapon",
-            desc = [[Tirez sur le sol pour invoquer un laser ABSOLUMENT MASSIF après quelques secondes.]]
-        },
-        stungun = {
-            name = "Pistolet paralysant",
-            type = "item_weapon",
-            desc = [[Stungun utilisé pour paralyser les ennemis en les faisant
-            incapable de parler et de bouger pendant quelques secondes.
-            Il a 3 charges.
-            
-            Créé par : Donkie]]
-        },
-        weapon_ttt_supersheep = {
-            name = "Supermouton",
-            type = "item_weapon",
-            desc = [[Faites voler un mouton volant explosif !
-
-            Votre appareil photo le suit pendant que vous restez immobile.
-            
-            Dirigez-le avec votre souris, entrez en collision avec quelque chose pour exploser et appuyez sur 'R' pour augmenter la vitesse.]]
-        },
-        weapon_ttt_dancedead = {
-            name = "Pistolet de danse",
-            type = "item_weapon",
-            desc = [[Tirez sur quelqu'un pour le faire danser sur une chanson au hasard, puis mourez.]]
-        },
-        weapon_ttt_comrade_bomb = {
-            name = "Camarade Bombe",
-            type = "item_weapon",
-            desc = [[Une bombe suicide qui transforme n'importe qui dans l'explosion en traître!]]
-        },
-        manipulator = {
-            name = "Changeur de gravité",
-            type = "item_weapon",
-            desc = [[Clic gauche : réduire la gravité.
-
-            Clic droit : Augmenter la gravité.
-            
-            Recharger: Gravité normale.]]
-        },
-        weapon_smoke_knife = {
-            name = "Couteau",
-            type = "item_weapon",
-            desc = [[Clic gauche: poignarder
-            Clic droit: Lancer une grenade fumigène
-            
-            Les joueurs endommagés sont instantanément tués,
-            sinon inflige 50 dégâts.]]
-        },
-        laserpointer = {
-            name = "Pointeur laser",
-            type = "item_weapon",
-            desc = [[La 1ère arme farce que vous achetez une partie est gratuite!
-
-            Aveugler temporairement quelqu'un en pointant ceci dans son visage.]]
-        },
-        ttt_deal_with_the_devil = {
-            name = "Traiter avec le diable",
-            type = "item_weapon",
-            desc = [[Révélez que vous êtes un traître à tout le monde, mais recevez un puissant avantage en retour!]]
-        },
-        ttt_kamehameha_swep = {
-            name = "Kamehameha",
-            type = "item_weapon",
-            desc = [[Chargez un faisceau d'énergie dans vos mains et faites exploser tout le monde!]]
-        },
-        tfa_staff_lightning = {
-            name = "Bâton de foudre",
-            type = "item_weapon",
-            desc = [[Tire rapidement des boules de plasma!
-
-            Les projectiles ne sont pas un hitscan et mettent du temps à voyager dans les airs.]]
-        },
-        ttt_detective_tracker = {
-            name = "Détective Traqueur",
-            type = "item_weapon",
-            desc = [[Marquez quelqu'un de suspect!
-
-            Met un contour sur un joueur que vous tirez pour le reste du tour.
-            
-            Chacun peut voir sa silhouette à travers les murs.]]
-        },
-        weapon_ttt_dead_ringer = {
-            name = "Sosie",
-            type = "item_weapon",
-            desc = [[Devenez invisible pendant un certain temps et laissez un corps la prochaine fois que vous subissez des dégâts!
-
-            Clic gauche pour activer.
-            N'a pas besoin d'être tenu une fois allumé.
-            
-            Vous ne pouvez pas tirer en étant invisible.]]
-        },
-        weapon_ttt_rsb = {
-            name = "Bombe collante à distance",
-            type = "item_weapon",
-            desc = [[Faites un clic droit pour poser une bombe sur quelqu'un devant vous.
-
-            Cliquez à nouveau avec le bouton droit pour le recharger et voir le point de vue de votre victime.
-            
-            Clic gauche pour le faire exploser.]]
-        },
-        weapon_ttt_printer = {
-            name = "Imprimante de crédit",
-            type = "item_weapon",
-            desc = [[Dépensez un crédit pour gagner plus de crédits!
-
-            Faites un clic gauche pour placer l'imprimante de crédits au sol et, une fois que c'est fait, appuyez sur 'E' pour obtenir vos crédits !
-            
-            Fait du bruit une fois posé...]]
-        },
-        ttt_amaterasu = {
-            name = "Amaterasu",
-            type = "item_weapon",
-            desc = "Mettez le feu à la personne que vous regardez.\n\nVous n'avez pas besoin de l'équiper pour l'utiliser, il suffit de regarder quelqu'un."
-        },
-        ttt_player_pinger = {
-            name = "Joueur Pinger",
-            type = "item_weapon",
-            desc = "Vous permet de voir tout le monde à travers les murs pendant un temps limité!"
-        },
-        weapon_ttt_randomat = {
-            name = "Machine Aléatoire",
-            type = "item_weapon",
-            desc = "La machine aléatoire fera quelque chose d'aléatoire!\nQui a deviné ça!"
-        },
-        weapon_catgun = {
-            name = "Chat Pistolet"
-        },
-        weapon_ttt_flashbang = {
-            name = "Coup de flash"
-        },
-        tfa_doom_ssg = {
-            name = "Super fusil de chasse"
-        },
-        weapon_ttt_titanfall_autopistol = {
-            name = "Pistolet automatique RE-45"
-        },
-        weapon_ttt_titanfall_wingman = {
-            name = "Ailier B3"
-        },
-        doom_weapon_pistol = {
-            name = "Pistolet DOOM"
-        },
-        weapon_752_dl44 = {
-            name = "Guerres des étoiles"
-        },
-        fingergun = {
-            name = "Doigt Pistolet"
-        },
-        mc_sword_diamond = {
-            name = "Pée de diamant"
-        },
-        weapon_ttt_axe = {
-            name = "Hache"
-        },
-        weapon_ttt_fryingpan = {
-            name = "Poêle à frire"
-        },
-        tfa_bo3_boxing = {
-            name = "Gants de boxe"
-        },
-        ttt_backwards_shotgun = {
-            name = "Fusil de chasse à l'envers"
-        },
-        st_bananapistol = {
-            name = "Banane Pistolet"
-        },
-        ttt_sahmin_gun = {
-            name = "Simon Pistolet"
-        },
-        weapon_long_revolver = {
-            name = "Revolver Longue"
-        },
-        weapon_paintgun = {
-            name = "Pistolet à peinture"
-        },
-        tfa_dax_big_glock = {
-            name = "Grosse arme"
-        },
-        tfa_tracer_nope = {
-            name = "Pistolets à impulsion"
-        },
-        tfa_mercy_nope = {
-            name = "Caducée Blaster"
-        },
-        c_sombra_gun_n = {
-            name = "Pistolet-mitrailleur"
-        },
-        c_reaper_nope = {
-            name = "Fusils doubles"
-        },
-        c_dvaredux_nope = {
-            name = "Pistolet léger"
-        },
-        weapon_sp_striker = {
-            name = "Attaquant 12"
-        },
-        weapon_sp_dbarrel = {
-            name = "Double baril"
-        },
-        weapon_rp_railgun = {
-            name = "Fusil à rail"
-        },
-        weapon_rp_pocket = {
-            name = "Fusil de poche"
-        },
-        weapon_pp_rbull = {
-            name = "Taureau furieux"
-        },
-        weapon_hp_glauncher = {
-            name = "Lance-grenades",
-            type = "item_weapon",
-            desc = "Lanceur automatique de grenades explosives. \n\nLivré avec 12 cartouches."
-        },
-        weapon_hp_ares_shrike = {
-            name = "Arès Pie-grièche"
-        },
-        weapon_ap_vector = {
-            name = "Vecteur"
-        },
-        weapon_ttt_honeybadger = {
-            name = "Blaireau de miel"
-        },
-        weapon_ap_hbadger = {
-            name = "Blaireau de miel"
-        },
-        weapon_ap_golddragon = {
-            name = "Dragon d'or",
-            type = "item_weapon",
-            desc = "Fusil d'assaut précis et à \nfaibles dégâts qui met le feu aux ennemis. \n\nUtilise des munitions SMG standard."
-        },
-        weapon_ttt_tmp_s = {
-            name = "Renard silencieux",
-            type = "item_weapon",
-            desc = "SMG à faible bruit qui utilise des munitions normales de 9 mm. \n\nLes victimes ne crieront pas lorsqu'elles seront tuées."
-        },
-        weapon_ttt_suicide = {
-            name = "Bombe suicide",
-            type = "item_weapon",
-            desc = "Sortez dans une frénésie hurlante! \n\nTue l'utilisateur et les terroristes environnants."
-        },
-        weapon_ttt_pump = {
-            name = "Fusil à pompe"
-        },
-        weapon_ttt_mp5 = {
-            name = "MP5 Marine"
+        weapon_m9k_ak47 = {
+            name = "AK-47",
+        },
+        weapon_m9k_ak74 = {
+            name = "AK-74",
         },
         weapon_ttt_ak47 = {
             name = "AK47",
-            type = "item_weapon",
             desc = [[Fusil d'assaut avec des dégâts très élevés.
 
             A un recul très élevé.]]
         },
-        weapon_ttt_m4a1_s = {
-            name = "M4A1 silencieux",
-            type = "item_weapon",
-            desc = "Un fusil automatique silencieux. Les victimes meurent en silence."
+        ttt_player_pinger = {
+            name = "Joueur Pinger",
+            desc = [[Vous permet de voir tout le monde à travers les murs pendant une durée limitée!]]
         },
-        weapon_ttt_frag = {
-            name = "Grenade à fragmentation",
-            type = "item_weapon",
-            desc = "Une grenade hautement explosive."
+        weapon_m9k_amd65 = {
+            name = "AMD-65",
         },
-        weapon_ttt_awp = {
-            name = "AWP silencieux",
-            type = "item_weapon",
-            desc = "Fusil de précision AWP silencieux. \n\nUn seul coup. \n\nLes victimes ne crieront pas lorsqu'elles seront tuées."
+        weapon_amongussummoner = {
+            name = "Parmi l'invocateur",
+            desc = [[Faites un clic gauche pour placer un piège invisible au sol.
+
+            Si un joueur marche dessus, un monstre porteur d'explosifs apparaît et attaque!]]
         },
-        weapon_m3 = {
-            name = "Pistolet à graisse M3"
+        weapon_m9k_an94 = {
+            name = "AN-94",
         },
-        weapon_zm_sledge = {
-            name = "É.N.O.R.M.E-249"
+        avengers_ttt_minifier = {
+            name = "Costume D'homme Fourmi"
         },
-        weapon_zm_revolver = {
-            name = "Aigle du désert"
+        weapon_antlionsummoner = {
+            name = "Invocateur De Fourmilion",
+            desc = [[Invoque un garde fourmilion. Cible sur le dessus d'une surface plane]]
         },
-        weapon_ttt_m16 = {
-            name = "M-Seize"
+        weapon_hp_ares_shrike = {
+            name = "Pie-grièche D'Arès",
         },
-        weapon_ttt_glock = {
-            name = "Pistolet-Mitrailleur"
+        weapon_m9k_ares_shrike = {
+            name = "Pie-grièche D'Arès",
         },
-        weapon_hyp_brainwash = {
-            name = "Appareil de lavage de cerveau",
-            type = "item_weapon",
-            desc = "Ranime un innocent comme un tra��tre."
+        tfa_bo3_argus = {
+            name = "Argus"
         },
-        weapon_com_manifesto = {
-            name = "Manifeste communiste",
-            type = "item_weapon",
-            desc = "Clic gauche pour convertir un autre joueur"
+        weapon_ttt_artillery = {
+            name = "Canon D'artillerie",
+            desc = [[Génère un canon d'artillerie très puissant qui tire une grosse bombe sur une longue portée.
+
+            Pour contrôler, placez-vous juste derrière et appuyez sur 'E' sur les commandes qui apparaissent.]]
         },
-        weapon_par_cure = {
-            name = "Parasite Cure"
+        weapon_m9k_val = {
+            name = "COMME VAL",
         },
-        weapon_box_gloves = {
-            name = "Des gants",
-            type = "item_weapon",
-            desc = "Clic gauche pour attaquer"
+        weapon_ttt_aug = {
+            name = "AOÛT",
         },
-        weapon_zom_claws = {
-            name = "Les griffes",
-            type = "item_weapon",
-            desc = "Clic gauche pour attaquer. Clic droit pour sauter. Appuyez sur recharger pour cracher."
+        weapon_m9k_aw50 = {
+            name = "AW-50",
         },
-        weapon_vam_fangs = {
-            name = "Crocs",
-            type = "item_weapon",
-            desc = "Clic gauche pour aspirer le sang. Faites un clic droit pour faire un fondu."
+        weapon_ttt_loudawp = {
+            name = "AWP",
+            desc = [[Fusil de précision AWP silencieux.
+
+            Il n'a que deux coups.
+            
+            Les victimes ne crieront pas lorsqu'elles seront tuées.]]
+        },
+        weapon_ttt_titanfall_wingman = {
+            name = "template",
+            desc = [[template]]
+        },
+        ttt_backwards_shotgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_baguette_randomat = {
+            name = "template",
+        },
+        weapon_fre_baguette = {
+            name = "template",
+        },
+        weapon_ballin = {
+            name = "template",
+        },
+        weapon_banana = {
+            name = "template",
+            desc = [[template]]
+        },
+        st_bananapistol = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_barnacle = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_barret_m82 = {
+            name = "template",
+        },
+        weapon_m9k_m98b = {
+            name = "template",
+        },
+        weapon_bat = {
+            name = "template",
+        },
+        weapon_ttt_beacon = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_beartrap = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_randomatbeecannon = {
+            name = "template",
+        },
+        weapon_ttt_beenade = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_m3 = {
+            name = "template",
+        },
+        tfa_dax_big_glock = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_binoculars = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_bizonp19 = {
+            name = "template",
+        },
+        weapon_vadim_blink = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_blundergat = {
+            name = "template",
+            desc = [[template]]
         },
         weapon_bod_bodysnatch = {
-            name = "Dispositif d'arrachage de corps",
-            type = "item_weapon",
-            desc = "Change votre rôle en celui d'un cadavre."
+            name = "template",
+            desc = [[template]]
         },
-        weapon_qua_fake_cure = {
-            name = "Guérir les parasites"
+        weapon_ttt_bomb_station = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_thr_bonecharm = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_bonesaw = {
+            name = "template",
+        },
+        weapon_ttt_bonk_bat = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_boomerang = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_boomerang_randomat = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_staff_wind_ult = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_bottle = {
+            name = "template",
+        },
+        weapon_ttt_brain = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_hyp_brainwash = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_browningauto5 = {
+            name = "template",
+        },
+        weapon_qua_bomb_station = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_c4 = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_mercy_nope = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_randomatcandycane = {
+            name = "template",
+            desc = [[template]]
+        },
+        avengers_ttt_shield = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_car_gun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_chickennade = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_chickenator = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_randomat_christmas_cannon = {
+            name = "template",
+        },
+        weapon_san_christmas_cannon = {
+            name = "template",
+        },
+        weapon_ttt_cracker = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_zom_claws = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_cloak = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_randomatclub = {
+            name = "template",
+        },
+        weapon_yeti_club = {
+            name = "template",
+        },
+        weapon_ttt_clutterbomb = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_colt1911 = {
+            name = "template",
+        },
+        weapon_m9k_coltpython = {
+            name = "template",
+        },
+        weapon_com_manifesto = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_comrade_bomb = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_confetti = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_confgrenade = {
+            name = "template",
+        },
+        weapon_controllable_manhack = {
+            name = "template",
+            desc = [[template]]
+        },
+        corpselauncher = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_printer = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_zm_improvised = {
+            name = "template",
         },
         weapon_cup_bow = {
-            name = "L'arc de Cupidon"
+            name = "template",
+        },
+        dancedead = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_dancedead = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_dd = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_dead_ringer = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_deadringer = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_zm_revolver = {
+            name = "template",
+        },
+        ttt_deal_with_the_devil = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_death_link = {
+            name = "template",
+            desc = [[template]]
+        },
+        death_note_ttt = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_decoy = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_med_defib = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_vadim_defib = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_defuser = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_demonsign = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_force_shield = {
+            name = "template",
+            desc = [[template]]
         },
         weapon_mhl_badge = {
-            name = "Insigne d'adjoint"
+            name = "template",
+        },
+        weapon_m9k_deagle = {
+            name = "template",
+        },
+        weapon_ttt_dete_playercam = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_detectiveball = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_randomatdetonator = {
+            name = "template",
+        },
+        weapon_discordgift = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_dislocator = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_wtester = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_doncombinesummoner = {
+            name = "template",
+            desc = [[template]]
+        },
+        doncmk2_swep = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_sp_dbarrel = {
+            name = "template",
         },
         weapon_old_dbshotgun = {
-            name = "Double baril"
+            name = "template",
+        },
+        weapon_m9k_dbarrel = {
+            name = "template",
+        },
+        ttt_perk_doubletap = {
+            name = "template",
+        },
+        weapon_dp = {
+            name = "template",
+        },
+        weapon_ttt_dragon_elites = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_svu = {
+            name = "template",
+        },
+        weapon_dubstepgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_duel_revolver_randomat = {
+            name = "template",
+        },
+        ttt_weapon_eagleflightgun = {
+            name = "template",
+            desc = [[template]]
         },
         weapon_pha_exorcism = {
-            name = "Dispositif d'exorcisme"
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_extinguisher = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_famas = {
+            name = "template",
+        },
+        weapon_ttt_famas = {
+            name = "template",
+        },
+        weapon_vam_fangs = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_fartgrenade = {
+            name = "template",
+        },
+        fp = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_fg42 = {
+            name = "template",
+        },
+        weapon_fg42 = {
+            name = "template",
+        },
+        weapon_ttt_fingergun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_fireaxe = {
+            name = "template",
+        },
+        weapon_ttt_fire_dash = {
+            name = "template",
+            desc = [[template]]
+        },
+        custom_firestarter = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_fistsheavy = {
+            name = "template",
+        },
+        fkg_gifter_swep = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_flaregun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_spy_flaregun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_flashbang = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_f2000 = {
+            name = "template",
+        },
+        weapon_m9k_fal = {
+            name = "template",
+        },
+        weapon_ttt_p90 = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_smgp90 = {
+            name = "template",
+        },
+        weapon_ttt_foolsgoldengun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_fortnite_building = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_frag = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_rp_railgun = {
+            name = "template",
+        },
+        weapon_ttt_freezegun = {
+            name = "template",
+            desc = [[template]]
+        },
+        terror_fulton = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_g36c = {
+            name = "template",
+        },
+        weapon_ttt_g3sg1 = {
+            name = "template",
+        },
+        weapon_ttt_galil = {
+            name = "template",
+        },
+        weapon_gewehr43 = {
+            name = "template",
+        },
+        weapon_ttt_gwh_ghosting = {
+            name = "template",
+        },
+        weapon_ttt_glock = {
+            name = "template",
+        },
+        weapon_m9k_glock = {
+            name = "template",
+        },
+        weapon_randomat_boxgloves = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_box_gloves = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_gnome_grenade = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ap_golddragon = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_nrgoldengun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_kra_carry = {
+            name = "template",
+        },
+        weapon_ttt_gimnade = {
+            name = "template",
+            desc = [[template]]
+        },
+        manipulator = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_gravity_pistol = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_hp_glauncher = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_zm_molotov = {
+            name = "template",
+        },
+        weapon_ttt_smokegrenade = {
+            name = "template",
+        },
+        weapon_zm_sledge = {
+            name = "template",
+        },
+        weapon_ttt_handcuffs = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_hwapoon = {
+            name = "template",
+            desc = [[template]]
+        },
+        avengers_hawkeye_crybow = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_headlauncher = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_mc_healthpotion = {
+            name = "template",
+        },
+        weapon_ttt_phy_tracker = {
+            name = "template",
+        },
+        c_reaper_nope = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_m416 = {
+            name = "template",
+        },
+        weapon_m9k_g3a3 = {
+            name = "template",
+        },
+        weapon_m9k_mp5 = {
+            name = "template",
+        },
+        weapon_m9k_mp5sd = {
+            name = "template",
+        },
+        weapon_m9k_mp7 = {
+            name = "template",
+        },
+        weapon_m9k_sl8 = {
+            name = "template",
+        },
+        weapon_m9k_ump45 = {
+            name = "template",
+        },
+        weapon_m9k_usc = {
+            name = "template",
+        },
+        weapon_m9k_usp = {
+            name = "template",
+        },
+        weapon_m9k_hk45 = {
+            name = "template",
+        },
+        weapon_ttt_homebat = {
+            name = "template",
+            desc = [[template]]
+        },
+        swep_homingpigeon = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ap_hbadger = {
+            name = "template",
+        },
+        weapon_ttt_hotpotato = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_health_station = {
+            name = "template",
+            desc = [[template]]
+        },
+        avengers_fists = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_id_bomb = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_id_bomb_defuser = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ars_igniter = {
+            name = "template",
+        },
+        weapon_ttt_mc_immortpotion = {
+            name = "template",
+        },
+        weapon_tttbasegrenade = {
+            name = "template",
+        },
+        weapon_m9k_intervention = {
+            name = "template",
+        },
+        weapon_ttt_mc_invispotion = {
+            name = "template",
+        },
+        avengers_ironman = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_ithacam37 = {
+            name = "template",
+        },
+        weapon_ttt_jarate = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_detective_lightsaber = {
+            name = "template",
+            desc = [[template]]
+        },
+        shared = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_jetpack = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_jetpackspawner = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_jihad = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_john_bomb = {
+            name = "template",
+            desc = [[template]]
+        },
+        ttt_perk_juggernog = {
+            name = "template",
+        },
+        weapon_ttt_jumpgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_kac_pdw = {
+            name = "template",
+        },
+        ttt_kamehameha_swep = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_kil_crowbar = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_staff_lightning_ult = {
+            name = "template",
+            desc = [[template]]
+        },
+        crimson_new = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_secretsantaknife = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_knife = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_randomatknife = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_kil_knife = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_vector = {
+            name = "template",
+        },
+        weapon_machete = {
+            name = "template",
+        },
+        weapon_m9k_l85 = {
+            name = "template",
+        },
+        laserpointer = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_lee = {
+            name = "template",
+        },
+        weapon_enfield_4 = {
+            name = "template",
+        },
+        weapon_ttt_liftgren = {
+            name = "template",
+            desc = [[template]]
+        },
+        c_dvaredux_nope = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_lightningar1 = {
+            name = "template",
+            desc = [[template]]
+        },
+        avengers_smooleystormbreaker = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_traitor_lightsaber = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_long_revolver = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_luger = {
+            name = "template",
+        },
+        weapon_m9k_m14sp = {
+            name = "template",
+        },
+        weapon_ttt_m16 = {
+            name = "template",
+        },
+        weapon_m9k_m16a4_acog = {
+            name = "template",
+        },
+        weapon_m9k_m1918bar = {
+            name = "template",
+        },
+        weapon_catgun = {
+            name = "template",
+        },
+        weapon_m9k_m24 = {
+            name = "template",
+        },
+        weapon_m9k_m249lmg = {
+            name = "template",
+        },
+        weapon_m9k_m29satan = {
+            name = "template",
+        },
+        weapon_m3 = {
+            name = "template",
+        },
+        weapon_m9k_m4a1 = {
+            name = "template",
+        },
+        weapon_m9k_m60 = {
+            name = "template",
+        },
+        weapon_m9k_m92beretta = {
+            name = "template",
+        },
+        weapon_zm_mac10 = {
+            name = "template",
+        },
+        c_sombra_gun_n = {
+            name = "template",
+            desc = [[template]]
+        },
+        maclunkey = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_zm_carry = {
+            name = "template",
+        },
+        weapon_m9k_magpulpdr = {
+            name = "template",
+        },
+        weapon_ttt_malfunctionpistol = {
+            name = "template",
+            desc = [[template]]
+        },
+        giantsupermariomushroom = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_mastersword = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_medkit = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_meme_gun = {
+            name = "template",
+            desc = [[template]]
+        },
+        doi_mg42 = {
+            name = "template",
+        },
+        weapon_ttt_minic = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_mine_turtle = {
+            name = "template",
+            desc = [[template]]
+        },
+        minecraft_swep = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_minifier = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_minigun = {
+            name = "template",
+        },
+        weapon_m9k_jackhammer = {
+            name = "template",
+        },
+        weapon_ttt_moonball = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_mossberg590 = {
+            name = "template",
+        },
+        weapon_m9k_mp40 = {
+            name = "template",
+        },
+        weapon_ttt_mp5 = {
+            name = "template",
+        },
+        weapon_ttt_smg = {
+            name = "template",
+        },
+        weapon_m9k_mp9 = {
+            name = "template",
+        },
+        weapon_ap_mrca1 = {
+            name = "template",
+        },
+        weapon_ttt_mud_device_randomat = {
+            name = "template",
+        },
+        weapon_ttt_push = {
+            name = "template",
+            desc = [[template]]
+        },
+        avengers_nick_pistol = {
+            name = "template",
+            desc = [[template]]
+        },
+        ttt_no_scope_awp = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_zombievault = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_detective_supersheep = {
+            name = "template",
+            desc = [[template]]
+        },
+        one_punch_skin = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_pistol_randomat = {
+            name = "template",
+        },
+        weapon_ttt_obc = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_valenok = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_luger = {
+            name = "template",
+        },
+        weapon_ttt_p228 = {
+            name = "template",
+        },
+        weapon_ttt_painkillers = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_paintgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_qua_fake_cure = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_par_cure = {
+            name = "template",
+            desc = [[template]]
+        },
+        custom_pewgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        ttt_perk_phd = {
+            name = "template",
+        },
+        weapon_ttt_pickle_rick_gun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_zm_pistol = {
+            name = "template",
+        },
+        weapon_m9k_pkm = {
+            name = "template",
+        },
+        weapon_teleport_gun_t = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_rp_pocket = {
+            name = "template",
+        },
+        weapon_ttt_mc_poison = {
+            name = "template",
+        },
+        weapon_ttt_phammer = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_popupgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_portalgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_possessed_melon_launcher = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ap_pp19 = {
+            name = "template",
+        },
+        weapon_ppsh41 = {
+            name = "template",
+        },
+        weapon_prop_blaster = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_prop_disguiser = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_prop_hunt_gun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_propexploder = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_psg1 = {
+            name = "template",
+        },
+        weapon_psm_disguiser = {
+            name = "template",
+        },
+        tfa_tracer_nope = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_pump = {
+            name = "template",
+        },
+        pusher_swep = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_csgo_r8revolver = {
+            name = "template",
+        },
+        weapon_ttt_radio = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_pp_rbull = {
+            name = "template",
+        },
+        weapon_m9k_ragingbull = {
+            name = "template",
+        },
+        weapon_m9k_scoped_taurus = {
+            name = "template",
+        },
+        weapon_randomlauncher = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_randomat = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_raygun = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_raygun_mark2 = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_titanfall_autopistol = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_rmgrenade = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_pp_remington = {
+            name = "template",
+        },
+        weapon_m9k_remington1858 = {
+            name = "template",
+        },
+        weapon_m9k_remington7615p = {
+            name = "template",
+        },
+        weapon_m9k_remington870 = {
+            name = "template",
+        },
+        tfa_bo2_remington_nma = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_randomatrevolver = {
+            name = "template",
+        },
+        weapon_ttt_revolver_randomat = {
+            name = "template",
+        },
+        weapon_zm_rifle = {
+            name = "template",
+        },
+        weapon_ttt_mc_jumppotion = {
+            name = "template",
+        },
+        weapon_ttt_rocket_thruster = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_gue_guesser = {
+            name = "template",
+        },
+        weapon_ttt_rollermine = {
+            name = "template",
+            desc = [[template]]
+        },
+        rotgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_rsb = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_rsb_defuser = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_revolver = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_model3russian = {
+            name = "template",
+        },
+        weapon_m9k_model627 = {
+            name = "template",
+        },
+        ttt_sahmin_gun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_inf_scanner = {
+            name = "template",
+        },
+        weapon_m9k_scar = {
+            name = "template",
+        },
+        weapon_scattergun = {
+            name = "template",
+        },
+        tfa_scavenger = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_sg550 = {
+            name = "template",
+        },
+        weapon_ttt_sg552 = {
+            name = "template",
+        },
+        weapon_ttt_cloak_randomat = {
+            name = "template",
+        },
+        weapon_shark_idol = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_shark_trap = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_shocktrap = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_zm_shotgun = {
+            name = "template",
+        },
+        weapon_shovel = {
+            name = "template",
+        },
+        weapon_m9k_sig_p229r = {
+            name = "template",
+        },
+        weapon_ttt_awp = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_m4a1_s = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_tmp_s = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_sipistol = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_slam = {
+            name = "template",
+            desc = [[template]]
+        },
+        ttt_slappers = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_sliquifier = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_timeslowgrenade = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_paper_plane = {
+            name = "template",
+            desc = [[template]]
+        },
+        ttt_combine_sniper_summoner = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_smg_soulbinding = {
+            name = "template",
+        },
+        weapon_slazer_new = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_spas12 = {
+            name = "template",
+        },
+        ttt_perk_speedcola = {
+            name = "template",
+        },
+        weapon_ttt_mc_speedpotion = {
+            name = "template",
+        },
+        speedgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_whoa_randomat = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_spn_spongifier = {
+            name = "template",
+        },
+        weapon_spraymhs = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_vikhr = {
+            name = "template",
+        },
+        tfa_staff_lightning = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_staff_wind = {
+            name = "template",
+            desc = [[template]]
+        },
+        ttt_perk_staminup = {
+            name = "template",
+        },
+        weapon_qua_station_bomb = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_sten = {
+            name = "template",
+        },
+        weapon_stenmk3 = {
+            name = "template",
+        },
+        weapon_m9k_auga3 = {
+            name = "template",
+        },
+        weapon_m9k_striker12 = {
+            name = "template",
+        },
+        weapon_sp_striker = {
+            name = "template",
+        },
+        stungun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_stungun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_suicide = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_doom_ssg = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_supersheep = {
+            name = "template",
+            desc = [[template]]
+        },
+        surprisesoldiers = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_dragunov = {
+            name = "template",
+        },
+        weapon_m9k_svt40 = {
+            name = "template",
+        },
+        weapon_svt40 = {
+            name = "template",
+        },
+        weapon_syringegun = {
+            name = "template",
+        },
+        weapon_m9k_tar21 = {
+            name = "template",
+        },
+        weapon_taser_derens = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_tax_kit = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ap_tec9 = {
+            name = "template",
+        },
+        weapon_m9k_tec9 = {
+            name = "template",
+        },
+        weapon_ttt_teleport = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_tf2pistol = {
+            name = "template",
+        },
+        weapon_tf2revolver = {
+            name = "template",
+        },
+        weapon_tf2shotgun = {
+            name = "template",
+        },
+        weapon_tf2smg = {
+            name = "template",
+        },
+        weapon_sniper = {
+            name = "template",
+        },
+        tfa_shrinkray = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_jetgun = {
+            name = "template",
+            desc = [[template]]
+        },
+        the_xmas_gun = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_contender = {
+            name = "template",
+        },
+        weapon_ttt_knife_randomat = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_thundergun = {
+            name = "template",
+            desc = [[template]]
+        },
+        thw_swep = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapons_ttt_time_manipulator = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_timestop = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_tt = {
+            name = "template",
+        },
+        weapon_m9k_thompson = {
+            name = "template",
+        },
+        weapon_ttt_bike = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_impostor_knife_randomat = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_tur_changer = {
+            name = "template",
+        },
+        weapon_ttt_turret = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_turtlenade = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_t14nambu = {
+            name = "template",
+        },
+        weapon_t38 = {
+            name = "template",
+        },
+        weapon_ttt_unarmed = {
+            name = "template",
+        },
+        weapon_unoreverse = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_m9k_usas = {
+            name = "template",
+        },
+        weapon_ttt_pistol = {
+            name = "template",
+        },
+        weapon_m9k_uzi = {
+            name = "template",
+        },
+        tfa_vr11 = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ap_vector = {
+            name = "template",
+        },
+        swep_rifle_viper = {
+            name = "template",
+        },
+        weapon_ttt_cse = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_wpnjammer = {
+            name = "template",
+            desc = [[template]]
+        },
+        ttt_weeping_angel = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_welrod = {
+            name = "template",
+        },
+        weapon_sp_winchester = {
+            name = "template",
+        },
+        weapon_m9k_winchester73 = {
+            name = "template",
+        },
+        weapon_m9k_1887winchester = {
+            name = "template",
+        },
+        weapon_m9k_1897winchester = {
+            name = "template",
+        },
+        tfa_wintershowl = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_wrench = {
+            name = "template",
+        },
+        wt_writingpad = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_wunderwaffe = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_ttt_zapgren = {
+            name = "template",
+            desc = [[template]]
+        },
+        tfa_wavegun = {
+            name = "template",
+            desc = [[template]]
+        },
+        zombiegunspawn = {
+            name = "template",
+            desc = [[template]]
+        },
+        weapon_mad_zombificator = {
+            name = "template",
+            desc = [[template]]
         }
     }
 
@@ -1445,7 +1950,7 @@ net.Receive("FrenchRandomatBegin", function()
 
             if SWEP.EquipMenuData and SWEP.EquipMenuData.type then
                 SWEP.EquipMenuData.origType = SWEP.EquipMenuData.type
-                SWEP.EquipMenuData.type = translatedWeapons[classname].type
+                SWEP.EquipMenuData.type = translatedWeapons[classname].type or "item_weapon"
             end
 
             if SWEP.EquipMenuData and SWEP.EquipMenuData.desc then
