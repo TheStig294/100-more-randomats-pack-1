@@ -723,7 +723,7 @@ function Randomat:ForceSetPlayermodel(ply, data)
 end
 
 function Randomat:ForceResetAllPlayermodels()
-    for _, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         local sid64 = ply:SteamID64()
 
         if playermodelData[sid64] then
@@ -735,7 +735,7 @@ end
 hook.Add("TTTBeginRound", "RdmtGetStartingPlayerModels", function()
     table.Empty(playermodelData)
 
-    for _, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         playermodelData[ply:SteamID64()] = Randomat:GetPlayerModelData(ply)
     end
 end)
