@@ -64,7 +64,7 @@ function EVENT:Begin()
     if not table.IsEmpty(boughtAllPlys) and boughtAllPlys ~= {} then
         -- Displays a randomat alert and message to chat for everyone displaying which players have bought all weapons
         timer.Simple(5, function()
-            Randomat:SmallNotify("One or more players bought 'em all!")
+            Randomat:SmallNotify("One or more players have bought every item!")
             PrintMessage(HUD_PRINTTALK, "Players who have bought every traitor/detective item at least once:")
 
             for _, ply in ipairs(boughtAllPlys) do
@@ -81,7 +81,7 @@ function EVENT:Begin()
 
         hook.Add("TTTBeginRound", "FavouritesleastRandomat", function()
             local rdmPly = boughtAllPlys[math.random(#boughtAllPlys)]
-            rdmPly:ChatPrint("Make a randomat because you bought 'em all!")
+            rdmPly:ChatPrint("Make a randomat because you bought every item!")
             Randomat:SilentTriggerEvent("make", rdmPly)
         end)
     end
