@@ -1,20 +1,20 @@
 local EVENT = {}
 
-CreateConVar("randomat_buyemall_given_items_count", "2", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many items to give out", 1, 10)
+CreateConVar("randomat_favouritesleast_given_items_count", "2", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many items to give out", 1, 10)
 
 local function GetDescription()
-    local count = GetConVar("randomat_buyemall_given_items_count"):GetInt()
+    local count = GetConVar("randomat_favouritesleast_given_items_count"):GetInt()
 
     if count == 1 then
-        return "Get an item you've never bought before, but what happens when you buy 'em all?"
+        return "Get an item you've never bought before, but what happens when you've bought everything?"
     else
-        return "Get " .. GetConVar("randomat_buyemall_given_items_count"):GetInt() .. " items you've never bought before, but what happens when you buy 'em all?"
+        return "Get " .. GetConVar("randomat_favouritesleast_given_items_count"):GetInt() .. " items you've never bought before, but what happens when you've bought everything?"
     end
 end
 
-EVENT.Title = "Gotta buy 'em all!"
+EVENT.Title = "Everyone has their least favourites"
 EVENT.Description = GetDescription()
-EVENT.id = "buyemall"
+EVENT.id = "favouritesleast"
 
 EVENT.Categories = {"stats", "eventtrigger", "item", "moderateimpact"}
 
@@ -52,7 +52,7 @@ function EVENT:Begin()
 
         -- Shuffle the table and only give out as many items as the player has unbought
         -- So if the player has 1 unbought item, they should get 1 item
-        local itemCount = math.min(GetConVar("randomat_buyemall_given_items_count"):GetInt(), #unboughtEquipment)
+        local itemCount = math.min(GetConVar("randomat_favouritesleast_given_items_count"):GetInt(), #unboughtEquipment)
         table.Shuffle(unboughtEquipment)
 
         -- Giving unbought items, if any
@@ -77,9 +77,9 @@ function EVENT:Begin()
         end)
 
         -- At the start of every round, for the rest of the current map, a random player that bought every weapon gets to make the randomat for that round
-        hook.Add("TTTRandomatShouldAuto", "BuyEmAllPreventAutoRandomat", function(id, owner) return false end)
+        hook.Add("TTTRandomatShouldAuto", "FavouritesleastPreventAutoRandomat", function(id, owner) return false end)
 
-        hook.Add("TTTBeginRound", "BoughtEmAllRandomat", function()
+        hook.Add("TTTBeginRound", "FavouritesleastRandomat", function()
             local rdmPly = boughtAllPlys[math.random(#boughtAllPlys)]
             rdmPly:ChatPrint("Make a randomat because you bought 'em all!")
             Randomat:SilentTriggerEvent("make", rdmPly)
@@ -88,10 +88,10 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    -- This event can only trigger once a map to prevent multiple people making randomats at once
     return not eventTriggered
 end
 
+-- This event can only trigger once a map to prevent multiple people making randomats at once
 function EVENT:GetConVars()
     local sliders = {}
 

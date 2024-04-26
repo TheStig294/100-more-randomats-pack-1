@@ -390,6 +390,15 @@ Gives everyone their 2 most bought items\
 _ttt_randomat_favourites_ - Default: 1 - Whether this randomat is enabled\
 _randomat_favourites_given_items_count_ - Default: 2 - How many most bought items to give out
 
+## Everyone has their least favourites
+
+Gives everyone 2 items they haven't bought before.
+If someone has bought all detective AND traitor items at least once, they get to choose a randomat at the start of every round for the rest of the map!\
+If multiple players have bought all items, they take turns in choosing randomats.\
+\
+_ttt_randomat_favouritesleast_ - Default: 1 - Whether this randomat is enabled\
+_randomat_favouritesleast_given_items_count_ - Default: 2 - How many items to give out
+
 ## Everyone swaps roles and weapons in 60 seconds! (a.k.a. Role Shuffle!)
 
 Swaps everyone's roles, weapons and credits around, by default 60 seconds after this randomat triggers.\
@@ -496,15 +505,6 @@ _randomat_revenge_timer_ - Default: 0 - Seconds until this event activates
 Makes everyone's models' bones a jigglebone, and adds a blur effect to the edges of the screen.\
 \
 _ttt_randomat_drunk_ - Default: 1 - Whether this randomat is enabled
-
-## Gotta buy 'em all
-
-Gives everyone 2 items they haven't bought before.
-If someone has bought all detective AND traitor items at least once, they get to choose a randomat at the start of every round for the rest of the map!\
-If multiple players have bought all items, they take turns in choosing randomats.\
-\
-_ttt_randomat_buyemall_ - Default: 1 - Whether this randomat is enabled\
-_randomat_buyemall_given_items_count_ - Default: 2 - How many items to give out
 
 ## Gun Game 2.0
 
