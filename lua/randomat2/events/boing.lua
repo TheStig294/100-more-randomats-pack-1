@@ -8,15 +8,25 @@ EVENT.id = "boing"
 
 EVENT.Categories = {"smallimpact"}
 
+local function SetJumpHeight(ply)
+    ply:SetJumpPower(ply:GetJumpPower() + GetConVar("randomat_boing_jump_height"):GetInt())
+end
+
 function EVENT:Begin()
-    --Adds the set jump power to all player's jump power
-    for i, ply in pairs(self:GetPlayers()) do
-        ply:SetJumpPower(ply:GetJumpPower() + GetConVar("randomat_boing_jump_height"):GetInt())
+    -- Adds the set jump power to all player's jump power
+    for _, ply in pairs(self:GetAlivePlayers()) do
+        SetJumpHeight(ply)
     end
+
+    self:AddHook("PlayerSpawn", function(ply)
+        timer.Simple(1, function()
+            SetJumpHeight(ply)
+        end)
+    end)
 end
 
 function EVENT:End()
-    --Sets everyone's jump power back to the default, 200
+    -- Sets everyone's jump power back to TTT's default, 160
     for _, ply in pairs(self:GetPlayers()) do
         ply:SetJumpPower(160)
     end
