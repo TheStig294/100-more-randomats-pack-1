@@ -5,7 +5,88 @@ local customPassiveItemsOrig
 local flagPanelFrame
 local music
 
+local function EndFrenchRandomat()
+    if eventEnded then return end
+    RunConsoleCommand("ttt_language", "auto")
+    -- Resets the names of roles
+    ROLE_STRINGS = roleStringsOrig or ROLE_STRINGS
+    ROLE_STRINGS_EXT = roleStringsExtOrig or ROLE_STRINGS_EXT
+    ROLE_STRINGS_PLURAL = roleStringsPluralOrig or ROLE_STRINGS_PLURAL
+
+    -- Resets the names of custom passive items
+    if customPassiveItemsOrig then
+        for role = 1, ROLE_MAX do
+            if SHOP_ROLES[role] then
+                EquipmentItems[role] = customPassiveItemsOrig[role] or EquipmentItems[role]
+            end
+        end
+    end
+
+    -- Resets the names of newly created weapons
+    for _, SWEPCopy in ipairs(weapons.GetList()) do
+        local classname = WEPS.GetClass(SWEPCopy)
+
+        if classname then
+            local SWEP = weapons.GetStored(classname)
+
+            if SWEP.origPrintName then
+                SWEP.PrintName = SWEP.origPrintName
+            end
+
+            if SWEP.EquipMenuData and SWEP.EquipMenuData.origType then
+                SWEP.EquipMenuData.type = SWEP.EquipMenuData.origType
+            end
+
+            if SWEP.EquipMenuData and SWEP.EquipMenuData.origDesc then
+                SWEP.EquipMenuData.desc = SWEP.EquipMenuData.origDesc
+            end
+        end
+    end
+
+    -- Resets the names of held weapons and ones on the ground
+    for _, ent in ipairs(ents.GetAll()) do
+        if ent.origPrintName then
+            ent.PrintName = ent.origPrintName
+        end
+    end
+
+    RunConsoleCommand("ttt_reset_weapons_cache")
+    -- Plays the ending music
+    local endingTimer = 0
+
+    if music then
+        timer.Remove("FrenchRandomatMusicLoop")
+        RunConsoleCommand("stopsound")
+        endingTimer = 9
+
+        timer.Simple(0.1, function()
+            surface.PlaySound("french/chic_magnet_end.mp3")
+        end)
+    end
+
+    hook.Remove("PlayerButtonDown", "FrenchMuteMusicButton")
+
+    -- Remove the French flag overlay,
+    -- if music is playing, in time with the music ending
+    timer.Simple(endingTimer, function()
+        if flagPanelFrame ~= nil then
+            flagPanelFrame:Close()
+            flagPanelFrame = nil
+        end
+    end)
+
+    -- Remove the hooks trying to end this event because if we made it this far we're done
+    hook.Remove("TTTEndRound", "FrenchRandomatClientEnd")
+    hook.Remove("TTTPrepareRound", "FrenchRandomatClientEnd")
+    hook.Remove("TTTBeginRound", "FrenchRandomatClientEnd")
+end
+
 net.Receive("FrenchRandomatBegin", function()
+    -- Because this event refuses to end properly when the end function is called as a net message from the server... ugh
+    hook.Add("TTTEndRound", "FrenchRandomatClientEnd", EndFrenchRandomat)
+    hook.Add("TTTPrepareRound", "FrenchRandomatClientEnd", EndFrenchRandomat)
+    hook.Add("TTTBeginRound", "FrenchRandomatClientEnd", EndFrenchRandomat)
+    -- Change the client's language to the Randomat's custom French language (Courtesy of manually shoving a million lines of strings into Google Translate...)
     RunConsoleCommand("ttt_language", "FrançaisRandomat")
     -- Renaming roles
     local translatedRoles = {}
@@ -1804,74 +1885,4 @@ net.Receive("FrenchRandomatBegin", function()
             end
         end)
     end
-end)
-
-net.Receive("FrenchRandomatEnd", function()
-    RunConsoleCommand("ttt_language", "auto")
-    -- Resets the names of roles
-    ROLE_STRINGS = roleStringsOrig or ROLE_STRINGS
-    ROLE_STRINGS_EXT = roleStringsExtOrig or ROLE_STRINGS_EXT
-    ROLE_STRINGS_PLURAL = roleStringsPluralOrig or ROLE_STRINGS_PLURAL
-
-    -- Resets the names of custom passive items
-    if customPassiveItemsOrig then
-        for role = 1, ROLE_MAX do
-            if SHOP_ROLES[role] then
-                EquipmentItems[role] = customPassiveItemsOrig[role] or EquipmentItems[role]
-            end
-        end
-    end
-
-    -- Resets the names of newly created weapons
-    for _, SWEPCopy in ipairs(weapons.GetList()) do
-        local classname = WEPS.GetClass(SWEPCopy)
-
-        if classname then
-            local SWEP = weapons.GetStored(classname)
-
-            if SWEP.origPrintName then
-                SWEP.PrintName = SWEP.origPrintName
-            end
-
-            if SWEP.EquipMenuData and SWEP.EquipMenuData.origType then
-                SWEP.EquipMenuData.type = SWEP.EquipMenuData.origType
-            end
-
-            if SWEP.EquipMenuData and SWEP.EquipMenuData.origDesc then
-                SWEP.EquipMenuData.desc = SWEP.EquipMenuData.origDesc
-            end
-        end
-    end
-
-    -- Resets the names of held weapons and ones on the ground
-    for _, ent in ipairs(ents.GetAll()) do
-        if ent.origPrintName then
-            ent.PrintName = ent.origPrintName
-        end
-    end
-
-    RunConsoleCommand("ttt_reset_weapons_cache")
-    -- Plays the ending music
-    local endingTimer = 0
-
-    if music then
-        timer.Remove("FrenchRandomatMusicLoop")
-        RunConsoleCommand("stopsound")
-        endingTimer = 9
-
-        timer.Simple(0.1, function()
-            surface.PlaySound("french/chic_magnet_end.mp3")
-        end)
-    end
-
-    hook.Remove("PlayerButtonDown", "FrenchMuteMusicButton")
-
-    -- Remove the French flag overlay,
-    -- if music is playing, in time with the music ending
-    timer.Simple(endingTimer, function()
-        if flagPanelFrame ~= nil then
-            flagPanelFrame:Close()
-            flagPanelFrame = nil
-        end
-    end)
 end)

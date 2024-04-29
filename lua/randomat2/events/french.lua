@@ -11,11 +11,8 @@ EVENT.Categories = {"fun", "moderateimpact"}
 local musicConvar = CreateConVar("randomat_french_music", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether music should play", 0, 1)
 
 util.AddNetworkString("FrenchRandomatBegin")
-util.AddNetworkString("FrenchRandomatEnd")
-local eventRun = false
 
 function EVENT:Begin()
-    eventRun = true
     net.Start("FrenchRandomatBegin")
     net.WriteBool(musicConvar:GetBool())
     net.Broadcast()
@@ -96,14 +93,6 @@ function EVENT:Begin()
         local weapon = WEPS.GetClass(target)
         if weapon == "weapon_ttt_baguette_randomat" then return true end
     end)
-end
-
-function EVENT:End()
-    if eventRun then
-        eventRun = false
-        net.Start("FrenchRandomatEnd")
-        net.Broadcast()
-    end
 end
 
 -- Disallow mud scientist randomat to trigger at the same time as either event's role renaming may persist between rounds
