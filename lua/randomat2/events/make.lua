@@ -292,6 +292,15 @@ CreateConVar("randomat_make_timer", 20, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds 
 
 CreateConVar("randomat_make_while_dead", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Dead players can be chosen to make a randomat")
 
+-- Dynamically creating convars to enable/disable individual causes and effects
+for id, cause in pairs(Causes) do
+    cause.Convar = CreateConVar("randomat_make_cause_" .. id, 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "\"" .. cause.Desc .. "\" cause")
+end
+
+for id, effect in pairs(Effects) do
+    effect.Convar = CreateConVar("randomat_make_effect_" .. id, 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "\"" .. effect.Desc .. "\" effect")
+end
+
 local owner
 
 local function GetEventDescription()
@@ -345,13 +354,31 @@ function EVENT:Begin()
         end
     end
 
-    -- owner = Entity(1)
     -- Update this event's description with the name of the chosen player
     EVENT.Description = GetEventDescription()
     -- Begin the event on the chosen player
     net.Start("MakeRandomatTrigger")
     net.WriteInt(GetConVar("randomat_make_choices"):GetInt(), 8)
     net.WriteInt(GetConVar("randomat_make_timer"):GetInt(), 8)
+    -- Sending over which causes and effects are enabled to the player
+    -- Have to tell the client how many causes to loop over
+    net.WriteInt(table.Count(Causes), 8)
+
+    for id, cause in pairs(Causes) do
+        net.WriteString(id)
+        net.WriteString(cause.Desc)
+        net.WriteBool(cause.Convar:GetBool())
+    end
+
+    -- Have to tell the client how many effects to loop over
+    net.WriteInt(table.Count(Effects), 8)
+
+    for id, effect in pairs(Effects) do
+        net.WriteString(id)
+        net.WriteString(effect.Desc)
+        net.WriteBool(effect.Convar:GetBool())
+    end
+
     net.Send(owner)
 
     -- For enabling the "ShouldCollide" hook to work as a randomat cause
@@ -434,6 +461,28 @@ function EVENT:End()
     end
 end
 
+-- Check there is at least one cause and effect enabled before running this event
+function EVENT:Condition()
+    local causeEnabled = false
+    local effectEnabled = false
+
+    for _, cause in pairs(Causes) do
+        if cause.Convar:GetBool() then
+            causeEnabled = true
+            break
+        end
+    end
+
+    for _, effect in pairs(Effects) do
+        if effect.Convar:GetBool() then
+            effectEnabled = true
+            break
+        end
+    end
+
+    return causeEnabled and effectEnabled
+end
+
 function EVENT:GetConVars()
     local sliders = {}
 
@@ -463,6 +512,32 @@ function EVENT:GetConVars()
 
             table.insert(checks, {
                 cmd = v,
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    for _, cause in pairs(Causes) do
+        local name = cause.Convar:GetName()
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checks, {
+                cmd = string.TrimLeft(name, "randomat_make_"),
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    for _, effect in pairs(Effects) do
+        local name = effect.Convar:GetName()
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checks, {
+                cmd = string.TrimLeft(name, "randomat_make_"),
                 dsc = convar:GetHelpText()
             })
         end

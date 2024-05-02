@@ -655,7 +655,25 @@ After choosing a cause and effect, a window pops up asking to name the randomat,
 _ttt_randomat_make_ - Default: 1 - Whether this randomat is enabled\
 _randomat_make_choices_ - Default: 5 - No. of causes/effects you can choose from at once\
 _randomat_make_timer_ - Default: 20 - Seconds you have to choose a cause or effect\
-_randomat_make_while_dead_ - Default: 1 - Dead players can be chosen to make a randomat
+_randomat_make_while_dead_ - Default: 1 - Dead players can be chosen to make a randomat\
+\
+_randomat_make_cause_bodysearch_ - Default: 1 - Whether the "After you search a body" cause is enabled\
+_randomat_make_cause_chat_ - Default: 1 - Whether the "After you send a chat message" cause is enabled\
+_randomat_make_cause_footstep_ - Default: 1 - Whether the "After you walk" cause is enabled\
+_randomat_make_cause_death_ - Default: 1 - Whether the "After you die" cause is enabled\
+_randomat_make_cause_near_ - Default: 1 - Whether the "After you're near a player" cause is enabled\
+_randomat_make_cause_damage_ - Default: 1 - Whether the "After you take damage" cause is enabled\
+_randomat_make_cause_buy_ - Default: 1 - Whether the "After you buy something" cause is enabled\
+_randomat_make_cause_weapon_ - Default: 1 - Whether the "After you switch weapons" cause is enabled\
+\
+_randomat_make_effect_meme_ - Default: 1 - Whether the "you see a random meme" effect is enabled\
+_randomat_make_effect_health_ - Default: 1 - Whether the "your health is randomly changed" effect is enabled\
+_randomat_make_effect_fling_ - Default: 1 - Whether the "you get flung away!" effect is enabled\
+_randomat_make_effect_speed_ - Default: 1 - Whether the "your speed is randomly changed!" effect is enabled\
+_randomat_make_effect_sound_ - Default: 1 - Whether the "you make a sound" effect is enabled\
+_randomat_make_effect_model_ - Default: 1 - Whether the "you randomly change playermodel" effect is enabled\
+_randomat_make_effect_bighead_ - Default: 1 - Whether the "your head gets bigger" effect is enabled\
+_randomat_make_effect_randomat_ - Default: 1 - Whether the "a randomat triggers!" effect is enabled
 
 ## Memes
 
