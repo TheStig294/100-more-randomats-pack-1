@@ -79,6 +79,7 @@ local function EndFrenchRandomat()
     hook.Remove("TTTEndRound", "FrenchRandomatClientEnd")
     hook.Remove("TTTPrepareRound", "FrenchRandomatClientEnd")
     hook.Remove("TTTBeginRound", "FrenchRandomatClientEnd")
+    hook.Remove("ShutDown", "FrenchRandomatShutDown")
 end
 
 net.Receive("FrenchRandomatBegin", function()
@@ -86,6 +87,12 @@ net.Receive("FrenchRandomatBegin", function()
     hook.Add("TTTEndRound", "FrenchRandomatClientEnd", EndFrenchRandomat)
     hook.Add("TTTPrepareRound", "FrenchRandomatClientEnd", EndFrenchRandomat)
     hook.Add("TTTBeginRound", "FrenchRandomatClientEnd", EndFrenchRandomat)
+
+    -- And if the client closes the game before the round ends, reset their language setting
+    hook.Add("ShutDown", "FrenchRandomatShutDown", function()
+        RunConsoleCommand("ttt_language", "auto")
+    end)
+
     -- Change the client's language to the Randomat's custom French language (Courtesy of manually shoving a million lines of strings into Google Translate...)
     RunConsoleCommand("ttt_language", "FrançaisRandomat")
     -- Renaming roles
