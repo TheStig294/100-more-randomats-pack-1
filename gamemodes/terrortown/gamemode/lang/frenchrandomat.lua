@@ -1681,6 +1681,8 @@ L.bunker_name = "Bunker de Bruh"
 L.bunker_desc = "Crée un bunker autour de vous après avoir subi des dégâts de balle."
 L.bunker_alert = "Violation de grincement détectée! Un bunker Bruh d'urgence a été activé!"
 L.bunker_buy = "Vous avez reçu un Bunker de Bruh."
+L.bunker_warning = "Il vous reste 5 secondes de votre Bunker de Bruh."
+L.bunker_expire = "Votre Bunker de Bruh a expiré."
 -- Passive demonic possession
 L.possess_press_r = "Appuyez sur R (Recharger) pour posséder {ply}!"
 L.possess_no_longer_possessing = "[Possession démoniaque] Vous ne possédez plus {ply}."
