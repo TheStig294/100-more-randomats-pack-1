@@ -24,14 +24,8 @@ function EVENT:Begin()
 
     -- And no fall damage
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
-        if not IsPlayer(ent) then return end
-        local attacker = dmginfo:GetAttacker()
-
-        if dmginfo:IsFallDamage() then
+        if IsPlayer(ent) and dmginfo:IsFallDamage() then
             dmginfo:SetDamage(0)
-            -- Play a "gomba stomp" sound effect when jumping on top of someone!
-        elseif IsPlayer(attacker) and dmginfo:IsDamageType(DMG_CRUSH) then
-            BroadcastLua("surface.PlaySound(\"superboing/gomba_stomp.mp3\")")
         end
     end)
 
