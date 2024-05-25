@@ -686,8 +686,9 @@ _randomat_memes_timer_ - Default: 30 - Seconds between displaying a meme
 
 Ragdolls move around, as soon as a player dies.\
 Depending on the mass of anyone's playermodel, some people's ragdolls might not move much, some might go flying around the map!\
+NOTE: This randomat is disabled by default as it doesn't work with a lot of playermodels (especially ones that aren't rigged properly) and has a bit too weird or confusing effect\
 \
-_ttt_randomat_planet_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_planet_ - Default: 0 - Whether this randomat is enabled
 
 ## No more of your little tricks
 

@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "My planet needs me!"
 EVENT.Description = "Ragdolls move/fly around"
 EVENT.id = "planet"
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"fun", "deathtrigger", "moderateimpact"}
 
