@@ -13,11 +13,12 @@ EVENT.Categories = {"smallimpact"}
 function EVENT:Begin()
     -- Whenever an entity fires a bullet,
     self:AddHook("EntityFireBullets", function(ent, data)
+        if IsValid(ent) and ent:IsPlayer() then return end
         -- Get the opposite direction it's facing
         local vec = Vector(ent:EyePos().x - ent:GetEyeTrace().HitPos.x, ent:EyePos().y - ent:GetEyeTrace().HitPos.y, ent:EyePos().z - ent:GetEyeTrace().HitPos.z)
         vec:Normalize()
         -- Set a velocity to push it in that direction, using some weird math and the set convar,
-        local newVelocity = (vec * math.exp(tonumber(math.pow(data.Damage / 2, 1 / 2))) * GetConVar("randomat_recoil2_mul"):GetFloat() * data.Num)
+        local newVelocity = vec * math.exp(tonumber(math.pow(data.Damage / 2, 1 / 2))) * GetConVar("randomat_recoil2_mul"):GetFloat() * data.Num
 
         -- If that push's force is greater than the cap convar, set it to the cap
         if newVelocity:Length() > GetConVar("randomat_recoil2_max"):GetInt() * 10000 then
