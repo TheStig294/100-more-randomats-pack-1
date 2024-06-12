@@ -3,7 +3,9 @@ local EVENT = {}
 CreateConVar("randomat_battleroyale2_radar_time", 120, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds before everyone is given a radar (Set to 0 to disable)", 0, 240)
 
 CreateConVar("randomat_battleroyale2_storm_zones", 4, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The number of zones until the storm covers the map (Set to 0 to disable)", 0, 10)
+
 CreateConVar("randomat_battleroyale2_storm_wait_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds after the next zone is announced before the storm moves", 0, 120)
+
 CreateConVar("randomat_battleroyale2_storm_move_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds it takes for the storm to move", 0, 120)
 
 CreateConVar("randomat_battleroyale2_music", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Play victory royale music when someone wins", 0, 1)
@@ -23,7 +25,7 @@ util.AddNetworkString("RandomatBattleroyale2ShrinkZone")
 
 function EVENT:Begin()
     local fortniteToolExists = weapons.Get("weapon_ttt_fortnite_building") ~= nil
-    local plys = self:GetPlayers(true)
+    local plys = self:GetAlivePlayers(true)
     local partners = {}
     local partnerIndex = 0
 
@@ -43,38 +45,27 @@ function EVENT:Begin()
             ply2:SetNWEntity("BattleRoyalePartner", ply)
             local plyMessage = "Your partner is: " .. ply2:Nick()
             local ply2Message = "Your partner is: " .. ply:Nick()
-            ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
-            ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
 
             timer.Simple(2, function()
                 ply:PrintMessage(HUD_PRINTTALK, plyMessage)
                 ply2:PrintMessage(HUD_PRINTTALK, ply2Message)
-                ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
-                ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
             end)
 
-            timer.Simple(4, function()
-                ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
-                ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
-            end)
-
-            timer.Simple(6, function()
-                ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
-                ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
-            end)
-
-            timer.Simple(8, function()
+            timer.Create("BattleRoyale2PartnerMessage" .. ply:SteamID64(), 1.9, 4, function()
                 ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
                 ply2:PrintMessage(HUD_PRINTCENTER, ply2Message)
             end)
         end
 
         if ply:GetNWEntity("BattleRoyalePartner") == NULL then
-            ply:PrintMessage(HUD_PRINTCENTER, "You have no partner :(")
+            local plyMessage = "You have no partner :("
 
             timer.Simple(2, function()
-                ply:PrintMessage(HUD_PRINTTALK, "You have no partner :(")
-                ply:PrintMessage(HUD_PRINTCENTER, "You have no partner :(")
+                ply:PrintMessage(HUD_PRINTTALK, plyMessage)
+            end)
+
+            timer.Create("BattleRoyale2PartnerMessage" .. ply:SteamID64(), 1.9, 4, function()
+                ply:PrintMessage(HUD_PRINTCENTER, plyMessage)
             end)
         end
     end
@@ -90,6 +81,7 @@ function EVENT:Begin()
 
     -- After the set amount of time runs out, (default 2 minutes) everyone is given a radar to prevent camping
     local radarTimer = GetConVar("randomat_battleroyale2_radar_time"):GetInt()
+
     if radarTimer > 0 then
         timer.Create("Battleroyale2RandomatTimer", 1, radarTimer, function()
             if timer.RepsLeft("Battleroyale2RandomatTimer") == 0 then
@@ -148,26 +140,29 @@ function EVENT:Begin()
         local averagePosition = Vector(0, 0, 0)
         local playerCount = 0
         local maxRadius = 0
+
         for i, ply in pairs(self:GetAlivePlayers()) do
             averagePosition:Add(ply:GetPos())
             playerCount = playerCount + 1
+
             for j, ply2 in pairs(self:GetAlivePlayers()) do
                 local radius = ply:GetPos():Distance(ply2:GetPos())
-                if radius > maxRadius then maxRadius = radius end
+
+                if radius > maxRadius then
+                    maxRadius = radius
+                end
             end
         end
-        averagePosition:Div(playerCount)
 
+        averagePosition:Div(playerCount)
         -- Next zone data
         local nextZoneX = averagePosition.x
         local nextZoneY = averagePosition.y
         local nextZoneR = maxRadius / 2
-
         -- Current zone data (start twice as big as we need to be so people have time to run if they spawned outsize the zone)
         local zoneX = nextZoneX
         local zoneY = nextZoneY
         local zoneR = maxRadius
-
         local waitTime = GetConVar("randomat_battleroyale2_storm_wait_time"):GetInt()
         local moveTime = GetConVar("randomat_battleroyale2_storm_move_time"):GetInt()
 
@@ -188,26 +183,31 @@ function EVENT:Begin()
         end
 
         BroadcastZoneData()
-
         -- Create timer for next zone
         local zoneNumber = 0
+
         local function MoveZone(first)
             timer.Create("Battleroyale2RandomatZoneTimer", first and 5 or waitTime, 1, function()
                 self:SmallNotify("The storm is shrinking!")
+
                 for i, ply in pairs(self:GetPlayers()) do
                     ply:EmitSound(alertSound)
                 end
+
                 BroadcastShrinkZone()
                 local xIncrement = (nextZoneX - zoneX) / (moveTime * 10)
                 local yIncrement = (nextZoneY - zoneY) / (moveTime * 10)
                 local rIncrement = (nextZoneR - zoneR) / (moveTime * 10)
+
                 timer.Create("Battleroyale2RandomatZoneShrinkTimer", 0.1, moveTime * 10, function()
                     zoneX = zoneX + xIncrement
                     zoneY = zoneY + yIncrement
                     zoneR = zoneR + rIncrement
                 end)
+
                 timer.Create("Battleroyale2RandomatZoneTimer", moveTime, 1, function()
                     zoneNumber = zoneNumber + 1
+
                     if zoneNumber >= GetConVar("randomat_battleroyale2_storm_zones"):GetInt() then
                         -- If it is the last zone shrink it down entirely
                         nextZoneR = 0
@@ -219,12 +219,15 @@ function EVENT:Begin()
                         nextZoneY = zoneY + math.sin(randAngle) * randRadius
                         nextZoneR = zoneR / 2
                     end
+
                     if zoneNumber <= GetConVar("randomat_battleroyale2_storm_zones"):GetInt() then
                         BroadcastZoneData()
                         self:SmallNotify("The storm will shrink in " .. moveTime .. " seconds.")
+
                         for i, ply in pairs(self:GetPlayers()) do
                             ply:EmitSound(alertSound)
                         end
+
                         MoveZone(false)
                     end
                 end)
@@ -237,8 +240,10 @@ function EVENT:Begin()
             for i, ply in pairs(self:GetPlayers()) do
                 if ply:Alive() then
                     local playerPos = ply:GetPos()
-                    if math.sqrt((playerPos.x - zoneX)^2 + (playerPos.y - zoneY)^2) > zoneR or zoneR < 5 then
+
+                    if math.sqrt((playerPos.x - zoneX) ^ 2 + (playerPos.y - zoneY) ^ 2) > zoneR or zoneR < 5 then
                         local hp = ply:Health()
+
                         if hp <= 1 then
                             ply:PrintMessage(HUD_PRINTTALK, "You died to the storm!")
                             ply:PrintMessage(HUD_PRINTCENTER, "You died to the storm!")
