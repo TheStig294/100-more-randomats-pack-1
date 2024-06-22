@@ -1,13 +1,13 @@
 -- Randomat base code from Malivil's randomat mod
 -- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
-if file.Exists("randomat2/randomat_shared.lua", "lsv") and SERVER then
+if SERVER and file.Exists("randomat2/randomat_shared.lua", "lsv") then
     if not GetGlobalBool("DisableStigRandomatBase") then
         print("[TTT 100 More Randomats!] Randomat 2.0 for Custom Roles Detected! Using its randomat base instead")
     end
 
     SetGlobalBool("DisableStigRandomatBase", true)
     -- Running check on both client and server as the global bool isn't networked quickly enough
-elseif file.Exists("randomat2/randomat_shared.lua", "lcl") and CLIENT then
+elseif CLIENT and file.Exists("randomat2/randomat_shared.lua", "lcl") then
     if not GetGlobalBool("DisableStigRandomatBase") then
         print("[TTT 100 More Randomats!] Randomat 2.0 for Custom Roles Detected! Using its randomat base instead")
     end
