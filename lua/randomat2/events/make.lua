@@ -2,13 +2,13 @@ local function CheckForPlayer(arg1, arg2)
     local ply = false
 
     if GetGlobalString("MakeRandomatCause", "") == "near" then
-        if IsPlayer(arg1) and IsPlayer(arg2) then
+        if IsValid(arg1) and arg1:IsPlayer() and IsValid(arg2) and arg2:IsPlayer() then
             ply = arg1
         end
     else
-        if IsPlayer(arg1) then
+        if IsValid(arg1) and arg1:IsPlayer() then
             ply = arg1
-        elseif IsPlayer(arg2) then
+        elseif IsValid(arg2) and arg2:IsPlayer() then
             ply = arg2
         end
     end
