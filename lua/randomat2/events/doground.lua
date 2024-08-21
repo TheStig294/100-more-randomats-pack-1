@@ -13,7 +13,6 @@ EVENT.SpawnCap = 0
 local fogDist = CreateConVar("randomat_doground_fogdist", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Fog distance multiplier", 0.2, 5)
 
 util.AddNetworkString("DogRoundRandomatBegin")
-util.AddNetworkString("DogRoundRandomatPlaySound")
 util.AddNetworkString("DogRoundRandomatRemoveFog")
 util.AddNetworkString("DogRoundRandomatEnd")
 
@@ -66,9 +65,7 @@ end
 
 function EVENT:SpawnZombie(spawnIndex)
     -- Plays the lightning sound effect on all clients
-    net.Start("DogRoundRandomatPlaySound")
-    net.WriteString("doground/spawn.mp3")
-    net.Broadcast()
+    BroadcastLua("surface.PlaySound(\"doground/spawn.mp3\")")
 
     -- Spawns the zombie in time with the sound effect
     timer.Simple(1.577, function()
@@ -90,26 +87,6 @@ function EVENT:SpawnZombie(spawnIndex)
                 zombie:PhysWake()
             end)
         end
-    end)
-end
-
-function EVENT:EndDogRound()
-    -- Plays the ending sound effect on all clients
-    net.Start("DogRoundRandomatPlaySound")
-    net.WriteString("doground/doground_end.mp3")
-    net.Broadcast()
-
-    timer.Simple(5, function()
-        Randomat:EventNotifySilent("Max Ammo!")
-
-        if Randomat:CanEventRun("ammo") then
-            Randomat:SilentTriggerEvent("ammo")
-        end
-    end)
-
-    timer.Simple(10, function()
-        net.Start("DogRoundRandomatRemoveFog")
-        net.Broadcast()
     end)
 end
 
@@ -145,10 +122,12 @@ function EVENT:Begin()
         -- There's guaranteed at least one spawn in a map as TTT generates a player spawn point when a map doesn't have any
         self:SpawnZombie(spawnIndex)
 
-        timer.Create("DogRoundRandomatSpawnDog", 4, math.max(zombieSpawnCount - 1, 0), function()
-            spawnIndex = spawnIndex + 1
-            self:SpawnZombie(spawnIndex)
-        end)
+        if zombieSpawnCount > 1 then
+            timer.Create("DogRoundRandomatSpawnDog", 4, math.max(zombieSpawnCount - 1, 0), function()
+                spawnIndex = spawnIndex + 1
+                self:SpawnZombie(spawnIndex)
+            end)
+        end
     end)
 
     local killedZombies = 0
@@ -159,15 +138,26 @@ function EVENT:Begin()
             local effect = EffectData()
             effect:SetOrigin(ent:GetPos())
             util.Effect("HelicopterMegaBomb", effect, true, true)
+            local lastKilledPos = ent:GetPos()
             ent:Remove()
-            net.Start("DogRoundRandomatPlaySound")
-            net.WriteString("doground/death" .. math.random(3) .. ".mp3")
-            net.Broadcast()
+            BroadcastLua("surface.PlaySound(\"doground/death" .. math.random(3) .. ".mp3\")")
             -- Keep track of the number of zombies killed to trigger the "max ammo" reward when all are killed
             killedZombies = killedZombies + 1
 
             if killedZombies == zombieSpawnCount then
-                self:EndDogRound()
+                -- Plays the ending sound effect on all clients
+                BroadcastLua("surface.PlaySound(\"doground/doground_end.mp3\")")
+                -- Spawn a max ammo powerup and lift it into the air a bit, just like in CoD zombies
+                local powerup = ents.Create("ent_maxammo_randomat")
+                lastKilledPos.z = lastKilledPos.z + 45
+                powerup:SetPos(lastKilledPos)
+                powerup:Spawn()
+                powerup:Activate()
+
+                timer.Simple(10, function()
+                    net.Start("DogRoundRandomatRemoveFog")
+                    net.Broadcast()
+                end)
             end
         end
     end)

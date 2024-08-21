@@ -47,11 +47,6 @@ net.Receive("DogRoundRandomatBegin", function()
     end)
 end)
 
-net.Receive("DogRoundRandomatPlaySound", function()
-    local playedSound = net.ReadString()
-    surface.PlaySound(playedSound)
-end)
-
 net.Receive("DogRoundRandomatRemoveFog", function()
     timer.Create("DogRoundRandomatDrawOutFog", 0.01, 420, function()
         additionalFogDist = (420 - timer.RepsLeft("DogRoundRandomatDrawOutFog")) * 2 + 1

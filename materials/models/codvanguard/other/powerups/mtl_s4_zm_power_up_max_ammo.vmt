@@ -1,0 +1,33 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models\CoDVanguard\other/PowerUps\gold"
+"$bumpmap" "models\CoDVanguard\other/PowerUps\mtl_s4_zm_power_up_max_ammo_n"
+
+	"$phong" "1"
+	"$phongboost" "3.5"
+	"$phongexponent" "10"
+	"$phongfresnelranges" "[2 1.2 8]"
+	"$phongalbedotint" "1"
+	"$normalmapalphaenvmapmask" "1"
+
+	"$phongexponenttexture" "models/CoDVanguard\other\exponent"
+
+
+	"$cloakPassEnabled" 		"1"				
+	"$nocull" "1"
+	"$color2" "[.8 .8 .8]"
+
+	"$lightwarptexture" "models\CoDVanguard\other/PowerUps\lightwarp"
+
+	"$emissiveBlendEnabled" "1"
+	"$emissiveBlendTexture" "dev/null"
+	"$emissiveBlendBaseTexture" "models\CoDVanguard\other/PowerUps\gold"
+	"$emissiveBlendFlowTexture" "dev/null"
+	"$emissiveBlendTint" "[7 10 10]"
+	"$emissiveBlendStrength" "0.05"
+	"$emissiveBlendScrollVector" "[0.0]"
+
+
+
+
+}

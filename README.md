@@ -451,7 +451,10 @@ Spawns 2 zombies per player alive.\
 After all zombies are killed, the fog is lifted and all players are rewarded with infinite ammo for the round!\
 \
 _ttt_randomat_doground_ - Default: 1 - Whether this randomat is enabled\
-_randomat_doground_fogdist_ - Default: 1 - Fog distance multiplier
+_randomat_doground_fogdist_ - Default: 1 - Fog distance multiplier\
+\
+Credit goes to "ricky dicky doo dah grimes": <https://steamcommunity.com/id/NexsX> \
+For creating the original version of the max ammo entity for Sandbox: <https://steamcommunity.com/sharedfiles/filedetails/?id=3310267134>
 
 ## First come, first served
 
