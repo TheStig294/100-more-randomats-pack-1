@@ -940,7 +940,12 @@ Originally made by [Schlurf](https://steamcommunity.com/sharedfiles/filedetails/
 
 Spawns a bus somewhere on the map that kills anyone it touches...\
 \
-_ttt_randomat_bus_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_bus_ - Default: 1 - Whether this randomat is enabled\
+\
+Credit for bus model used:\
+"SCHOOL BUS - low poly model" <https://skfb.ly/ooUKE> \
+by Jasmin Daniel\
+licensed under Creative Commons Attribution <http://creativecommons.org/licenses/by/4.0/>
 
 ## The Cricle
 
