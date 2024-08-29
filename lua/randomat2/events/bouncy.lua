@@ -5,6 +5,7 @@ CreateConVar("randomat_bouncy_speed_retain", 0.95, {FCVAR_NOTIFY, FCVAR_ARCHIVE}
 EVENT.Title = "Bouncy"
 EVENT.Description = "Bounce instead of taking fall damage"
 EVENT.id = "bouncy"
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"smallimpact"}
 
@@ -14,10 +15,10 @@ function EVENT:Begin()
         --Set push the player upwards, retaining a percentage of their original speed
         ply:SetVelocity(Vector(0, 0, speed * GetConVar("randomat_bouncy_speed_retain"):GetFloat()))
 
-        --Set the damage from falling to 0, but doesn't seem to work so...
         return 0
     end)
 
+    --Set the damage from falling to 0, but doesn't seem to work so...
     -- ...also completely negate ALL sources of fall damage
     self:AddHook("EntityTakeDamage", function(ply, dmginfo)
         if IsValid(ply) and ply:IsPlayer() and dmginfo:IsFallDamage() then return true end

@@ -157,8 +157,9 @@ Originally made by [Malivil](https://steamcommunity.com/sharedfiles/filedetails/
 ## Bouncy
 
 Bounce instead of taking fall damage\
+NOTE: This randomat is disabled by default as it normally has little to no impact on the round, and can trigger on maps where taking fall damage isn't possible\
 \
-_ttt_randomat_bouncy_ - Default: 1 - Whether this randomat is enabled\
+_ttt_randomat_bouncy_ - Default: 0 - Whether this randomat is enabled\
 _randomat_bouncy_speed_retain_ - Default: 0.95 - % of speed retained between bounces\
 \
 Converted to work with randomat 2.0 rather than TTT2\
