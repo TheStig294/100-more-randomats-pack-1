@@ -58,7 +58,8 @@ function EVENT:Begin()
         end
 
         if ply:GetNWEntity("BattleRoyalePartner") == NULL then
-            local plyMessage = "You have no partner :("
+            local plyMessage = "You have no partner :( here's x2 health!"
+            ply:SetHealth(ply:Health() * 2)
 
             timer.Simple(2, function()
                 ply:PrintMessage(HUD_PRINTTALK, plyMessage)
