@@ -1,4 +1,4 @@
-_This is the first of my 4 randomat packs. These randomats don't require anything else to work, they work on their own!_
+_This is the first of my 3 randomat packs. These randomats don't require anything else to work, they work on their own!_
 
 # Settings/Options
 
