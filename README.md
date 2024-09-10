@@ -1,5 +1,5 @@
 # 100 More Randomats Pack 1
-The randomat is a mechanic for TTT that triggers a random effect either when a specific item is used, or automatically at the start of every round.\
+The randomat is a mechanic for TTT that triggers a random effect either when the "Randomat-4000" item is bought and used by a detective, or automatically at the start of every round.\
 This mod adds many new "randomats" that could happen.\
 This is the first of my 3 randomat packs. These randomats don't require anything else to work, they work on their own!
 
