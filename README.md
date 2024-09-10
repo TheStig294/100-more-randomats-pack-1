@@ -1124,3 +1124,6 @@ _randomat_friction_nopropdmg_ - Default: 1 - Whether everyone becomes immune to 
 \
 Changed name from "Trouble in Terrorist Town: On Ice", converted to work with randomat 2.0 rather than TTT2, fixed prop damage immunity not working, now removes explosive barrels\
 Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
+
+## Steam Workshop Link
+https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861
