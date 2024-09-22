@@ -142,6 +142,11 @@ net.Receive("BasicsRandomatClientStart", function()
         -- Let the buy menu be opened again
         hook.Remove("PlayerBindPress", "BasicsRandomatDisableBuyMenu")
     end)
+
+    -- Turning off the vaulting mod if installed
+    LocalPlayer().MantleDisabled = true
+    -- Disabling going prone, if installed
+    hook.Add("prone.CanEnter", "BasicsRandomatDisableProne", function() return false end)
 end)
 
 net.Receive("BasicsRandomatClientEnd", function()
@@ -168,6 +173,10 @@ net.Receive("BasicsRandomatClientEnd", function()
     end
 
     RunConsoleCommand("ttt_reset_weapons_cache")
+    -- Re-enabling vaulting
+    LocalPlayer().MantleDisabled = false
+    -- Re-enabling going prone
+    hook.Remove("prone.CanEnter", "BasicsRandomatDisableProne")
     hook.Remove("PlayerBindPress", "BasicsRandomatDisableSprinting")
     hook.Remove("PlayerBindPress", "BasicsRandomatDisableBuyMenu")
     hook.Remove("TTTSprintStaminaPost", "BasicsRandomatStopSprintStamina")

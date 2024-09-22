@@ -194,7 +194,7 @@ function EVENT:Begin()
     local credits = {}
     local heldWepKinds = {}
 
-    for _, ply in pairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         credits[ply] = 0
 
         if IsValid(ply:GetActiveWeapon()) then
@@ -251,7 +251,7 @@ function EVENT:Begin()
         end)
     end)
 
-    for _, ply in pairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         Randomat:ForceSetPlayermodel(ply, chosenModel)
 
         -- Removing passive items
@@ -326,6 +326,9 @@ function EVENT:Begin()
                 end
             end
         end)
+
+        -- Turning off the vaulting mod if installed
+        ply.MantleDisabled = true
     end
 
     -- Updating everyone's roles in the bottom-left HUD box
@@ -425,6 +428,9 @@ function EVENT:Begin()
 
         self:AddHook("TTTSprintStaminaPost", function() return 0 end)
     end
+
+    -- Disabling going prone, if installed
+    self:AddHook("prone.CanEnter", function() return false end)
 end
 
 function EVENT:End()
@@ -495,6 +501,11 @@ function EVENT:End()
             end, function()
                 SetGlobalBool("ttt_sprint_enabled", true)
             end)
+        end
+
+        -- Re-enabling mantling
+        for _, ply in player.Iterator() do
+            ply.MantleDisabled = false
         end
     end
 end
