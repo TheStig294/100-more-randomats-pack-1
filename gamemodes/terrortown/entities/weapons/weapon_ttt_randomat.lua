@@ -24,7 +24,7 @@ if CLIENT then
 end
 
 if SERVER then
-    CreateConVar("ttt_randomat_chooseevent", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Allows you to choose out of a selection of events")
+    CreateConVar("ttt_randomat_chooseevent", 0, FCVAR_ARCHIVE, "Allows you to choose out of a selection of events")
 end
 
 SWEP.ViewModel = "models/weapons/gamefreak/c_csgo_c4.mdl"
@@ -121,7 +121,7 @@ function SWEP:PrimaryAttack()
             end
         end
 
-        DamageLog("RANDOMAT: " .. self:GetOwner():Nick() .. " [" .. self:GetOwner():GetRoleString() .. "] used his Randomat")
+        DamageLog("RANDOMAT: " .. self:GetOwner():Nick() .. " [" .. self:GetOwner():GetRoleString() .. "] used a Randomat")
         self:SetNextPrimaryFire(CurTime() + 10)
         self:Remove()
     end

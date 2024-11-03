@@ -200,6 +200,21 @@ local function EndEvent(evt)
     net.Broadcast()
 end
 
+-- Prints the names of any secret events that triggered to chat at the end of the round
+local secret_event_chat_msgs = {}
+
+local function PrintSecretEventsList()
+    if #secret_event_chat_msgs > 0 then
+        PrintMessage(HUD_PRINTTALK, "[RANDOMAT] Secret events this round:")
+
+        for _, msg in ipairs(secret_event_chat_msgs) do
+            PrintMessage(HUD_PRINTTALK, msg)
+        end
+
+        table.Empty(secret_event_chat_msgs)
+    end
+end
+
 local function TriggerEvent(event, ply, options, ...)
     options = options or {}
     local owner = Randomat:GetValidPlayer(ply)
@@ -261,6 +276,18 @@ local function TriggerEvent(event, ply, options, ...)
     end
 
     net.Broadcast()
+
+    -- Getting info for printing the names and descriptions of secret randomats in chat if enabled
+    if GetConVar("ttt_randomat_event_hint_chat_secret"):GetBool() and should_hide then
+        local msg = title
+
+        if event.Description ~= nil and #event.Description > 0 then
+            msg = msg .. " | " .. event.Description
+        end
+
+        table.insert(secret_event_chat_msgs, msg)
+    end
+
     -- Let other addons know that an event was started
     CallHook("TTTRandomatTriggered", nil, event.Id, owner)
 end
@@ -329,8 +356,26 @@ function Randomat:register(tbl)
     end
 
     -- Default MinPlayers to 0 if it's not specified
-    if tbl.MinPlayers == nil then
-        tbl.MinPlayers = 0
+    if type(tbl.MinPlayers) ~= "table" then
+        tbl.MinPlayers = {
+            Min = 0,
+            Max = 32,
+            Default = tbl.MinPlayers or 0
+        }
+    end
+
+    -- Ensure the pieces of MinPlayers make sense with eachother
+    tbl.MinPlayers.Min = tbl.MinPlayers.Min or 0
+    tbl.MinPlayers.Max = tbl.MinPlayers.Max or 32
+
+    if tbl.MinPlayers.Min > tbl.MinPlayers.Min then
+        tbl.MinPlayers.Min = tbl.MinPlayers.Min
+    end
+
+    tbl.MinPlayers.Default = tbl.MinPlayers.Default or tbl.MinPlayers.Min or 0
+
+    if tbl.MinPlayers.Default < tbl.MinPlayers.Min then
+        tbl.MinPlayers.Default = tbl.MinPlayers.Min
     end
 
     -- Default Weight to -1 if it's not specified or matches the global default
@@ -353,12 +398,15 @@ function Randomat:register(tbl)
 
     setmetatable(tbl, randomat_meta)
     Randomat.Events[id] = tbl
+    CreateConVar("ttt_randomat_" .. id, tbl.IsEnabled and 1 or 0, FCVAR_ARCHIVE, "Whether this event is enabled.", 0, 1)
+    local minPlayers = CreateConVar("ttt_randomat_" .. id .. "_min_players", tbl.MinPlayers.Default, FCVAR_ARCHIVE, "The minimum number of players required for this event to start.", tbl.MinPlayers.Min, tbl.MinPlayers.Max)
 
-    CreateConVar("ttt_randomat_" .. id, tbl.IsEnabled and 1 or 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+    -- Update the value of the convar if it already exists but the min value has been changed
+    if minPlayers:GetInt() < tbl.MinPlayers.Min then
+        minPlayers:SetInt(tbl.MinPlayers.Min)
+    end
 
-    CreateConVar("ttt_randomat_" .. id .. "_min_players", tbl.MinPlayers, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-
-    local weight = CreateConVar("ttt_randomat_" .. id .. "_weight", tbl.Weight, {FCVAR_ARCHIVE, FCVAR_NOTIFY})
+    local weight = CreateConVar("ttt_randomat_" .. id .. "_weight", tbl.Weight, FCVAR_ARCHIVE, "The weight this event should use during the randomized event selection process.", -1, 50)
 
     -- If the current weight matches the default, update the per-event weight to the new default of -1
     if weight:GetInt() == default_weight then
@@ -1559,6 +1607,7 @@ end, nil, "Triggers a random  randomat event", FCVAR_SERVER_CAN_EXECUTE)
 --
 hook.Add("TTTEndRound", "RandomatEndRound", function()
     Randomat:EndActiveEvents()
+    PrintSecretEventsList()
 end)
 
 hook.Add("TTTPrepareRound", "RandomatPrepareRound", function()
