@@ -289,3 +289,135 @@ function Randomat:SpectatorRandomatAlert(ply, EVENT)
         end)
     end)
 end
+
+-- Battle Royale "Storm" functionality
+util.AddNetworkString("RandomatStormBegin")
+util.AddNetworkString("RandomatStormZone")
+util.AddNetworkString("RandomatStormShrinkZone")
+util.AddNetworkString("RandomatStormEnd")
+
+function Randomat:BattleRoyaleStorm(zones, waitTime, moveTime)
+    if zones <= 0 then return end
+    net.Start("RandomatStormBegin")
+    net.Broadcast()
+    -- Calculate a suitable starting position and radius for the storm
+    local averagePosition = Vector(0, 0, 0)
+    local playerCount = 0
+    local maxRadius = 0
+
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
+        averagePosition:Add(ply:GetPos())
+        playerCount = playerCount + 1
+
+        for _, ply2 in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
+            local radius = ply:GetPos():Distance(ply2:GetPos())
+
+            if radius > maxRadius then
+                maxRadius = radius
+            end
+        end
+    end
+
+    averagePosition:Div(playerCount)
+    -- Next zone data
+    local nextZoneX = averagePosition.x
+    local nextZoneY = averagePosition.y
+    local nextZoneRadius = maxRadius / 2
+    -- Current zone data (start twice as big as we need to be so people have time to run if they spawned outsize the zone)
+    local zoneX = nextZoneX
+    local zoneY = nextZoneY
+    local zoneRadius = maxRadius
+
+    -- Wrapper function to send zone data to client
+    local function BroadcastZoneData()
+        net.Start("RandomatStormZone")
+        net.WriteFloat(nextZoneX)
+        net.WriteFloat(nextZoneY)
+        net.WriteFloat(nextZoneRadius)
+        net.Broadcast()
+    end
+
+    -- Wrapper function to shrink storm on the client
+    local function BroadcastShrinkZone()
+        net.Start("RandomatStormShrinkZone")
+        net.WriteFloat(moveTime)
+        net.Broadcast()
+    end
+
+    BroadcastZoneData()
+    -- Create timer for next zone
+    local zoneNumber = 0
+
+    local function MoveZone(first)
+        timer.Create("RandomatZoneTimer", first and 5 or waitTime, 1, function()
+            Randomat:SmallNotify("The storm is shrinking!")
+            BroadcastLua("surface.PlaySound(\"battleroyale/alert.mp3\")")
+            BroadcastShrinkZone()
+            local xIncrement = (nextZoneX - zoneX) / (moveTime * 10)
+            local yIncrement = (nextZoneY - zoneY) / (moveTime * 10)
+            local radiusIncrement = (nextZoneRadius - zoneRadius) / (moveTime * 10)
+
+            timer.Create("RandomatZoneShrinkTimer", 0.1, moveTime * 10, function()
+                zoneX = zoneX + xIncrement
+                zoneY = zoneY + yIncrement
+                zoneRadius = zoneRadius + radiusIncrement
+            end)
+
+            timer.Create("RandomatZoneTimer", moveTime, 1, function()
+                zoneNumber = zoneNumber + 1
+
+                if zoneNumber >= zones then
+                    -- If it is the last zone shrink it down entirely
+                    nextZoneRadius = 0
+                else
+                    -- If isn't the last zone choose a new random centre within the current zone and half the radius
+                    local randAngle = math.Rand(0, math.tau)
+                    local randRadius = math.Rand(0, zoneRadius)
+                    nextZoneX = zoneX + math.cos(randAngle) * randRadius
+                    nextZoneY = zoneY + math.sin(randAngle) * randRadius
+                    nextZoneRadius = zoneRadius / 2
+                end
+
+                if zoneNumber <= zones then
+                    BroadcastZoneData()
+                    Randomat:SmallNotify("The storm will shrink in " .. moveTime .. " seconds.")
+                    BroadcastLua("surface.PlaySound(\"battleroyale/alert.mp3\")")
+                    MoveZone(false)
+                end
+            end)
+        end)
+    end
+
+    MoveZone(true)
+
+    timer.Create("RandomatZoneDamageTimer", 0.5, 0, function()
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
+            local playerPos = ply:GetPos()
+
+            if math.sqrt((playerPos.x - zoneX) ^ 2 + (playerPos.y - zoneY) ^ 2) > zoneRadius or zoneRadius < 5 then
+                local hp = ply:Health()
+
+                if hp <= 1 then
+                    ply:PrintMessage(HUD_PRINTTALK, "You died to the storm!")
+                    ply:PrintMessage(HUD_PRINTCENTER, "You died to the storm!")
+                    ply:Kill()
+                else
+                    ply:SetHealth(hp - 1)
+                end
+            end
+        end
+    end)
+
+    -- Clean-up at the end of the round
+    hook.Add("TTTPrepareRound", "RandomatStormReset", function()
+        net.Start("RandomatStormEnd")
+        net.Broadcast()
+        timer.Remove("RandomatZoneTimer")
+        timer.Remove("RandomatZoneShrinkTimer")
+        timer.Remove("RandomatZoneDamageTimer")
+        hook.Remove("TTTPrepareRound", "RandomatStormReset")
+    end)
+end

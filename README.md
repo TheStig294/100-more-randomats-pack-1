@@ -1,4 +1,5 @@
 # 100 More Randomats Pack 1
+
 The randomat is a mechanic for TTT that triggers a random effect either when the "Randomat-4000" item is bought and used by a detective, or automatically at the start of every round.\
 This mod adds many new "randomats" that could happen.\
 This is the first of my 3 randomat packs. These randomats don't require anything else to work, they work on their own!
@@ -27,7 +28,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
-1. The Circle - Stay inside the shrinking circle, or else you take damage!
+1. The Storm - Stay outside the storm, or else you take damage!
 1. Go home, you're drunk! - Makes everyone look drunk
 1. Copycat! - Someone copies someone else's attributes!
 1. Discord Sounds - Dead players can play discord sounds!
@@ -614,13 +615,12 @@ Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool
 Everyone gets a radar after 2 minutes to prevent camping.\
 \
 _ttt_randomat_battleroyale_ - Default: 1 - Whether this randomat is enabled\
-_randomat_battleroyale_radar_time_ - Default: 120 - Seconds before everyone is given a radar (Set to 0 to disable)\
 _randomat_battleroyale_storm_zones_ - Default: 4 - The number of zones until the storm covers the map (Set to 0 to disable)\
 _randomat_battleroyale_storm_wait_time_ - Default: 30 - Seconds after the next zone is announced before the storm moves\
 _randomat_battleroyale_storm_move_time_ - Default: 30 - Seconds it takes for the storm to move\
 randomat_battleroyale_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
-Functionality for the Fornite randomat's storm, by [Nick](https://steamcommunity.com/id/noxxflame)
+Functionality for the storm, by [Nick](https://steamcommunity.com/id/noxxflame)
 
 ## LAST \*PAIR\* ALIVE WINS! Duos battle royale
 
@@ -629,13 +629,12 @@ Everyone is innocent, no karma penalties, everyone gets a Fortnite building tool
 Everyone gets a radar after 2 minutes to prevent camping.\
 \
 _ttt_randomat_battleroyale2_ - Default: 1 - Whether this randomat is enabled\
-_randomat_battleroyale2_radar_time_ - Default: 120 - Seconds before everyone is given a radar (Set to 0 to disable)\
 _randomat_battleroyale2_storm_zones_ - Default: 4 - The number of zones until the storm covers the map (Set to 0 to disable)\
 _randomat_battleroyale2_storm_wait_time_ - Default: 30 - Seconds after the next zone is announced before the storm moves\
 _randomat_battleroyale2_storm_move_time_ - Default: 30 - Seconds it takes for the storm to move\
 randomat_battleroyale2_music - Default: 1 - Whether to play vicotry royale music when someone wins
 
-Functionality for the Fornite randomat's storm, by [Nick](https://steamcommunity.com/id/noxxflame)
+Functionality for the storm, by [Nick](https://steamcommunity.com/id/noxxflame)
 
 ## Let's mix it up
 
@@ -951,17 +950,6 @@ Credit for bus model used:\
 by Jasmin Daniel\
 licensed under Creative Commons Attribution <http://creativecommons.org/licenses/by/4.0/>
 
-## The Cricle
-
-Stay inside the shrinking circle, or else you take damage!\
-\
-_ttt_randomat_circle_ - Default: 1 - Whether this randomat is enabled\
-_randomat_circle_zones_ - Default: 4 - The number of zones until the circle covers the map\
-_randomat_circle_wait_time_ - Default: 30 - Seconds after the next zone is announced before the circle moves\
-_randomat_circle_move_time_ - Default: 30 - Seconds it takes for the circle to move\
-\
-Functionality from the Battle Royale randomat's storm, by [Nick](https://steamcommunity.com/id/noxxflame)
-
 ## The Michael Rosen Rap
 
 Replaces game sounds with Michael Rosen sounds!\
@@ -972,6 +960,17 @@ _randomat_michaelrosen_trigger_sound_ - Default: 1 - Whether a sound should play
 \
 Changed event name and description, removed the footstep sounds, added on trigger sounds and added a convar to toggle them, replaced all sound effects with new ones.\
 Originally made by [Malivil](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086)
+
+## The Storm
+
+Stay outside the storm, or else you take damage!\
+\
+_ttt_randomat_storm_ - Default: 1 - Whether this randomat is enabled\
+_randomat_storm_zones_ - Default: 4 - The number of zones until the storm covers the map\
+_randomat_storm_wait_time_ - Default: 30 - Seconds after the next zone is announced before the storm moves\
+_randomat_storm_move_time_ - Default: 30 - Seconds it takes for the storm to move\
+\
+Functionality for the storm by [Nick](https://steamcommunity.com/id/noxxflame)
 
 ## Trigger Happy
 
@@ -1126,4 +1125,5 @@ Changed name from "Trouble in Terrorist Town: On Ice", converted to work with ra
 Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
 
 ## Steam Workshop Link
-https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861
+
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
