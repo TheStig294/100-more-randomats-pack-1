@@ -7,10 +7,8 @@ EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_MUSIC}
 
 EVENT.Categories = {"gamemode", "rolechange", "largeimpact"}
 
-local musicCvar = CreateConVar("randomat_pistols_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether music is enabled during showdown", 0, 1)
-
-local yellowTintCvar = CreateConVar("randomat_pistols_yellow_tint", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether a yellow tint screen effect is applied during the duel", 0, 1)
-
+local musicCvar = CreateConVar("randomat_pistols_music", "1", FCVAR_ARCHIVE, "Whether music is enabled during showdown", 0, 1)
+local yellowTintCvar = CreateConVar("randomat_pistols_yellow_tint", "1", FCVAR_ARCHIVE, "Whether a yellow tint screen effect is applied during the duel", 0, 1)
 util.AddNetworkString("PistolsPrepareShowdown")
 util.AddNetworkString("PistolsBeginShowdown")
 util.AddNetworkString("PistolsRandomatWinTitle")

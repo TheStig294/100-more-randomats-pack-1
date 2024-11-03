@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_flatstanley_scale", 0.2, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Flatness size multiplier", 0.1, 0.5)
-
+CreateConVar("randomat_flatstanley_scale", 0.2, FCVAR_ARCHIVE, "Flatness size multiplier", 0.1, 0.5)
 EVENT.Title = "Remember Flat Stanley?"
 EVENT.ExtDescription = "Turns every player flat"
 EVENT.id = "flatstanley"

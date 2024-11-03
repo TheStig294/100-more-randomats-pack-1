@@ -5,10 +5,8 @@ EVENT.id = "revenge"
 
 EVENT.Categories = {"spectator", "biased_innocent", "biased", "moderateimpact"}
 
-local randomat_revenge_multiplier = CreateConVar("randomat_revenge_multiplier", 4.0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Multiplier to all prop possession stats", 1, 50)
-
-CreateConVar("randomat_revenge_timer", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until this event comes into effect", 0, 600)
-
+local randomat_revenge_multiplier = CreateConVar("randomat_revenge_multiplier", 4.0, FCVAR_ARCHIVE, "Multiplier to all prop possession stats", 1, 50)
+CreateConVar("randomat_revenge_timer", 0, FCVAR_ARCHIVE, "Seconds until this event comes into effect", 0, 600)
 local prop_base
 local prop_maxbonus
 local prop_force

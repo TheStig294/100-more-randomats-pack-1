@@ -295,19 +295,17 @@ Effects.meme = {
     }
 }
 
-CreateConVar("randomat_make_choices", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "No. of causes/effects you can choose from at once", 2, 8)
-
-CreateConVar("randomat_make_timer", 20, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds you have to choose a cause or effect", 20, 60)
-
-CreateConVar("randomat_make_while_dead", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Dead players can be chosen to make a randomat")
+CreateConVar("randomat_make_choices", 5, FCVAR_ARCHIVE, "No. of causes/effects you can choose from at once", 2, 8)
+CreateConVar("randomat_make_timer", 20, FCVAR_ARCHIVE, "Seconds you have to choose a cause or effect", 20, 60)
+CreateConVar("randomat_make_while_dead", 1, FCVAR_ARCHIVE, "Dead players can be chosen to make a randomat")
 
 -- Dynamically creating convars to enable/disable individual causes and effects
 for id, cause in pairs(Causes) do
-    cause.Convar = CreateConVar("randomat_make_cause_" .. id, 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "\"" .. cause.Desc .. "\" cause")
+    cause.Convar = CreateConVar("randomat_make_cause_" .. id, 1, FCVAR_ARCHIVE, "\"" .. cause.Desc .. "\" cause")
 end
 
 for id, effect in pairs(Effects) do
-    effect.Convar = CreateConVar("randomat_make_effect_" .. id, 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "\"" .. effect.Desc .. "\" effect")
+    effect.Convar = CreateConVar("randomat_make_effect_" .. id, 1, FCVAR_ARCHIVE, "\"" .. effect.Desc .. "\" effect")
 end
 
 local owner

@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_kexplode_timer", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The time until imperfect karma players explode.", 5)
-
+CreateConVar("randomat_kexplode_timer", 60, FCVAR_ARCHIVE, "The time until imperfect karma players explode.", 5)
 EVENT.Title = ""
 EVENT.AltTitle = "Everyone with a karma damage penalty will explode in " .. GetConVar("randomat_kexplode_timer"):GetInt() .. " seconds!"
 EVENT.ExtDescription = "Notifies everyone who will explode, everyone is rewarded instead if no-one will"

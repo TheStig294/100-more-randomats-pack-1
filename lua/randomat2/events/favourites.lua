@@ -1,6 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_favourites_given_items_count", "2", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many most bought items to give out", 1, 10)
+CreateConVar("randomat_favourites_given_items_count", "2", FCVAR_ARCHIVE, "How many most bought items to give out", 1, 10)
 
 local function GetDescription()
     local count = GetConVar("randomat_favourites_given_items_count"):GetInt()

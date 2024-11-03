@@ -1,9 +1,6 @@
 local EVENT = {}
-
-CreateConVar("randomat_recoil_max", 15, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Maximum Magnitude a gun can change someone's velocity by.", 1, 100)
-
-CreateConVar("randomat_recoil_mul", 6, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Recoil Multiplier", 1, 100)
-
+CreateConVar("randomat_recoil_max", 15, FCVAR_ARCHIVE, "Maximum Magnitude a gun can change someone's velocity by.", 1, 100)
+CreateConVar("randomat_recoil_mul", 6, FCVAR_ARCHIVE, "Recoil Multiplier", 1, 100)
 EVENT.Title = "Realistic Recoil"
 EVENT.Description = "Shooting pushes you backwards"
 EVENT.id = "recoil"
@@ -50,6 +47,7 @@ function EVENT:GetConVars()
                 min = convar:GetMin(), -- The minimum value for this slider-based ConVar
                 max = convar:GetMax(), -- The maximum value for this slider-based ConVar
                 dcm = 0 -- The number of decimal points to support in this slider-based ConVar
+                
             })
         end
     end
@@ -65,6 +63,7 @@ function EVENT:GetConVars()
             table.insert(checks, {
                 cmd = v, -- The command extension (e.g. everything after "randomat_example_")
                 dsc = convar:GetHelpText() -- The description of the ConVar
+                
             })
         end
     end
@@ -80,6 +79,7 @@ function EVENT:GetConVars()
             table.insert(textboxes, {
                 cmd = v, -- The command extension (e.g. everything after "randomat_example_")
                 dsc = convar:GetHelpText() -- The description of the ConVar
+                
             })
         end
     end

@@ -6,12 +6,9 @@ EVENT.IsEnabled = false
 
 EVENT.Categories = {"biased_innocent", "biased", "item", "largeimpact"}
 
-local minCvar = CreateConVar("randomat_greedy_timer_min", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Min seconds before a weapon tries to be given", 1, 120)
-
-local maxCvar = CreateConVar("randomat_greedy_timer_max", 60, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Max seconds before a weapon tries to be given", 1, 120)
-
-local soundCvar = CreateConVar("randomat_greedy_slap_sound", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether a slap sound should play on death", 0, 1)
-
+local minCvar = CreateConVar("randomat_greedy_timer_min", 10, FCVAR_ARCHIVE, "Min seconds before a weapon tries to be given", 1, 120)
+local maxCvar = CreateConVar("randomat_greedy_timer_max", 60, FCVAR_ARCHIVE, "Max seconds before a weapon tries to be given", 1, 120)
+local soundCvar = CreateConVar("randomat_greedy_slap_sound", 0, FCVAR_ARCHIVE, "Whether a slap sound should play on death", 0, 1)
 local droppableWeapons = {}
 
 local function CreateTimer(ply)

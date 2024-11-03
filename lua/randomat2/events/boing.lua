@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_boing_jump_height", 220, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Additional jump height", 0, 600)
-
+CreateConVar("randomat_boing_jump_height", 220, FCVAR_ARCHIVE, "Additional jump height", 0, 600)
 EVENT.Title = "Boing"
 EVENT.Description = "Everyone can jump much higher"
 EVENT.id = "boing"

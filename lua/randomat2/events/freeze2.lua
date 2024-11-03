@@ -1,9 +1,6 @@
 local EVENT = {}
-
-CreateConVar("randomat_freeze2_duration", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Duration of the Freeze (in seconds)", 1, 60)
-
-CreateConVar("randomat_freeze2_timer", 30, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How often (in seconds) the Freeze occurs", 5, 60)
-
+CreateConVar("randomat_freeze2_duration", 5, FCVAR_ARCHIVE, "Duration of the Freeze (in seconds)", 1, 60)
+CreateConVar("randomat_freeze2_timer", 30, FCVAR_ARCHIVE, "How often (in seconds) the Freeze occurs", 5, 60)
 -- Fills a table with all the possible names of this randomat
 local eventnames = {}
 table.insert(eventnames, "What's this one? Oh, it's the freeze randomat...")

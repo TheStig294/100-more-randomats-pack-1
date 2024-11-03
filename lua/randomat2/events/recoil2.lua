@@ -1,9 +1,6 @@
 local EVENT = {}
-
-CreateConVar("randomat_recoil2_max", 15, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Maximum Magnitude a gun can change someone's velocity by.", 1, 100)
-
-CreateConVar("randomat_recoil2_mul", 6, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Recoil Multiplier", 1, 100)
-
+CreateConVar("randomat_recoil2_max", 15, FCVAR_ARCHIVE, "Maximum Magnitude a gun can change someone's velocity by.", 1, 100)
+CreateConVar("randomat_recoil2_mul", 6, FCVAR_ARCHIVE, "Recoil Multiplier", 1, 100)
 EVENT.Title = "Unrealistic Recoil"
 EVENT.Description = "Shooting pushes you forwards"
 EVENT.id = "recoil2"

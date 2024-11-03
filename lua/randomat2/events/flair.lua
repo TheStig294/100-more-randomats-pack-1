@@ -21,10 +21,8 @@ for i, dir in ipairs(foundDirectories) do
     for j, fileName in ipairs(sounds[dir]) do
         Sound("sound/flair/" .. dir .. "/" .. fileName)
         resource.AddSingleFile("sound/flair/" .. dir .. "/" .. fileName)
-
         -- Creating a convar for each sound to turn it off
-        local convar = CreateConVar("randomat_flair_" .. dir .. "_" .. fileName, "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Whether this sound can play: " .. dir .. "/" .. fileName, 0, 1)
-
+        local convar = CreateConVar("randomat_flair_" .. dir .. "_" .. fileName, "1", FCVAR_ARCHIVE, "Whether this sound can play: " .. dir .. "/" .. fileName, 0, 1)
         table.insert(convarNames, dir .. "_" .. fileName)
 
         -- Adding a console command to play the sound

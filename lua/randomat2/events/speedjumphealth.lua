@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_speedjumphealth_multiplier", 50, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Percent multiplier to stats", 1, 200)
-
+CreateConVar("randomat_speedjumphealth_multiplier", 50, FCVAR_ARCHIVE, "Percent multiplier to stats", 1, 200)
 local initialMultiplier = GetConVar("randomat_speedjumphealth_multiplier"):GetInt()
 EVENT.Title = GetConVar("randomat_speedjumphealth_multiplier"):GetInt() .. "% More Speed, Jump Height and Health for everyone!"
 EVENT.ExtDescription = "Everyone can move " .. initialMultiplier .. "% faster, jump " .. initialMultiplier .. "% higher, and has " .. initialMultiplier .. "% more health"

@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_morality_lives", "3", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Number of lives players have", 1, 15)
-
+CreateConVar("randomat_morality_lives", "3", FCVAR_ARCHIVE, "Number of lives players have", 1, 15)
 EVENT.Title = "Contagious Morality"
 EVENT.Description = "Killing someone respawns them with your role," .. " you get " .. GetConVar("randomat_morality_lives"):GetInt() .. " lives!"
 EVENT.id = "morality"
@@ -64,7 +62,7 @@ function EVENT:Begin()
         end
 
         -- If the player didn't suicide, and was killed by another player
-        if (attacker.IsPlayer() and attacker ~= ply) then
+        if attacker.IsPlayer() and attacker ~= ply then
             -- Respawn player as new role
             ply:ConCommand("ttt_spectator_mode 0")
 

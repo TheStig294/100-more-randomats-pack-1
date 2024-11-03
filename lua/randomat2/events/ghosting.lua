@@ -5,8 +5,7 @@ EVENT.id = "ghosting"
 
 EVENT.Categories = {"spectator", "fun", "biased_innocent", "biased", "moderateimpact"}
 
-CreateConVar("randomat_ghosting_stay_upright", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Whether ghosts should stay upright when looking up/down", 0, 1)
-
+CreateConVar("randomat_ghosting_stay_upright", 0, FCVAR_ARCHIVE, "Whether ghosts should stay upright when looking up/down", 0, 1)
 local ghostents = {}
 local eventActive = false
 

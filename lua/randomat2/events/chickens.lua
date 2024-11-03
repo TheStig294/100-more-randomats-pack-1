@@ -1,11 +1,7 @@
 local EVENT = {}
-
-CreateConVar("randomat_chickens_hp", 60, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Player max HP", 1, 100)
-
-CreateConVar("randomat_chickens_sc", 0.25, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Multiplier players are shrunk by", 0.1, 1)
-
-CreateConVar("randomat_chickens_sp", 0.75, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Player movement speed multiplier", 0.1, 1)
-
+CreateConVar("randomat_chickens_hp", 60, FCVAR_ARCHIVE, "Player max HP", 1, 100)
+CreateConVar("randomat_chickens_sc", 0.25, FCVAR_ARCHIVE, "Multiplier players are shrunk by", 0.1, 1)
+CreateConVar("randomat_chickens_sp", 0.75, FCVAR_ARCHIVE, "Player movement speed multiplier", 0.1, 1)
 EVENT.Title = "BAWK!"
 EVENT.Description = "Transforms everyone into chickens!"
 EVENT.id = "chickens"

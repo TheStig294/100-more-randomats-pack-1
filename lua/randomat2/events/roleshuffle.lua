@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_roleshuffle_time", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How long in seconds until roles are shuffled", 5, 300)
-
+CreateConVar("randomat_roleshuffle_time", 60, FCVAR_ARCHIVE, "How long in seconds until roles are shuffled", 5, 300)
 EVENT.Title = "Everyone swaps roles and weapons in " .. GetConVar("randomat_roleshuffle_time"):GetInt() .. " seconds!"
 EVENT.AltTitle = "Role Shuffle!"
 EVENT.id = "roleshuffle"

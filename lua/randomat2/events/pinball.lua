@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_pinball_mul", 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The velocity multiplyer", 1, 100)
-
+CreateConVar("randomat_pinball_mul", 10, FCVAR_ARCHIVE, "The velocity multiplyer", 1, 100)
 EVENT.Title = "Pinball People"
 EVENT.Description = "When two players collide, they will be sent flying in opposite directions."
 EVENT.id = "pinball"

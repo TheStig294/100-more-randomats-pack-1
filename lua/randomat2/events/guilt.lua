@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_guilt_time", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds a player's head is forced down", 1, 30)
-
+CreateConVar("randomat_guilt_time", 5, FCVAR_ARCHIVE, "Seconds a player's head is forced down", 1, 30)
 EVENT.Title = "Unbelievable Guilt"
 EVENT.Description = "Killing someone on your team forces your head down for " .. GetConVar("randomat_guilt_time"):GetInt() .. " seconds"
 EVENT.id = "guilt"

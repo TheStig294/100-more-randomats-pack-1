@@ -17,9 +17,7 @@ EVENT.Categories = {"largeimpact", "item", "rolechange"}
 
 util.AddNetworkString("WesternBeginEvent")
 util.AddNetworkString("WesternEndEvent")
-
-local musicConvar = CreateConVar("randomat_western_music", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this event", 0, 1)
-
+local musicConvar = CreateConVar("randomat_western_music", 1, FCVAR_ARCHIVE, "Play music during this event", 0, 1)
 local eventTriggered
 
 function EVENT:Begin()

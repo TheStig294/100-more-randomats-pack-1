@@ -5,15 +5,10 @@ util.AddNetworkString("BanEventEnd")
 util.AddNetworkString("BanVoteTrigger")
 util.AddNetworkString("BanPlayerVoted")
 util.AddNetworkString("BanVoteEnd")
-
-CreateConVar("randomat_ban_choices", 5, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Number of events you can choose from to ban", 2, 5)
-
-CreateConVar("randomat_ban_vote", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Allows all players to vote on the event")
-
-CreateConVar("randomat_ban_votetimer", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How long players have to vote on the event", 5, 60)
-
-CreateConVar("randomat_ban_deadvotes", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Dead people can vote")
-
+CreateConVar("randomat_ban_choices", 5, FCVAR_ARCHIVE, "Number of events you can choose from to ban", 2, 5)
+CreateConVar("randomat_ban_vote", 1, FCVAR_ARCHIVE, "Allows all players to vote on the event")
+CreateConVar("randomat_ban_votetimer", 10, FCVAR_ARCHIVE, "How long players have to vote on the event", 5, 60)
+CreateConVar("randomat_ban_deadvotes", 1, FCVAR_ARCHIVE, "Dead people can vote")
 --Stores the last banned randomat so it can be restored after this randomat is triggered again
 CreateConVar("randomat_ban_last_banned_randomat", "", FCVAR_ARCHIVE, "The last randomat that was banned, (don't touch), used for the 'Ban an event!' randomat")
 local EventChoices = {}

@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_rolecall_time", 60, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Time between role announcements")
-
+CreateConVar("randomat_rolecall_time", 60, FCVAR_ARCHIVE, "Time between role announcements")
 EVENT.Title = "Role Call"
 EVENT.Description = "Announces a random player's role every " .. GetConVar("randomat_rolecall_time"):GetInt() .. " seconds"
 EVENT.id = "rolecall"

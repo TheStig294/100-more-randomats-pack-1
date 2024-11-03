@@ -21,8 +21,7 @@ EVENT.Categories = {"fun", "largeimpact", "item"}
 
 util.AddNetworkString("randomat_noir")
 util.AddNetworkString("randomat_noir_end")
-
-local musicConvar = CreateConVar("randomat_noir_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
+local musicConvar = CreateConVar("randomat_noir_music", "1", FCVAR_ARCHIVE, "Play music during this randomat", 0, 1)
 
 function EVENT:Begin()
     noirRandomat = true
