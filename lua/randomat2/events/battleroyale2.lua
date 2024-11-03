@@ -19,7 +19,7 @@ function EVENT:Begin()
     if fortniteToolExists then
         EVENT.Description = "Press 'F' to change platform shape"
 
-        for _, ply in plys do
+        for _, ply in ipairs(plys) do
             ply:Give("weapon_ttt_fortnite_building")
         end
     end
