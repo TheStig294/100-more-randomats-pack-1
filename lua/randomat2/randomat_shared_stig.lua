@@ -557,8 +557,12 @@ end
 
 -- Round Functions
 if SERVER then
+    local function GetStartTime()
+        return GAMEMODE.RoundStartTime or TTT2 and gameloop.GetLevelStartTime()
+    end
+
     function Randomat:GetRoundCompletePercent()
-        return ((CurTime() - GAMEMODE.RoundStartTime) / (GetGlobalFloat("ttt_round_end", CurTime()) - GAMEMODE.RoundStartTime)) * 100
+        return ((CurTime() - GetStartTime()) / (GetGlobalFloat("ttt_round_end", CurTime()) - GetStartTime())) * 100
     end
 
     function Randomat:GetRoundLimit()
