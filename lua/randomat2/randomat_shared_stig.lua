@@ -537,6 +537,7 @@ function Randomat:SetPlayerInvisible(ply)
     ply:SetMaterial("sprites/heatwave")
     ply:SetNWBool("RdmtInvisible", true)
     ply:SetRenderMode(RENDERMODE_TRANSALPHA)
+    ply:SetNoDraw(true)
 end
 
 function Randomat:SetPlayerVisible(ply)
@@ -544,6 +545,7 @@ function Randomat:SetPlayerVisible(ply)
     ply:SetMaterial("")
     ply:SetNWBool("RdmtInvisible", false)
     ply:SetRenderMode(RENDERMODE_NORMAL)
+    ply:SetNoDraw(false)
 end
 
 function Randomat:IsPlayerInVehicle(ply)
@@ -557,12 +559,10 @@ end
 
 -- Round Functions
 if SERVER then
-    local function GetStartTime()
-        return GAMEMODE.RoundStartTime or TTT2 and gameloop.GetLevelStartTime()
-    end
-
     function Randomat:GetRoundCompletePercent()
-        return ((CurTime() - GetStartTime()) / (GetGlobalFloat("ttt_round_end", CurTime()) - GetStartTime())) * 100
+        local roundStartTime = TTT2 and gameloop.GetLevelStartTime() or GAMEMODE.RoundStartTime
+
+        return ((CurTime() - roundStartTime) / (GetGlobalFloat("ttt_round_end", CurTime()) - roundStartTime)) * 100
     end
 
     function Randomat:GetRoundLimit()
