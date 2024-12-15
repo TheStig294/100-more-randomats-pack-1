@@ -28,7 +28,7 @@ function EVENT:Begin()
         end
 
         -- Push the entity with the calculated force
-        ent:SetVelocity(-newVelocity)
+        ent:SetVelocity(newVelocity:Negate())
     end)
 end
 
