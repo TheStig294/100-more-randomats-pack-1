@@ -16,7 +16,7 @@ local function EndFrenchRandomat()
     -- Resets the names of custom passive items
     if customPassiveItemsOrig then
         for role = 1, ROLE_MAX do
-            if SHOP_ROLES[role] then
+            if SHOP_ROLES[role] and EquipmentItems[role] then
                 EquipmentItems[role] = customPassiveItemsOrig[role] or EquipmentItems[role]
             end
         end
@@ -369,7 +369,7 @@ net.Receive("FrenchRandomatBegin", function()
     customPassiveItemsOrig = {}
 
     for role = 1, ROLE_MAX do
-        if SHOP_ROLES[role] then
+        if SHOP_ROLES[role] and EquipmentItems[role] then
             customPassiveItemsOrig[role] = table.Copy(EquipmentItems[role])
 
             for _, equ in pairs(EquipmentItems[role]) do
