@@ -16,6 +16,7 @@ elseif CLIENT and file.Exists("randomat2/randomat_shared.lua", "lcl") then
 end
 
 if GetGlobalBool("DisableStigRandomatBase", false) then return end
+if engine.ActiveGamemode() ~= "terrortown" then return end
 Randomat = Randomat or {}
 local concommand = concommand
 local file = file
@@ -23,7 +24,6 @@ local hook = hook
 local ipairs = ipairs
 local math = math
 local pairs = pairs
-local resource = resource
 local CallHook = hook.Call
 
 local function AddServer(fil)
