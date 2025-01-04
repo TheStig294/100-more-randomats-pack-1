@@ -126,7 +126,7 @@ Effects.bighead = {
                 timer.Simple(0.1, function()
                     local ent = arg1
                     local ply = CORPSE.GetPlayer(ent)
-                    if not IsPlayer(ply) then return end
+                    if not (IsValid(ply) and ply:IsPlayer()) then return end
                     local mult = ply.HeadScale or 1.2
                     local scale = Vector(mult, mult, mult)
                     local boneId = ent:LookupBone("ValveBiped.Bip01_Head1")
