@@ -8,24 +8,13 @@ EVENT.Categories = {"largeimpact"}
 CreateConVar("randomat_dropshot_message_cooldown", "20", FCVAR_ARCHIVE, "'Player healed!' message second cooldown. 0 disables", 0, 120)
 
 function EVENT:Begin()
-    local isCrouching = {}
     local messageShown = {}
 
-    self:AddHook("PlayerButtonDown", function(ply, button)
-        if button ~= KEY_LCONTROL then return end
-        isCrouching[ply] = true
-    end)
-
-    self:AddHook("PlayerButtonUp", function(ply, button)
-        if button ~= KEY_LCONTROL then return end
-        isCrouching[ply] = false
-    end)
-
-    self:AddHook("ScalePlayerDamage", function(ply, hitgroup, dmg)
+    self:AddHook("ScalePlayerDamage", function(ply, _, dmg)
         local attacker = dmg:GetAttacker()
         if not IsPlayer(attacker) then return end
 
-        if not isCrouching[attacker] then
+        if not attacker:Crouching() then
             ply:SetHealth(math.min(ply:GetMaxHealth(), ply:Health() + dmg:GetDamage()))
             dmg:ScaleDamage(0)
 
