@@ -1,14 +1,18 @@
+local function SafeIsPlayer(object)
+    return IsValid(object) and isentity(object) and object:IsPlayer()
+end
+
 local function CheckForPlayer(arg1, arg2)
     local ply = false
 
     if GetGlobalString("MakeRandomatCause", "") == "near" then
-        if IsValid(arg1) and arg1:IsPlayer() and IsValid(arg2) and arg2:IsPlayer() then
+        if SafeIsPlayer(arg1) and SafeIsPlayer(arg2) then
             ply = arg1
         end
     else
-        if IsValid(arg1) and arg1:IsPlayer() then
+        if SafeIsPlayer(arg1) then
             ply = arg1
-        elseif IsValid(arg2) and arg2:IsPlayer() then
+        elseif SafeIsPlayer(arg2) then
             ply = arg2
         end
     end
