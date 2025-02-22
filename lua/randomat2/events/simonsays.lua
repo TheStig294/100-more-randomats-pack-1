@@ -141,6 +141,23 @@ function EVENT:Begin()
                 return false
             end
         end)
+
+        -- Whenever someone buys the PaP, wipe the given weapons table to allow everyone to receive the new weapon
+        self:AddHook("TTTPAPOrder", function(ply, SWEP, UPGRADE)
+            self.givenWeapons = {}
+
+            -- If the player was the leader, we need to manually give the weapon back after it's done upgrading so we can upgrade it for everyone else
+            if ply == self.leader then
+                local class = WEPS.GetClass(SWEP)
+
+                for _, p in player.Iterator() do
+                    if p == self.leader then continue end
+                    local wep = p:Give(class)
+                    p:SelectWeapon(class)
+                    self:HandleWeaponPAP(wep, UPGRADE)
+                end
+            end
+        end)
     end)
 end
 
