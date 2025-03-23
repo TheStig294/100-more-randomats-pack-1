@@ -1,11 +1,11 @@
 local EVENT = {}
-CreateConVar("randomat_borgir_count", 2, FCVAR_ARCHIVE, "Number of borgir spawned per person", 1, 10)
-CreateConVar("randomat_borgir_range", 200, FCVAR_ARCHIVE, "Distance borgir spawn from the player", 0, 1000)
-CreateConVar("randomat_borgir_timer", 60, FCVAR_ARCHIVE, "Time between borgir spawns", 1, 600)
-CreateConVar("randomat_borgir_faster_mult", 0.2, FCVAR_ARCHIVE, "Number the player's speed multiplier will increase by", 0, 3)
-CreateConVar("randomat_borgir_slower_mult", 0.2, FCVAR_ARCHIVE, "Number the player's speed multiplier will decrease by", 0, 3)
-CreateConVar("randomat_borgir_faster_cap", 3, FCVAR_ARCHIVE, "The highest speed multiplier a player can get", 1, 10)
-CreateConVar("randomat_borgir_slower_cap", 0.2, FCVAR_ARCHIVE, "The lowest speed multiplier a player can get", 0, 1)
+CreateConVar("randomat_borgir_count", 2, FCVAR_NONE, "Number of borgir spawned per person", 1, 10)
+CreateConVar("randomat_borgir_range", 200, FCVAR_NONE, "Distance borgir spawn from the player", 0, 1000)
+CreateConVar("randomat_borgir_timer", 60, FCVAR_NONE, "Time between borgir spawns", 1, 600)
+CreateConVar("randomat_borgir_faster_mult", 0.2, FCVAR_NONE, "Number the player's speed multiplier will increase by", 0, 3)
+CreateConVar("randomat_borgir_slower_mult", 0.2, FCVAR_NONE, "Number the player's speed multiplier will decrease by", 0, 3)
+CreateConVar("randomat_borgir_faster_cap", 3, FCVAR_NONE, "The highest speed multiplier a player can get", 1, 10)
+CreateConVar("randomat_borgir_slower_cap", 0.2, FCVAR_NONE, "The lowest speed multiplier a player can get", 0, 1)
 EVENT.Title = "Borgir"
 EVENT.Description = "Spawns \"borgirs\" that increase/decrease your speed"
 EVENT.id = "borgir"

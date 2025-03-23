@@ -5,7 +5,7 @@ EVENT.id = "pursuit"
 
 EVENT.Categories = {"deathtrigger", "largeimpact"}
 
-CreateConVar("randomat_pursuit_mult", "1.5", FCVAR_ARCHIVE, "Movement speed multiplier", 0.5, 3)
+CreateConVar("randomat_pursuit_mult", "1.5", FCVAR_NONE, "Movement speed multiplier", 0.5, 3)
 
 function EVENT:Begin()
     self:AddHook("Think", function()

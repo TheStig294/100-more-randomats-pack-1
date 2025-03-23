@@ -1,7 +1,7 @@
 local EVENT = {}
-local zonesCvar = CreateConVar("randomat_storm_zones", 4, FCVAR_ARCHIVE, "The number of zones until the storm covers the map", 1, 10)
-local waitTimeCvar = CreateConVar("randomat_storm_wait_time", 30, FCVAR_ARCHIVE, "Seconds after the next zone is announced before the storm moves", 0, 120)
-local moveTimeCvar = CreateConVar("randomat_storm_move_time", 30, FCVAR_ARCHIVE, "Seconds it takes for the storm to move", 0, 120)
+local zonesCvar = CreateConVar("randomat_storm_zones", 4, FCVAR_NONE, "The number of zones until the storm covers the map", 1, 10)
+local waitTimeCvar = CreateConVar("randomat_storm_wait_time", 30, FCVAR_NONE, "Seconds after the next zone is announced before the storm moves", 0, 120)
+local moveTimeCvar = CreateConVar("randomat_storm_move_time", 30, FCVAR_NONE, "Seconds it takes for the storm to move", 0, 120)
 EVENT.Title = "The Storm"
 EVENT.Description = "Stay outside the storm, or else you take damage!"
 EVENT.id = "storm"

@@ -1,8 +1,8 @@
 local EVENT = {}
-CreateConVar("randomat_ping_cooldown", 10, FCVAR_ARCHIVE, "Seconds until you can ping again", 0, 200)
-CreateConVar("randomat_ping_global_cooldown", 0, FCVAR_ARCHIVE, "Seconds until anyone can ping again after 1 person pings", 0, 200)
-CreateConVar("randomat_ping_spectators", 1, FCVAR_ARCHIVE, "Whether spectators can ping", 0, 1)
-CreateConVar("randomat_ping_sound", 1, FCVAR_ARCHIVE, "Whether pinging plays a sound", 0, 1)
+CreateConVar("randomat_ping_cooldown", 10, FCVAR_NONE, "Seconds until you can ping again", 0, 200)
+CreateConVar("randomat_ping_global_cooldown", 0, FCVAR_NONE, "Seconds until anyone can ping again after 1 person pings", 0, 200)
+CreateConVar("randomat_ping_spectators", 1, FCVAR_NONE, "Whether spectators can ping", 0, 1)
+CreateConVar("randomat_ping_sound", 1, FCVAR_NONE, "Whether pinging plays a sound", 0, 1)
 EVENT.Title = "Press E to ping"
 
 if GetConVar("randomat_ping_spectators"):GetBool() then

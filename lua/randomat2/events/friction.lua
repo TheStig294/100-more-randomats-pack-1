@@ -1,6 +1,6 @@
 local EVENT = {}
-CreateConVar("randomat_friction_friction", "0", FCVAR_ARCHIVE, "Friction amount", 0, 8)
-CreateConVar("randomat_friction_nopropdmg", "1", FCVAR_ARCHIVE, "Immunity to prop damage, else you might die from touching props")
+CreateConVar("randomat_friction_friction", "0", FCVAR_NONE, "Friction amount", 0, 8)
+CreateConVar("randomat_friction_nopropdmg", "1", FCVAR_NONE, "Immunity to prop damage, else you might die from touching props")
 EVENT.Title = "Zero friction!"
 EVENT.Description = ""
 EVENT.ExtDescription = "Everyone slides around, and must build momentum to move"

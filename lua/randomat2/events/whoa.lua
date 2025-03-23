@@ -1,9 +1,9 @@
 local modelExists = util.IsValidModel("models/bandicoot/bandicoot.mdl")
 util.PrecacheSound("whoa/whoa.mp3")
 local EVENT = {}
-CreateConVar("randomat_whoa_timer", 3, FCVAR_ARCHIVE, "Time between being given spin attacks", 1, 15)
-local strip = CreateConVar("randomat_whoa_strip", 1, FCVAR_ARCHIVE, "The event strips your other weapons")
-CreateConVar("randomat_whoa_weaponid", "weapon_ttt_whoa_randomat", FCVAR_ARCHIVE, "Id of the weapon given")
+CreateConVar("randomat_whoa_timer", 3, FCVAR_NONE, "Time between being given spin attacks", 1, 15)
+local strip = CreateConVar("randomat_whoa_strip", 1, FCVAR_NONE, "The event strips your other weapons")
+CreateConVar("randomat_whoa_weaponid", "weapon_ttt_whoa_randomat", FCVAR_NONE, "Id of the weapon given")
 
 local function GetDescription()
     local description = "Everyone"

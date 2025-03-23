@@ -20,8 +20,8 @@ EVENT.blocklist = {"weapon_zm_improvised", "weapon_zm_carry", "weapon_ttt_unarme
 -- Default guns to give out if the leader doesn't have one
 EVENT.defaultHeavys = {"weapon_zm_sledge", "weapon_zm_shotgun", "weapon_zm_rifle", "weapon_zm_mac10", "weapon_ttt_m16"}
 
-CreateConVar("randomat_simonsays_strip_basic_weapons", "1", FCVAR_ARCHIVE, "Whether weapons like the crowbar and magneto stick are removed", 0, 1)
-CreateConVar("randomat_simonsays_timer", "45", FCVAR_ARCHIVE, "Seconds until leader changes, set to 0 disable", 0, 120)
+CreateConVar("randomat_simonsays_strip_basic_weapons", "1", FCVAR_NONE, "Whether weapons like the crowbar and magneto stick are removed", 0, 1)
+CreateConVar("randomat_simonsays_timer", "45", FCVAR_NONE, "Seconds until leader changes, set to 0 disable", 0, 120)
 local autoSpawnHeavyWeps = {}
 
 function EVENT:Begin()

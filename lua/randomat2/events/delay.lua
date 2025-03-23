@@ -1,5 +1,5 @@
 local EVENT = {}
-CreateConVar("randomat_delay_time", 60, FCVAR_ARCHIVE, "Seconds before randomat is triggered", 5, 180)
+CreateConVar("randomat_delay_time", 60, FCVAR_NONE, "Seconds before randomat is triggered", 5, 180)
 EVENT.Title = "Delayed Start"
 EVENT.Description = "Triggers a randomat after " .. GetConVar("randomat_delay_time"):GetInt() .. " seconds"
 EVENT.id = "delay"

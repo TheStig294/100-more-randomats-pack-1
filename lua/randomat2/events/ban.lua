@@ -5,12 +5,19 @@ util.AddNetworkString("BanEventEnd")
 util.AddNetworkString("BanVoteTrigger")
 util.AddNetworkString("BanPlayerVoted")
 util.AddNetworkString("BanVoteEnd")
-CreateConVar("randomat_ban_choices", 5, FCVAR_ARCHIVE, "Number of events you can choose from to ban", 2, 5)
-CreateConVar("randomat_ban_vote", 1, FCVAR_ARCHIVE, "Allows all players to vote on the event")
-CreateConVar("randomat_ban_votetimer", 10, FCVAR_ARCHIVE, "How long players have to vote on the event", 5, 60)
-CreateConVar("randomat_ban_deadvotes", 1, FCVAR_ARCHIVE, "Dead people can vote")
---Stores the last banned randomat so it can be restored after this randomat is triggered again
-CreateConVar("randomat_ban_last_banned_randomat", "", FCVAR_ARCHIVE, "The last randomat that was banned, (don't touch), used for the 'Ban an event!' randomat")
+CreateConVar("randomat_ban_choices", 5, FCVAR_NONE, "Number of events you can choose from to ban", 2, 5)
+CreateConVar("randomat_ban_vote", 1, FCVAR_NONE, "Allows all players to vote on the event")
+CreateConVar("randomat_ban_votetimer", 10, FCVAR_NONE, "How long players have to vote on the event", 5, 60)
+CreateConVar("randomat_ban_deadvotes", 1, FCVAR_NONE, "Dead people can vote")
+
+-- Stores the last banned randomat so it can be restored after this randomat is triggered again
+if not file.Exists("randomat/ban.txt", "DATA") then
+    file.CreateDir("randomat")
+    file.Write("randomat/ban.txt", "")
+else
+    RunConsoleCommand("ttt_randomat_" .. file.Read("randomat/ban.txt", "DATA"), "0")
+end
+
 local EventChoices = {}
 local owner
 local EventVotes = {}
@@ -48,19 +55,17 @@ function EVENT:Begin()
     local x = 0
 
     for _, v in RandomPairs(Randomat.Events) do
-        if x < GetConVar("randomat_ban_choices"):GetInt() then
-            if Randomat:CanEventRun(v) and v.id ~= "ban" then
-                x = x + 1
-                local title = Randomat:GetEventTitle(v)
-                EventChoices[x] = title
-                EventVotes[title] = 0
-            end
+        if x < GetConVar("randomat_ban_choices"):GetInt() and Randomat:CanEventRun(v) and v.id ~= "ban" then
+            x = x + 1
+            local title = Randomat:GetEventTitle(v)
+            EventChoices[x] = title
+            EventVotes[title] = 0
         end
     end
 
     if GetConVar("randomat_ban_vote"):GetBool() then
         net.Start("BanVoteTrigger")
-        net.WriteInt(GetConVarNumber("randomat_ban_choices"), 32)
+        net.WriteInt(GetConVar("randomat_ban_choices"):GetInt(), 32)
         net.WriteTable(EventChoices)
         net.Broadcast()
 
@@ -88,11 +93,11 @@ function EVENT:Begin()
                     end
 
                     -- Turn the last banned randomat back on
-                    local lastBan = GetConVar("randomat_ban_last_banned_randomat"):GetString()
-                    RunConsoleCommand("ttt_randomat_" .. lastBan, 1)
+                    local lastBan = file.Read("randomat/ban.txt", "DATA")
+                    RunConsoleCommand("ttt_randomat_" .. lastBan, "1")
                     -- Turn the currently banned randomat off
-                    RunConsoleCommand("ttt_randomat_" .. v.id, 0)
-                    GetConVar("randomat_ban_last_banned_randomat"):SetString(v.id)
+                    RunConsoleCommand("ttt_randomat_" .. v.id, "0")
+                    file.Write("randomat/ban.txt", v.id)
                     -- Display a message with the name of the randomat that was banned
                     self:SmallNotify(title .. " is banned.")
                 end
@@ -104,7 +109,7 @@ function EVENT:Begin()
         end)
     else
         net.Start("BanEventTrigger")
-        net.WriteInt(GetConVarNumber("randomat_ban_choices"), 32)
+        net.WriteInt(GetConVar("randomat_ban_choices"):GetInt(), 32)
         net.WriteTable(EventChoices)
         net.Send(owner)
     end
@@ -163,19 +168,19 @@ net.Receive("PlayerBannedEvent", function()
 
         if title == str then
             if v.id == "ban" then
-                self:SmallNotify("Very funny... Nothing gets banned then.")
+                Randomat:SmallNotify("Very funny... Nothing gets banned then.")
             else
-                local lastBan = GetConVar("randomat_ban_last_banned_randomat"):GetString()
-                RunConsoleCommand("ttt_randomat_" .. lastBan, 1)
-                RunConsoleCommand("ttt_randomat_" .. v.id, 0)
-                GetConVar("randomat_ban_last_banned_randomat"):SetString(v.id)
-                self:SmallNotify(title .. " is banned.")
+                local lastBan = file.Read("randomat/ban.txt", "DATA")
+                RunConsoleCommand("ttt_randomat_" .. lastBan, "1")
+                RunConsoleCommand("ttt_randomat_" .. v.id, "0")
+                file.Write("randomat/ban.txt", v.id)
+                Randomat:SmallNotify(title .. " is banned.")
             end
         end
     end
 end)
 
-net.Receive("BanPlayerVoted", function(ln, ply)
+net.Receive("BanPlayerVoted", function(_, ply)
     local t = 0
 
     for _, v in pairs(PlayersVoted) do

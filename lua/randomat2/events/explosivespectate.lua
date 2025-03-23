@@ -5,8 +5,8 @@ EVENT.id = "explosivespectate"
 
 EVENT.Categories = {"spectator", "biased_innocent", "biased", "moderateimpact"}
 
-CreateConVar("randomat_explosivespectate_timer", 0, FCVAR_ARCHIVE, "Seconds until this event comes into effect", 0, 600)
-CreateConVar("randomat_explosivespectate_damage", 100, FCVAR_ARCHIVE, "Explosion magnitude, scales damage based on distance", 0, 100)
+CreateConVar("randomat_explosivespectate_timer", 0, FCVAR_NONE, "Seconds until this event comes into effect", 0, 600)
+CreateConVar("randomat_explosivespectate_damage", 100, FCVAR_NONE, "Explosion magnitude, scales damage based on distance", 0, 100)
 
 function EVENT:Begin()
     if GetConVar("randomat_explosivespectate_timer"):GetInt() > 0 then

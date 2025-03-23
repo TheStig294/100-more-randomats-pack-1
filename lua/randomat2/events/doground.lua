@@ -9,7 +9,7 @@ EVENT.ZombieSpawns = {}
 EVENT.PlayerPositions = {}
 EVENT.ChosenSpawns = 0
 EVENT.SpawnCap = 0
-local fogDist = CreateConVar("randomat_doground_fogdist", 1, FCVAR_ARCHIVE, "Fog distance multiplier", 0.2, 5)
+local fogDist = CreateConVar("randomat_doground_fogdist", 1, FCVAR_NONE, "Fog distance multiplier", 0.2, 5)
 util.AddNetworkString("DogRoundRandomatBegin")
 util.AddNetworkString("DogRoundRandomatRemoveFog")
 util.AddNetworkString("DogRoundRandomatEnd")

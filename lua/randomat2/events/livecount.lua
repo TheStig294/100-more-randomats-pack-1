@@ -1,5 +1,5 @@
 local EVENT = {}
-CreateConVar("randomat_livecount_timer", 30, FCVAR_ARCHIVE, "Time between live counts", 5, 90)
+CreateConVar("randomat_livecount_timer", 30, FCVAR_NONE, "Time between live counts", 5, 90)
 EVENT.Title = "Live Count"
 EVENT.Description = "Counts no. of alive players every " .. GetConVar("randomat_livecount_timer"):GetInt() .. " seconds"
 EVENT.id = "livecount"

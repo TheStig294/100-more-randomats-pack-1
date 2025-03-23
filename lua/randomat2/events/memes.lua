@@ -1,5 +1,5 @@
 local EVENT = {}
-CreateConVar("randomat_memes_timer", "20", FCVAR_ARCHIVE, "Seconds between displaying a meme", 5, 120)
+CreateConVar("randomat_memes_timer", "20", FCVAR_NONE, "Seconds between displaying a meme", 5, 120)
 EVENT.Title = "Memes"
 EVENT.Description = "Displays an ASCII art meme every " .. GetConVar("randomat_memes_timer"):GetInt() .. " seconds"
 EVENT.id = "memes"

@@ -18,8 +18,8 @@
 --]]
 util.AddNetworkString("DuncanEventRandomatHideNames")
 util.AddNetworkString("DuncanEventRandomatEnd")
-local disguiseCvar = CreateConVar("randomat_duncanevent_disguise", 1, FCVAR_ARCHIVE, "Hide player names")
-local announceCvar = CreateConVar("randomat_duncanevent_announce_player", 1, FCVAR_ARCHIVE, "Announce player's model being used")
+local disguiseCvar = CreateConVar("randomat_duncanevent_disguise", 1, FCVAR_NONE, "Hide player names")
+local announceCvar = CreateConVar("randomat_duncanevent_announce_player", 1, FCVAR_NONE, "Announce player's model being used")
 
 local function GetDescription()
     local description = "Everyone has the same playermodel"

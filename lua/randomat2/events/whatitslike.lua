@@ -1,5 +1,5 @@
 local EVENT = {}
-CreateConVar("randomat_whatitslike_given_items_count", "2", FCVAR_ARCHIVE, "How many most bought items to give out", 1, 10)
+CreateConVar("randomat_whatitslike_given_items_count", "2", FCVAR_NONE, "How many most bought items to give out", 1, 10)
 
 local function GetDescription()
     local count = GetConVar("randomat_favourites_given_items_count"):GetInt()
@@ -20,7 +20,7 @@ EVENT.AltTitle = "What it's like to be..."
 
 EVENT.Categories = {"stats", "modelchange", "item", "largeimpact"}
 
-CreateConVar("randomat_whatitslike_disguise", 0, FCVAR_ARCHIVE, "Hide player names")
+CreateConVar("randomat_whatitslike_disguise", 0, FCVAR_NONE, "Hide player names")
 
 function EVENT:Begin()
     self.Description = GetDescription()

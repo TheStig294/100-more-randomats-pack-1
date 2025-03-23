@@ -1,5 +1,5 @@
 local EVENT = {}
-CreateConVar("randomat_legday_scale", 0.3, FCVAR_ARCHIVE, "Leg size multiplier", 0.3, 2)
+CreateConVar("randomat_legday_scale", 0.3, FCVAR_NONE, "Leg size multiplier", 0.3, 2)
 EVENT.Title = "Don't Skip Leg Day"
 EVENT.ExtDescription = "Changes everyone's leg size"
 EVENT.id = "legday"

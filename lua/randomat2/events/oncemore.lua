@@ -1,5 +1,10 @@
 local EVENT = {}
-CreateConVar("randomat_oncemore_last_randomat", "", FCVAR_ARCHIVE, "The last auto-randomat that was activated, (don't touch), used for the 'Once more with feeling!' randomat")
+
+if not file.Exists("randomat/oncemore.txt", "DATA") then
+    file.CreateDir("randomat")
+    file.Write("randomat/oncemore.txt", "")
+end
+
 EVENT.Title = "Once more, with feeling!"
 EVENT.Description = "Repeats the last randomat"
 EVENT.id = "oncemore"
@@ -12,19 +17,19 @@ hook.Add("TTTRandomatTriggered", "OnceMoreRandomatGetRandomatID", function(id, o
     -- Also don't record the choose randomat while auto choose is on
     if id == "choose" and GetConVar("ttt_randomat_auto"):GetBool() and GetConVar("ttt_randomat_auto_choose"):GetBool() then return end
     -- Else store the triggered randomat in a convar
-    GetConVar("randomat_oncemore_last_randomat"):SetString(id)
+    file.Write("randomat/oncemore.txt", id)
 end)
 
 function EVENT:Begin()
     -- Trigger the last randomat stored in the convar
     timer.Simple(5, function()
-        Randomat:TriggerEvent(GetConVar("randomat_oncemore_last_randomat"):GetString(), self.owner)
+        Randomat:TriggerEvent(file.Read("randomat/oncemore.txt", "DATA"), self.owner)
     end)
 end
 
 function EVENT:Condition()
-    -- Don't trigger if the previous randomat can't run
-    return Randomat:CanEventRun(GetConVar("randomat_oncemore_last_randomat"):GetString(), true)
+    return Randomat:CanEventRun(file.Read("randomat/oncemore.txt", "DATA"), true)
 end
 
+-- Don't trigger if the previous randomat can't run
 Randomat:register(EVENT)

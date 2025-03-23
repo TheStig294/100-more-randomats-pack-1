@@ -1,5 +1,5 @@
 local EVENT = {}
-CreateConVar("randomat_morality_lives", "3", FCVAR_ARCHIVE, "Number of lives players have", 1, 15)
+CreateConVar("randomat_morality_lives", "3", FCVAR_NONE, "Number of lives players have", 1, 15)
 EVENT.Title = "Contagious Morality"
 EVENT.Description = "Killing someone respawns them with your role," .. " you get " .. GetConVar("randomat_morality_lives"):GetInt() .. " lives!"
 EVENT.id = "morality"

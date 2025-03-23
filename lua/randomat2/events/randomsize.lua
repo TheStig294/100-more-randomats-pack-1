@@ -1,6 +1,6 @@
 local EVENT = {}
-CreateConVar("randomat_randomsize_min", 25, FCVAR_ARCHIVE, "Minimum possible size", 10, 100)
-CreateConVar("randomat_randomsize_max", 100, FCVAR_ARCHIVE, "Maximum possible size", 10, 100)
+CreateConVar("randomat_randomsize_min", 25, FCVAR_NONE, "Minimum possible size", 10, 100)
+CreateConVar("randomat_randomsize_max", 100, FCVAR_NONE, "Maximum possible size", 10, 100)
 EVENT.Title = "Random sizes for everyone!"
 EVENT.ExtDescription = "Everyone is shrunk down to a random unique size"
 EVENT.id = "randomsize"

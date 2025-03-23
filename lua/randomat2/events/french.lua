@@ -8,7 +8,7 @@ EVENT.Type = EVENT_TYPE_MUSIC
 
 EVENT.Categories = {"fun", "moderateimpact"}
 
-local musicConvar = CreateConVar("randomat_french_music", 1, FCVAR_ARCHIVE, "Whether music should play", 0, 1)
+local musicConvar = CreateConVar("randomat_french_music", 1, FCVAR_NONE, "Whether music should play", 0, 1)
 util.AddNetworkString("FrenchRandomatBegin")
 
 function EVENT:Begin()

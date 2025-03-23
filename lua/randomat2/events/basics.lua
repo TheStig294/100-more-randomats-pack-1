@@ -5,8 +5,8 @@ EVENT.id = "basics"
 
 EVENT.Categories = {"rolechange", "modelchange", "gamemode", "largeimpact"}
 
-local sprintingCvar = CreateConVar("randomat_basics_sprinting", 0, FCVAR_ARCHIVE, "Whether sprinting is enabled", 0, 1)
-CreateConVar("randomat_basics_multi_jump", 0, FCVAR_ARCHIVE, "Whether multi-jumping is enabled", 0, 1)
+local sprintingCvar = CreateConVar("randomat_basics_sprinting", 0, FCVAR_NONE, "Whether sprinting is enabled", 0, 1)
+CreateConVar("randomat_basics_multi_jump", 0, FCVAR_NONE, "Whether multi-jumping is enabled", 0, 1)
 util.AddNetworkString("BasicsRandomatClientStart")
 util.AddNetworkString("BasicsRandomatClientEnd")
 local eventTriggered = false

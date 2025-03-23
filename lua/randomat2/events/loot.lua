@@ -5,7 +5,7 @@ EVENT.id = "loot"
 
 EVENT.Categories = {"deathtrigger", "entityspawn", "largeimpact"}
 
-CreateConVar("randomat_loot_drop_number", "8", FCVAR_ARCHIVE, "Number of weapons dropped", 1, 20)
+CreateConVar("randomat_loot_drop_number", "8", FCVAR_NONE, "Number of weapons dropped", 1, 20)
 
 function EVENT:Begin()
     -- Code taken from the "Loot Goblin" role from Custom Roles for TTT

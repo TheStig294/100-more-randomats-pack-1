@@ -5,7 +5,7 @@ EVENT.id = "fart"
 
 EVENT.Categories = {"fun", "moderateimpact"}
 
-local altSoundCvar = CreateConVar("randomat_fart_alt_sound", "0", FCVAR_ARCHIVE, "Whether to use the alternate fart sound", 0, 1)
+local altSoundCvar = CreateConVar("randomat_fart_alt_sound", "0", FCVAR_NONE, "Whether to use the alternate fart sound", 0, 1)
 local ravsModel = "models/solidsnakemgs4/solidsnakemgs4.mdl"
 local garfieldModel = "models/player/garfield/buff_garfield.mdl"
 local ps1RavsModel = "models/vinrax/player/MGS_Solid_Snake.mdl"

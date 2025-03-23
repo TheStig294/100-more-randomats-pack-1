@@ -5,7 +5,7 @@ EVENT.id = "pockets"
 
 EVENT.Categories = {"item", "moderateimpact"}
 
-CreateConVar("randomat_pockets_blocklist", "", FCVAR_ARCHIVE, "The comma-separated list of weapon IDs to not give out")
+CreateConVar("randomat_pockets_blocklist", "", FCVAR_NONE, "The comma-separated list of weapon IDs to not give out")
 
 function EVENT:Begin()
     local blocklist = {}

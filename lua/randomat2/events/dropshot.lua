@@ -5,7 +5,7 @@ EVENT.id = "dropshot"
 
 EVENT.Categories = {"largeimpact"}
 
-CreateConVar("randomat_dropshot_message_cooldown", "20", FCVAR_ARCHIVE, "'Player healed!' message second cooldown. 0 disables", 0, 120)
+CreateConVar("randomat_dropshot_message_cooldown", "20", FCVAR_NONE, "'Player healed!' message second cooldown. 0 disables", 0, 120)
 
 function EVENT:Begin()
     local messageShown = {}

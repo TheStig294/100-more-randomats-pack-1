@@ -5,8 +5,8 @@ EVENT.id = "yeet"
 
 EVENT.Categories = {"fun", "largeimpact"}
 
-CreateConVar("randomat_yeet_cooldown", "10", FCVAR_ARCHIVE, "Cooldown between 'yeets', in seconds", 0, 120)
-CreateConVar("randomat_yeet_force", "1000", FCVAR_ARCHIVE, "'Yeet' force", 1, 10000)
+CreateConVar("randomat_yeet_cooldown", "10", FCVAR_NONE, "Cooldown between 'yeets', in seconds", 0, 120)
+CreateConVar("randomat_yeet_force", "1000", FCVAR_NONE, "'Yeet' force", 1, 10000)
 
 function EVENT:Begin()
     self:AddHook("PostEntityTakeDamage", function(ent, dmg, took)

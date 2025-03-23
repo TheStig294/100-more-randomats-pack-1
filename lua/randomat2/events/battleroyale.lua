@@ -1,8 +1,8 @@
 local EVENT = {}
-local zonesCvar = CreateConVar("randomat_battleroyale_storm_zones", 4, FCVAR_ARCHIVE, "The number of zones until the storm covers the map (Set to 0 to disable)", 0, 10)
-local waitTimeCvar = CreateConVar("randomat_battleroyale_storm_wait_time", 30, FCVAR_ARCHIVE, "Seconds after the next zone is announced before the storm moves", 0, 120)
-local moveTimeCvar = CreateConVar("randomat_battleroyale_storm_move_time", 30, FCVAR_ARCHIVE, "Seconds it takes for the storm to move", 0, 120)
-local musicCvar = CreateConVar("randomat_battleroyale_music", 1, FCVAR_ARCHIVE, "Play victory royale music when someone wins", 0, 1)
+local zonesCvar = CreateConVar("randomat_battleroyale_storm_zones", 4, FCVAR_NONE, "The number of zones until the storm covers the map (Set to 0 to disable)", 0, 10)
+local waitTimeCvar = CreateConVar("randomat_battleroyale_storm_wait_time", 30, FCVAR_NONE, "Seconds after the next zone is announced before the storm moves", 0, 120)
+local moveTimeCvar = CreateConVar("randomat_battleroyale_storm_move_time", 30, FCVAR_NONE, "Seconds it takes for the storm to move", 0, 120)
+local musicCvar = CreateConVar("randomat_battleroyale_music", 1, FCVAR_NONE, "Play victory royale music when someone wins", 0, 1)
 EVENT.Title = "LAST ONE STANDING WINS! BATTLE ROYALE!"
 EVENT.Description = ""
 EVENT.ExtDescription = "Everyone is turned into an innocent, and turns the game into a free-for-all!"

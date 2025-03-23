@@ -1,5 +1,5 @@
 local EVENT = {}
-CreateConVar("randomat_michaelrosen_trigger_sound", "1", FCVAR_ARCHIVE, "Play a sound on trigger?", 0, 1)
+CreateConVar("randomat_michaelrosen_trigger_sound", "1", FCVAR_NONE, "Play a sound on trigger?", 0, 1)
 EVENT.Title = "The Michael Rosen Rap"
 EVENT.Description = "Replaces game sounds with Michael Rosen sounds!"
 EVENT.id = "michaelrosen"
