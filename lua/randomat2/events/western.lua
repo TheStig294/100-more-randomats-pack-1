@@ -63,6 +63,7 @@ function EVENT:Begin()
     -- Gives respawning players a revolver
     self:AddHook("PlayerSpawn", function(ply)
         timer.Simple(1, function()
+            if not ply:Alive() or ply:IsSpec() then return end
             ply:Give("weapon_ttt_duel_revolver_randomat")
             ply:SelectWeapon("weapon_ttt_duel_revolver_randomat")
         end)
