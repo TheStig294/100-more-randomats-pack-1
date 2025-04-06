@@ -10,7 +10,7 @@ EVENT.Categories = {"smallimpact"}
 function EVENT:Begin()
     -- Whenever an entity fires a bullet,
     self:AddHook("EntityFireBullets", function(ent, data)
-        if IsValid(ent) and ent:IsPlayer() then return end
+        if not IsValid(ent) or not ent:IsPlayer() then return end
         -- Get the opposite direction it's facing
         local vec = Vector(ent:EyePos().x - ent:GetEyeTrace().HitPos.x, ent:EyePos().y - ent:GetEyeTrace().HitPos.y, ent:EyePos().z - ent:GetEyeTrace().HitPos.z)
         vec:Normalize()
