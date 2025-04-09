@@ -95,7 +95,7 @@ local function makeEffectsList(frame, noOfLines, noOfChoices, secsToMakeChoice, 
         if not effect.Enabled then
             continue
             -- Preventing incompatible effects from being paired with the chosen cause
-        elseif causeID == "near" and (id == "randomat" or id == "fling") then
+        elseif causeID == "interact" and (id == "randomat" or id == "fling") then
             continue
         elseif causeID == "death" and id == "fling" then
             continue

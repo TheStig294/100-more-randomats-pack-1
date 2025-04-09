@@ -667,7 +667,7 @@ _randomat_make_cause_bodysearch_ - Default: 1 - Whether the "After you search a 
 _randomat_make_cause_chat_ - Default: 1 - Whether the "After you send a chat message" cause is enabled\
 _randomat_make_cause_footstep_ - Default: 1 - Whether the "After you walk" cause is enabled\
 _randomat_make_cause_death_ - Default: 1 - Whether the "After you die" cause is enabled\
-_randomat_make_cause_near_ - Default: 1 - Whether the "After you're near a player" cause is enabled\
+_randomat_make_cause_interact_ - Default: 1 - Whether the "After you interact with something" cause is enabled\
 _randomat_make_cause_damage_ - Default: 1 - Whether the "After you take damage" cause is enabled\
 _randomat_make_cause_buy_ - Default: 1 - Whether the "After you buy something" cause is enabled\
 _randomat_make_cause_weapon_ - Default: 1 - Whether the "After you switch weapons" cause is enabled\

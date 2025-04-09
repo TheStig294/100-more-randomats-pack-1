@@ -5,16 +5,10 @@ end
 local function CheckForPlayer(arg1, arg2)
     local ply = false
 
-    if GetGlobalString("MakeRandomatCause", "") == "near" then
-        if SafeIsPlayer(arg1) and SafeIsPlayer(arg2) then
-            ply = arg1
-        end
-    else
-        if SafeIsPlayer(arg1) then
-            ply = arg1
-        elseif SafeIsPlayer(arg2) then
-            ply = arg2
-        end
+    if SafeIsPlayer(arg1) then
+        ply = arg1
+    elseif SafeIsPlayer(arg2) then
+        ply = arg2
     end
 
     return ply
@@ -29,10 +23,10 @@ Causes.death = {
     ["Desc"] = "After you die"
 }
 
-Causes.near = {
-    ["id"] = "near",
-    ["Hooks"] = {"ShouldCollide"},
-    ["Desc"] = "After you're near a player"
+Causes.interact = {
+    ["id"] = "interact",
+    ["Hooks"] = {"PlayerUse"},
+    ["Desc"] = "After you interact with something"
 }
 
 Causes.buy = {
