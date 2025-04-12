@@ -158,17 +158,6 @@ _randomat_borgir_slower_cap_ - Default: 0.2 - The lowest speed multiplier a play
 Changed event name and description, replaced the model of the entity spawned and changed its effect when activated.\
 Originally made by [Malivil](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086)
 
-## Bouncy
-
-Bounce instead of taking fall damage\
-NOTE: This randomat is disabled by default as it normally has little to no impact on the round, and can trigger on maps where taking fall damage isn't possible\
-\
-_ttt_randomat_bouncy_ - Default: 0 - Whether this randomat is enabled\
-_randomat_bouncy_speed_retain_ - Default: 0.95 - % of speed retained between bounces\
-\
-Converted to work with randomat 2.0 rather than TTT2\
-Originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
-
 ## Bullets, my only weakness
 
 Bullet damage only, everyone is immune to any other form of damage\
@@ -237,13 +226,6 @@ _ttt_randomat_cremation_ - Default: 1 - Whether this randomat is enabled\
 Fixed lua error if bodies were removed before they were removed by this randomat.\
 Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
 
-## Crowbars Only
-
-Can only use, or be damaged by, a buffed crowbar.\
-NOTE: This randomat is disabled by default as it's a bit too difficult for the traitors to win.\
-\
-_ttt_randomat_crowbarsonly_ - Default: 0 - Whether this randomat is enabled
-
 ## Dead men tell no lies
 
 When someone dies, everyone is told what their role was\
@@ -277,16 +259,6 @@ Secret event.\
 Dead players can play discord sounds! Sound cannot be played more than once a second.\
 \
 _ttt_randomat_discord_ - Default: 1 - Whether this randomat is enabled
-
-## Don't Get Greedy
-
-Everyone gets buyable items over time, but if they're already holding one, they die!\
-NOTE: This randomat is disabled by default as it was too confusing for most players\
-\
-_ttt_randomat_greedy_ - Default: 0 - Whether this randomat is enabled\
-_randomat_greedy_timer_min_ - Default: 10 - Min seconds before a weapon tries to be given\
-_randomat_greedy_timer_max_ - Default: 60 - Max seconds before a weapon tries to be given\
-_randomat_greedy_slap_sound_ - Default: 0 - Whether a slap sound should play on death
 
 ## Don't Miss
 
@@ -423,14 +395,6 @@ _ttt_randomat_kexplode_ - Default: 1 - Whether this randomat is enabled\
 _randomat_kexplode_timer_ - Default: 60 - The time until imperfect karma players explode
 
 The explosion creation code was originally made by [HagenSNKL](https://steamcommunity.com/sharedfiles/filedetails/?id=662342819), from the event: "_A Random Person will explode every ... seconds! Watch out! (EXCEPT DETECTIVES)_"
-
-## Explosive Jumping
-
-Everyone can super-jump, and creates an explosion when they land!\
-Everyone is immune to their own explosions.\
-NOTE: This randomat is disabled by default as it was causing issues with breaking the sv_gravity convar, and was too overwhelming.\
-\
-_ttt_randomat_explosivejumping_ - Default: 0 - Whether this randomat is enabled\
 
 ## Explosive spectating
 
@@ -573,16 +537,6 @@ Everyone can only use an infinite ammo huge as their main weapon\
 \
 _ttt_randomat_hugeproblem_ - Default: 1 - Whether this randomat is enabled
 
-## I'm The Captain Now
-
-The first time a detective kills someone on their side, they die, and their victim respawns as a new detective at full health with the detective's weapons.\
-NOTE: This randomat is disabled by default as it's a bit too niche and normally doesn't have an effect on the round.\
-\
-_ttt_randomat_captain_ - Default: 0 - Whether this randomat is enabled\
-\
-Fixed compatibility with Custom Roles for TTT and added compatibility with Noxx’s Custom Roles for TTT.\
-Originally made by [Owningle](https://steamcommunity.com/sharedfiles/filedetails/?id=2214440295)
-
 ## I'm sworn to carry your burdens
 
 Move faster the less weapons you have, move slower the more weapons you have.\
@@ -687,14 +641,6 @@ Displays a random ASCII art meme every 30 seconds (by default), in the form of a
 \
 _ttt_randomat_memes_ - Default: 1 - Whether this randomat is enabled\
 _randomat_memes_timer_ - Default: 30 - Seconds between displaying a meme
-
-## My planet needs me
-
-Ragdolls move around, as soon as a player dies.\
-Depending on the mass of anyone's playermodel, some people's ragdolls might not move much, some might go flying around the map!\
-NOTE: This randomat is disabled by default as it doesn't work with a lot of playermodels (especially ones that aren't rigged properly) and has a bit too weird or confusing effect\
-\
-_ttt_randomat_planet_ - Default: 0 - Whether this randomat is enabled
 
 ## No more of your little tricks
 
@@ -979,13 +925,6 @@ Whenever you shoot, everyone else does too!\
 _ttt_randomat_triggerhappy_ - Default: 1 - Whether this randomat is enabled\
 \
 Idea from Wolvinof on YouTube.
-
-## Triggered
-
-Applies a red screen effect, shakes the screen and plays a loud sound when someone dies\
-NOTE: This randomat is disabled by default as the screen effect and sound is too overwhelming to those who have sensory sensitivity.\
-\
-_ttt_randomat_triggered_ - Default: 0 - Whether this randomat is enabled
 
 ## Unbelievable Guilt
 
