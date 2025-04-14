@@ -56,7 +56,7 @@ function EVENT:Begin()
 
         -- Giving unbought items, if any
         for i = 1, itemCount do
-            Randomat:GivePassiveOrActiveItem(ply, unboughtEquipment[i], true)
+            Randomat:GivePassiveOrActiveItem(ply, unboughtEquipment[i])
         end
     end
 

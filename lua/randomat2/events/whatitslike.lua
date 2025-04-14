@@ -56,7 +56,7 @@ function EVENT:Begin()
 
         -- Give everyone the chosen player's most bought items
         for _, item in ipairs(mostBoughtItems) do
-            Randomat:GivePassiveOrActiveItem(ply, item, true)
+            Randomat:GivePassiveOrActiveItem(ply, item)
         end
     end
 

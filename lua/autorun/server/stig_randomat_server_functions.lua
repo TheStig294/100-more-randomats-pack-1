@@ -23,8 +23,6 @@ if engine.ActiveGamemode() == "terrortown" and file.Exists("sound/weapons/random
     end)
 end
 
-util.AddNetworkString("RandomatGetEquipmentPrintNames")
-util.AddNetworkString("RandomatReceiveEquipmentPrintName")
 local traitorBuyable = {}
 local detectiveBuyable = {}
 local traitorDetectiveBuyable = {}
@@ -51,14 +49,10 @@ hook.Add("TTTPrepareRound", "RandomatPrepareRoundRunOnce", function()
     end
 
     file.Write("randomat/disabled_events.txt", table.concat(disabledEvents, "\n"))
-    -- Getting the printnames of all weapons and equipment off the client and on the server
-    net.Start("RandomatGetEquipmentPrintNames")
-    net.Send(Entity(1))
-    hook.Remove("TTTPrepareRound", "RandomatGetEquipmentPrintNames")
 
     -- Getting the lists of all buyable equipment by detectives and traitors
     -- First check if its on the SWEP list
-    for _, SWEP in pairs(weapons.GetList()) do
+    for _, SWEP in ipairs(weapons.GetList()) do
         if Randomat:IsBuyableItem(ROLE_TRAITOR, SWEP) then
             traitorBuyable[SWEP.ClassName] = true
         elseif Randomat:IsBuyableItem(ROLE_DETECTIVE, SWEP) then
@@ -69,7 +63,7 @@ hook.Add("TTTPrepareRound", "RandomatPrepareRoundRunOnce", function()
     -- If its not on the SWEP list, then check the equipment items table
     for _, item in pairs(EquipmentItems[ROLE_TRAITOR]) do
         if Randomat:IsBuyableItem(ROLE_TRAITOR, item) then
-            -- Use name and not ID because this is used for randomat stats and we need a unique identifier
+            -- Use name and not ID because we need a unique identifier
             -- If equipment items are uninstalled from the server, old equipment could start using IDs previously held by other equipment
             -- And thus stats could become mixed with another equipment's stats
             traitorBuyable[item.name] = true
@@ -78,9 +72,6 @@ hook.Add("TTTPrepareRound", "RandomatPrepareRoundRunOnce", function()
 
     for _, item in pairs(EquipmentItems[ROLE_DETECTIVE]) do
         if Randomat:IsBuyableItem(ROLE_DETECTIVE, item) then
-            -- Use name and not ID because this is used for randomat stats and we need a unique identifier
-            -- If equipment items are uninstalled from the server, old equipment could start using IDs previously held by other equipment
-            -- And thus stats could become mixed with another equipment's stats
             detectiveBuyable[item.name] = true
         end
     end
@@ -114,36 +105,14 @@ hook.Add("TTTRoleWeaponUpdated", "RandomatBuyableEquipmentUpdate", function(role
     end
 end)
 
-function Randomat:GetTraitorBuyable()
-    return traitorBuyable
-end
-
-function Randomat:GetDetectiveBuyable()
-    return detectiveBuyable
-end
-
 function Randomat:GetTraitorDetectiveBuyable()
     return traitorDetectiveBuyable
-end
-
-local equPrintNames = {}
-
-net.Receive("RandomatReceiveEquipmentPrintName", function(len, ply)
-    local id = net.ReadString()
-    local printname = net.ReadString()
-    equPrintNames[id] = printname
-end)
-
-function Randomat:GetEquipmentPrintName(id)
-    id = tostring(id)
-
-    return equPrintNames[id]
 end
 
 -- Choosing an arbitrary weapon kind so all weapons get given regardless of weapon slots
 local wepKind = 103
 
-function Randomat:GivePassiveOrActiveItem(ply, equipment, printChat)
+function Randomat:GivePassiveOrActiveItem(ply, equipment)
     local SWEP = weapons.Get(equipment)
     local givenItem
     local itemID
@@ -198,24 +167,6 @@ function Randomat:GivePassiveOrActiveItem(ply, equipment, printChat)
             ply:ConCommand("ttt_radar_scan")
         end
     end)
-
-    if printChat then
-        timer.Simple(5, function()
-            local name
-
-            if itemID then
-                name = Randomat:GetEquipmentPrintName(itemID)
-            else
-                name = Randomat:GetEquipmentPrintName(equipment)
-            end
-
-            if name then
-                ply:ChatPrint("You received a " .. name .. "!")
-            else
-                ply:ChatPrint("You received an item!")
-            end
-        end)
-    end
 
     return givenItem
 end
