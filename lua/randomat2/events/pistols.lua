@@ -28,7 +28,7 @@ function EVENT:HandleRoleWeapons(ply)
     end
 
     -- Remove role weapons from anyone on the traitor team now
-    if Randomat:IsTraitorTeam(ply) then
+    if updated then
         self:StripRoleWeapons(ply)
     end
 
