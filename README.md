@@ -172,11 +172,6 @@ If one of the randomats in the pair is turned off, then any pair using that rand
 \
 General idea and some combos suggested by u/venort_ on Reddit.
 
-### "Combo: Bunny Hops"
-
-High jumps + bounce instead of fall damage!\
-_ttt_randomat_cbbunny_ - Default: 1 - Whether this randomat is enabled
-
 ### "Combo: Easy to miss..."
 
 Missing shots damages you, hitting shots heal + H.U.G.E. only!\
