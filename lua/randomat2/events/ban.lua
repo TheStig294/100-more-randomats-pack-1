@@ -15,7 +15,15 @@ if not file.Exists("randomat/ban.txt", "DATA") then
     file.CreateDir("randomat")
     file.Write("randomat/ban.txt", "")
 else
-    RunConsoleCommand("ttt_randomat_" .. file.Read("randomat/ban.txt", "DATA"), "0")
+    local bannedEvent = file.Read("randomat/ban.txt", "DATA")
+
+    if bannedEvent ~= "" then
+        local bannedEventCvar = "ttt_randomat_" .. bannedEvent
+
+        if ConVarExists(bannedEventCvar) then
+            RunConsoleCommand(bannedEventCvar, "0")
+        end
+    end
 end
 
 local EventChoices = {}
