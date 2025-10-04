@@ -557,6 +557,12 @@ _randomat_duncanevent_announce_player_ - Default: 1 - Announce player's model be
 Added description, fixed not hiding names of players properly and not hiding names for traitors\
 Originally made by [Legendahkiin](https://steamcommunity.com/sharedfiles/filedetails/?id=2007014855)
 
+## It's time to go third-person
+
+Switches everyone to an over-the-shoulder thirdperson view\
+\
+_ttt_randomat_thirdperson_ - Default: 1 - Whether this randomat is enabled
+
 ## LAST ONE STANDING WINS! BATTLE ROYALE
 
 Turns the round into a battle royale!\
