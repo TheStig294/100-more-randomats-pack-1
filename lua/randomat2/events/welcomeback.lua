@@ -24,13 +24,6 @@ function EVENT:Begin()
     -- Continually checks for players' roles, in case roles change
     timer.Create("WelcomeBackRandomatCheckRoleChange", 1, 0, function()
         for _, ply in ipairs(self:GetAlivePlayers()) do
-            ply:SetNWBool("WelcomeBackIsDetectiveLike", false)
-            ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", false)
-            ply:SetNWBool("WelcomeBackJester", false)
-            ply:SetNWBool("WelcomeBackTraitor", false)
-        end
-
-        for _, ply in ipairs(self:GetAlivePlayers()) do
             if Randomat:IsGoodDetectiveLike(ply) then
                 ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", true)
                 ply:SetNWBool("WelcomeBackIsDetectiveLike", true)
@@ -90,7 +83,7 @@ function EVENT:End()
     net.Broadcast()
 
     -- Removes all flags set
-    for _, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         ply:SetNWBool("WelcomeBackIsDetectiveLike", false)
         ply:SetNWBool("WelcomeBackIsGoodDetectiveLike", false)
         ply:SetNWBool("WelcomeBackJester", false)

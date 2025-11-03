@@ -27,15 +27,15 @@ local function WordBox(bordersize, x, y, text, font, color, fontcolor, xalign, y
     local textWidth, textHeight = surface.GetTextSize(text)
     local XPos = x
 
-    if (xalign == TEXT_ALIGN_CENTER) then
+    if xalign == TEXT_ALIGN_CENTER then
         x = x - (bordersize + textWidth / 2)
-    elseif (xalign == TEXT_ALIGN_RIGHT) then
+    elseif xalign == TEXT_ALIGN_RIGHT then
         x = x - (bordersize * 2 + textWidth)
     end
 
-    if (yalign == TEXT_ALIGN_CENTER) then
+    if yalign == TEXT_ALIGN_CENTER then
         y = y - (bordersize + textHeight / 2)
-    elseif (yalign == TEXT_ALIGN_BOTTOM) then
+    elseif yalign == TEXT_ALIGN_BOTTOM then
         y = y - (bordersize * 2 + textHeight)
     end
 
@@ -113,7 +113,7 @@ local function CalculateBoxWidths()
     local screenWidth = ScrW()
     local overlayWidth = 0
 
-    for _, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         if ply:IsSpec() then continue end
 
         if not boxWidths[ply] then
@@ -140,7 +140,7 @@ local function CalculateBoxWidths()
     local leftMargin = screenWidth / 2 - overlayWidth / 2
     local boxOffset = 0
 
-    for _, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         if ply:IsSpec() then continue end
         boxOffset = boxOffset + boxWidths[ply] / 2
         overlayPositions[ply] = leftMargin + boxOffset
@@ -148,17 +148,33 @@ local function CalculateBoxWidths()
     end
 end
 
+local function ShouldReveal(ply, client)
+    -- Reveal yourself, searched players, and detectives
+    if ply == LocalPlayer() or ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 or ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") then return true end
+    -- Reveal Loot Goblins when set to
+    if ply.IsLootGoblin and ply:IsLootGoblin() and ply:IsRoleActive() and GetGlobalInt("ttt_lootgoblin_announce") == 4 then return true end
+    -- Reveal turned Turncoats
+    if ply.IsTurncoat and ply:IsTurncoat() and ply:IsTraitorTeam() then return true end
+    -- Reveal Beggars when set to
+    if ply.IsBeggar and ply:IsBeggar() and ply:ShouldRevealBeggar() then return true end
+    -- Reveal the Good Twin and the Evil Twin to each other
+    if ply.IsTwin and ply:IsTwin() and client:IsTwin() then return true end
+
+    return false
+end
+
 local function CreateOverlay()
+    local client = LocalPlayer()
     local playerCount = 0
 
     -- Grabbing player names and the number of them
-    for i, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         playerCount = playerCount + 1
         playerNames[ply] = ply:Nick()
     end
 
     -- Sets all overlay positions to 0, so after the wordboxes are first drawn in the overlay hook, we can get the boxes' width
-    for _, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         if ply:IsSpec() then
             overlayPositions[ply] = nil
         elseif not overlayPositions[ply] then
@@ -245,8 +261,7 @@ local function CreateOverlay()
                 local role = ply:GetRole()
                 roleColour = colourTable[role]
                 iconRole = role
-            elseif ply == LocalPlayer() or ply:GetNWInt("WelcomeBackScoreboardRoleRevealed", -1) ~= -1 or ply:GetNWBool("WelcomeBackIsGoodDetectiveLike") or (ply.IsLootGoblin and ply:IsLootGoblin() and ply:IsRoleActive() and GetGlobalInt("ttt_lootgoblin_announce") == 4) or (ply.IsTurncoat and ply:IsTurncoat() and ply:IsTraitorTeam()) or ply.IsBeggar and ply:IsBeggar() and ply:ShouldRevealBeggar() then
-                -- Reveal yourself, searched players, detectives (when their roles aren't hidden) to everyone, loot goblins (when they are shown to everyone), revealed turncoats and revealed beggars
+            elseif ShouldReveal(ply, client) then
                 local role = ply:GetRole()
 
                 if roleIcons then
