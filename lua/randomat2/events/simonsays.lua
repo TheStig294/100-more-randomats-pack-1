@@ -28,13 +28,13 @@ function EVENT:Begin()
     self.leaderSelectCount = 0
 
     -- Remove all floor weapons that don't deal damage
-    for _, wep in ipairs(ents.GetAll()) do
+    for _, wep in ents.Iterator() do
         if IsValid(wep) and wep.AutoSpawnable and wep.Primary and wep.Primary.Damage and wep.Primary.Damage <= 0 then
             wep:Remove()
         end
     end
 
-    for i, swep in ipairs(weapons.GetList()) do
+    for _, swep in ipairs(weapons.GetList()) do
         if swep.AutoSpawnable and swep.Kind and swep.Kind == WEAPON_HEAVY then
             table.insert(autoSpawnHeavyWeps, swep)
         end
@@ -44,7 +44,7 @@ function EVENT:Begin()
         -- Remove all grenades as players will expect to be able to hold them infinitely.
         -- When a nade is thrown, the player isn't given a new one even if the leader is still holding one, instead they can use their weapons freely
         -- This will still happen for weapons like the red matter bomb, but players tend to use shop items quickly
-        for _, ent in ipairs(ents.GetAll()) do
+        for _, ent in ents.Iterator() do
             if not IsValid(ent) then continue end
 
             if ent.Kind and (ent.Kind == WEAPON_NADE or (ent.Kind == WEAPON_MELEE and ent:GetClass() ~= "weapon_zm_improvised")) then
@@ -85,7 +85,7 @@ function EVENT:Begin()
                 local allowPickup = false
 
                 -- If they're trying to pick up the leader's weapon then let them
-                for _, leaderWeapon in pairs(self.weapons) do
+                for _, leaderWeapon in ipairs(self.weapons) do
                     if wep.ClassName == leaderWeapon.cl then
                         allowPickup = true
                         break
@@ -123,7 +123,7 @@ function EVENT:Begin()
         end)
 
         -- Count the amount of times the leader picks up a weapon, and change leader if they do it too many times
-        self:AddHook("WeaponEquip", function(weapon, owner)
+        self:AddHook("WeaponEquip", function(_, owner)
             if owner ~= self.leader then return end
             self.leaderWeaponPickups = self.leaderWeaponPickups + 1
 
@@ -243,7 +243,7 @@ function EVENT:CopyGuns()
             wep.leaderLocked = true
         end
 
-        for k, v in pairs(self.leader:GetWeapons()) do
+        for _, v in ipairs(self.leader:GetWeapons()) do
             table.insert(self.weapons, {
                 cl = v.ClassName
             })
@@ -273,17 +273,17 @@ function EVENT:CopyGuns()
 
     local alivePlayers = self:GetAlivePlayers()
 
-    for _, ply in pairs(alivePlayers) do
+    for _, ply in ipairs(alivePlayers) do
         self:StripBlocklistedWeapons(ply)
 
         -- For everyone other than the leader,
         if ply ~= self.leader then
             -- Remove all weapons they have that the leader doesn't
-            for _, CurrentWeapon in pairs(ply:GetWeapons()) do
+            for _, CurrentWeapon in ipairs(ply:GetWeapons()) do
                 local wepCl = CurrentWeapon.ClassName
                 local delete = true
 
-                for k, weapon in pairs(self.weapons or {}) do
+                for _, weapon in ipairs(self.weapons or {}) do
                     -- Except if it is a role weapon!
                     if wepCl == weapon.cl or (CurrentWeapon.Kind and CurrentWeapon.Kind == WEAPON_ROLE) then
                         delete = false
@@ -306,7 +306,7 @@ function EVENT:CopyGuns()
             end
 
             -- Give them the leader's weapons and prevent them from dropping them
-            for k, weapon in pairs(self.weapons) do
+            for _, weapon in ipairs(self.weapons) do
                 -- Skip weapons already given before
                 local alreadyGiven = false
                 local classname = weapon.cl
@@ -340,7 +340,7 @@ end
 
 -- Allows the leader to drop weapons, if they weren't given one they can't drop
 function EVENT:UnlockGuns()
-    for _, wep in pairs(self.leader:GetWeapons()) do
+    for _, wep in ipairs(self.leader:GetWeapons()) do
         if wep.leaderLocked then
             wep.AllowDrop = false
         else
@@ -360,10 +360,19 @@ function EVENT:StripBlocklistedWeapons(ply)
     end
 end
 
+-- Do not trigger passive item only events when there is a Faker
+function EVENT:Condition()
+    for _, ply in player.Iterator() do
+        if ply.IsFaker and ply:IsFaker() then return false end
+    end
+
+    return true
+end
+
 function EVENT:GetConVars()
     local sliders = {}
 
-    for _, v in pairs({"timer"}) do
+    for _, v in ipairs({"timer"}) do
         local name = "randomat_" .. self.id .. "_" .. v
 
         if ConVarExists(name) then
@@ -381,7 +390,7 @@ function EVENT:GetConVars()
 
     local checkboxes = {}
 
-    for _, v in pairs({"strip_basic_weapons"}) do
+    for _, v in ipairs({"strip_basic_weapons"}) do
         local name = "randomat_" .. self.id .. "_" .. v
 
         if ConVarExists(name) then

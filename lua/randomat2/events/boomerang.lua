@@ -96,6 +96,15 @@ function EVENT:End()
     end
 end
 
+-- Do not trigger passive item only events when there is a Faker
+function EVENT:Condition()
+    for _, ply in player.Iterator() do
+        if ply.IsFaker and ply:IsFaker() then return false end
+    end
+
+    return true
+end
+
 function EVENT:GetConVars()
     local sliders = {}
 
