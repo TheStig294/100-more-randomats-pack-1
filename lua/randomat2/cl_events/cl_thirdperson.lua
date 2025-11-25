@@ -3,7 +3,10 @@ net.Receive("ThirdPersonRandomat", function()
         if not ply:Alive() or ply:IsSpec() then return end
 
         local view = {
-            origin = pos - (angles:Forward() * 100),
+            origin = util.TraceLine({
+                start = pos,
+                endPos = pos - angles:Forward() * 100
+            }).HitPos,
             angles = angles,
             fov = fov,
             drawviewer = true,
