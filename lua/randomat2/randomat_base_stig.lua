@@ -1,51 +1,6 @@
 -- Randomat base code from Malivil's randomat mod
 -- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if GetGlobalBool("DisableStigRandomatBase") then return end
-util.AddNetworkString("randomat_message")
-util.AddNetworkString("randomat_message_silent")
-util.AddNetworkString("AlertTriggerFinal")
-util.AddNetworkString("alerteventtrigger")
-util.AddNetworkString("RdmtSetSpeedMultiplier")
-util.AddNetworkString("RdmtSetSpeedMultiplier_WithWeapon")
-util.AddNetworkString("RdmtSetSpeedMultiplier_Sprinting")
-util.AddNetworkString("RdmtRemoveSpeedMultiplier")
-util.AddNetworkString("RdmtRemoveSpeedMultipliers")
-util.AddNetworkString("RdmtEventBegin")
-util.AddNetworkString("RdmtEventEnd")
-util.AddNetworkString("TTT_RoleChanged")
-util.AddNetworkString("TTT_LogInfo")
-ROLE_JESTER = ROLE_JESTER or -1
-ROLE_SWAPPER = ROLE_SWAPPER or -1
-ROLE_GLITCH = ROLE_GLITCH or -1
-ROLE_PHANTOM = ROLE_PHANTOM or ROLE_PHOENIX or -1
-ROLE_HYPNOTIST = ROLE_HYPNOTIST or -1
-ROLE_REVENGER = ROLE_REVENGER or -1
-ROLE_DRUNK = ROLE_DRUNK or -1
-ROLE_CLOWN = ROLE_CLOWN or -1
-ROLE_DEPUTY = ROLE_DEPUTY or -1
-ROLE_IMPERSONATOR = ROLE_IMPERSONATOR or -1
-ROLE_BEGGAR = ROLE_BEGGAR or -1
-ROLE_OLDMAN = ROLE_OLDMAN or -1
-ROLE_MERCENARY = ROLE_MERCENARY or ROLE_SURVIVALIST or -1
-ROLE_BODYSNATCHER = ROLE_BODYSNATCHER or -1
-ROLE_VETERAN = ROLE_VETERAN or -1
-ROLE_ASSASSIN = ROLE_ASSASSIN or -1
-ROLE_KILLER = ROLE_KILLER or ROLE_SERIALKILLER or -1
-ROLE_ZOMBIE = ROLE_ZOMBIE or ROLE_INFECTED or -1
-ROLE_VAMPIRE = ROLE_VAMPIRE or -1
-ROLE_DOCTOR = ROLE_DOCTOR or -1
-ROLE_QUACK = ROLE_QUACK or -1
-ROLE_PARASITE = ROLE_PARASITE or -1
-ROLE_TRICKSTER = ROLE_TRICKSTER or -1
-ROLE_DETRAITOR = ROLE_DETRAITOR or -1
-ROLE_LOOTGOBLIN = ROLE_LOOTGOBLIN or -1
-
-Randomat.ConVars = {"ttt_randomat_allow_client_list", "ttt_randomat_always_silently_trigger", "ttt_randomat_auto", "ttt_randomat_auto_chance", "ttt_randomat_auto_choose", "ttt_randomat_auto_min_rounds", "ttt_randomat_auto_silent", "ttt_randomat_chooseevent", "ttt_randomat_event_hint", "ttt_randomat_event_hint_chat", "ttt_randomat_event_hint_chat_secret", "ttt_randomat_event_history", "ttt_randomat_event_weight", "ttt_randomat_rebuyable"}
-
-Randomat.Events = Randomat.Events or {}
-Randomat.ActiveEvents = Randomat.ActiveEvents or {}
-local randomat_meta = {}
-randomat_meta.__index = randomat_meta
 local concommand = concommand
 local ents = ents
 local file = file
@@ -59,13 +14,78 @@ local player = player
 local string = string
 local table = table
 local timer = timer
+local util = util
 local CallHook = hook.Call
 local EntsCreate = ents.Create
 local EntsFindByClass = ents.FindByClass
 local GetAllPlayers = player.GetAll
 local GetAllEnts = ents.GetAll
 local PlayerIterator = player.Iterator
+
+Randomat.ConVars = {"ttt_randomat_allow_client_list", "ttt_randomat_always_silently_trigger", "ttt_randomat_auto", "ttt_randomat_auto_chance", "ttt_randomat_auto_choose", "ttt_randomat_auto_min_rounds", "ttt_randomat_auto_silent", "ttt_randomat_chooseevent", "ttt_randomat_event_hint", "ttt_randomat_event_hint_chat", "ttt_randomat_event_hint_chat_secret", "ttt_randomat_event_history", "ttt_randomat_event_weight", "ttt_randomat_rebuyable"}
+
+Randomat.Events = Randomat.Events or {}
+Randomat.ActiveEvents = Randomat.ActiveEvents or {}
+local randomat_meta = {}
+randomat_meta.__index = randomat_meta
 local COLOR_BLANK = Color(0, 0, 0, 0)
+util.AddNetworkString("randomat_message")
+util.AddNetworkString("randomat_message_silent")
+util.AddNetworkString("AlertTriggerFinal")
+util.AddNetworkString("alerteventtrigger")
+util.AddNetworkString("RdmtSetSpeedMultiplier")
+util.AddNetworkString("RdmtSetSpeedMultiplier_WithWeapon")
+util.AddNetworkString("RdmtSetSpeedMultiplier_Sprinting")
+util.AddNetworkString("RdmtRemoveSpeedMultiplier")
+util.AddNetworkString("RdmtRemoveSpeedMultipliers")
+util.AddNetworkString("RdmtEventBegin")
+util.AddNetworkString("RdmtEventEnd")
+util.AddNetworkString("TTT_RoleChanged")
+util.AddNetworkString("TTT_LogInfo")
+
+--[[
+ Shims
+]]
+--
+if not FindRespawnLocation then
+    FindRespawnLocation = function(pos) return pos end
+end
+
+ROLE_ASSASSIN = ROLE_ASSASSIN or -1
+ROLE_BARRELMIMIC = ROLE_BARRELMIMIC or -1
+ROLE_BEGGAR = ROLE_BEGGAR or -1
+ROLE_BODYSNATCHER = ROLE_BODYSNATCHER or -1
+ROLE_BOXER = ROLE_BOXER or -1
+ROLE_CANNIBAL = ROLE_CANNIBAL or -1
+ROLE_CLOWN = ROLE_CLOWN or -1
+ROLE_CUPID = ROLE_CUPID or -1
+ROLE_DEPUTY = ROLE_DEPUTY or -1
+ROLE_DETECTOCLOWN = ROLE_DETECTOCLOWN or -1
+ROLE_DETRAITOR = ROLE_DETRAITOR or -1
+ROLE_DOCTOR = ROLE_DOCTOR or -1
+ROLE_DRUNK = ROLE_DRUNK or -1
+ROLE_FAKER = ROLE_FAKER or -1
+ROLE_GLITCH = ROLE_GLITCH or -1
+ROLE_GUESSER = ROLE_GUESSER or -1
+ROLE_HERMIT = ROLE_HERMIT or -1
+ROLE_HYPNOTIST = ROLE_HYPNOTIST or -1
+ROLE_IMPERSONATOR = ROLE_IMPERSONATOR or -1
+ROLE_JESTER = ROLE_JESTER or -1
+ROLE_KILLER = ROLE_KILLER or ROLE_SERIALKILLER or -1
+ROLE_LOOTGOBLIN = ROLE_LOOTGOBLIN or -1
+ROLE_MERCENARY = ROLE_MERCENARY or ROLE_SURVIVALIST or -1
+ROLE_OLDMAN = ROLE_OLDMAN or -1
+ROLE_PARASITE = ROLE_PARASITE or -1
+ROLE_PHANTOM = ROLE_PHANTOM or ROLE_PHOENIX or -1
+ROLE_QUACK = ROLE_QUACK or -1
+ROLE_REVENGER = ROLE_REVENGER or -1
+ROLE_SPONGE = ROLE_SPONGE or -1
+ROLE_SWAPPER = ROLE_SWAPPER or -1
+ROLE_TRICKSTER = ROLE_TRICKSTER or -1
+ROLE_VAMPIRE = ROLE_VAMPIRE or -1
+ROLE_VETERAN = ROLE_VETERAN or -1
+ROLE_WHEELBOY = ROLE_WHEELBOY or -1
+ROLE_ZOMBIE = ROLE_ZOMBIE or ROLE_INFECTED or -1
 --[[
  Event History
 ]]
@@ -108,7 +128,11 @@ local function CheckEventHistoryFile()
 
     -- Make sure the file exists
     if not file.Exists("randomat/history.txt", "DATA") then
-        file.Write("randomat/history.txt", "")
+        if not file.Write("randomat/history.txt", "") then
+            ErrorNoHalt("Failed to create 'randomat/history.txt' in the garrysmod/data directory\n")
+
+            return false
+        end
     end
 
     return true
@@ -119,7 +143,15 @@ local function LoadEventHistory()
     if count <= 0 then return end
     if not CheckEventHistoryFile() then return end
     -- Read each entry from the file and save them
-    local history = string.Split(file.Read("randomat/history.txt", "DATA"), "\n")
+    local historyData = file.Read("randomat/history.txt", "DATA")
+
+    if not historyData then
+        ErrorNoHalt("Failed to read 'randomat/history.txt' in the garrysmod/data directory\n")
+
+        return
+    end
+
+    local history = string.Split(historyData, "\n")
 
     for _, h in ipairs(history) do
         if #h > 0 then
@@ -784,6 +816,16 @@ function Randomat:GetEventsByType(etype)
     return events
 end
 
+function Randomat:IsEventTypeActive(etype)
+    for _, evt in pairs(Randomat.ActiveEvents) do
+        -- If this event has a list of types and it contains the one we care about
+        -- or its single type is the one we care about, then stop searching
+        if (type(evt.Type) == "table" and table.HasValue(evt.Type, etype)) or evt.Type == etype then return true end
+    end
+
+    return false
+end
+
 -- Players
 function Randomat:GetPlayers(shuffle, alive_only, dead_only, dead_includes_spec)
     local plys = {}
@@ -849,7 +891,8 @@ function Randomat:SetRole(ply, role, set_max_hp, scale_hp)
     net.WriteString(ply:SteamID64())
 
     if CR_VERSION then
-        net.WriteInt(role, 8)
+        local roleBits = util.RoleBits and util.RoleBits() or 8
+        net.WriteInt(role, roleBits)
     else
         net.WriteUInt(role, 8)
     end
@@ -922,22 +965,24 @@ local function GetRandomRoleWeapon(roles, blocklist, droppable_only)
 
     for _, role in ipairs(roles) do
         for _, i in ipairs(table.Copy(EquipmentItems[role]) or {}) do
-            tbl[i.id] = i
+            tbl[i.id] = {i, role}
         end
 
         for _, v in ipairs(weapons.GetList()) do
             if CanIncludeWeapon(role, v, blocklist, droppable_only) then
-                tbl[v.ClassName] = v
+                tbl[v.ClassName] = {v, role}
             end
         end
     end
 
-    if #tbl == 0 then return nil, nil, nil end
-    local item, _ = table.Random(tbl)
+    if #tbl == 0 then return nil, nil, nil, nil end
+    local item_data, _ = table.Random(tbl)
+    local item = item_data[1]
+    local item_role = item_data[2]
     local item_id = tonumber(item.id)
     local swep_table = (not item_id) and weapons.GetStored(item.ClassName) or nil
 
-    return item, item_id, swep_table
+    return item, item_id, swep_table, item_role
 end
 
 function Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tracking, settrackingvar, droppable_only)
@@ -955,10 +1000,10 @@ function Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tra
         tracking = 0
     end
 
-    if tracking >= 500 then return nil, nil, nil end
+    if tracking >= 500 then return nil, nil, nil, nil end
     tracking = tracking + 1
     settrackingvar(tracking)
-    local item, item_id, swep_table = GetRandomRoleWeapon(roles, blocklist, droppable_only)
+    local item, item_id, swep_table, item_role = GetRandomRoleWeapon(roles, blocklist, droppable_only)
 
     if item_id then
         -- If this is an item and we shouldn't get players items or the player already has this item, try again
@@ -967,7 +1012,7 @@ function Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tra
         else -- Otherwise return it
             settrackingvar(0)
 
-            return item, item_id, swep_table
+            return item, item_id, swep_table, item_role
         end
     elseif swep_table then
         -- If this player can use this weapon, give it to them
@@ -975,7 +1020,7 @@ function Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tra
             settrackingvar(0)
             -- Otherwise try again
 
-            return item, item_id, swep_table
+            return item, item_id, swep_table, item_role
         else
             return Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tracking, settrackingvar, droppable_only)
         end
@@ -986,14 +1031,14 @@ function Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tra
 end
 
 local function GiveWep(ply, roles, blocklist, include_equipment, tracking, settrackingvar, onitemgiven, droppable_only)
-    local item, item_id, swep_table = Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tracking, settrackingvar, droppable_only)
+    local item, item_id, swep_table, item_role = Randomat:GetShopEquipment(ply, roles, blocklist, include_equipment, tracking, settrackingvar, droppable_only)
 
     -- Give the player whatever was found
     if item_id then
-        onitemgiven(item_id, item_id)
+        onitemgiven(item_id, item_id, item_role)
         ply:GiveEquipmentItem(item_id)
     elseif swep_table then
-        onitemgiven(nil, item.ClassName)
+        onitemgiven(nil, item.ClassName, item_role)
         ply:Give(item.ClassName)
 
         if swep_table.WasBought then
@@ -1122,7 +1167,7 @@ function Randomat:SpawnBee(ply, color, height)
     return headBee
 end
 
-function Randomat:SpawnBarrel(pos, range, min_range, ignore_negative)
+function Randomat:SpawnBarrel(pos, range, min_range, ignore_negative, model_override)
     local ent = EntsCreate("prop_physics")
     if not IsValid(ent) then return end
 
@@ -1143,7 +1188,11 @@ function Randomat:SpawnBarrel(pos, range, min_range, ignore_negative)
         end
     end
 
-    ent:SetModel("models/props_c17/oildrum001_explosive.mdl")
+    if not model_override or #model_override == 0 then
+        model_override = "models/props_c17/oildrum001_explosive.mdl"
+    end
+
+    ent:SetModel(model_override)
     ent:SetPos(pos + Vector(x, y, math.random(5, range)))
     ent:Spawn()
     local phys = ent:GetPhysicsObject()

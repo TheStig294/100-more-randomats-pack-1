@@ -12,6 +12,8 @@ EVENT_TYPE_GUNSOUNDS = 6
 EVENT_TYPE_JUMPING = 7
 EVENT_TYPE_MUSIC = 8
 EVENT_TYPE_FORCED_DEATH = 9
+EVENT_TYPE_TYPED_RESPONSE = 10
+EVENT_TYPE_TRANSLATED_WEAPONS = 11
 
 function Randomat:IsEventActive(id)
     for _, v in pairs(Randomat.ActiveEvents) do
@@ -533,6 +535,7 @@ function Randomat:IsPlayerInvisible(ply)
 end
 
 function Randomat:SetPlayerInvisible(ply)
+    if ply:GetObserverMode() ~= OBS_MODE_NONE then return end
     ply:SetColor(Color(255, 255, 255, 0))
     ply:SetMaterial("sprites/heatwave")
     ply:SetNWBool("RdmtInvisible", true)
@@ -541,6 +544,7 @@ function Randomat:SetPlayerInvisible(ply)
 end
 
 function Randomat:SetPlayerVisible(ply)
+    if ply:GetObserverMode() ~= OBS_MODE_NONE then return end
     ply:SetColor(COLOR_WHITE)
     ply:SetMaterial("")
     ply:SetNWBool("RdmtInvisible", false)
