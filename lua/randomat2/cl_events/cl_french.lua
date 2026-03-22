@@ -1272,7 +1272,7 @@ net.Receive("FrenchRandomatBegin", function()
             Clic gauche: marquer une personne
             Clic droit: récupérez le mouton]]
         },
-        one_punch_skin = {
+        weapon_ttt_one_punch = {
             name = "Un Coup de Poing !!!",
             desc = [[Poings mortels d'un seul coup.
 
