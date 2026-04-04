@@ -9,16 +9,17 @@ CreateConVar("randomat_loot_drop_number", "8", FCVAR_NONE, "Number of weapons dr
 
 function EVENT:Begin()
     -- Code taken from the "Loot Goblin" role from Custom Roles for TTT
-    self:AddHook("PlayerDeath", function(victim, infl, attacker)
-        local lootTable = {}
+    local lootTable = {}
 
+    self:AddHook("PlayerDeath", function(victim)
         timer.Create("LootRandomatWeaponDrop", 0.05, GetConVar("randomat_loot_drop_number"):GetInt(), function()
             -- Rebuild the loot table if we run out
-            if #lootTable == 0 then
-                for _, v in ipairs(weapons.GetList()) do
-                    if v and not v.AutoSpawnable and v.CanBuy and v.AllowDrop then
-                        table.insert(lootTable, WEPS.GetClass(v))
-                    end
+            if table.IsEmpty(lootTable) then
+                for _, SWEP in RandomPairs(weapons.GetList()) do
+                    -- Specifically check AllowDrop for `false` because weapons in `weapons.GetList` don't have the base table
+                    -- applied and the base table has AllowDrop defaulting to `true`
+                    if not SWEP or SWEP.AutoSpawnable or not SWEP.CanBuy or SWEP.AllowDrop == false then continue end
+                    table.insert(lootTable, WEPS.GetClass(SWEP))
                 end
             end
 
