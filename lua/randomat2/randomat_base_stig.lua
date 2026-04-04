@@ -51,41 +51,50 @@ if not FindRespawnLocation then
     FindRespawnLocation = function(pos) return pos end
 end
 
-ROLE_ASSASSIN = ROLE_ASSASSIN or -1
-ROLE_BARRELMIMIC = ROLE_BARRELMIMIC or -1
-ROLE_BEGGAR = ROLE_BEGGAR or -1
-ROLE_BODYSNATCHER = ROLE_BODYSNATCHER or -1
-ROLE_BOXER = ROLE_BOXER or -1
-ROLE_CANNIBAL = ROLE_CANNIBAL or -1
-ROLE_CLOWN = ROLE_CLOWN or -1
-ROLE_CUPID = ROLE_CUPID or -1
-ROLE_DEPUTY = ROLE_DEPUTY or -1
-ROLE_DETECTOCLOWN = ROLE_DETECTOCLOWN or -1
-ROLE_DETRAITOR = ROLE_DETRAITOR or -1
-ROLE_DOCTOR = ROLE_DOCTOR or -1
-ROLE_DRUNK = ROLE_DRUNK or -1
-ROLE_FAKER = ROLE_FAKER or -1
-ROLE_GLITCH = ROLE_GLITCH or -1
-ROLE_GUESSER = ROLE_GUESSER or -1
-ROLE_HERMIT = ROLE_HERMIT or -1
-ROLE_HYPNOTIST = ROLE_HYPNOTIST or -1
-ROLE_IMPERSONATOR = ROLE_IMPERSONATOR or -1
-ROLE_JESTER = ROLE_JESTER or -1
-ROLE_KILLER = ROLE_KILLER or ROLE_SERIALKILLER or -1
-ROLE_LOOTGOBLIN = ROLE_LOOTGOBLIN or -1
-ROLE_MERCENARY = ROLE_MERCENARY or ROLE_SURVIVALIST or -1
-ROLE_OLDMAN = ROLE_OLDMAN or -1
-ROLE_PARASITE = ROLE_PARASITE or -1
-ROLE_PHANTOM = ROLE_PHANTOM or ROLE_PHOENIX or -1
-ROLE_QUACK = ROLE_QUACK or -1
-ROLE_REVENGER = ROLE_REVENGER or -1
-ROLE_SPONGE = ROLE_SPONGE or -1
-ROLE_SWAPPER = ROLE_SWAPPER or -1
-ROLE_TRICKSTER = ROLE_TRICKSTER or -1
-ROLE_VAMPIRE = ROLE_VAMPIRE or -1
-ROLE_VETERAN = ROLE_VETERAN or -1
-ROLE_WHEELBOY = ROLE_WHEELBOY or -1
-ROLE_ZOMBIE = ROLE_ZOMBIE or ROLE_INFECTED or -1
+-- Delay this so other stuff has time to load first
+timer.Simple(1, function()
+    if not FindRespawnLocation then
+        FindRespawnLocation = function(pos) return pos end
+    end
+
+    ROLE_ASSASSIN = ROLE_ASSASSIN or Randomat.MISSING_ROLE
+    ROLE_BARRELMIMIC = ROLE_BARRELMIMIC or Randomat.MISSING_ROLE
+    ROLE_BEGGAR = ROLE_BEGGAR or Randomat.MISSING_ROLE
+    ROLE_BODYSNATCHER = ROLE_BODYSNATCHER or Randomat.MISSING_ROLE
+    ROLE_BOXER = ROLE_BOXER or Randomat.MISSING_ROLE
+    ROLE_CANNIBAL = ROLE_CANNIBAL or Randomat.MISSING_ROLE
+    ROLE_CLOWN = ROLE_CLOWN or Randomat.MISSING_ROLE
+    ROLE_CUPID = ROLE_CUPID or Randomat.MISSING_ROLE
+    ROLE_DEPUTY = ROLE_DEPUTY or Randomat.MISSING_ROLE
+    ROLE_DETECTOCLOWN = ROLE_DETECTOCLOWN or Randomat.MISSING_ROLE
+    ROLE_DETRAITOR = ROLE_DETRAITOR or Randomat.MISSING_ROLE
+    ROLE_DOCTOR = ROLE_DOCTOR or Randomat.MISSING_ROLE
+    ROLE_DRUNK = ROLE_DRUNK or Randomat.MISSING_ROLE
+    ROLE_FAKER = ROLE_FAKER or Randomat.MISSING_ROLE
+    ROLE_GLITCH = ROLE_GLITCH or Randomat.MISSING_ROLE
+    ROLE_GUESSER = ROLE_GUESSER or Randomat.MISSING_ROLE
+    ROLE_HERMIT = ROLE_HERMIT or Randomat.MISSING_ROLE
+    ROLE_HYPNOTIST = ROLE_HYPNOTIST or Randomat.MISSING_ROLE
+    ROLE_IMPERSONATOR = ROLE_IMPERSONATOR or Randomat.MISSING_ROLE
+    ROLE_JESTER = ROLE_JESTER or Randomat.MISSING_ROLE
+    ROLE_KILLER = ROLE_KILLER or ROLE_SERIALKILLER or Randomat.MISSING_ROLE
+    ROLE_LOOTGOBLIN = ROLE_LOOTGOBLIN or Randomat.MISSING_ROLE
+    ROLE_MERCENARY = ROLE_MERCENARY or ROLE_SURVIVALIST or Randomat.MISSING_ROLE
+    ROLE_MINDGOBLIN = ROLE_MINDGOBLIN or Randomat.MISSING_ROLE
+    ROLE_OLDMAN = ROLE_OLDMAN or Randomat.MISSING_ROLE
+    ROLE_PARASITE = ROLE_PARASITE or Randomat.MISSING_ROLE
+    ROLE_PHANTOM = ROLE_PHANTOM or ROLE_PHOENIX or Randomat.MISSING_ROLE
+    ROLE_QUACK = ROLE_QUACK or Randomat.MISSING_ROLE
+    ROLE_REVENGER = ROLE_REVENGER or Randomat.MISSING_ROLE
+    ROLE_SPONGE = ROLE_SPONGE or Randomat.MISSING_ROLE
+    ROLE_SWAPPER = ROLE_SWAPPER or Randomat.MISSING_ROLE
+    ROLE_TRICKSTER = ROLE_TRICKSTER or Randomat.MISSING_ROLE
+    ROLE_VAMPIRE = ROLE_VAMPIRE or Randomat.MISSING_ROLE
+    ROLE_VETERAN = ROLE_VETERAN or Randomat.MISSING_ROLE
+    ROLE_WHEELBOY = ROLE_WHEELBOY or Randomat.MISSING_ROLE
+    ROLE_ZOMBIE = ROLE_ZOMBIE or ROLE_INFECTED or Randomat.MISSING_ROLE
+end)
+
 --[[
  Event History
 ]]
@@ -223,7 +232,8 @@ local function EndEvent(evt, skipNetMessage)
 
     if type(evt.End) == "function" then
         local function End()
-            evt:End()
+            local isActive = Randomat:IsEventActive(evt.Id)
+            evt:End(isActive)
         end
 
         local function Catch(err)
@@ -472,6 +482,16 @@ function Randomat:unregister(id)
     Randomat.Events[id] = nil
 end
 
+local function CanSpectatorUIEventRun()
+    local spectatorUIRoles = {ROLE_PHANTOM, ROLE_MINDGOBLIN}
+
+    for _, v in player.Iterator() do
+        if table.HasValue(spectatorUIRoles, v:GetRole()) then return false end
+    end
+
+    return true
+end
+
 function Randomat:CanEventRun(event, ignore_history)
     if type(event) ~= "table" then
         event = Randomat.Events[event]
@@ -495,8 +515,11 @@ function Randomat:CanEventRun(event, ignore_history)
     -- Don't use the same events over and over again
     if not ignore_history and Randomat:IsEventInHistory(event) then return false, "Event is in recent history" end
 
-    -- Don't allow multiple events of the same type to run at once
     if event.Type ~= EVENT_TYPE_DEFAULT then
+        -- Don't let spectator UI events run if there are roles that also use spectator UIs already in the round
+        if (event.Type == EVENT_TYPE_SPECTATOR_UI or (type(event.Type) == "table" and table.HasValue(event.Type, EVENT_TYPE_SPECTATOR_UI))) and not CanSpectatorUIEventRun() then return false, "Event requires spectator UI and role with that feature is in this round" end
+
+        -- Don't allow multiple events of the same type to run at once
         for _, evt in pairs(Randomat.ActiveEvents) do
             if type(evt.Type) == "table" then
                 -- If both are tables don't allow any matching types
@@ -951,7 +974,9 @@ local function CanIncludeWeapon(role, weap, blocklist, droppable_only)
     -- Must not spawn on the map
     if weap.AutoSpawnable then return false end
     -- Must be droppable if droppable_only is true
-    if droppable_only and not weap.AllowDrop then return false end
+    -- Specifically check AllowDrop for `false` because weapons in `weapons.GetList` don't have the base table
+    -- applied and the base table has AllowDrop defaulting to `true`
+    if droppable_only and weap.AllowDrop == false then return false end
     -- Must be buyable by the given role
     if not Randomat:IsWeaponBuyable(weap) or not table.HasValue(weap.CanBuy, role) then return false end
     -- Must not be blocked

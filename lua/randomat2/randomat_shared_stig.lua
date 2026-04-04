@@ -109,7 +109,7 @@ end
 
 -- Role Functions
 function Randomat:CanRoleSpawn(role)
-    if not role or role == -1 then return false end
+    if not role or role == Randomat.MISSING_ROLE then return false end
     if util.CanRoleSpawn then return util.CanRoleSpawn(role) end
     if role == ROLE_DETECTIVE or role == ROLE_INNOCENT or role == ROLE_TRAITOR then return true end
 
@@ -590,10 +590,10 @@ if not MSG_PRINTBOTH then
     MSG_PRINTCENTER = HUD_PRINTCENTER
 end
 
-function Randomat:PrintMessage(ply, msgtype, message)
+function Randomat:PrintMessage(ply, msgtype, message, time, id, predicate)
     -- QueueMessage already handles immediately printing MSG/HUD_PRINTTALK so there's no reason for us to think too much about it here
     if CR_VERSION and msgtype ~= HUD_PRINTCONSOLE then
-        ply:QueueMessage(msgtype, message)
+        ply:QueueMessage(msgtype, message, time, id, predicate)
 
         return
     end

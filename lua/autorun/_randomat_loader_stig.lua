@@ -17,7 +17,12 @@ end
 
 if GetGlobalBool("DisableStigRandomatBase", false) then return end
 if engine.ActiveGamemode() ~= "terrortown" then return end
-Randomat = Randomat or {}
+
+Randomat = Randomat or {
+    -- "-1" is ROLE_NONE for CR4TTT so do 1 less than that
+    MISSING_ROLE = -2
+}
+
 local concommand = concommand
 local file = file
 local hook = hook
