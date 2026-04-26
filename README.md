@@ -769,9 +769,9 @@ _randomat_randomjump_max_multiplier_ - Default: 3.0 - Max multiplier to jump hei
 
 Everyone becomes a random smaller size, and has corresponding health. The smaller the size, the less health you are set to.\
 \
-_ttt_randomat_resize_ - Default: 1 - Whether this randomat is enabled\
-_randomat_resize_min_ - Default: 25 - Minimum possible size\
-_randomat_resize_max_ - Default: 100 - Maximum possible size
+_ttt_randomat_randomsize_ - Default: 1 - Whether this randomat is enabled\
+_randomat_randomsize_min_ - Default: 25 - Minimum possible size\
+_randomat_randomsize_max_ - Default: 100 - Maximum possible size
 
 Changed name from "Try another perspective on life", now only shrinks players rather than possibly making then larger.\
 Originally made by: [Guardain954](https://steamcommunity.com/sharedfiles/filedetails/?id=2068742309)
