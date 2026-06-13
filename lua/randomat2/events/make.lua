@@ -418,21 +418,11 @@ function EVENT:Begin()
         -- Displays the randomat's yellow-and-black message for everyone
         -- Displays the name
         local randomatDesc = cause.Desc .. ", " .. effect.Desc
-        net.Start("randomat_message")
-        net.WriteBool(true)
-        net.WriteString(randomatName)
-        net.WriteUInt(5, 8)
-        net.WriteColor(Color(255, 200, 0, 255), true)
-        net.Broadcast()
+        Randomat:Notify(randomatName, 5, nil, false, false, Color(255, 200, 0, 255))
 
         -- Displays the description
         timer.Simple(0, function()
-            net.Start("randomat_message_silent")
-            net.WriteBool(false)
-            net.WriteString(randomatDesc)
-            net.WriteUInt(5, 8)
-            net.WriteColor(Color(255, 200, 0, 255), true)
-            net.Broadcast()
+            Randomat:SmallNotify(randomatDesc, 5, nil, true, false, Color(255, 200, 0, 255))
         end)
 
         PrintMessage(HUD_PRINTTALK, "[RANDOMAT] " .. randomatName .. " | " .. randomatDesc)
