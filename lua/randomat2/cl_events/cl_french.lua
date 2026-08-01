@@ -8,10 +8,19 @@ local music
 local function EndFrenchRandomat()
     if eventEnded then return end
     RunConsoleCommand("ttt_language", "auto")
+
     -- Resets the names of roles
-    ROLE_STRINGS = roleStringsOrig or ROLE_STRINGS
-    ROLE_STRINGS_EXT = roleStringsExtOrig or ROLE_STRINGS_EXT
-    ROLE_STRINGS_PLURAL = roleStringsPluralOrig or ROLE_STRINGS_PLURAL
+    if roleStringsOrig then
+        ROLE_STRINGS = table.Copy(roleStringsOrig)
+    end
+
+    if roleStringsExtOrig then
+        ROLE_STRINGS_EXT = table.Copy(roleStringsExtOrig)
+    end
+
+    if roleStringsPluralOrig then
+        ROLE_STRINGS_PLURAL = table.Copy(roleStringsPluralOrig)
+    end
 
     -- Resets the names of custom passive items
     if customPassiveItemsOrig then
@@ -44,7 +53,7 @@ local function EndFrenchRandomat()
     end
 
     -- Resets the names of held weapons and ones on the ground
-    for _, ent in ipairs(ents.GetAll()) do
+    for _, ent in ents.Iterator() do
         if ent.origPrintName then
             ent.PrintName = ent.origPrintName
         end
@@ -64,8 +73,6 @@ local function EndFrenchRandomat()
         end)
     end
 
-    hook.Remove("PlayerButtonDown", "FrenchMuteMusicButton")
-
     -- Remove the French flag overlay,
     -- if music is playing, in time with the music ending
     timer.Simple(endingTimer, function()
@@ -76,6 +83,7 @@ local function EndFrenchRandomat()
     end)
 
     -- Remove the hooks trying to end this event because if we made it this far we're done
+    hook.Remove("PlayerButtonDown", "FrenchMuteMusicButton")
     hook.Remove("TTTEndRound", "FrenchRandomatClientEnd")
     hook.Remove("TTTPrepareRound", "FrenchRandomatClientEnd")
     hook.Remove("TTTBeginRound", "FrenchRandomatClientEnd")
@@ -83,6 +91,9 @@ local function EndFrenchRandomat()
 end
 
 net.Receive("FrenchRandomatBegin", function()
+    local client = LocalPlayer()
+    -- Do not conflict with the Frenchman role: https://steamcommunity.com/sharedfiles/filedetails/?id=2876412670
+    if IsValid(client) and client.IsFrenchman and client:IsFrenchman() and client:IsRoleActive() then return end
     -- Because this event refuses to end properly when the end function is called as a net message from the server... ugh
     hook.Add("TTTEndRound", "FrenchRandomatClientEnd", EndFrenchRandomat)
     hook.Add("TTTPrepareRound", "FrenchRandomatClientEnd", EndFrenchRandomat)
@@ -175,7 +186,9 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Elfe"] = ROLE_ELF
 
     if istable(ROLE_STRINGS) then
-        roleStringsOrig = table.Copy(ROLE_STRINGS)
+        if not roleStringsOrig then
+            roleStringsOrig = table.Copy(ROLE_STRINGS)
+        end
 
         for roleName, roleID in pairs(translatedRoles) do
             ROLE_STRINGS[roleID] = roleName
@@ -261,7 +274,9 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Elfe"] = ROLE_ELF
 
     if istable(ROLE_STRINGS_EXT) then
-        roleStringsExtOrig = table.Copy(ROLE_STRINGS_EXT)
+        if not roleStringsExtOrig then
+            roleStringsExtOrig = table.Copy(ROLE_STRINGS_EXT)
+        end
 
         for roleName, roleID in pairs(translatedRoles) do
             ROLE_STRINGS_EXT[roleID] = roleName
@@ -347,7 +362,9 @@ net.Receive("FrenchRandomatBegin", function()
     translatedRoles["Elfes"] = ROLE_ELF
 
     if istable(ROLE_STRINGS_PLURAL) then
-        roleStringsPluralOrig = table.Copy(ROLE_STRINGS_PLURAL)
+        if not roleStringsPluralOrig then
+            roleStringsPluralOrig = table.Copy(ROLE_STRINGS_PLURAL)
+        end
 
         for roleName, roleID in pairs(translatedRoles) do
             ROLE_STRINGS_PLURAL[roleID] = roleName
@@ -366,11 +383,15 @@ net.Receive("FrenchRandomatBegin", function()
         ROLE_MAX = 2
     end
 
-    customPassiveItemsOrig = {}
+    if not customPassiveItemsOrig then
+        customPassiveItemsOrig = {}
+    end
 
     for role = 1, ROLE_MAX do
         if SHOP_ROLES[role] and EquipmentItems[role] then
-            customPassiveItemsOrig[role] = table.Copy(EquipmentItems[role])
+            if not customPassiveItemsOrig[role] then
+                customPassiveItemsOrig[role] = table.Copy(EquipmentItems[role])
+            end
 
             for _, equ in pairs(EquipmentItems[role]) do
                 -- My version of the second chance, demoic possession, and clairvoyancy perk use role strings; however, not all versions on the workshop do, so we ALSO have to define hard-coded translations here
@@ -1808,17 +1829,26 @@ net.Receive("FrenchRandomatBegin", function()
             if not SWEP then continue end
 
             if SWEP.PrintName then
-                SWEP.origPrintName = SWEP.PrintName
+                if not SWEP.origPrintName then
+                    SWEP.origPrintName = SWEP.PrintName
+                end
+
                 SWEP.PrintName = translatedWeapons[classname].name
             end
 
             if SWEP.EquipMenuData and SWEP.EquipMenuData.type then
-                SWEP.EquipMenuData.origType = SWEP.EquipMenuData.type
+                if not SWEP.EquipMenuData.origType then
+                    SWEP.EquipMenuData.origType = SWEP.EquipMenuData.type
+                end
+
                 SWEP.EquipMenuData.type = translatedWeapons[classname].type or "item_weapon"
             end
 
             if SWEP.EquipMenuData and SWEP.EquipMenuData.desc and translatedWeapons[classname].desc then
-                SWEP.EquipMenuData.origDesc = SWEP.EquipMenuData.desc
+                if not SWEP.EquipMenuData.origDesc then
+                    SWEP.EquipMenuData.origDesc = SWEP.EquipMenuData.desc
+                end
+
                 SWEP.EquipMenuData.desc = translatedWeapons[classname].desc
             end
         elseif classname then
@@ -1829,7 +1859,10 @@ net.Receive("FrenchRandomatBegin", function()
                 local placeholderName = string.find(SWEP.PrintName, "_")
 
                 if not placeholderName then
-                    SWEP.origPrintName = SWEP.PrintName
+                    if not SWEP.origPrintName then
+                        SWEP.origPrintName = SWEP.PrintName
+                    end
+
                     SWEP.PrintName = "Le " .. SWEP.PrintName
                 end
             end
@@ -1837,7 +1870,7 @@ net.Receive("FrenchRandomatBegin", function()
     end
 
     -- Sets the names of held weapons and ones on the ground
-    for _, ent in ipairs(ents.GetAll()) do
+    for _, ent in ents.Iterator() do
         local classname = ent:GetClass()
 
         if classname and translatedWeapons[classname] and translatedWeapons[classname].name then
