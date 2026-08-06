@@ -25,7 +25,6 @@ SWEP.IronSightsAng = Vector(0.214, -0.1767, 0)
 SWEP.Kind = WEAPON_PISTOL
 SWEP.AutoSpawnable = false
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"
-SWEP.WeaponID = AMMO_DEAGLE
 
 SWEP.InLoadoutFor = {nil}
 
@@ -40,7 +39,7 @@ SWEP.NoSights = false
 -- weapon_tttbase's SWEP:Reload() might break this code and should be pulled from
 -- Facepunch/garrysmod if made.
 function SWEP:Reload()
-    if (self:Clip1() == self.Primary.ClipSize or self:GetOwner():GetAmmoCount(self.Primary.Ammo) <= 0) then return end
+    if self:Clip1() == self.Primary.ClipSize or self:GetOwner():GetAmmoCount(self.Primary.Ammo) <= 0 then return end
     self:DefaultReload(self.ReloadAnim)
     self:EmitSound("Weapon_357.Reload") -- My added line
     self:SetIronsights(false)
