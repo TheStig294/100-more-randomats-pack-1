@@ -21,6 +21,9 @@ local EntsFindByClass = ents.FindByClass
 local GetAllPlayers = player.GetAll
 local GetAllEnts = ents.GetAll
 local PlayerIterator = player.Iterator
+local TableInsert = table.insert
+local StringSplit = string.Split
+local StringFind = string.find
 
 Randomat.ConVars = {"ttt_randomat_allow_client_list", "ttt_randomat_always_silently_trigger", "ttt_randomat_auto", "ttt_randomat_auto_chance", "ttt_randomat_auto_choose", "ttt_randomat_auto_min_rounds", "ttt_randomat_auto_silent", "ttt_randomat_chooseevent", "ttt_randomat_event_hint", "ttt_randomat_event_hint_chat", "ttt_randomat_event_hint_chat_secret", "ttt_randomat_event_history", "ttt_randomat_event_weight", "ttt_randomat_rebuyable"}
 
@@ -31,6 +34,7 @@ randomat_meta.__index = randomat_meta
 local COLOR_BLANK = Color(0, 0, 0, 0)
 util.AddNetworkString("randomat_message")
 util.AddNetworkString("randomat_message_silent")
+util.AddNetworkString("randomat_message_clear")
 util.AddNetworkString("AlertTriggerFinal")
 util.AddNetworkString("alerteventtrigger")
 util.AddNetworkString("RdmtSetSpeedMultiplier")
@@ -47,10 +51,6 @@ util.AddNetworkString("TTT_LogInfo")
  Shims
 ]]
 --
-if not FindRespawnLocation then
-    FindRespawnLocation = function(pos) return pos end
-end
-
 -- Delay this so other stuff has time to load first
 timer.Simple(1, function()
     if not FindRespawnLocation then
@@ -110,7 +110,7 @@ local function TruncateEventHistory(count)
         local keep = {}
 
         for i = extra + 1, #Randomat.EventHistory do
-            table.insert(keep, Randomat.EventHistory[i])
+            TableInsert(keep, Randomat.EventHistory[i])
         end
 
         Randomat.EventHistory = keep
@@ -160,11 +160,11 @@ local function LoadEventHistory()
         return
     end
 
-    local history = string.Split(historyData, "\n")
+    local history = StringSplit(historyData, "\n")
 
     for _, h in ipairs(history) do
         if #h > 0 then
-            table.insert(Randomat.EventHistory, h)
+            TableInsert(Randomat.EventHistory, h)
         end
     end
 
@@ -194,7 +194,7 @@ function Randomat:AddEventToHistory(event)
     end
 
     if event == nil then return end
-    table.insert(Randomat.EventHistory, event.Id)
+    TableInsert(Randomat.EventHistory, event.Id)
     TruncateEventHistory(count)
     SaveEventHistory()
 end
@@ -217,7 +217,7 @@ function Randomat:ChatDescription(ply, event, has_description)
     local description = ""
 
     if has_description then
-        description = " | " .. event.Description
+        description = " | " .. Randomat:GetEventDescription(event)
     end
 
     ply:PrintMessage(HUD_PRINTTALK, "[RANDOMAT] " .. title .. description)
@@ -282,7 +282,7 @@ local function TriggerEvent(event, ply, options, ...)
         Randomat:EventNotify(event.Title)
     end
 
-    table.insert(Randomat.ActiveEvents, event)
+    TableInsert(Randomat.ActiveEvents, event)
     event.owner = owner
     event.Owner = owner
     event.Silent = silent
@@ -293,14 +293,13 @@ local function TriggerEvent(event, ply, options, ...)
     local message = "[RANDOMAT] Event '" .. title .. "' (" .. event.Id .. ") started by " .. owner:Nick()
     Randomat:LogEvent(message)
     MsgN(message)
+    local has_description = event.Description ~= nil and #event.Description > 0
 
     if not silent then
-        local has_description = event.Description ~= nil and #event.Description > 0
-
         -- Show description on screen if it has one, the notification is enabled,
         -- and if "secret" is not active or if we're specifically showing the description for "secret"
         if has_description and GetConVar("ttt_randomat_event_hint"):GetBool() and (not Randomat:IsEventActive("secret") or event.Id == "secret") then
-            Randomat:SmallNotify(event.Description, nil, nil, false, true)
+            Randomat:SmallNotify(event.Description, nil, nil, true, true)
         end
 
         if GetConVar("ttt_randomat_event_hint_chat"):GetBool() then
@@ -317,11 +316,11 @@ local function TriggerEvent(event, ply, options, ...)
     if should_hide then
         net.WriteString("???")
         net.WriteString("A 'Secret' Event")
-        net.WriteString(options.HiddenMessage or ("This event is hidden by '" .. Randomat:GetEventTitle(Randomat.Events["secret"]) .. "'"))
+        net.WriteString(options.HiddenMessage or "This event is hidden by '" .. Randomat:GetEventTitle(Randomat.Events["secret"]) .. "'")
     else
         net.WriteString(event.Id)
         net.WriteString(title)
-        net.WriteString(event.Description or "")
+        net.WriteString(Randomat:GetEventDescription(event))
     end
 
     net.Broadcast()
@@ -330,11 +329,11 @@ local function TriggerEvent(event, ply, options, ...)
     if GetConVar("ttt_randomat_event_hint_chat_secret"):GetBool() and should_hide then
         local msg = title
 
-        if event.Description ~= nil and #event.Description > 0 then
-            msg = msg .. " | " .. event.Description
+        if has_description then
+            msg = msg .. " | " .. Randomat:GetEventDescription(event)
         end
 
-        table.insert(secret_event_chat_msgs, msg)
+        TableInsert(secret_event_chat_msgs, msg)
     end
 
     -- Let other addons know that an event was started
@@ -369,12 +368,6 @@ function Randomat:EndActiveEvents()
 
         Randomat.ActiveEvents = {}
     end
-end
-
-function Randomat:GetEventTitle(event)
-    if event.Title == "" then return event.AltTitle end
-
-    return event.Title
 end
 
 function Randomat:register(tbl)
@@ -438,7 +431,7 @@ function Randomat:register(tbl)
 
         for _, v in ipairs(tbl.Categories) do
             if v and #v > 0 then
-                table.insert(lower_cats, v:lower())
+                TableInsert(lower_cats, v:lower())
             end
         end
 
@@ -451,9 +444,9 @@ function Randomat:register(tbl)
     end
 
     -- And then save the default ones into it
-    table.insert(tbl.ConVars, "ttt_randomat_" .. id)
-    table.insert(tbl.ConVars, "ttt_randomat_" .. id .. "_min_players")
-    table.insert(tbl.ConVars, "ttt_randomat_" .. id .. "_weight")
+    TableInsert(tbl.ConVars, "ttt_randomat_" .. id)
+    TableInsert(tbl.ConVars, "ttt_randomat_" .. id .. "_min_players")
+    TableInsert(tbl.ConVars, "ttt_randomat_" .. id .. "_weight")
     setmetatable(tbl, randomat_meta)
     Randomat.Events[id] = tbl
     CreateConVar("ttt_randomat_" .. id, tbl.IsEnabled and 1 or 0, FCVAR_NONE, "Whether this event is enabled.", 0, 1)
@@ -509,7 +502,7 @@ function Randomat:CanEventRun(event, ignore_history)
     if min_players > 0 and player_count < min_players then return false, "Not enough players (" .. player_count .. " vs. " .. min_players .. " required)" end
     -- Check that the round has run the correct amount of time
     local round_percent_complete = Randomat:GetRoundCompletePercent()
-    if (event.MinRoundCompletePercent and event.MinRoundCompletePercent > round_percent_complete) or (event.MaxRoundCompletePercent and event.MaxRoundCompletePercent < round_percent_complete) then return false, "Round percent complete mismatch (" .. round_percent_complete .. ")" end
+    if event.MinRoundCompletePercent and event.MinRoundCompletePercent > round_percent_complete or event.MaxRoundCompletePercent and event.MaxRoundCompletePercent < round_percent_complete then return false, "Round percent complete mismatch (" .. round_percent_complete .. ")" end
     -- Don't allow single use events to run twice
     if event.SingleUse and Randomat:IsEventActive(event.Id) then return false, "Single use event is already running" end
     -- Don't use the same events over and over again
@@ -517,7 +510,7 @@ function Randomat:CanEventRun(event, ignore_history)
 
     if event.Type ~= EVENT_TYPE_DEFAULT then
         -- Don't let spectator UI events run if there are roles that also use spectator UIs already in the round
-        if (event.Type == EVENT_TYPE_SPECTATOR_UI or (type(event.Type) == "table" and table.HasValue(event.Type, EVENT_TYPE_SPECTATOR_UI))) and not CanSpectatorUIEventRun() then return false, "Event requires spectator UI and role with that feature is in this round" end
+        if (event.Type == EVENT_TYPE_SPECTATOR_UI or type(event.Type) == "table" and table.HasValue(event.Type, EVENT_TYPE_SPECTATOR_UI)) and not CanSpectatorUIEventRun() then return false, "Event requires spectator UI and role with that feature is in this round" end
 
         -- Don't allow multiple events of the same type to run at once
         for _, evt in pairs(Randomat.ActiveEvents) do
@@ -558,7 +551,7 @@ local function GetRandomWeightedEvent(events, can_run)
         end
 
         for _ = 1, weight do
-            table.insert(weighted_events, id)
+            TableInsert(weighted_events, id)
         end
     end
 
@@ -577,7 +570,7 @@ function Randomat:GetRandomEvent(skip_history, can_run)
     local found = false
 
     for _, v in pairs(events) do
-        if Randomat:CanEventRun(v) and ((not can_run) or can_run(v)) then
+        if Randomat:CanEventRun(v) and (not can_run or can_run(v)) then
             found = true
             break
         end
@@ -704,7 +697,7 @@ function Randomat:GetReadableCategory(category)
     elseif category == "modelchange" then
         return "Model Change"
     elseif string.StartsWith(category, "biased_") then
-        local parts = string.Explode("_", category)
+        local parts = StringSplit(category, "_")
 
         for k, p in ipairs(parts) do
             parts[k] = Randomat:Capitalize(p)
@@ -731,7 +724,7 @@ function Randomat:GetAllEventCategories(readable)
             end
 
             if table.HasValue(categories, cat) then continue end
-            table.insert(categories, cat)
+            TableInsert(categories, cat)
         end
     end
 
@@ -751,7 +744,7 @@ function Randomat:GetEventCategories(event, readable)
         categories = {}
 
         for _, c in ipairs(event.Categories) do
-            table.insert(categories, Randomat:GetReadableCategory(c))
+            TableInsert(categories, Randomat:GetReadableCategory(c))
         end
     else
         categories = event.Categories
@@ -775,7 +768,7 @@ function Randomat:GetEventsByCategory(category, active)
 
     for _, e in pairs(tbl) do
         if type(e.Categories) == "table" and table.HasValue(e.Categories, lower_cat) then
-            table.insert(events, e)
+            TableInsert(events, e)
         end
     end
 
@@ -807,7 +800,7 @@ function Randomat:GetEventsByCategories(categories, active)
         end
 
         if has_all then
-            table.insert(events, e)
+            TableInsert(events, e)
         end
     end
 
@@ -831,8 +824,8 @@ function Randomat:GetEventsByType(etype)
     local events = {}
 
     for _, e in pairs(Randomat.Events) do
-        if (e.Type == etype) or (type(e.Type) == "table" and table.HasValue(e.Type, etype)) then
-            table.insert(events, e)
+        if e.Type == etype or type(e.Type) == "table" and table.HasValue(e.Type, etype) then
+            TableInsert(events, e)
         end
     end
 
@@ -843,7 +836,7 @@ function Randomat:IsEventTypeActive(etype)
     for _, evt in pairs(Randomat.ActiveEvents) do
         -- If this event has a list of types and it contains the one we care about
         -- or its single type is the one we care about, then stop searching
-        if (type(evt.Type) == "table" and table.HasValue(evt.Type, etype)) or evt.Type == etype then return true end
+        if type(evt.Type) == "table" and table.HasValue(evt.Type, etype) or evt.Type == etype then return true end
     end
 
     return false
@@ -858,11 +851,11 @@ function Randomat:GetPlayers(shuffle, alive_only, dead_only, dead_includes_spec)
         plys = GetAllPlayers()
     else
         for _, ply in PlayerIterator() do
-            if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()) and (dead_includes_spec or ply:GetRole() ~= ROLE_NONE))) then
+            if IsValid(ply) and (not alive_only and not dead_only or alive_only and ply:Alive() and not ply:IsSpec() or dead_only and (not ply:Alive() or ply:IsSpec()) and (dead_includes_spec or ply:GetRole() ~= ROLE_NONE)) then
                 -- Anybody
                 -- Alive and non-spec
                 -- Dead but not spec unless that's enabled
-                table.insert(plys, ply)
+                TableInsert(plys, ply)
             end
         end
     end
@@ -899,7 +892,7 @@ function Randomat:SetRole(ply, role, set_max_hp, scale_hp)
     end
 
     -- Heal the Old Man and Loot Goblin back to full when they are converted
-    if ((old_role == ROLE_OLDMAN and role ~= ROLE_OLDMAN) or (old_role == ROLE_LOOTGOBLIN and role ~= ROLE_LOOTGOBLIN)) and SetRoleStartingHealth then
+    if (old_role == ROLE_OLDMAN and role ~= ROLE_OLDMAN or old_role == ROLE_LOOTGOBLIN and role ~= ROLE_LOOTGOBLIN) and SetRoleStartingHealth then
         SetRoleStartingHealth(ply)
         -- Reset special round logic for roles if we are changing a player away from being the last of that role
     elseif player.IsRoleLiving then
@@ -924,19 +917,11 @@ function Randomat:SetRole(ply, role, set_max_hp, scale_hp)
 end
 
 -- Notifications
-local function SendNotify(msg, big, length, targ, silent, allow_secret, font_color)
-    -- Don't broadcast anything when "Secret" is running unless we're told to bypass that
-    if not allow_secret and Randomat:IsEventActive("secret") then return end
-
-    if not isnumber(length) then
-        length = 0
-    end
-
-    net.Start(silent and "randomat_message_silent" or "randomat_message")
-    net.WriteBool(big)
-    net.WriteString(msg)
-    net.WriteUInt(length, 8)
-    net.WriteColor(font_color or COLOR_BLANK)
+function Randomat:ClearMessages(tag, targ)
+    net.Start("randomat_message_clear")
+    -- If there's no tag then send true to clear all
+    net.WriteBool(tag == nil)
+    net.WriteString(tag or "")
 
     if not targ then
         net.Broadcast()
@@ -945,12 +930,130 @@ local function SendNotify(msg, big, length, targ, silent, allow_secret, font_col
     end
 end
 
-function Randomat:SmallNotify(msg, length, targ, silent, allow_secret, font_color)
-    SendNotify(msg, false, length, targ, silent, allow_secret, font_color)
+local SendNotify
+
+local function ParseNotifyLines(msg, big, length, targ, silent, allow_secret, font_color, tag, clear_others, group)
+    local splitMessages = {}
+
+    if type(msg) == "table" then
+        local currentLine = {}
+
+        for _, seg in ipairs(msg) do
+            if seg.newline and #currentLine > 0 then
+                TableInsert(splitMessages, currentLine)
+                currentLine = {}
+            end
+
+            local parts = StringSplit(seg.text or "", "\n")
+
+            for i, part in ipairs(parts) do
+                if part ~= "" then
+                    local newSeg = {
+                        text = part,
+                        bold = seg.bold,
+                        italic = seg.italic,
+                        underline = seg.underline,
+                        strikethrough = seg.strikethrough,
+                        shadow = seg.shadow,
+                        outline = seg.outline,
+                        descend = seg.descend,
+                        ascend = seg.ascend,
+                        vertical = seg.vertical,
+                        verticalup = seg.verticalup
+                    }
+
+                    TableInsert(currentLine, newSeg)
+                end
+
+                if i < #parts and #currentLine > 0 then
+                    TableInsert(splitMessages, currentLine)
+                    currentLine = {}
+                end
+            end
+        end
+
+        if #currentLine > 0 then
+            TableInsert(splitMessages, currentLine)
+        end
+    else
+        splitMessages = StringSplit(msg, "\n")
+    end
+
+    for _, message in ipairs(splitMessages) do
+        SendNotify(message, big, length, targ, silent, allow_secret, font_color, tag, clear_others, group)
+    end
 end
 
-function Randomat:Notify(msg, length, targ, silent, allow_secret, font_color)
-    SendNotify(msg, true, length, targ, silent, allow_secret, font_color)
+local messageGroupCounter = 0
+
+SendNotify = function(msg, big, length, targ, silent, allow_secret, font_color, tag, clear_others, group)
+    -- Don't broadcast anything when "Secret" is running unless we're told to bypass that
+    if not allow_secret and Randomat:IsEventActive("secret") then return end
+    if not msg or #msg == 0 then return end
+    local formatted = type(msg) == "table"
+
+    if not group then
+        messageGroupCounter = messageGroupCounter + 1
+        group = messageGroupCounter
+    end
+
+    -- Check for `\n` or `newline = true`
+    local newlines
+
+    if formatted then
+        for _, seg in ipairs(msg) do
+            if seg.newline or StringFind(seg.text, "\n") then
+                newlines = true
+                break
+            end
+        end
+    else
+        newlines = StringFind(msg, "\n") ~= nil
+    end
+
+    if newlines then
+        ParseNotifyLines(msg, big, length, targ, silent, allow_secret, font_color, tag, clear_others, group)
+
+        return
+    end
+
+    -- if clear_others then do that before sending new message
+    if clear_others then
+        Randomat:ClearMessages()
+    end
+
+    if not isnumber(length) then
+        length = 0
+    end
+
+    net.Start(silent and "randomat_message_silent" or "randomat_message")
+    net.WriteBool(big)
+    net.WriteBool(formatted)
+
+    if formatted then
+        net.WriteTable(msg)
+    else
+        net.WriteString(msg)
+    end
+
+    net.WriteUInt(length, 8)
+    net.WriteColor(font_color or COLOR_BLANK)
+    net.WriteString(tag or "")
+    net.WriteUInt(group, 32)
+
+    if not targ then
+        net.Broadcast()
+    else
+        net.Send(targ)
+    end
+end
+
+function Randomat:SmallNotify(msg, length, targ, silent, allow_secret, font_color, tag, clear_others)
+    SendNotify(msg, false, length, targ, silent, allow_secret, font_color, tag, clear_others)
+end
+
+function Randomat:Notify(msg, length, targ, silent, allow_secret, font_color, tag, clear_others)
+    SendNotify(msg, true, length, targ, silent, allow_secret, font_color, tag, clear_others)
 end
 
 function Randomat:EventNotify(title)
@@ -1005,7 +1108,7 @@ local function GetRandomRoleWeapon(roles, blocklist, droppable_only)
     local item = item_data[1]
     local item_role = item_data[2]
     local item_id = tonumber(item.id)
-    local swep_table = (not item_id) and weapons.GetStored(item.ClassName) or nil
+    local swep_table = not item_id and weapons.GetStored(item.ClassName) or nil
 
     return item, item_id, swep_table, item_role
 end
@@ -1282,7 +1385,7 @@ function randomat_meta:AddHook(hooktype, callbackfunc, suffix)
     hook.Add(hooktype, id, function(...) return callbackfunc(...) end)
     self.Hooks = self.Hooks or {}
 
-    table.insert(self.Hooks, {hooktype, id})
+    TableInsert(self.Hooks, {hooktype, id})
 end
 
 function randomat_meta:RemoveHook(hooktype, suffix)
@@ -1418,7 +1521,7 @@ function randomat_meta:HandleWeaponAddAndSelect(ply, addweapons)
         local w_class = WEPS.GetClass(w)
         local w_kind = WEPS.TypeForWeapon(w_class)
 
-        if (active_class ~= nil and w_class == active_class) or w_kind == active_kind then
+        if active_class ~= nil and w_class == active_class or w_kind == active_kind then
             select_class = w_class
         end
     end
@@ -1453,7 +1556,7 @@ function randomat_meta:SwapWeapons(ply, weapon_list)
 
         for _, w in ipairs(ply:GetWeapons()) do
             if w.Category == WEAPON_CATEGORY_ROLE then
-                table.insert(role_weapons, w)
+                TableInsert(role_weapons, w)
             end
         end
     end
@@ -1525,7 +1628,7 @@ function randomat_meta:SetAllPlayerScales(scale)
     self:AddHook("TTTSpeedMultiplier", function(ply, mults)
         if not ply:Alive() or ply:IsSpec() then return end
         local speed_factor = math.Clamp(ply:GetStepSize() / 9, 0.25, 1)
-        table.insert(mults, speed_factor)
+        TableInsert(mults, speed_factor)
     end)
 end
 
@@ -1648,8 +1751,8 @@ local function ClearAutoComplete(cmd, args)
     local options = {}
 
     for _, v in pairs(Randomat.ActiveEvents) do
-        if string.find(v.Id:lower(), name) then
-            table.insert(options, cmd .. " " .. v.Id)
+        if StringFind(v.Id:lower(), name) then
+            TableInsert(options, cmd .. " " .. v.Id)
         end
     end
 
@@ -1679,8 +1782,8 @@ local function TriggerAutoComplete(cmd, args)
     local options = {}
 
     for _, v in pairs(Randomat.Events) do
-        if string.find(v.Id:lower(), name) then
-            table.insert(options, cmd .. " " .. v.Id)
+        if StringFind(v.Id:lower(), name) then
+            TableInsert(options, cmd .. " " .. v.Id)
         end
     end
 
@@ -1709,6 +1812,7 @@ end, nil, "Triggers a random  randomat event", FCVAR_SERVER_CAN_EXECUTE)
 --
 hook.Add("TTTEndRound", "RandomatEndRound", function()
     Randomat:EndActiveEvents()
+    Randomat:ClearMessages()
     PrintSecretEventsList()
 end)
 
@@ -1717,8 +1821,11 @@ hook.Add("TTTPrepareRound", "RandomatPrepareRound", function()
     for _, v in pairs(Randomat.Events) do
         EndEvent(v, true)
     end
+
+    Randomat:ClearMessages()
 end)
 
 hook.Add("ShutDown", "RandomatMapChange", function()
     Randomat:EndActiveEvents()
+    Randomat:ClearMessages()
 end)

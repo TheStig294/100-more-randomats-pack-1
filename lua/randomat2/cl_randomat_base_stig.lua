@@ -7,6 +7,14 @@ local randomat_meta = {}
 randomat_meta.__index = randomat_meta
 
 --[[
+ Namespace Properties
+]]
+--
+hook.Add("InitPostEntity", "Randomat_InitPostEntity", function()
+    Randomat.Client = LocalPlayer()
+end)
+
+--[[
  Event Registration
 ]]
 --
@@ -86,7 +94,8 @@ local function EndEvent(evt)
     if type(evt.End) ~= "function" then return end
 
     local function End()
-        evt:End()
+        local isActive = Randomat:IsEventActive(evt.Id)
+        evt:End(isActive)
     end
 
     local function Catch(err)
@@ -105,11 +114,18 @@ net.Receive("RdmtEventBegin", function()
         id = id,
         Id = id,
         title = title,
-        desc = desc
+        Title = title,
+        desc = desc,
+        Description = desc
     })
 
     local event = Randomat.Events[id]
     if not event then return end
+
+    -- If we don't have a title registered on the client, save it
+    if not event.Title and not event.AltTitle then
+        event.Title = title
+    end
 
     if type(event.Begin) == "function" then
         event:Begin()
@@ -168,7 +184,7 @@ hook.Add("TTTHUDInfoPaint", "RandomatEventTrackingHUDInfoPaint", function(client
 
     -- Move this up based on how many other labels there are
     if active_labels then
-        label_top = label_top + (20 * #active_labels)
+        label_top = label_top + 20 * #active_labels
     else
         label_top = label_top + 20
     end
@@ -198,15 +214,19 @@ hook.Add("TTTSettingsTabs", "RandomatEventTrackingTTTSettingsTabs", function(dta
     drdmt:EnableVerticalScrollbar()
     drdmt:SetPadding(10)
     drdmt:SetSpacing(10)
+    -- Settings section
+    local dsettings = vgui.Create("DForm", drdmt)
+    dsettings:SetName("Randomat Client Settings")
 
-    -- Settings section -- only show when there is actually a setting to use (e.g. new CR for TTT only)
+    -- Only show this setting when it is actually used (e.g. new CR for TTT only)
     if CR_VERSION then
-        local dsettings = vgui.Create("DForm", drdmt)
-        dsettings:SetName("Randomat Client Settings")
         dsettings:CheckBox("Show active Randomat count on UI", "cl_randomat_show_active")
-        drdmt:AddItem(dsettings)
     end
 
+    dsettings:CheckBox("Center notifications vertically", "cl_randomat_notify_centered")
+    dsettings:NumSlider("Large notification font size", "cl_randomat_notify_big_size", 1, 100, 0)
+    dsettings:NumSlider("Small notification font size", "cl_randomat_notify_small_size", 1, 100, 0)
+    drdmt:AddItem(dsettings)
     -- Active Events section
     local dactive = vgui.Create("DForm", drdmt)
     dactive:SetName("Active Randomat Events")
@@ -226,7 +246,7 @@ hook.Add("TTTSettingsTabs", "RandomatEventTrackingTTTSettingsTabs", function(dta
     for i, e in ipairs(Randomat.ActiveEvents) do
         local dtitle = vgui.Create("DLabel", dactive)
         dtitle:SetFont("DermaDefaultBold")
-        dtitle:SetText(i .. ". " .. e.title)
+        dtitle:SetText(i .. ". " .. e.Title)
         dtitle:SetTextColor(Color(0, 0, 0, 255))
         dactive:AddItem(dtitle)
 
@@ -346,15 +366,8 @@ net.Receive("RdmtRemoveSpeedMultipliers", function()
     Randomat:RemoveSpeedMultipliers(key)
 end)
 
-local localPlayer = nil
-
 hook.Add("TTTSpeedMultiplier", "RdmtSpeedModifier", function(ply, mults, sprinting)
-    -- Cache this
-    if not localPlayer then
-        localPlayer = LocalPlayer()
-    end
-
-    if ply ~= localPlayer or not ply:Alive() or ply:IsSpec() then return end
+    if ply ~= Randomat.Client or not ply:Alive() or ply:IsSpec() then return end
 
     -- Apply all of these that are valid
     for _, m in pairs(current_mults) do
@@ -403,6 +416,8 @@ function Randomat:HandleEntitySmoke(tbl, client, pred, color, max_dist, min_size
         max_size = 7
     end
 
+    local curTime = CurTime()
+
     for _, v in ipairs(tbl) do
         if pred(v) then
             if not v.RdmtSmokeEmitter then
@@ -410,14 +425,14 @@ function Randomat:HandleEntitySmoke(tbl, client, pred, color, max_dist, min_size
             end
 
             if not v.RdmtSmokeNextPart then
-                v.RdmtSmokeNextPart = CurTime()
+                v.RdmtSmokeNextPart = curTime
             end
 
             local pos = v:GetPos() + Vector(0, 0, 30)
 
-            if v.RdmtSmokeNextPart < CurTime() and client:GetPos():Distance(pos) <= max_dist then
+            if v.RdmtSmokeNextPart < curTime and client:GetPos():Distance(pos) <= max_dist then
                 v.RdmtSmokeEmitter:SetPos(pos)
-                v.RdmtSmokeNextPart = CurTime() + math.Rand(0.003, 0.01)
+                v.RdmtSmokeNextPart = curTime + math.Rand(0.003, 0.01)
                 local vec = Vector(math.Rand(-8, 8), math.Rand(-8, 8), math.Rand(10, 55))
                 local particle = v.RdmtSmokeEmitter:Add("particle/snow.vmt", v:LocalToWorld(vec))
                 particle:SetVelocity(Vector(0, 0, 4) + VectorRand() * 3)

@@ -1,22 +1,365 @@
 -- Randomat base code from Malivil's randomat mod
 -- Does not run if a convar added by Malivil's randomat mod is detected to ensure a potentially newer version of the randomat base isn't overridden
 if GetGlobalBool("DisableStigRandomatBase") then return end
+local math = math
+local net = net
+local surface = surface
+local string = string
+local table = table
+local vgui = vgui
+local MathAbs = math.abs
+local MathMax = math.max
+local StringReplace = string.Replace
+local StringSplit = string.Split
+local StartsWith = string.StartsWith
+local EndsWith = string.EndsWith
+local SurfaceCreateFont = surface.CreateFont
+local SurfaceDrawText = surface.DrawText
+local SurfaceDrawRect = surface.DrawRect
+local SurfacePlaySound = surface.PlaySound
+local SurfaceSetDrawColor = surface.SetDrawColor
+local SurfaceSetFont = surface.SetFont
+local SurfaceGetTextSize = surface.GetTextSize
+local SurfaceSetTextColor = surface.SetTextColor
+local SurfaceSetTextPos = surface.SetTextPos
+local TableInsert = table.insert
+local TableRemove = table.remove
+local VguiCreate = vgui.Create
 
-surface.CreateFont("RandomatHeader", {
+SurfaceCreateFont("RandomatHeader", {
     font = "Roboto",
     size = 48
 })
 
-surface.CreateFont("RandomatSmallMsg", {
+SurfaceCreateFont("RandomatSmallMsg", {
     font = "Roboto",
     size = 32
 })
 
 local COLOR_DEFAULT = Color(255, 200, 0)
+local COLOR_BACKGROUND = Color(0, 0, 0, 200)
+local STACK_GAP = 4
+-- Ordered list of all active panels (newest last) with their default Y position (because Notify and SmallNotify have different starting points)
+local messageStack = {}
+-- Cached list of created fonts for formatted text
+local createdFonts = {}
+local notify_centered = CreateClientConVar("cl_randomat_notify_centered", "1", true, false, "Whether notification messages are centered vertically", 0, 1)
+local notify_big_size = CreateClientConVar("cl_randomat_notify_big_size", "48", true, false, "The font size to make large notification messages", 1, 100)
+local notify_small_size = CreateClientConVar("cl_randomat_notify_small_size", "32", true, false, "The font size to make small notification messages", 1, 100)
+
+-- Make and cache fonts on-demand
+local function BuildFormattedFont(bold, italic, underline, strikethrough, shadow, outline, big)
+    local key = (bold and "B" or "") .. (italic and "I" or "") .. (underline and "U" or "") .. (strikethrough and "St" or "") .. (shadow and "Sh" or "") .. (outline and "O" or "") .. (big and "Big" or "Small")
+    local size = big and notify_big_size:GetInt() or notify_small_size:GetInt()
+    local name = "RandomatFont_" .. (key == "" and "Normal" or key) .. size
+
+    if not createdFonts[name] then
+        SurfaceCreateFont(name, {
+            font = "Roboto",
+            size = size,
+            weight = bold and 700 or 500,
+            italic = italic or false,
+            outline = outline or false,
+        })
+
+        createdFonts[name] = true
+    end
+
+    return name
+end
+
+local function IsVert(seg)
+    return seg.vertical or seg.verticalup
+end
+
+local function IsGoingDown(seg)
+    return seg.descend or seg.newline or seg.vertical
+end
+
+local function IsGoingUp(seg)
+    return seg.ascend or seg.verticalup
+end
+
+-- Make a nice table with data for all the segments
+local function ProcessFormattedSegments(messageSegments, big)
+    local segments = {}
+    local shapeGroup = 0
+
+    for _, seg in ipairs(messageSegments) do
+        if not seg.text then continue end
+        seg.text = StringReplace(seg.text, "\n", "")
+        if seg.text == "" then continue end
+        local underline = seg.underline or false
+        local strikethrough = seg.strikethrough or false
+        local outline = seg.outline or false
+        local newline = seg.newline or false
+        local layoutShape
+
+        if seg.descend then
+            layoutShape = "descend"
+        elseif seg.ascend then
+            layoutShape = "ascend"
+        elseif seg.vertical then
+            layoutShape = "vertical"
+        elseif seg.verticalup then
+            layoutShape = "verticalup"
+        end
+
+        local fontName = BuildFormattedFont(seg.bold, seg.italic, underline, strikethrough, seg.shadow, outline, big)
+        SurfaceSetFont(fontName)
+
+        if layoutShape then
+            shapeGroup = shapeGroup + 1
+            local parts = StringSplit(seg.text, "")
+            local columnWidth = 0
+
+            for _, part in ipairs(parts) do
+                local partW = SurfaceGetTextSize(part)
+
+                if partW > columnWidth then
+                    columnWidth = partW
+                end
+            end
+
+            for i, part in ipairs(parts) do
+                local segW, segH = SurfaceGetTextSize(part)
+
+                local newSeg = {
+                    text = part,
+                    font = fontName,
+                    width = segW,
+                    columnWidth = columnWidth,
+                    height = segH,
+                    underline = underline,
+                    strikethrough = strikethrough,
+                    outline = outline,
+                    newline = newline,
+                    shapeGroup = shapeGroup,
+                }
+
+                newSeg[layoutShape] = i ~= 1 and true or nil
+                TableInsert(segments, newSeg)
+            end
+        else
+            local segW, segH = SurfaceGetTextSize(seg.text)
+
+            TableInsert(segments, {
+                text = seg.text,
+                font = fontName,
+                width = segW,
+                height = segH,
+                underline = underline,
+                strikethrough = strikethrough,
+                outline = outline,
+                newline = newline,
+            })
+        end
+    end
+
+    return segments
+end
+
+local function AdjustSegmentX(seg, nextSeg, segX)
+    local finishedBlockWidth = seg.columnWidth or seg.width
+
+    if nextSeg then
+        if not IsVert(seg) and nextSeg.columnWidth and nextSeg.width < nextSeg.columnWidth and seg.shapeGroup ~= nextSeg.shapeGroup then
+            -- If this segment isn't a column and the next segment IS and the first character is narrower than the
+            -- column width, then shift it all left a bit so that there isn't a space between this segment and the
+            -- top character of the following column
+            segX = (segX + finishedBlockWidth) - (nextSeg.columnWidth - nextSeg.width) / 2
+        elseif IsVert(seg) and not nextSeg.columnWidth and seg.width < seg.columnWidth then
+            -- Same as above but for a column transitioning into a non-column
+            segX = (segX + finishedBlockWidth) - (seg.columnWidth - seg.width) / 2
+        elseif not (seg.shapeGroup and seg.shapeGroup == nextSeg.shapeGroup and not (nextSeg.ascend or nextSeg.descend)) then
+            -- Move segX by the width of what we've just drawn
+            segX = segX + finishedBlockWidth
+        end
+    end
+
+    return segX
+end
+
+-- Calculate how big the message is
+local function MeasureSegments(segments, padding)
+    local maxReachedW = 0
+    local currentY = 0
+    local maxY = 0
+    local minY = 0
+    local baseH = 0
+    local baseW = 0
+    local segX = 0
+
+    -- Basically do it the same as the paint bit does
+    for i, seg in ipairs(segments) do
+        local effectiveW = seg.columnWidth or seg.width
+
+        if effectiveW > baseW then
+            baseW = effectiveW
+        end
+
+        if baseH == 0 then
+            baseH = seg.height
+        end
+
+        if seg.newline then
+            segX = padding / 2
+        end
+
+        local drawX = segX
+
+        if seg.columnWidth then
+            drawX = segX + (seg.columnWidth - seg.width) / 2
+        end
+
+        local visualRightEdge = drawX + seg.width
+
+        if visualRightEdge > maxReachedW then
+            maxReachedW = visualRightEdge
+        end
+
+        -- Horizontal bits
+        local nextSeg = segments[i + 1]
+        segX = AdjustSegmentX(seg, nextSeg, segX)
+
+        -- Vertical bits
+        if IsGoingDown(seg) then
+            currentY = currentY + seg.height
+
+            if currentY > maxY then
+                maxY = currentY
+            end
+        elseif IsGoingUp(seg) then
+            currentY = currentY - seg.height
+
+            if currentY < minY then
+                minY = currentY
+            end
+        end
+    end
+
+    local msgH = maxY - minY + baseH
+    local finalWidth = MathMax(maxReachedW, baseW)
+
+    return finalWidth, msgH, MathAbs(minY)
+end
+
+local function CalculateMessageGap(first, second)
+    -- If messages are in the same group, stick them together
+    if second and first.group == second.group then return 0 end
+
+    return STACK_GAP
+end
+
+local function RepositionStack()
+    local count = #messageStack
+    if count == 0 then return end
+    local newest = messageStack[count]
+    if not IsValid(newest.panel) then return end
+    local stacksFit = false
+
+    if notify_centered:GetBool() then
+        stacksFit = true
+        -- Do a little test run to check whether we're going to overflow
+        local testY = newest.baseY
+
+        for i = count - 1, 1, -1 do
+            local entry = messageStack[i]
+            local below = messageStack[i + 1]
+            if not IsValid(entry.panel) then continue end
+            testY = testY - entry.panel:GetTall() - CalculateMessageGap(entry, below)
+
+            if testY < 0 then
+                stacksFit = false
+                break
+            end
+        end
+    end
+
+    -- If we're not going to overflow then move older messages upwards to make space for the new one
+    if stacksFit then
+        newest.panel:SetY(newest.baseY)
+
+        for i = count - 1, 1, -1 do
+            local entry = messageStack[i]
+            local below = messageStack[i + 1]
+            if not IsValid(entry.panel) or not IsValid(below.panel) then continue end
+            entry.panel:SetY(MathMax(below.panel:GetY() - entry.panel:GetTall() - CalculateMessageGap(entry, below), 0))
+        end
+        -- If we ARE going to overflow then start putting new messages under the older ones
+    else
+        messageStack[1].panel:SetY(STACK_GAP)
+
+        for i = 2, count do
+            local entry = messageStack[i]
+            local above = messageStack[i - 1]
+            if not IsValid(entry.panel) or not IsValid(above.panel) then continue end
+            entry.panel:SetY(above.panel:GetY() + above.panel:GetTall() + CalculateMessageGap(entry, above))
+        end
+
+        -- Safety net so that if a new message would go off the BOTTOM of the screen, the whole stack moves upwards instead
+        local newestPanel = messageStack[count].panel
+
+        if IsValid(newestPanel) then
+            local overshoot = (newestPanel:GetY() + newestPanel:GetTall()) - ScrH()
+
+            if overshoot > 0 then
+                for i = 1, count do
+                    local entry = messageStack[i]
+
+                    if IsValid(entry.panel) then
+                        local newY = entry.panel:GetY() - overshoot
+
+                        -- Just let the oldest messages overlap rather than pushing them off the screen (seems like the lesser of two evils)
+                        if newY < 0 then
+                            newY = STACK_GAP
+                        end
+
+                        entry.panel:SetY(newY)
+                    end
+                end
+            end
+        end
+    end
+end
+
+local function DrawFormattingLine(seg, segX, segY, font_color, offset)
+    local startOffset = 0
+    local blankLength = 0
+    local spaceW = SurfaceGetTextSize(" ")
+
+    if StartsWith(seg.text, " ") then
+        startOffset = spaceW
+        blankLength = blankLength + spaceW
+    end
+
+    if EndsWith(seg.text, " ") then
+        blankLength = blankLength + spaceW
+    end
+
+    local lineY = segY + offset * seg.height
+    local lineWidth = seg.width - blankLength
+
+    if seg.outline then
+        SurfaceSetDrawColor(COLOR_BLACK)
+        SurfaceDrawRect(segX + startOffset - 1, lineY - 1, lineWidth + 2, 5)
+    end
+
+    SurfaceSetDrawColor(font_color)
+    SurfaceDrawRect(segX + startOffset, lineY, lineWidth, 3)
+end
 
 local function ShowMessage()
     local big = net.ReadBool()
-    local msg = net.ReadString()
+    local formatted = net.ReadBool()
+    local msg
+
+    if formatted then
+        msg = net.ReadTable()
+    else
+        msg = net.ReadString()
+    end
+
     local length = net.ReadUInt(8)
 
     if length == 0 then
@@ -29,46 +372,184 @@ local function ShowMessage()
         font_color = COLOR_DEFAULT
     end
 
-    local panel = vgui.Create("DNotify")
+    local tag = net.ReadString()
+
+    if tag == "" then
+        tag = "default"
+    end
+
+    local group = net.ReadUInt(32)
+    local padding = big and 10 or 8
+    local yOffset
+    local msgW, msgH
+    local segments
+
+    if formatted then
+        createdFonts = {}
+        segments = ProcessFormattedSegments(msg, big)
+        msgW, msgH, yOffset = MeasureSegments(segments, padding)
+    else
+        SurfaceSetFont(BuildFormattedFont(false, false, false, false, false, false, big))
+        msgW, msgH = SurfaceGetTextSize(msg)
+    end
+
+    local panel = VguiCreate("DNotify")
+    panel.tag = tag
+    panel.big = big
     panel:SetLife(length)
+    panel:SetSize(msgW + padding, msgH)
 
-    if big then
-        surface.SetFont("RandomatHeader")
+    if notify_centered:GetBool() then
+        panel:Center()
+
+        if not big then
+            panel:CenterVertical(0.55)
+        end
     else
-        surface.SetFont("RandomatSmallMsg")
+        panel:CenterHorizontal()
     end
 
-    panel:SetSize(surface.GetTextSize(msg))
-    panel:Center()
-
-    if not big then
-        panel:CenterVertical(0.55)
-    end
-
-    local bg = vgui.Create("DPanel", panel)
-    bg:SetBackgroundColor(Color(0, 0, 0, 200))
+    local baseY = panel:GetY()
+    local bg = VguiCreate("DPanel", panel)
+    bg:SetBackgroundColor(COLOR_BACKGROUND)
     bg:Dock(FILL)
-    local lbl = vgui.Create("DLabel", bg)
-    lbl:SetText(msg)
 
-    if big then
-        lbl:SetFont("RandomatHeader")
-    else
-        lbl:SetFont("RandomatSmallMsg")
+    function bg:OnRemove()
+        local parent = bg:GetParent()
+        if not IsValid(parent) then return end
+
+        -- Remove from the ordered stack table
+        for i = #messageStack, 1, -1 do
+            if messageStack[i].panel == parent then
+                TableRemove(messageStack, i)
+                break
+            end
+        end
+
+        -- Reposition remaining messages now that one has gone
+        RepositionStack()
+        -- And remove the now-unused parent too
+        parent:Remove()
     end
 
-    lbl:SetTextColor(font_color)
-    lbl:SetWrap(true)
-    lbl:Dock(FILL)
-    lbl:SetText(msg)
+    if formatted then
+        local content = VguiCreate("DPanel", bg)
+        content:Dock(FILL)
+        local paintSegments = segments
+
+        function content:Paint(w, h)
+            local segX = padding / 2
+            local segY = yOffset
+
+            for i, seg in ipairs(paintSegments) do
+                SurfaceSetFont(seg.font)
+
+                -- Vertical bits
+                if IsGoingDown(seg) then
+                    segY = segY + seg.height
+                elseif IsGoingUp(seg) then
+                    segY = segY - seg.height
+                end
+
+                -- New line
+                if seg.newline then
+                    segX = padding / 2
+                end
+
+                -- Horizontal bits
+                local drawX = segX
+
+                if seg.columnWidth then
+                    -- Center all characters in their column
+                    drawX = segX + (seg.columnWidth - seg.width) / 2
+                end
+
+                -- Actually draw the text
+                SurfaceSetTextColor(font_color)
+                SurfaceSetTextPos(drawX, segY)
+                SurfaceDrawText(seg.text)
+
+                -- And any strikethrough/underline lines
+                if seg.strikethrough then
+                    DrawFormattingLine(seg, drawX, segY, font_color, 0.55)
+                end
+
+                if seg.underline then
+                    DrawFormattingLine(seg, drawX, segY, font_color, 0.87)
+                end
+
+                -- Move segX across
+                local nextSeg = paintSegments[i + 1]
+                segX = AdjustSegmentX(seg, nextSeg, segX)
+            end
+        end
+    else
+        local lbl = VguiCreate("DLabel", bg)
+        lbl:SetFont(BuildFormattedFont(false, false, false, false, false, false, big))
+        lbl:SetTextColor(font_color)
+        lbl:SetWrap(true)
+        lbl:DockMargin(padding / 2, 0, padding / 2, 0)
+        lbl:Dock(FILL)
+        lbl:SetText(msg)
+    end
+
     panel:AddItem(bg)
+
+    -- If this is a big message and the only message in the stack is small, put this in front of the small one so it shows on top
+    if big and #messageStack == 1 and not messageStack[1].panel.big then
+        TableInsert(messageStack, 1, {
+            panel = panel,
+            baseY = baseY,
+            tag = tag,
+            group = group
+        })
+    else
+        TableInsert(messageStack, {
+            panel = panel,
+            baseY = baseY,
+            tag = tag,
+            group = group
+        })
+    end
+
+    -- Reposition all messages now that we've added a new one
+    RepositionStack()
+end
+
+local function ClearMessages(all, tag)
+    if all then
+        for _, entry in ipairs(messageStack) do
+            if IsValid(entry.panel) then
+                entry.panel:Remove()
+            end
+        end
+
+        messageStack = {}
+    elseif tag then
+        for i = #messageStack, 1, -1 do
+            local entry = messageStack[i]
+
+            if IsValid(entry.panel) and entry.tag == tag then
+                TableRemove(messageStack, i)
+                entry.panel:Remove()
+            end
+        end
+
+        RepositionStack()
+    end
 end
 
 net.Receive("randomat_message", function()
     ShowMessage()
-    surface.PlaySound("weapons/c4_initiate.mp3")
+    SurfacePlaySound("weapons/c4_initiate.mp3")
 end)
 
 net.Receive("randomat_message_silent", function()
     ShowMessage()
+end)
+
+net.Receive("randomat_message_clear", function()
+    local all = net.ReadBool()
+    local tag = net.ReadString()
+    ClearMessages(all, tag)
 end)
