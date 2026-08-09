@@ -1748,3 +1748,25 @@ L.ww_desc_acidgat = "ACIDE GAT: Tire une rafale d'explosifs collants qui explose
 -- Heartbeat monitor
 L.heartbeat_monitor_name = "Moniteur de rythme cardiaque"
 L.heartbeat_monitor_desc = "Alerte tous les terroristes de votre disparition prématurée."
+
+-- From here onwards, all missing translations were mass-dumped by the command at the bottom of this script
+concommand.Add("ttt_randomat_french_missing_translations", function()
+    print("=====Language strings to be translated=====")
+    local translationIDs = {}
+
+    for id, _ in pairs(L) do
+        translationIDs[id] = true
+    end
+
+    local missingTranslations = {}
+
+    for id, text in pairs(LANG.GetLanguageTable("english")) do
+        if not translationIDs[id] then
+            print(id)
+            missingTranslations[id] = text
+        end
+    end
+
+    file.Write("randomat/missing_french_translations.json", util.TableToJSON(missingTranslations, true))
+    print("=====Saved to garrysmod/data/randomat/missing_french_translations.json=====")
+end)

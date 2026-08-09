@@ -9,11 +9,13 @@ EVENT.Type = EVENT_TYPE_MUSIC
 EVENT.Categories = {"fun", "moderateimpact"}
 
 local musicConvar = CreateConVar("randomat_french_music", 1, FCVAR_NONE, "Whether music should play", 0, 1)
+local debugPrintConvar = CreateConVar("randomat_french_debug_print", 0, FCVAR_NONE, "Whether missing translations should be printed to the console (developer-only)", 0, 1)
 util.AddNetworkString("FrenchRandomatBegin")
 
 function EVENT:Begin()
     net.Start("FrenchRandomatBegin")
     net.WriteBool(musicConvar:GetBool())
+    net.WriteBool(debugPrintConvar:GetBool())
     net.Broadcast()
 
     -- Changes the centre screen alerts of some role from CR, if CR is installed
@@ -21,7 +23,7 @@ function EVENT:Begin()
         local assassinMessageDelay = GetConVar("ttt_assassin_next_target_delay"):GetInt()
 
         self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
-            if (not (IsPlayer(ply) and IsPlayer(attacker))) or ply == attacker then return end
+            if not IsPlayer(ply) and IsPlayer(attacker) or ply == attacker then return end
 
             if attacker:IsAssassin() then
                 -- Overriding the usual assassin messages with nonsense ones.
@@ -102,6 +104,7 @@ end
 function EVENT:GetConVars()
     local checkboxes = {}
 
+    -- randomat_french_debug_print isn't included here on purpose, nor is it documented in the README
     for _, v in pairs({"music"}) do
         local name = "randomat_" .. self.id .. "_" .. v
 
