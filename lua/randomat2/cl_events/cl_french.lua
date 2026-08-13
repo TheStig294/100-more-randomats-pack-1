@@ -2162,7 +2162,7 @@ net.Receive("FrenchRandomatBegin", function()
     flagPanelFrame:SetDeleteOnClose(true)
     flagPanelFrame:SetZPos(-32768)
 
-    flagPanelFrame.Paint = function(self, w, h)
+    flagPanelFrame.Paint = function(_, w, h)
         draw.RoundedBox(0, 0, 0, w * 1 / 3, h, Color(0, 36, 150, 10))
         draw.RoundedBox(0, w * 1 / 3, 0, w * 1 / 3, h, Color(255, 255, 255, 10))
         draw.RoundedBox(0, w * 2 / 3, 0, w * 1 / 3, h, Color(237, 40, 57, 10))
@@ -2179,7 +2179,7 @@ net.Receive("FrenchRandomatBegin", function()
             chat.AddText("\nPress 'M' to mute music!\n\nerr I mean... Appuyez sur 'M' pour couper la musique!")
         end)
 
-        hook.Add("PlayerButtonDown", "FrenchMuteMusicButton", function(ply, button)
+        hook.Add("PlayerButtonDown", "FrenchMuteMusicButton", function(_, button)
             if button == KEY_M then
                 RunConsoleCommand("stopsound")
                 chat.AddText("Music muted")
