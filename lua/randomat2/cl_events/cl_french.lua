@@ -110,122 +110,133 @@ net.Receive("FrenchRandomatBegin", function()
     RunConsoleCommand("ttt_language", "FrançaisRandomat")
     -- Renaming roles
     local translatedRoles = {}
+
+    local function addTranslation(translation, id)
+        -- For all roles not installed, skip them!
+        if not id then return end
+
+        table.insert(translatedRoles, {
+            translation = translation,
+            id = id
+        })
+    end
+
     -- Base Custom Roles --
-    translatedRoles["Aucune"] = ROLE_NONE
-    translatedRoles["Innocente"] = ROLE_INNOCENT
-    translatedRoles["Traitre"] = ROLE_TRAITOR
-    translatedRoles["Détective"] = ROLE_DETECTIVE
-    translatedRoles["Bouffon"] = ROLE_JESTER
-    translatedRoles["Échangeur"] = ROLE_SWAPPER
-    translatedRoles["Problème"] = ROLE_GLITCH
-    translatedRoles["Fantôme"] = ROLE_PHANTOM
-    translatedRoles["Hypnotiseur"] = ROLE_HYPNOTIST
-    translatedRoles["Vengeur"] = ROLE_REVENGER
-    translatedRoles["Ivre"] = ROLE_DRUNK
-    translatedRoles["Clown"] = ROLE_CLOWN
-    translatedRoles["Adjoint"] = ROLE_DEPUTY
-    translatedRoles["Imitateur"] = ROLE_IMPERSONATOR
-    translatedRoles["Mendiant"] = ROLE_BEGGAR
-    translatedRoles["Vieil Homme"] = ROLE_OLDMAN
-    translatedRoles["Mercenaire"] = ROLE_MERCENARY
-    translatedRoles["Voleur de Corps"] = ROLE_BODYSNATCHER
-    translatedRoles["Vétéran"] = ROLE_VETERAN
-    translatedRoles["Assassin"] = ROLE_ASSASSIN
-    translatedRoles["Tueur"] = ROLE_KILLER
-    translatedRoles["Zombi"] = ROLE_ZOMBIE
-    translatedRoles["Vampire"] = ROLE_VAMPIRE
-    translatedRoles["Médecin"] = ROLE_DOCTOR
-    translatedRoles["Charlatan"] = ROLE_QUACK
-    translatedRoles["Parasite"] = ROLE_PARASITE
-    translatedRoles["Filou"] = ROLE_TRICKSTER
-    translatedRoles["Paramédical"] = ROLE_PARAMEDIC
-    translatedRoles["Scientifique Fou"] = ROLE_MADSCIENTIST
-    translatedRoles["Paladin"] = ROLE_PALADIN
-    translatedRoles["Traqueur"] = ROLE_TRACKER
-    translatedRoles["Voyante"] = ROLE_MEDIUM
-    translatedRoles["Butin Gobelin"] = ROLE_LOOTGOBLIN
-    translatedRoles["Transfuge"] = ROLE_TURNCOAT
-    translatedRoles["Sapeur"] = ROLE_SAPPER
-    translatedRoles["Informateur"] = ROLE_INFORMANT
-    translatedRoles["Maréchal"] = ROLE_MARSHAL
-    translatedRoles["Infecté"] = ROLE_INFECTED
-    translatedRoles["Cupidon"] = ROLE_CUPID
-    translatedRoles["Ombre"] = ROLE_SHADOW
-    translatedRoles["Éponge"] = ROLE_SPONGE
-    translatedRoles["Incendiaire"] = ROLE_ARSONIST
-    translatedRoles["Espionner"] = ROLE_SPY
-    translatedRoles["Esprit de la Ruche"] = ROLE_HIVEMIND
-    translatedRoles["Devineur"] = ROLE_GUESSER
-    translatedRoles["Intendante"] = ROLE_QUARTERMASTER
-    translatedRoles["Justicier"] = ROLE_VINDICATOR
+    addTranslation("Aucune", ROLE_NONE)
+    addTranslation("Innocente", ROLE_INNOCENT)
+    addTranslation("Traitre", ROLE_TRAITOR)
+    addTranslation("Détective", ROLE_DETECTIVE)
+    addTranslation("Bouffon", ROLE_JESTER)
+    addTranslation("Échangeur", ROLE_SWAPPER)
+    addTranslation("Problème", ROLE_GLITCH)
+    addTranslation("Fantôme", ROLE_PHANTOM)
+    addTranslation("Hypnotiseur", ROLE_HYPNOTIST)
+    addTranslation("Vengeur", ROLE_REVENGER)
+    addTranslation("Ivre", ROLE_DRUNK)
+    addTranslation("Clown", ROLE_CLOWN)
+    addTranslation("Adjoint", ROLE_DEPUTY)
+    addTranslation("Imitateur", ROLE_IMPERSONATOR)
+    addTranslation("Mendiant", ROLE_BEGGAR)
+    addTranslation("Vieil Homme", ROLE_OLDMAN)
+    addTranslation("Mercenaire", ROLE_MERCENARY)
+    addTranslation("Voleur de Corps", ROLE_BODYSNATCHER)
+    addTranslation("Vétéran", ROLE_VETERAN)
+    addTranslation("Assassin", ROLE_ASSASSIN)
+    addTranslation("Tueur", ROLE_KILLER)
+    addTranslation("Zombi", ROLE_ZOMBIE)
+    addTranslation("Vampire", ROLE_VAMPIRE)
+    addTranslation("Médecin", ROLE_DOCTOR)
+    addTranslation("Charlatan", ROLE_QUACK)
+    addTranslation("Parasite", ROLE_PARASITE)
+    addTranslation("Filou", ROLE_TRICKSTER)
+    addTranslation("Paramédical", ROLE_PARAMEDIC)
+    addTranslation("Scientifique Fou", ROLE_MADSCIENTIST)
+    addTranslation("Paladin", ROLE_PALADIN)
+    addTranslation("Traqueur", ROLE_TRACKER)
+    addTranslation("Voyante", ROLE_MEDIUM)
+    addTranslation("Butin Gobelin", ROLE_LOOTGOBLIN)
+    addTranslation("Transfuge", ROLE_TURNCOAT)
+    addTranslation("Sapeur", ROLE_SAPPER)
+    addTranslation("Informateur", ROLE_INFORMANT)
+    addTranslation("Maréchal", ROLE_MARSHAL)
+    addTranslation("Infecté", ROLE_INFECTED)
+    addTranslation("Cupidon", ROLE_CUPID)
+    addTranslation("Ombre", ROLE_SHADOW)
+    addTranslation("Éponge", ROLE_SPONGE)
+    addTranslation("Incendiaire", ROLE_ARSONIST)
+    addTranslation("Espionner", ROLE_SPY)
+    addTranslation("Esprit de la Ruche", ROLE_HIVEMIND)
+    addTranslation("Devineur", ROLE_GUESSER)
+    addTranslation("Intendante", ROLE_QUARTERMASTER)
+    addTranslation("Justicier", ROLE_VINDICATOR)
     -- Jingle Jam Pack Roles --
-    translatedRoles["Boxeur"] = ROLE_BOXER
-    translatedRoles["Communiste"] = ROLE_COMMUNIST
-    translatedRoles["Homme Aléatoire"] = ROLE_RANDOMAN
-    translatedRoles["Père Noël"] = ROLE_SANTA
-    translatedRoles["Taxidermiste"] = ROLE_TAXIDERMIST
-    translatedRoles["Détective Clown"] = ROLE_DETECTOCLOWN
-    translatedRoles["Plus Faux"] = ROLE_FAKER
-    translatedRoles["Krampus"] = ROLE_KRAMPUS
-    translatedRoles["Administrateur"] = ROLE_ADMIN
-    translatedRoles["Chuchoteur Fantôme"] = ROLE_GHOSTWHISPERER
-    translatedRoles["Renégate"] = ROLE_RENEGADE
-    translatedRoles["Lié à L'âme"] = ROLE_SOULBOUND
-    translatedRoles["Âme Soeur"] = ROLE_SOULMAGE
-    translatedRoles["Élémentaliste"] = ROLE_ELEMENTALIST
-    translatedRoles["Médecin"] = ROLE_PHYSICIAN
+    addTranslation("Boxeur", ROLE_BOXER)
+    addTranslation("Communiste", ROLE_COMMUNIST)
+    addTranslation("Homme Aléatoire", ROLE_RANDOMAN)
+    addTranslation("Père Noël", ROLE_SANTA)
+    addTranslation("Taxidermiste", ROLE_TAXIDERMIST)
+    addTranslation("Détective Clown", ROLE_DETECTOCLOWN)
+    addTranslation("Plus Faux", ROLE_FAKER)
+    addTranslation("Krampus", ROLE_KRAMPUS)
+    addTranslation("Administrateur", ROLE_ADMIN)
+    addTranslation("Chuchoteur Fantôme", ROLE_GHOSTWHISPERER)
+    addTranslation("Renégate", ROLE_RENEGADE)
+    addTranslation("Lié à L'âme", ROLE_SOULBOUND)
+    addTranslation("Âme Soeur", ROLE_SOULMAGE)
+    addTranslation("Élémentaliste", ROLE_ELEMENTALIST)
+    addTranslation("Clinicien", ROLE_PHYSICIAN)
     -- External Roles --
-    translatedRoles["Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Serviteur de L'effroi"] = ROLE_DREADTHRALL
-    translatedRoles["Français"] = ROLE_FRENCHMAN
-    translatedRoles["Opossum"] = ROLE_POSSUM
-    translatedRoles["Invocateur"] = ROLE_SUMMONER
-    translatedRoles["La Chose"] = ROLE_THETHING
+    addTranslation("Annonceur", ROLE_ANNOUNCER)
+    addTranslation("Serviteur de L'effroi", ROLE_DREADTHRALL)
+    addTranslation("Français", ROLE_FRENCHMAN)
+    addTranslation("Opossum", ROLE_POSSUM)
+    addTranslation("Invocateur", ROLE_SUMMONER)
+    addTranslation("La Chose", ROLE_THETHING)
     -- Randomat Roles --
-    translatedRoles["Yéti"] = ROLE_YETI
-    translatedRoles["Abeille"] = ROLE_BEE
-    translatedRoles["Reine Des Abeilles"] = ROLE_QUEENBEE
-    translatedRoles["Elfe"] = ROLE_ELF
+    addTranslation("Yéti", ROLE_YETI)
+    addTranslation("Abeille", ROLE_BEE)
+    addTranslation("Reine Des Abeilles", ROLE_QUEENBEE)
+    addTranslation("Elfe", ROLE_ELF)
     -- Debug command translated roles --
-    translatedRoles["Éclaireur"] = ROLE_SCOUT
-    translatedRoles["Bon Jumeau"] = ROLE_GOODTWIN
-    translatedRoles["Mauvais Jumeau"] = ROLE_EVILTWIN
-    translatedRoles["Maître de la Peste"] = ROLE_PLAGUEMASTER
-    translatedRoles["Illusionniste"] = ROLE_ILLUSIONIST
-    translatedRoles["Cannibale"] = ROLE_CANNIBAL
-    translatedRoles["Maître des Tâches"] = ROLE_TASKMASTER
-    translatedRoles["Joueur"] = ROLE_GAMER
-    translatedRoles["Marionnettiste"] = ROLE_PUPPETEER
-    translatedRoles["Échangeur Aléatoire"] = ROLE_RANDOSWAPPER
-    translatedRoles["Baleine"] = ROLE_WHALETRAITOR
-    translatedRoles["Baleine"] = ROLE_WHALEINNOCENT
-    translatedRoles["Baleine"] = ROLE_WHALEDETECTIVE
-    translatedRoles["Baleine"] = ROLE_WHALEMONSTER
-    translatedRoles["Baleine"] = ROLE_WHALEJESTER
-    translatedRoles["Baleine"] = ROLE_WHALEINDEPENDENT
-    translatedRoles["Garçon de la Roue"] = ROLE_WHEELBOY
-    translatedRoles["Marchand d'Armes"] = ROLE_ARMSDEALER
-    translatedRoles["Imitateur de Baril"] = ROLE_BARRELMIMIC
-    translatedRoles["Homme BLEU"] = ROLE_BLUMANN
-    translatedRoles["Bouton"] = ROLE_BUTTON
-    translatedRoles["Cuisinier"] = ROLE_CHEF
-    translatedRoles["Cloner"] = ROLE_CLONE
-    translatedRoles["Ermite"] = ROLE_HERMIT
-    translatedRoles["Poisse"] = ROLE_HOODOO
-    translatedRoles["Gobelin Mental"] = ROLE_MINDGOBLIN
-    translatedRoles["Missionnaire"] = ROLE_MISSIONARY
-    translatedRoles["Moine"] = ROLE_MONK
-    translatedRoles["Pharaon"] = ROLE_PHARAOH
-    translatedRoles["Piñata"] = ROLE_PINATA
-    translatedRoles["Empoisonneur"] = ROLE_POISONER
-    translatedRoles["Homme ROUGE"] = ROLE_REDMANN
-    translatedRoles["Gardien du Coffre"] = ROLE_SAFEKEEPER
-    translatedRoles["Fratrie"] = ROLE_SIBLING
-    translatedRoles["Voleur"] = ROLE_THIEF
-    translatedRoles["Loup-Garou"] = ROLE_WEREWOLF
-    translatedRoles["Homme du Yorkshire"] = ROLE_YORKSHIREMAN
-    translatedRoles["Zélote"] = ROLE_ZEALOT
-    translatedRoles["Kévin"] = ROLE_KEVIN
+    addTranslation("Éclaireur", ROLE_SCOUT)
+    addTranslation("Bon Jumeau", ROLE_GOODTWIN)
+    addTranslation("Mauvais Jumeau", ROLE_EVILTWIN)
+    addTranslation("Maître de la Peste", ROLE_PLAGUEMASTER)
+    addTranslation("Illusionniste", ROLE_ILLUSIONIST)
+    addTranslation("Cannibale", ROLE_CANNIBAL)
+    addTranslation("Maître des Tâches", ROLE_TASKMASTER)
+    addTranslation("Joueur", ROLE_GAMER)
+    addTranslation("Marionnettiste", ROLE_PUPPETEER)
+    addTranslation("Échangeur Aléatoire", ROLE_RANDOSWAPPER)
+    addTranslation("Baleine", ROLE_WHALETRAITOR)
+    addTranslation("Baleine", ROLE_WHALEINNOCENT)
+    addTranslation("Baleine", ROLE_WHALEDETECTIVE)
+    addTranslation("Baleine", ROLE_WHALEMONSTER)
+    addTranslation("Baleine", ROLE_WHALEJESTER)
+    addTranslation("Baleine", ROLE_WHALEINDEPENDENT)
+    addTranslation("Garçon de la Roue", ROLE_WHEELBOY)
+    addTranslation("Marchand d'Armes", ROLE_ARMSDEALER)
+    addTranslation("Imitateur de Baril", ROLE_BARRELMIMIC)
+    addTranslation("Homme BLEU", ROLE_BLUMANN)
+    addTranslation("Bouton", ROLE_BUTTON)
+    addTranslation("Cuisinier", ROLE_CHEF)
+    addTranslation("Cloner", ROLE_CLONE)
+    addTranslation("Ermite", ROLE_HERMIT)
+    addTranslation("Poisse", ROLE_HOODOO)
+    addTranslation("Gobelin Mental", ROLE_MINDGOBLIN)
+    addTranslation("Missionnaire", ROLE_MISSIONARY)
+    addTranslation("Moine", ROLE_MONK)
+    addTranslation("Pharaon", ROLE_PHARAOH)
+    addTranslation("Piñata", ROLE_PINATA)
+    addTranslation("Empoisonneur", ROLE_POISONER)
+    addTranslation("Homme ROUGE", ROLE_REDMANN)
+    addTranslation("Gardien du Coffre", ROLE_SAFEKEEPER)
+    addTranslation("Fratrie", ROLE_SIBLING)
+    addTranslation("Voleur", ROLE_THIEF)
+    addTranslation("Loup-Garou", ROLE_WEREWOLF)
+    addTranslation("Homme du Yorkshire", ROLE_YORKSHIREMAN)
+    addTranslation("Zélote", ROLE_ZEALOT)
+    addTranslation("Kévin", ROLE_KEVIN)
 
     if istable(ROLE_STRINGS) then
         if not roleStringsOrig then
@@ -238,18 +249,18 @@ net.Receive("FrenchRandomatBegin", function()
             print("=====Role strings to be translated=====")
         end
 
-        for roleName, roleID in pairs(translatedRoles) do
-            ROLE_STRINGS[roleID] = roleName
+        for _, entry in ipairs(translatedRoles) do
+            ROLE_STRINGS[entry.id] = entry.translation
 
             if debugPrint then
-                translatedRoleIDs[roleID] = true
+                translatedRoleIDs[entry.id] = true
             end
         end
 
         if debugPrint then
             for roleID, roleString in ipairs(ROLE_STRINGS) do
                 if not translatedRoleIDs[roleID] then
-                    print(roleString)
+                    print(roleString, ROLE_STRINGS_RAW[roleID])
                 end
             end
         end
@@ -257,125 +268,125 @@ net.Receive("FrenchRandomatBegin", function()
 
     table.Empty(translatedRoles)
     -- Base Custom Roles --
-    translatedRoles["Un Aucune"] = ROLE_NONE
-    translatedRoles["Un Innocente"] = ROLE_INNOCENT
-    translatedRoles["Un Traitre"] = ROLE_TRAITOR
-    translatedRoles["Un Détective"] = ROLE_DETECTIVE
-    translatedRoles["Un Bouffon"] = ROLE_JESTER
-    translatedRoles["Un Échangeur"] = ROLE_SWAPPER
-    translatedRoles["Un Problème"] = ROLE_GLITCH
-    translatedRoles["Un Fantôme"] = ROLE_PHANTOM
-    translatedRoles["Un Hypnotiseur"] = ROLE_HYPNOTIST
-    translatedRoles["Un Vengeur"] = ROLE_REVENGER
-    translatedRoles["Un Ivre"] = ROLE_DRUNK
-    translatedRoles["Un Clown"] = ROLE_CLOWN
-    translatedRoles["Un Adjoint"] = ROLE_DEPUTY
-    translatedRoles["Un Imitateur"] = ROLE_IMPERSONATOR
-    translatedRoles["Un Mendiant"] = ROLE_BEGGAR
-    translatedRoles["Un Vieil Homme"] = ROLE_OLDMAN
-    translatedRoles["Un Mercenaire"] = ROLE_MERCENARY
-    translatedRoles["Un Voleur de Corps"] = ROLE_BODYSNATCHER
-    translatedRoles["Un Vétéran"] = ROLE_VETERAN
-    translatedRoles["Un Assassin"] = ROLE_ASSASSIN
-    translatedRoles["Un Tueur"] = ROLE_KILLER
-    translatedRoles["Un Zombi"] = ROLE_ZOMBIE
-    translatedRoles["Un Vampire"] = ROLE_VAMPIRE
-    translatedRoles["Un Médecin"] = ROLE_DOCTOR
-    translatedRoles["Un Charlatan"] = ROLE_QUACK
-    translatedRoles["Un Parasite"] = ROLE_PARASITE
-    translatedRoles["Un Filou"] = ROLE_TRICKSTER
-    translatedRoles["Un Paramédical"] = ROLE_PARAMEDIC
-    translatedRoles["Un Scientifique Fou"] = ROLE_MADSCIENTIST
-    translatedRoles["Un Paladin"] = ROLE_PALADIN
-    translatedRoles["Un Traqueur"] = ROLE_TRACKER
-    translatedRoles["Un Voyante"] = ROLE_MEDIUM
-    translatedRoles["Un Butin Gobelin"] = ROLE_LOOTGOBLIN
-    translatedRoles["Un Transfuge"] = ROLE_TURNCOAT
-    translatedRoles["Un Sapeur"] = ROLE_SAPPER
-    translatedRoles["Un Informateur"] = ROLE_INFORMANT
-    translatedRoles["Un Maréchal"] = ROLE_MARSHAL
-    translatedRoles["Un Infecté"] = ROLE_INFECTED
-    translatedRoles["Un Cupidon"] = ROLE_CUPID
-    translatedRoles["Un Ombre"] = ROLE_SHADOW
-    translatedRoles["Un Éponge"] = ROLE_SPONGE
-    translatedRoles["Un Incendiaire"] = ROLE_ARSONIST
-    translatedRoles["Un Espionner"] = ROLE_SPY
-    translatedRoles["Un Esprit de la Ruche"] = ROLE_HIVEMIND
-    translatedRoles["Un Devineur"] = ROLE_GUESSER
-    translatedRoles["Un Intendante"] = ROLE_QUARTERMASTER
-    translatedRoles["Un Justicier"] = ROLE_VINDICATOR
+    addTranslation("Un Aucune", ROLE_NONE)
+    addTranslation("Un Innocente", ROLE_INNOCENT)
+    addTranslation("Un Traitre", ROLE_TRAITOR)
+    addTranslation("Un Détective", ROLE_DETECTIVE)
+    addTranslation("Un Bouffon", ROLE_JESTER)
+    addTranslation("Un Échangeur", ROLE_SWAPPER)
+    addTranslation("Un Problème", ROLE_GLITCH)
+    addTranslation("Un Fantôme", ROLE_PHANTOM)
+    addTranslation("Un Hypnotiseur", ROLE_HYPNOTIST)
+    addTranslation("Un Vengeur", ROLE_REVENGER)
+    addTranslation("Un Ivre", ROLE_DRUNK)
+    addTranslation("Un Clown", ROLE_CLOWN)
+    addTranslation("Un Adjoint", ROLE_DEPUTY)
+    addTranslation("Un Imitateur", ROLE_IMPERSONATOR)
+    addTranslation("Un Mendiant", ROLE_BEGGAR)
+    addTranslation("Un Vieil Homme", ROLE_OLDMAN)
+    addTranslation("Un Mercenaire", ROLE_MERCENARY)
+    addTranslation("Un Voleur de Corps", ROLE_BODYSNATCHER)
+    addTranslation("Un Vétéran", ROLE_VETERAN)
+    addTranslation("Un Assassin", ROLE_ASSASSIN)
+    addTranslation("Un Tueur", ROLE_KILLER)
+    addTranslation("Un Zombi", ROLE_ZOMBIE)
+    addTranslation("Un Vampire", ROLE_VAMPIRE)
+    addTranslation("Un Médecin", ROLE_DOCTOR)
+    addTranslation("Un Charlatan", ROLE_QUACK)
+    addTranslation("Un Parasite", ROLE_PARASITE)
+    addTranslation("Un Filou", ROLE_TRICKSTER)
+    addTranslation("Un Paramédical", ROLE_PARAMEDIC)
+    addTranslation("Un Scientifique Fou", ROLE_MADSCIENTIST)
+    addTranslation("Un Paladin", ROLE_PALADIN)
+    addTranslation("Un Traqueur", ROLE_TRACKER)
+    addTranslation("Un Voyante", ROLE_MEDIUM)
+    addTranslation("Un Butin Gobelin", ROLE_LOOTGOBLIN)
+    addTranslation("Un Transfuge", ROLE_TURNCOAT)
+    addTranslation("Un Sapeur", ROLE_SAPPER)
+    addTranslation("Un Informateur", ROLE_INFORMANT)
+    addTranslation("Un Maréchal", ROLE_MARSHAL)
+    addTranslation("Un Infecté", ROLE_INFECTED)
+    addTranslation("Un Cupidon", ROLE_CUPID)
+    addTranslation("Un Ombre", ROLE_SHADOW)
+    addTranslation("Un Éponge", ROLE_SPONGE)
+    addTranslation("Un Incendiaire", ROLE_ARSONIST)
+    addTranslation("Un Espionner", ROLE_SPY)
+    addTranslation("Un Esprit de la Ruche", ROLE_HIVEMIND)
+    addTranslation("Un Devineur", ROLE_GUESSER)
+    addTranslation("Un Intendante", ROLE_QUARTERMASTER)
+    addTranslation("Un Justicier", ROLE_VINDICATOR)
     -- Jingle Jam Pack Roles --
-    translatedRoles["Un Boxeur"] = ROLE_BOXER
-    translatedRoles["Un Communiste"] = ROLE_COMMUNIST
-    translatedRoles["Un Homme Aléatoire"] = ROLE_RANDOMAN
-    translatedRoles["Un Père Noël"] = ROLE_SANTA
-    translatedRoles["Un Taxidermiste"] = ROLE_TAXIDERMIST
-    translatedRoles["Un Détective Clown"] = ROLE_DETECTOCLOWN
-    translatedRoles["Un Plus Faux"] = ROLE_FAKER
-    translatedRoles["Un Krampus"] = ROLE_KRAMPUS
-    translatedRoles["Un Administrateur"] = ROLE_ADMIN
-    translatedRoles["Un Chuchoteur Fantôme"] = ROLE_GHOSTWHISPERER
-    translatedRoles["Un Renégate"] = ROLE_RENEGADE
-    translatedRoles["Un Lié à L'âme"] = ROLE_SOULBOUND
-    translatedRoles["Un Âme Soeur"] = ROLE_SOULMAGE
-    translatedRoles["Un Élémentaliste"] = ROLE_ELEMENTALIST
-    translatedRoles["Un Médecin"] = ROLE_PHYSICIAN
+    addTranslation("Un Boxeur", ROLE_BOXER)
+    addTranslation("Un Communiste", ROLE_COMMUNIST)
+    addTranslation("Un Homme Aléatoire", ROLE_RANDOMAN)
+    addTranslation("Un Père Noël", ROLE_SANTA)
+    addTranslation("Un Taxidermiste", ROLE_TAXIDERMIST)
+    addTranslation("Un Détective Clown", ROLE_DETECTOCLOWN)
+    addTranslation("Un Plus Faux", ROLE_FAKER)
+    addTranslation("Un Krampus", ROLE_KRAMPUS)
+    addTranslation("Un Administrateur", ROLE_ADMIN)
+    addTranslation("Un Chuchoteur Fantôme", ROLE_GHOSTWHISPERER)
+    addTranslation("Un Renégate", ROLE_RENEGADE)
+    addTranslation("Un Lié à L'âme", ROLE_SOULBOUND)
+    addTranslation("Un Âme Soeur", ROLE_SOULMAGE)
+    addTranslation("Un Élémentaliste", ROLE_ELEMENTALIST)
+    addTranslation("Un Clinicien", ROLE_PHYSICIAN)
     -- External Roles --
-    translatedRoles["Un Annonceur"] = ROLE_ANNOUNCER
-    translatedRoles["Un Serviteur de L'effroi"] = ROLE_DREADTHRALL
-    translatedRoles["Un Français"] = ROLE_FRENCHMAN
-    translatedRoles["Un Opossum"] = ROLE_POSSUM
-    translatedRoles["Un Invocateur"] = ROLE_SUMMONER
-    translatedRoles["Un La Chose"] = ROLE_THETHING
+    addTranslation("Un Annonceur", ROLE_ANNOUNCER)
+    addTranslation("Un Serviteur de L'effroi", ROLE_DREADTHRALL)
+    addTranslation("Un Français", ROLE_FRENCHMAN)
+    addTranslation("Un Opossum", ROLE_POSSUM)
+    addTranslation("Un Invocateur", ROLE_SUMMONER)
+    addTranslation("Un La Chose", ROLE_THETHING)
     -- Randomat Roles --
-    translatedRoles["Un Yéti"] = ROLE_YETI
-    translatedRoles["Un Abeille"] = ROLE_BEE
-    translatedRoles["Un Reine Des Abeilles"] = ROLE_QUEENBEE
-    translatedRoles["Un Elfe"] = ROLE_ELF
+    addTranslation("Un Yéti", ROLE_YETI)
+    addTranslation("Un Abeille", ROLE_BEE)
+    addTranslation("Un Reine Des Abeilles", ROLE_QUEENBEE)
+    addTranslation("Un Elfe", ROLE_ELF)
     -- Debug command translated roles --
-    translatedRoles["Un Éclaireur"] = ROLE_SCOUT
-    translatedRoles["Un Bon Jumeau"] = ROLE_GOODTWIN
-    translatedRoles["Un Mauvais Jumeau"] = ROLE_EVILTWIN
-    translatedRoles["Un Maître de la Peste"] = ROLE_PLAGUEMASTER
-    translatedRoles["Un Illusionniste"] = ROLE_ILLUSIONIST
-    translatedRoles["Un Cannibale"] = ROLE_CANNIBAL
-    translatedRoles["Un Maître des Tâches"] = ROLE_TASKMASTER
-    translatedRoles["Un Joueur"] = ROLE_GAMER
-    translatedRoles["Un Marionnettiste"] = ROLE_PUPPETEER
-    translatedRoles["Un Échangeur Aléatoire"] = ROLE_RANDOSWAPPER
-    translatedRoles["Un Baleine Détective"] = ROLE_WHALEDETECTIVE
-    translatedRoles["Un Baleine Indépendant"] = ROLE_WHALEINDEPENDENT
-    translatedRoles["Un Baleine Innocente"] = ROLE_WHALEINNOCENT
-    translatedRoles["Un Baleine Bouffon"] = ROLE_WHALEJESTER
-    translatedRoles["Un Baleine Monstre"] = ROLE_WHALEMONSTER
-    translatedRoles["Un Baleine Traitre"] = ROLE_WHALETRAITOR
-    translatedRoles["Un Garçon de la Roue"] = ROLE_WHEELBOY
-    translatedRoles["Un Marchand d'Armes"] = ROLE_ARMSDEALER
-    translatedRoles["Un Imitateur de Baril"] = ROLE_BARRELMIMIC
-    translatedRoles["Un Homme BLEU"] = ROLE_BLUMANN
-    translatedRoles["Un Bouton"] = ROLE_BUTTON
-    translatedRoles["Un Cuisinier"] = ROLE_CHEF
-    translatedRoles["Un Cloner"] = ROLE_CLONE
-    translatedRoles["Un Ermite"] = ROLE_HERMIT
-    translatedRoles["Un Hoodoo"] = ROLE_HOODOO
-    translatedRoles["Un Gobelin Mental"] = ROLE_MINDGOBLIN
-    translatedRoles["Un Missionnaire"] = ROLE_MISSIONARY
-    translatedRoles["Un Moine"] = ROLE_MONK
-    translatedRoles["Un Pharaon"] = ROLE_PHARAOH
-    translatedRoles["Un Piñata"] = ROLE_PINATA
-    translatedRoles["Un Empoisonneur"] = ROLE_POISONER
-    translatedRoles["Un Homme ROUGE"] = ROLE_REDMANN
-    translatedRoles["Un Gardien du Coffre"] = ROLE_SAFEKEEPER
-    translatedRoles["Un Fratrie"] = ROLE_SIBLING
-    translatedRoles["Un Voleur"] = ROLE_THIEF
-    translatedRoles["Un Loup-Garou"] = ROLE_WEREWOLF
-    translatedRoles["Un Yorkshireman"] = ROLE_YORKSHIREMAN
-    translatedRoles["Un Zélote"] = ROLE_ZEALOT
-    translatedRoles["Un Kévin"] = ROLE_KEVIN
+    addTranslation("Un Éclaireur", ROLE_SCOUT)
+    addTranslation("Un Bon Jumeau", ROLE_GOODTWIN)
+    addTranslation("Un Mauvais Jumeau", ROLE_EVILTWIN)
+    addTranslation("Un Maître de la Peste", ROLE_PLAGUEMASTER)
+    addTranslation("Un Illusionniste", ROLE_ILLUSIONIST)
+    addTranslation("Un Cannibale", ROLE_CANNIBAL)
+    addTranslation("Un Maître des Tâches", ROLE_TASKMASTER)
+    addTranslation("Un Joueur", ROLE_GAMER)
+    addTranslation("Un Marionnettiste", ROLE_PUPPETEER)
+    addTranslation("Un Échangeur Aléatoire", ROLE_RANDOSWAPPER)
+    addTranslation("Un Baleine Détective", ROLE_WHALEDETECTIVE)
+    addTranslation("Un Baleine Indépendant", ROLE_WHALEINDEPENDENT)
+    addTranslation("Un Baleine Innocente", ROLE_WHALEINNOCENT)
+    addTranslation("Un Baleine Bouffon", ROLE_WHALEJESTER)
+    addTranslation("Un Baleine Monstre", ROLE_WHALEMONSTER)
+    addTranslation("Un Baleine Traitre", ROLE_WHALETRAITOR)
+    addTranslation("Un Garçon de la Roue", ROLE_WHEELBOY)
+    addTranslation("Un Marchand d'Armes", ROLE_ARMSDEALER)
+    addTranslation("Un Imitateur de Baril", ROLE_BARRELMIMIC)
+    addTranslation("Un Homme BLEU", ROLE_BLUMANN)
+    addTranslation("Un Bouton", ROLE_BUTTON)
+    addTranslation("Un Cuisinier", ROLE_CHEF)
+    addTranslation("Un Cloner", ROLE_CLONE)
+    addTranslation("Un Ermite", ROLE_HERMIT)
+    addTranslation("Un Hoodoo", ROLE_HOODOO)
+    addTranslation("Un Gobelin Mental", ROLE_MINDGOBLIN)
+    addTranslation("Un Missionnaire", ROLE_MISSIONARY)
+    addTranslation("Un Moine", ROLE_MONK)
+    addTranslation("Un Pharaon", ROLE_PHARAOH)
+    addTranslation("Un Piñata", ROLE_PINATA)
+    addTranslation("Un Empoisonneur", ROLE_POISONER)
+    addTranslation("Un Homme ROUGE", ROLE_REDMANN)
+    addTranslation("Un Gardien du Coffre", ROLE_SAFEKEEPER)
+    addTranslation("Un Fratrie", ROLE_SIBLING)
+    addTranslation("Un Voleur", ROLE_THIEF)
+    addTranslation("Un Loup-Garou", ROLE_WEREWOLF)
+    addTranslation("Un Yorkshireman", ROLE_YORKSHIREMAN)
+    addTranslation("Un Zélote", ROLE_ZEALOT)
+    addTranslation("Un Kévin", ROLE_KEVIN)
 
     if istable(ROLE_STRINGS_EXT) then
-        if not roleStringsExtOrig then
-            roleStringsExtOrig = table.Copy(ROLE_STRINGS_EXT)
+        if not roleStringsOrig then
+            roleStringsOrig = table.Copy(ROLE_STRINGS_EXT)
         end
 
         local translatedRoleIDs = {}
@@ -384,18 +395,18 @@ net.Receive("FrenchRandomatBegin", function()
             print("=====Role strings extended to be translated=====")
         end
 
-        for roleName, roleID in pairs(translatedRoles) do
-            ROLE_STRINGS_EXT[roleID] = roleName
+        for _, entry in ipairs(translatedRoles) do
+            ROLE_STRINGS_EXT[entry.id] = entry.translation
 
             if debugPrint then
-                translatedRoleIDs[roleID] = true
+                translatedRoleIDs[entry.id] = true
             end
         end
 
         if debugPrint then
             for roleID, roleString in ipairs(ROLE_STRINGS_EXT) do
                 if not translatedRoleIDs[roleID] then
-                    print(roleString)
+                    print(roleString, ROLE_STRINGS_RAW[roleID])
                 end
             end
         end
@@ -403,145 +414,145 @@ net.Receive("FrenchRandomatBegin", function()
 
     table.Empty(translatedRoles)
     -- Base Custom Roles --
-    translatedRoles["Aucunes"] = ROLE_NONE
-    translatedRoles["Innocentes"] = ROLE_INNOCENT
-    translatedRoles["Traitres"] = ROLE_TRAITOR
-    translatedRoles["Détectives"] = ROLE_DETECTIVE
-    translatedRoles["Bouffons"] = ROLE_JESTER
-    translatedRoles["Échangeurs"] = ROLE_SWAPPER
-    translatedRoles["Problèmes"] = ROLE_GLITCH
-    translatedRoles["Fantômes"] = ROLE_PHANTOM
-    translatedRoles["Hypnotiseurs"] = ROLE_HYPNOTIST
-    translatedRoles["Vengeurs"] = ROLE_REVENGER
-    translatedRoles["Ivres"] = ROLE_DRUNK
-    translatedRoles["Clowns"] = ROLE_CLOWN
-    translatedRoles["Adjoints"] = ROLE_DEPUTY
-    translatedRoles["Imitateurs"] = ROLE_IMPERSONATOR
-    translatedRoles["Mendiants"] = ROLE_BEGGAR
-    translatedRoles["Vieux Hommes"] = ROLE_OLDMAN
-    translatedRoles["Mercenaires"] = ROLE_MERCENARY
-    translatedRoles["Voleurs de Corps"] = ROLE_BODYSNATCHER
-    translatedRoles["Vétérans"] = ROLE_VETERAN
-    translatedRoles["Assassins"] = ROLE_ASSASSIN
-    translatedRoles["Tueurs"] = ROLE_KILLER
-    translatedRoles["Zombis"] = ROLE_ZOMBIE
-    translatedRoles["Vampires"] = ROLE_VAMPIRE
-    translatedRoles["Médecins"] = ROLE_DOCTOR
-    translatedRoles["Charlatans"] = ROLE_QUACK
-    translatedRoles["Parasites"] = ROLE_PARASITE
-    translatedRoles["Filous"] = ROLE_TRICKSTER
-    translatedRoles["Paramédicals"] = ROLE_PARAMEDIC
-    translatedRoles["Scientifiques Fous"] = ROLE_MADSCIENTIST
-    translatedRoles["Paladins"] = ROLE_PALADIN
-    translatedRoles["Traqueurs"] = ROLE_TRACKER
-    translatedRoles["Voyantes"] = ROLE_MEDIUM
-    translatedRoles["Pillez Les Gobelins"] = ROLE_LOOTGOBLIN
-    translatedRoles["Transfuges"] = ROLE_TURNCOAT
-    translatedRoles["Sapeurs"] = ROLE_SAPPER
-    translatedRoles["Informateurs"] = ROLE_INFORMANT
-    translatedRoles["Les Maréchaux"] = ROLE_MARSHAL
-    translatedRoles["Infectés"] = ROLE_INFECTED
-    translatedRoles["Cupidons"] = ROLE_CUPID
-    translatedRoles["Ombres"] = ROLE_SHADOW
-    translatedRoles["Éponges"] = ROLE_SPONGE
-    translatedRoles["Incendiaires"] = ROLE_ARSONIST
-    translatedRoles["Espionners"] = ROLE_SPY
-    translatedRoles["Esprits de la Ruche"] = ROLE_HIVEMIND
-    translatedRoles["Devineurs"] = ROLE_GUESSER
-    translatedRoles["Intendantes"] = ROLE_QUARTERMASTER
-    translatedRoles["Les Justiciers"] = ROLE_VINDICATOR
+    addTranslation("Aucunes", ROLE_NONE)
+    addTranslation("Innocentes", ROLE_INNOCENT)
+    addTranslation("Traitres", ROLE_TRAITOR)
+    addTranslation("Détectives", ROLE_DETECTIVE)
+    addTranslation("Bouffons", ROLE_JESTER)
+    addTranslation("Échangeurs", ROLE_SWAPPER)
+    addTranslation("Problèmes", ROLE_GLITCH)
+    addTranslation("Fantômes", ROLE_PHANTOM)
+    addTranslation("Hypnotiseurs", ROLE_HYPNOTIST)
+    addTranslation("Vengeurs", ROLE_REVENGER)
+    addTranslation("Ivres", ROLE_DRUNK)
+    addTranslation("Clowns", ROLE_CLOWN)
+    addTranslation("Adjoints", ROLE_DEPUTY)
+    addTranslation("Imitateurs", ROLE_IMPERSONATOR)
+    addTranslation("Mendiants", ROLE_BEGGAR)
+    addTranslation("Vieux Hommes", ROLE_OLDMAN)
+    addTranslation("Mercenaires", ROLE_MERCENARY)
+    addTranslation("Voleurs de Corps", ROLE_BODYSNATCHER)
+    addTranslation("Vétérans", ROLE_VETERAN)
+    addTranslation("Assassins", ROLE_ASSASSIN)
+    addTranslation("Tueurs", ROLE_KILLER)
+    addTranslation("Zombis", ROLE_ZOMBIE)
+    addTranslation("Vampires", ROLE_VAMPIRE)
+    addTranslation("Médecins", ROLE_DOCTOR)
+    addTranslation("Charlatans", ROLE_QUACK)
+    addTranslation("Parasites", ROLE_PARASITE)
+    addTranslation("Filous", ROLE_TRICKSTER)
+    addTranslation("Paramédicals", ROLE_PARAMEDIC)
+    addTranslation("Scientifiques Fous", ROLE_MADSCIENTIST)
+    addTranslation("Paladins", ROLE_PALADIN)
+    addTranslation("Traqueurs", ROLE_TRACKER)
+    addTranslation("Voyantes", ROLE_MEDIUM)
+    addTranslation("Pillez Les Gobelins", ROLE_LOOTGOBLIN)
+    addTranslation("Transfuges", ROLE_TURNCOAT)
+    addTranslation("Sapeurs", ROLE_SAPPER)
+    addTranslation("Informateurs", ROLE_INFORMANT)
+    addTranslation("Les Maréchaux", ROLE_MARSHAL)
+    addTranslation("Infectés", ROLE_INFECTED)
+    addTranslation("Cupidons", ROLE_CUPID)
+    addTranslation("Ombres", ROLE_SHADOW)
+    addTranslation("Éponges", ROLE_SPONGE)
+    addTranslation("Incendiaires", ROLE_ARSONIST)
+    addTranslation("Espionners", ROLE_SPY)
+    addTranslation("Esprits de la Ruche", ROLE_HIVEMIND)
+    addTranslation("Devineurs", ROLE_GUESSER)
+    addTranslation("Intendantes", ROLE_QUARTERMASTER)
+    addTranslation("Les Justiciers", ROLE_VINDICATOR)
     -- Jingle Jam Pack Roles --
-    translatedRoles["Boxeurs"] = ROLE_BOXER
-    translatedRoles["Communistes"] = ROLE_COMMUNIST
-    translatedRoles["Hommes Aléatoires"] = ROLE_RANDOMAN
-    translatedRoles["Pères Noël"] = ROLE_SANTA
-    translatedRoles["Taxidermistes"] = ROLE_TAXIDERMIST
-    translatedRoles["Clowns Détectives"] = ROLE_DETECTOCLOWN
-    translatedRoles["Les Faussaires"] = ROLE_FAKER
-    translatedRoles["Krampus"] = ROLE_KRAMPUS
-    translatedRoles["Administrateurs"] = ROLE_ADMIN
-    translatedRoles["Chuchoteurs de Fantômes"] = ROLE_GHOSTWHISPERER
-    translatedRoles["Renégates"] = ROLE_RENEGADE
-    translatedRoles["Limites de L'âme"] = ROLE_SOULBOUND
-    translatedRoles["Mages D'âme"] = ROLE_SOULMAGE
-    translatedRoles["Élémentalistes"] = ROLE_ELEMENTALIST
-    translatedRoles["Médecins"] = ROLE_PHYSICIAN
+    addTranslation("Boxeurs", ROLE_BOXER)
+    addTranslation("Communistes", ROLE_COMMUNIST)
+    addTranslation("Hommes Aléatoires", ROLE_RANDOMAN)
+    addTranslation("Pères Noël", ROLE_SANTA)
+    addTranslation("Taxidermistes", ROLE_TAXIDERMIST)
+    addTranslation("Clowns Détectives", ROLE_DETECTOCLOWN)
+    addTranslation("Les Faussaires", ROLE_FAKER)
+    addTranslation("Krampus", ROLE_KRAMPUS)
+    addTranslation("Administrateurs", ROLE_ADMIN)
+    addTranslation("Chuchoteurs de Fantômes", ROLE_GHOSTWHISPERER)
+    addTranslation("Renégates", ROLE_RENEGADE)
+    addTranslation("Limites de L'âme", ROLE_SOULBOUND)
+    addTranslation("Mages D'âme", ROLE_SOULMAGE)
+    addTranslation("Élémentalistes", ROLE_ELEMENTALIST)
+    addTranslation("Cliniciens", ROLE_PHYSICIAN)
     -- External Roles --
-    translatedRoles["Annonceurs"] = ROLE_ANNOUNCER
-    translatedRoles["Serviteurs de L'effroi"] = ROLE_DREADTHRALL
-    translatedRoles["Français"] = ROLE_FRENCHMAN
-    translatedRoles["Opossums"] = ROLE_POSSUM
-    translatedRoles["Invocateurs"] = ROLE_SUMMONER
-    translatedRoles["Les Choses"] = ROLE_THETHING
+    addTranslation("Annonceurs", ROLE_ANNOUNCER)
+    addTranslation("Serviteurs de L'effroi", ROLE_DREADTHRALL)
+    addTranslation("Français", ROLE_FRENCHMAN)
+    addTranslation("Opossums", ROLE_POSSUM)
+    addTranslation("Invocateurs", ROLE_SUMMONER)
+    addTranslation("Les Choses", ROLE_THETHING)
     -- Randomat Roles --
-    translatedRoles["Yétis"] = ROLE_YETI
-    translatedRoles["Abeilles"] = ROLE_BEE
-    translatedRoles["Reines Des Abeilles"] = ROLE_QUEENBEE
-    translatedRoles["Elfes"] = ROLE_ELF
+    addTranslation("Yétis", ROLE_YETI)
+    addTranslation("Abeilles", ROLE_BEE)
+    addTranslation("Reines Des Abeilles", ROLE_QUEENBEE)
+    addTranslation("Elfes", ROLE_ELF)
     -- Debug command translated roles --
-    translatedRoles["Éclaireurs"] = ROLE_SCOUT
-    translatedRoles["Bons Jumeaux"] = ROLE_GOODTWIN
-    translatedRoles["Mauvais Jumeaux"] = ROLE_EVILTWIN
-    translatedRoles["Maîtres de la Peste"] = ROLE_PLAGUEMASTER
-    translatedRoles["Illusionnistes"] = ROLE_ILLUSIONIST
-    translatedRoles["Cannibales"] = ROLE_CANNIBAL
-    translatedRoles["Maîtres des Tâches"] = ROLE_TASKMASTER
-    translatedRoles["Les joueurs"] = ROLE_GAMER
-    translatedRoles["Marionnettistes"] = ROLE_PUPPETEER
-    translatedRoles["Échangeurs Aléatoires"] = ROLE_RANDOSWAPPER
-    translatedRoles["Baleines Détectives"] = ROLE_WHALEDETECTIVE
-    translatedRoles["Baleines Indépendantes"] = ROLE_WHALEINDEPENDENT
-    translatedRoles["Baleines Innocentes"] = ROLE_WHALEINNOCENT
-    translatedRoles["Baleines Bouffons"] = ROLE_WHALEJESTER
-    translatedRoles["Baleines Monstres"] = ROLE_WHALEMONSTER
-    translatedRoles["Baleines Traitres"] = ROLE_WHALETRAITOR
-    translatedRoles["Garçons de la Roue"] = ROLE_WHEELBOY
-    translatedRoles["Marchands d'Armes"] = ROLE_ARMSDEALER
-    translatedRoles["Imitateurs de Baril"] = ROLE_BARRELMIMIC
-    translatedRoles["Hommes BLEUS"] = ROLE_BLUMANN
-    translatedRoles["Boutons"] = ROLE_BUTTON
-    translatedRoles["Cuisiniers"] = ROLE_CHEF
-    translatedRoles["Cloners"] = ROLE_CLONE
-    translatedRoles["Ermites"] = ROLE_HERMIT
-    translatedRoles["Poisses"] = ROLE_HOODOO
-    translatedRoles["Gobelins Mentaux"] = ROLE_MINDGOBLIN
-    translatedRoles["Missionnaires"] = ROLE_MISSIONARY
-    translatedRoles["Moines"] = ROLE_MONK
-    translatedRoles["Pharaons"] = ROLE_PHARAOH
-    translatedRoles["Piñatas"] = ROLE_PINATA
-    translatedRoles["Empoisonneurs"] = ROLE_POISONER
-    translatedRoles["Hommes ROUGES"] = ROLE_REDMANN
-    translatedRoles["Gardiens du Coffre"] = ROLE_SAFEKEEPER
-    translatedRoles["Fratries"] = ROLE_SIBLING
-    translatedRoles["Voleurs"] = ROLE_THIEF
-    translatedRoles["Loups-Garous"] = ROLE_WEREWOLF
-    translatedRoles["Yorkshiremen"] = ROLE_YORKSHIREMAN
-    translatedRoles["Zélotes"] = ROLE_ZEALOT
-    translatedRoles["Kévins"] = ROLE_KEVIN
+    addTranslation("Éclaireurs", ROLE_SCOUT)
+    addTranslation("Bons Jumeaux", ROLE_GOODTWIN)
+    addTranslation("Mauvais Jumeaux", ROLE_EVILTWIN)
+    addTranslation("Maîtres de la Peste", ROLE_PLAGUEMASTER)
+    addTranslation("Illusionnistes", ROLE_ILLUSIONIST)
+    addTranslation("Cannibales", ROLE_CANNIBAL)
+    addTranslation("Maîtres des Tâches", ROLE_TASKMASTER)
+    addTranslation("Les joueurs", ROLE_GAMER)
+    addTranslation("Marionnettistes", ROLE_PUPPETEER)
+    addTranslation("Échangeurs Aléatoires", ROLE_RANDOSWAPPER)
+    addTranslation("Baleines Détectives", ROLE_WHALEDETECTIVE)
+    addTranslation("Baleines Indépendantes", ROLE_WHALEINDEPENDENT)
+    addTranslation("Baleines Innocentes", ROLE_WHALEINNOCENT)
+    addTranslation("Baleines Bouffons", ROLE_WHALEJESTER)
+    addTranslation("Baleines Monstres", ROLE_WHALEMONSTER)
+    addTranslation("Baleines Traitres", ROLE_WHALETRAITOR)
+    addTranslation("Garçons de la Roue", ROLE_WHEELBOY)
+    addTranslation("Marchands d'Armes", ROLE_ARMSDEALER)
+    addTranslation("Imitateurs de Baril", ROLE_BARRELMIMIC)
+    addTranslation("Hommes BLEUS", ROLE_BLUMANN)
+    addTranslation("Boutons", ROLE_BUTTON)
+    addTranslation("Cuisiniers", ROLE_CHEF)
+    addTranslation("Cloners", ROLE_CLONE)
+    addTranslation("Ermites", ROLE_HERMIT)
+    addTranslation("Poisses", ROLE_HOODOO)
+    addTranslation("Gobelins Mentaux", ROLE_MINDGOBLIN)
+    addTranslation("Missionnaires", ROLE_MISSIONARY)
+    addTranslation("Moines", ROLE_MONK)
+    addTranslation("Pharaons", ROLE_PHARAOH)
+    addTranslation("Piñatas", ROLE_PINATA)
+    addTranslation("Empoisonneurs", ROLE_POISONER)
+    addTranslation("Hommes ROUGES", ROLE_REDMANN)
+    addTranslation("Gardiens du Coffre", ROLE_SAFEKEEPER)
+    addTranslation("Fratries", ROLE_SIBLING)
+    addTranslation("Voleurs", ROLE_THIEF)
+    addTranslation("Loups-Garous", ROLE_WEREWOLF)
+    addTranslation("Yorkshiremen", ROLE_YORKSHIREMAN)
+    addTranslation("Zélotes", ROLE_ZEALOT)
+    addTranslation("Kévins", ROLE_KEVIN)
 
     if istable(ROLE_STRINGS_PLURAL) then
-        if not roleStringsPluralOrig then
-            roleStringsPluralOrig = table.Copy(ROLE_STRINGS_PLURAL)
+        if not roleStringsOrig then
+            roleStringsOrig = table.Copy(ROLE_STRINGS_PLURAL)
         end
 
         local translatedRoleIDs = {}
 
         if debugPrint then
-            print("=====Roles strings plural to be translated=====")
+            print("=====Role strings plural to be translated=====")
         end
 
-        for roleName, roleID in pairs(translatedRoles) do
-            ROLE_STRINGS_PLURAL[roleID] = roleName
+        for _, entry in ipairs(translatedRoles) do
+            ROLE_STRINGS_PLURAL[entry.id] = entry.translation
 
             if debugPrint then
-                translatedRoleIDs[roleID] = true
+                translatedRoleIDs[entry.id] = true
             end
         end
 
         if debugPrint then
             for roleID, roleString in ipairs(ROLE_STRINGS_PLURAL) do
                 if not translatedRoleIDs[roleID] then
-                    print(roleString)
+                    print(roleString, ROLE_STRINGS_RAW[roleID])
                 end
             end
         end
@@ -563,7 +574,7 @@ net.Receive("FrenchRandomatBegin", function()
         customPassiveItemsOrig = {}
     end
 
-    -- My version of the second chance, demoic possession, and clairvoyancy perk use role strings; however, not all versions on the workshop do, so we ALSO have to define hard-coded translations here
+    -- My version of the second chance, demonic possession, and clairvoyancy perk use role strings; however, not all versions on the workshop do, so we ALSO have to define hard-coded translations here
     local translatedPassiveItems = {
         {
             id = EQUIP_ASC,
