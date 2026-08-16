@@ -109,454 +109,391 @@ net.Receive("FrenchRandomatBegin", function()
     -- Change the client's language to the Randomat's custom French language (Courtesy of manually shoving a million lines of strings into Google Translate...)
     RunConsoleCommand("ttt_language", "FrançaisRandomat")
     -- Renaming roles
+    local roleIdToGlobalName = {}
+
+    for name, value in pairs(_G) do
+        if not isstring(name) or not isnumber(value) or not string.StartsWith(name, "ROLE_") then continue end
+        roleIdToGlobalName[value] = name
+    end
+
     local translatedRoles = {}
 
-    local function addTranslation(translation, id)
+    local function AddTranslation(translation, id)
         -- For all roles not installed, skip them!
         if not id then return end
 
         table.insert(translatedRoles, {
             translation = translation,
-            id = id
+            id = id,
+            globalName = roleIdToGlobalName[id],
         })
     end
 
-    -- Base Custom Roles --
-    addTranslation("Aucune", ROLE_NONE)
-    addTranslation("Innocente", ROLE_INNOCENT)
-    addTranslation("Traitre", ROLE_TRAITOR)
-    addTranslation("Détective", ROLE_DETECTIVE)
-    addTranslation("Bouffon", ROLE_JESTER)
-    addTranslation("Échangeur", ROLE_SWAPPER)
-    addTranslation("Problème", ROLE_GLITCH)
-    addTranslation("Fantôme", ROLE_PHANTOM)
-    addTranslation("Hypnotiseur", ROLE_HYPNOTIST)
-    addTranslation("Vengeur", ROLE_REVENGER)
-    addTranslation("Ivre", ROLE_DRUNK)
-    addTranslation("Clown", ROLE_CLOWN)
-    addTranslation("Adjoint", ROLE_DEPUTY)
-    addTranslation("Imitateur", ROLE_IMPERSONATOR)
-    addTranslation("Mendiant", ROLE_BEGGAR)
-    addTranslation("Vieil Homme", ROLE_OLDMAN)
-    addTranslation("Mercenaire", ROLE_MERCENARY)
-    addTranslation("Voleur de Corps", ROLE_BODYSNATCHER)
-    addTranslation("Vétéran", ROLE_VETERAN)
-    addTranslation("Assassin", ROLE_ASSASSIN)
-    addTranslation("Tueur", ROLE_KILLER)
-    addTranslation("Zombi", ROLE_ZOMBIE)
-    addTranslation("Vampire", ROLE_VAMPIRE)
-    addTranslation("Médecin", ROLE_DOCTOR)
-    addTranslation("Charlatan", ROLE_QUACK)
-    addTranslation("Parasite", ROLE_PARASITE)
-    addTranslation("Filou", ROLE_TRICKSTER)
-    addTranslation("Paramédical", ROLE_PARAMEDIC)
-    addTranslation("Scientifique Fou", ROLE_MADSCIENTIST)
-    addTranslation("Paladin", ROLE_PALADIN)
-    addTranslation("Traqueur", ROLE_TRACKER)
-    addTranslation("Voyante", ROLE_MEDIUM)
-    addTranslation("Butin Gobelin", ROLE_LOOTGOBLIN)
-    addTranslation("Transfuge", ROLE_TURNCOAT)
-    addTranslation("Sapeur", ROLE_SAPPER)
-    addTranslation("Informateur", ROLE_INFORMANT)
-    addTranslation("Maréchal", ROLE_MARSHAL)
-    addTranslation("Infecté", ROLE_INFECTED)
-    addTranslation("Cupidon", ROLE_CUPID)
-    addTranslation("Ombre", ROLE_SHADOW)
-    addTranslation("Éponge", ROLE_SPONGE)
-    addTranslation("Incendiaire", ROLE_ARSONIST)
-    addTranslation("Espionner", ROLE_SPY)
-    addTranslation("Esprit de la Ruche", ROLE_HIVEMIND)
-    addTranslation("Devineur", ROLE_GUESSER)
-    addTranslation("Intendante", ROLE_QUARTERMASTER)
-    addTranslation("Justicier", ROLE_VINDICATOR)
-    -- Jingle Jam Pack Roles --
-    addTranslation("Boxeur", ROLE_BOXER)
-    addTranslation("Communiste", ROLE_COMMUNIST)
-    addTranslation("Homme Aléatoire", ROLE_RANDOMAN)
-    addTranslation("Père Noël", ROLE_SANTA)
-    addTranslation("Taxidermiste", ROLE_TAXIDERMIST)
-    addTranslation("Détective Clown", ROLE_DETECTOCLOWN)
-    addTranslation("Plus Faux", ROLE_FAKER)
-    addTranslation("Krampus", ROLE_KRAMPUS)
-    addTranslation("Administrateur", ROLE_ADMIN)
-    addTranslation("Chuchoteur Fantôme", ROLE_GHOSTWHISPERER)
-    addTranslation("Renégate", ROLE_RENEGADE)
-    addTranslation("Lié à L'âme", ROLE_SOULBOUND)
-    addTranslation("Âme Soeur", ROLE_SOULMAGE)
-    addTranslation("Élémentaliste", ROLE_ELEMENTALIST)
-    addTranslation("Clinicien", ROLE_PHYSICIAN)
-    -- External Roles --
-    addTranslation("Annonceur", ROLE_ANNOUNCER)
-    addTranslation("Serviteur de L'effroi", ROLE_DREADTHRALL)
-    addTranslation("Français", ROLE_FRENCHMAN)
-    addTranslation("Opossum", ROLE_POSSUM)
-    addTranslation("Invocateur", ROLE_SUMMONER)
-    addTranslation("La Chose", ROLE_THETHING)
-    -- Randomat Roles --
-    addTranslation("Yéti", ROLE_YETI)
-    addTranslation("Abeille", ROLE_BEE)
-    addTranslation("Reine Des Abeilles", ROLE_QUEENBEE)
-    addTranslation("Elfe", ROLE_ELF)
-    -- Debug command translated roles --
-    addTranslation("Éclaireur", ROLE_SCOUT)
-    addTranslation("Bon Jumeau", ROLE_GOODTWIN)
-    addTranslation("Mauvais Jumeau", ROLE_EVILTWIN)
-    addTranslation("Maître de la Peste", ROLE_PLAGUEMASTER)
-    addTranslation("Illusionniste", ROLE_ILLUSIONIST)
-    addTranslation("Cannibale", ROLE_CANNIBAL)
-    addTranslation("Maître des Tâches", ROLE_TASKMASTER)
-    addTranslation("Joueur", ROLE_GAMER)
-    addTranslation("Marionnettiste", ROLE_PUPPETEER)
-    addTranslation("Échangeur Aléatoire", ROLE_RANDOSWAPPER)
-    addTranslation("Baleine", ROLE_WHALETRAITOR)
-    addTranslation("Baleine", ROLE_WHALEINNOCENT)
-    addTranslation("Baleine", ROLE_WHALEDETECTIVE)
-    addTranslation("Baleine", ROLE_WHALEMONSTER)
-    addTranslation("Baleine", ROLE_WHALEJESTER)
-    addTranslation("Baleine", ROLE_WHALEINDEPENDENT)
-    addTranslation("Garçon de la Roue", ROLE_WHEELBOY)
-    addTranslation("Marchand d'Armes", ROLE_ARMSDEALER)
-    addTranslation("Imitateur de Baril", ROLE_BARRELMIMIC)
-    addTranslation("Homme BLEU", ROLE_BLUMANN)
-    addTranslation("Bouton", ROLE_BUTTON)
-    addTranslation("Cuisinier", ROLE_CHEF)
-    addTranslation("Cloner", ROLE_CLONE)
-    addTranslation("Ermite", ROLE_HERMIT)
-    addTranslation("Poisse", ROLE_HOODOO)
-    addTranslation("Gobelin Mental", ROLE_MINDGOBLIN)
-    addTranslation("Missionnaire", ROLE_MISSIONARY)
-    addTranslation("Moine", ROLE_MONK)
-    addTranslation("Pharaon", ROLE_PHARAOH)
-    addTranslation("Piñata", ROLE_PINATA)
-    addTranslation("Empoisonneur", ROLE_POISONER)
-    addTranslation("Homme ROUGE", ROLE_REDMANN)
-    addTranslation("Gardien du Coffre", ROLE_SAFEKEEPER)
-    addTranslation("Fratrie", ROLE_SIBLING)
-    addTranslation("Voleur", ROLE_THIEF)
-    addTranslation("Loup-Garou", ROLE_WEREWOLF)
-    addTranslation("Homme du Yorkshire", ROLE_YORKSHIREMAN)
-    addTranslation("Zélote", ROLE_ZEALOT)
-    addTranslation("Kévin", ROLE_KEVIN)
+    local function ApplyTranslations(stringTable, tableName)
+        if istable(stringTable) then
+            if not roleStringsOrig then
+                roleStringsOrig = table.Copy(stringTable)
+            end
 
-    if istable(ROLE_STRINGS) then
-        if not roleStringsOrig then
-            roleStringsOrig = table.Copy(ROLE_STRINGS)
-        end
-
-        local translatedRoleIDs = {}
-
-        if debugPrint then
-            print("=====Role strings to be translated=====")
-        end
-
-        for _, entry in ipairs(translatedRoles) do
-            ROLE_STRINGS[entry.id] = entry.translation
+            local translatedRoleIDs = {}
 
             if debugPrint then
-                translatedRoleIDs[entry.id] = true
+                print("=====" .. tableName .. "=====")
             end
-        end
 
-        if debugPrint then
-            for roleID, roleString in ipairs(ROLE_STRINGS) do
-                if not translatedRoleIDs[roleID] then
-                    print(roleString, ROLE_STRINGS_RAW[roleID])
+            for _, entry in ipairs(translatedRoles) do
+                stringTable[entry.id] = entry.translation
+
+                if debugPrint then
+                    translatedRoleIDs[entry.id] = true
                 end
+            end
+
+            if debugPrint then
+                for roleID, roleString in ipairs(stringTable) do
+                    if not translatedRoleIDs[roleID] then
+                        print(roleString, ROLE_STRINGS_RAW[roleID])
+                    end
+                end
+
+                local orderedString = ""
+
+                for _, entry in SortedPairsByMemberValue(translatedRoles, "globalName") do
+                    orderedString = orderedString .. "AddTranslation(\"" .. entry.translation .. "\", " .. entry.globalName .. ")\n"
+                end
+
+                file.Write("randomat/french_sorted_" .. tableName:lower():gsub(" ", "_") .. ".txt", orderedString)
             end
         end
     end
 
+    -- Role Strings --
+    AddTranslation("Administrateur", ROLE_ADMIN)
+    AddTranslation("Marchand d'Armes", ROLE_ARMSDEALER)
+    AddTranslation("Incendiaire", ROLE_ARSONIST)
+    AddTranslation("Assassin", ROLE_ASSASSIN)
+    AddTranslation("Imitateur de Baril", ROLE_BARRELMIMIC)
+    AddTranslation("Abeille", ROLE_BEE)
+    AddTranslation("Mendiant", ROLE_BEGGAR)
+    AddTranslation("Homme BLEU", ROLE_BLUMANN)
+    AddTranslation("Voleur de Corps", ROLE_BODYSNATCHER)
+    AddTranslation("Boxeur", ROLE_BOXER)
+    AddTranslation("Bouton", ROLE_BUTTON)
+    AddTranslation("Cannibale", ROLE_CANNIBAL)
+    AddTranslation("Cuisinier", ROLE_CHEF)
+    AddTranslation("Cloner", ROLE_CLONE)
+    AddTranslation("Clown", ROLE_CLOWN)
+    AddTranslation("Communiste", ROLE_COMMUNIST)
+    AddTranslation("Traitre", ROLE_CONVAR_TYPE_BOOL)
+    AddTranslation("Cupidon", ROLE_CUPID)
+    AddTranslation("Adjoint", ROLE_DEPUTY)
+    AddTranslation("Détective Clown", ROLE_DETECTOCLOWN)
+    AddTranslation("Aucune", ROLE_DETRAITOR)
+    AddTranslation("Médecin", ROLE_DOCTOR)
+    AddTranslation("Ivre", ROLE_DRUNK)
+    AddTranslation("Élémentaliste", ROLE_ELEMENTALIST)
+    AddTranslation("Elfe", ROLE_ELF)
+    AddTranslation("Mauvais Jumeau", ROLE_EVILTWIN)
+    AddTranslation("Plus Faux", ROLE_FAKER)
+    AddTranslation("Français", ROLE_FRENCHMAN)
+    AddTranslation("Joueur", ROLE_GAMER)
+    AddTranslation("Chuchoteur Fantôme", ROLE_GHOSTWHISPERER)
+    AddTranslation("Problème", ROLE_GLITCH)
+    AddTranslation("Bon Jumeau", ROLE_GOODTWIN)
+    AddTranslation("Devineur", ROLE_GUESSER)
+    AddTranslation("Ermite", ROLE_HERMIT)
+    AddTranslation("Esprit de la Ruche", ROLE_HIVEMIND)
+    AddTranslation("Poisse", ROLE_HOODOO)
+    AddTranslation("Hypnotiseur", ROLE_HYPNOTIST)
+    AddTranslation("Illusionniste", ROLE_ILLUSIONIST)
+    AddTranslation("Imitateur", ROLE_IMPERSONATOR)
+    AddTranslation("Infecté", ROLE_INFECTED)
+    AddTranslation("Informateur", ROLE_INFORMANT)
+    AddTranslation("Innocente", ROLE_INNOCENT)
+    AddTranslation("Bouffon", ROLE_JESTER)
+    AddTranslation("Kévin", ROLE_KEVIN)
+    AddTranslation("Tueur", ROLE_KILLER)
+    AddTranslation("Krampus", ROLE_KRAMPUS)
+    AddTranslation("Butin Gobelin", ROLE_LOOTGOBLIN)
+    AddTranslation("Scientifique Fou", ROLE_MADSCIENTIST)
+    AddTranslation("Maréchal", ROLE_MARSHAL)
+    AddTranslation("Voyante", ROLE_MEDIUM)
+    AddTranslation("Mercenaire", ROLE_MERCENARY)
+    AddTranslation("Gobelin Mental", ROLE_MINDGOBLIN)
+    AddTranslation("Missionnaire", ROLE_MISSIONARY)
+    AddTranslation("Moine", ROLE_MONK)
+    AddTranslation("Vieil Homme", ROLE_OLDMAN)
+    AddTranslation("Paladin", ROLE_PALADIN)
+    AddTranslation("Paramédical", ROLE_PARAMEDIC)
+    AddTranslation("Parasite", ROLE_PARASITE)
+    AddTranslation("Fantôme", ROLE_PHANTOM)
+    AddTranslation("Pharaon", ROLE_PHARAOH)
+    AddTranslation("Clinicien", ROLE_PHYSICIAN)
+    AddTranslation("Piñata", ROLE_PINATA)
+    AddTranslation("Maître de la Peste", ROLE_PLAGUEMASTER)
+    AddTranslation("Empoisonneur", ROLE_POISONER)
+    AddTranslation("Marionnettiste", ROLE_PUPPETEER)
+    AddTranslation("Charlatan", ROLE_QUACK)
+    AddTranslation("Intendante", ROLE_QUARTERMASTER)
+    AddTranslation("Reine Des Abeilles", ROLE_QUEENBEE)
+    AddTranslation("Homme Aléatoire", ROLE_RANDOMAN)
+    AddTranslation("Échangeur Aléatoire", ROLE_RANDOSWAPPER)
+    AddTranslation("Homme ROUGE", ROLE_REDMANN)
+    AddTranslation("Renégate", ROLE_RENEGADE)
+    AddTranslation("Vengeur", ROLE_REVENGER)
+    AddTranslation("Gardien du Coffre", ROLE_SAFEKEEPER)
+    AddTranslation("Père Noël", ROLE_SANTA)
+    AddTranslation("Sapeur", ROLE_SAPPER)
+    AddTranslation("Éclaireur", ROLE_SCOUT)
+    AddTranslation("Ombre", ROLE_SHADOW)
+    AddTranslation("Fratrie", ROLE_SIBLING)
+    AddTranslation("Lié à L'âme", ROLE_SOULBOUND)
+    AddTranslation("Âme Soeur", ROLE_SOULMAGE)
+    AddTranslation("Éponge", ROLE_SPONGE)
+    AddTranslation("Espionner", ROLE_SPY)
+    AddTranslation("Maître des Tâches", ROLE_TASKMASTER)
+    AddTranslation("Taxidermiste", ROLE_TAXIDERMIST)
+    AddTranslation("Détective", ROLE_TEAM_JESTER)
+    AddTranslation("Échangeur", ROLE_TEAM_MONSTER)
+    AddTranslation("Voleur", ROLE_THIEF)
+    AddTranslation("Traqueur", ROLE_TRACKER)
+    AddTranslation("Filou", ROLE_TRICKSTER)
+    AddTranslation("Transfuge", ROLE_TURNCOAT)
+    AddTranslation("Vampire", ROLE_VAMPIRE)
+    AddTranslation("Vétéran", ROLE_VETERAN)
+    AddTranslation("Justicier", ROLE_VINDICATOR)
+    AddTranslation("Loup-Garou", ROLE_WEREWOLF)
+    AddTranslation("Baleine", ROLE_WHALEDETECTIVE)
+    AddTranslation("Baleine", ROLE_WHALEINDEPENDENT)
+    AddTranslation("Baleine", ROLE_WHALEINNOCENT)
+    AddTranslation("Baleine", ROLE_WHALEJESTER)
+    AddTranslation("Baleine", ROLE_WHALEMONSTER)
+    AddTranslation("Baleine", ROLE_WHALETRAITOR)
+    AddTranslation("Garçon de la Roue", ROLE_WHEELBOY)
+    AddTranslation("Yéti", ROLE_YETI)
+    AddTranslation("Homme du Yorkshire", ROLE_YORKSHIREMAN)
+    AddTranslation("Zélote", ROLE_ZEALOT)
+    AddTranslation("Zombi", ROLE_ZOMBIE)
+    ApplyTranslations(ROLE_STRINGS, "Role Strings")
     table.Empty(translatedRoles)
-    -- Base Custom Roles --
-    addTranslation("Un Aucune", ROLE_NONE)
-    addTranslation("Un Innocente", ROLE_INNOCENT)
-    addTranslation("Un Traitre", ROLE_TRAITOR)
-    addTranslation("Un Détective", ROLE_DETECTIVE)
-    addTranslation("Un Bouffon", ROLE_JESTER)
-    addTranslation("Un Échangeur", ROLE_SWAPPER)
-    addTranslation("Un Problème", ROLE_GLITCH)
-    addTranslation("Un Fantôme", ROLE_PHANTOM)
-    addTranslation("Un Hypnotiseur", ROLE_HYPNOTIST)
-    addTranslation("Un Vengeur", ROLE_REVENGER)
-    addTranslation("Un Ivre", ROLE_DRUNK)
-    addTranslation("Un Clown", ROLE_CLOWN)
-    addTranslation("Un Adjoint", ROLE_DEPUTY)
-    addTranslation("Un Imitateur", ROLE_IMPERSONATOR)
-    addTranslation("Un Mendiant", ROLE_BEGGAR)
-    addTranslation("Un Vieil Homme", ROLE_OLDMAN)
-    addTranslation("Un Mercenaire", ROLE_MERCENARY)
-    addTranslation("Un Voleur de Corps", ROLE_BODYSNATCHER)
-    addTranslation("Un Vétéran", ROLE_VETERAN)
-    addTranslation("Un Assassin", ROLE_ASSASSIN)
-    addTranslation("Un Tueur", ROLE_KILLER)
-    addTranslation("Un Zombi", ROLE_ZOMBIE)
-    addTranslation("Un Vampire", ROLE_VAMPIRE)
-    addTranslation("Un Médecin", ROLE_DOCTOR)
-    addTranslation("Un Charlatan", ROLE_QUACK)
-    addTranslation("Un Parasite", ROLE_PARASITE)
-    addTranslation("Un Filou", ROLE_TRICKSTER)
-    addTranslation("Un Paramédical", ROLE_PARAMEDIC)
-    addTranslation("Un Scientifique Fou", ROLE_MADSCIENTIST)
-    addTranslation("Un Paladin", ROLE_PALADIN)
-    addTranslation("Un Traqueur", ROLE_TRACKER)
-    addTranslation("Un Voyante", ROLE_MEDIUM)
-    addTranslation("Un Butin Gobelin", ROLE_LOOTGOBLIN)
-    addTranslation("Un Transfuge", ROLE_TURNCOAT)
-    addTranslation("Un Sapeur", ROLE_SAPPER)
-    addTranslation("Un Informateur", ROLE_INFORMANT)
-    addTranslation("Un Maréchal", ROLE_MARSHAL)
-    addTranslation("Un Infecté", ROLE_INFECTED)
-    addTranslation("Un Cupidon", ROLE_CUPID)
-    addTranslation("Un Ombre", ROLE_SHADOW)
-    addTranslation("Un Éponge", ROLE_SPONGE)
-    addTranslation("Un Incendiaire", ROLE_ARSONIST)
-    addTranslation("Un Espionner", ROLE_SPY)
-    addTranslation("Un Esprit de la Ruche", ROLE_HIVEMIND)
-    addTranslation("Un Devineur", ROLE_GUESSER)
-    addTranslation("Un Intendante", ROLE_QUARTERMASTER)
-    addTranslation("Un Justicier", ROLE_VINDICATOR)
-    -- Jingle Jam Pack Roles --
-    addTranslation("Un Boxeur", ROLE_BOXER)
-    addTranslation("Un Communiste", ROLE_COMMUNIST)
-    addTranslation("Un Homme Aléatoire", ROLE_RANDOMAN)
-    addTranslation("Un Père Noël", ROLE_SANTA)
-    addTranslation("Un Taxidermiste", ROLE_TAXIDERMIST)
-    addTranslation("Un Détective Clown", ROLE_DETECTOCLOWN)
-    addTranslation("Un Plus Faux", ROLE_FAKER)
-    addTranslation("Un Krampus", ROLE_KRAMPUS)
-    addTranslation("Un Administrateur", ROLE_ADMIN)
-    addTranslation("Un Chuchoteur Fantôme", ROLE_GHOSTWHISPERER)
-    addTranslation("Un Renégate", ROLE_RENEGADE)
-    addTranslation("Un Lié à L'âme", ROLE_SOULBOUND)
-    addTranslation("Un Âme Soeur", ROLE_SOULMAGE)
-    addTranslation("Un Élémentaliste", ROLE_ELEMENTALIST)
-    addTranslation("Un Clinicien", ROLE_PHYSICIAN)
-    -- External Roles --
-    addTranslation("Un Annonceur", ROLE_ANNOUNCER)
-    addTranslation("Un Serviteur de L'effroi", ROLE_DREADTHRALL)
-    addTranslation("Un Français", ROLE_FRENCHMAN)
-    addTranslation("Un Opossum", ROLE_POSSUM)
-    addTranslation("Un Invocateur", ROLE_SUMMONER)
-    addTranslation("Un La Chose", ROLE_THETHING)
-    -- Randomat Roles --
-    addTranslation("Un Yéti", ROLE_YETI)
-    addTranslation("Un Abeille", ROLE_BEE)
-    addTranslation("Un Reine Des Abeilles", ROLE_QUEENBEE)
-    addTranslation("Un Elfe", ROLE_ELF)
-    -- Debug command translated roles --
-    addTranslation("Un Éclaireur", ROLE_SCOUT)
-    addTranslation("Un Bon Jumeau", ROLE_GOODTWIN)
-    addTranslation("Un Mauvais Jumeau", ROLE_EVILTWIN)
-    addTranslation("Un Maître de la Peste", ROLE_PLAGUEMASTER)
-    addTranslation("Un Illusionniste", ROLE_ILLUSIONIST)
-    addTranslation("Un Cannibale", ROLE_CANNIBAL)
-    addTranslation("Un Maître des Tâches", ROLE_TASKMASTER)
-    addTranslation("Un Joueur", ROLE_GAMER)
-    addTranslation("Un Marionnettiste", ROLE_PUPPETEER)
-    addTranslation("Un Échangeur Aléatoire", ROLE_RANDOSWAPPER)
-    addTranslation("Un Baleine Détective", ROLE_WHALEDETECTIVE)
-    addTranslation("Un Baleine Indépendant", ROLE_WHALEINDEPENDENT)
-    addTranslation("Un Baleine Innocente", ROLE_WHALEINNOCENT)
-    addTranslation("Un Baleine Bouffon", ROLE_WHALEJESTER)
-    addTranslation("Un Baleine Monstre", ROLE_WHALEMONSTER)
-    addTranslation("Un Baleine Traitre", ROLE_WHALETRAITOR)
-    addTranslation("Un Garçon de la Roue", ROLE_WHEELBOY)
-    addTranslation("Un Marchand d'Armes", ROLE_ARMSDEALER)
-    addTranslation("Un Imitateur de Baril", ROLE_BARRELMIMIC)
-    addTranslation("Un Homme BLEU", ROLE_BLUMANN)
-    addTranslation("Un Bouton", ROLE_BUTTON)
-    addTranslation("Un Cuisinier", ROLE_CHEF)
-    addTranslation("Un Cloner", ROLE_CLONE)
-    addTranslation("Un Ermite", ROLE_HERMIT)
-    addTranslation("Un Hoodoo", ROLE_HOODOO)
-    addTranslation("Un Gobelin Mental", ROLE_MINDGOBLIN)
-    addTranslation("Un Missionnaire", ROLE_MISSIONARY)
-    addTranslation("Un Moine", ROLE_MONK)
-    addTranslation("Un Pharaon", ROLE_PHARAOH)
-    addTranslation("Un Piñata", ROLE_PINATA)
-    addTranslation("Un Empoisonneur", ROLE_POISONER)
-    addTranslation("Un Homme ROUGE", ROLE_REDMANN)
-    addTranslation("Un Gardien du Coffre", ROLE_SAFEKEEPER)
-    addTranslation("Un Fratrie", ROLE_SIBLING)
-    addTranslation("Un Voleur", ROLE_THIEF)
-    addTranslation("Un Loup-Garou", ROLE_WEREWOLF)
-    addTranslation("Un Yorkshireman", ROLE_YORKSHIREMAN)
-    addTranslation("Un Zélote", ROLE_ZEALOT)
-    addTranslation("Un Kévin", ROLE_KEVIN)
-
-    if istable(ROLE_STRINGS_EXT) then
-        if not roleStringsOrig then
-            roleStringsOrig = table.Copy(ROLE_STRINGS_EXT)
-        end
-
-        local translatedRoleIDs = {}
-
-        if debugPrint then
-            print("=====Role strings extended to be translated=====")
-        end
-
-        for _, entry in ipairs(translatedRoles) do
-            ROLE_STRINGS_EXT[entry.id] = entry.translation
-
-            if debugPrint then
-                translatedRoleIDs[entry.id] = true
-            end
-        end
-
-        if debugPrint then
-            for roleID, roleString in ipairs(ROLE_STRINGS_EXT) do
-                if not translatedRoleIDs[roleID] then
-                    print(roleString, ROLE_STRINGS_RAW[roleID])
-                end
-            end
-        end
-    end
-
+    -- Role Strings Extended --
+    AddTranslation("Un Administrateur", ROLE_ADMIN)
+    AddTranslation("Un Marchand d'Armes", ROLE_ARMSDEALER)
+    AddTranslation("Un Incendiaire", ROLE_ARSONIST)
+    AddTranslation("Un Assassin", ROLE_ASSASSIN)
+    AddTranslation("Un Imitateur de Baril", ROLE_BARRELMIMIC)
+    AddTranslation("Un Abeille", ROLE_BEE)
+    AddTranslation("Un Mendiant", ROLE_BEGGAR)
+    AddTranslation("Un Homme BLEU", ROLE_BLUMANN)
+    AddTranslation("Un Voleur de Corps", ROLE_BODYSNATCHER)
+    AddTranslation("Un Boxeur", ROLE_BOXER)
+    AddTranslation("Un Bouton", ROLE_BUTTON)
+    AddTranslation("Un Cannibale", ROLE_CANNIBAL)
+    AddTranslation("Un Cuisinier", ROLE_CHEF)
+    AddTranslation("Un Cloner", ROLE_CLONE)
+    AddTranslation("Un Clown", ROLE_CLOWN)
+    AddTranslation("Un Communiste", ROLE_COMMUNIST)
+    AddTranslation("Un Traitre", ROLE_CONVAR_TYPE_BOOL)
+    AddTranslation("Un Cupidon", ROLE_CUPID)
+    AddTranslation("Un Adjoint", ROLE_DEPUTY)
+    AddTranslation("Un Détective Clown", ROLE_DETECTOCLOWN)
+    AddTranslation("Un Aucune", ROLE_DETRAITOR)
+    AddTranslation("Un Médecin", ROLE_DOCTOR)
+    AddTranslation("Un Ivre", ROLE_DRUNK)
+    AddTranslation("Un Élémentaliste", ROLE_ELEMENTALIST)
+    AddTranslation("Un Elfe", ROLE_ELF)
+    AddTranslation("Un Mauvais Jumeau", ROLE_EVILTWIN)
+    AddTranslation("Un Plus Faux", ROLE_FAKER)
+    AddTranslation("Un Français", ROLE_FRENCHMAN)
+    AddTranslation("Un Joueur", ROLE_GAMER)
+    AddTranslation("Un Chuchoteur Fantôme", ROLE_GHOSTWHISPERER)
+    AddTranslation("Un Problème", ROLE_GLITCH)
+    AddTranslation("Un Bon Jumeau", ROLE_GOODTWIN)
+    AddTranslation("Un Devineur", ROLE_GUESSER)
+    AddTranslation("Un Ermite", ROLE_HERMIT)
+    AddTranslation("Un Esprit de la Ruche", ROLE_HIVEMIND)
+    AddTranslation("Un Hoodoo", ROLE_HOODOO)
+    AddTranslation("Un Hypnotiseur", ROLE_HYPNOTIST)
+    AddTranslation("Un Illusionniste", ROLE_ILLUSIONIST)
+    AddTranslation("Un Imitateur", ROLE_IMPERSONATOR)
+    AddTranslation("Un Infecté", ROLE_INFECTED)
+    AddTranslation("Un Informateur", ROLE_INFORMANT)
+    AddTranslation("Un Innocente", ROLE_INNOCENT)
+    AddTranslation("Un Bouffon", ROLE_JESTER)
+    AddTranslation("Un Kévin", ROLE_KEVIN)
+    AddTranslation("Un Tueur", ROLE_KILLER)
+    AddTranslation("Un Krampus", ROLE_KRAMPUS)
+    AddTranslation("Un Butin Gobelin", ROLE_LOOTGOBLIN)
+    AddTranslation("Un Scientifique Fou", ROLE_MADSCIENTIST)
+    AddTranslation("Un Maréchal", ROLE_MARSHAL)
+    AddTranslation("Un Voyante", ROLE_MEDIUM)
+    AddTranslation("Un Mercenaire", ROLE_MERCENARY)
+    AddTranslation("Un Gobelin Mental", ROLE_MINDGOBLIN)
+    AddTranslation("Un Missionnaire", ROLE_MISSIONARY)
+    AddTranslation("Un Moine", ROLE_MONK)
+    AddTranslation("Un Vieil Homme", ROLE_OLDMAN)
+    AddTranslation("Un Paladin", ROLE_PALADIN)
+    AddTranslation("Un Paramédical", ROLE_PARAMEDIC)
+    AddTranslation("Un Parasite", ROLE_PARASITE)
+    AddTranslation("Un Fantôme", ROLE_PHANTOM)
+    AddTranslation("Un Pharaon", ROLE_PHARAOH)
+    AddTranslation("Un Clinicien", ROLE_PHYSICIAN)
+    AddTranslation("Un Piñata", ROLE_PINATA)
+    AddTranslation("Un Maître de la Peste", ROLE_PLAGUEMASTER)
+    AddTranslation("Un Empoisonneur", ROLE_POISONER)
+    AddTranslation("Un Marionnettiste", ROLE_PUPPETEER)
+    AddTranslation("Un Charlatan", ROLE_QUACK)
+    AddTranslation("Un Intendante", ROLE_QUARTERMASTER)
+    AddTranslation("Un Reine Des Abeilles", ROLE_QUEENBEE)
+    AddTranslation("Un Homme Aléatoire", ROLE_RANDOMAN)
+    AddTranslation("Un Échangeur Aléatoire", ROLE_RANDOSWAPPER)
+    AddTranslation("Un Homme ROUGE", ROLE_REDMANN)
+    AddTranslation("Un Renégate", ROLE_RENEGADE)
+    AddTranslation("Un Vengeur", ROLE_REVENGER)
+    AddTranslation("Un Gardien du Coffre", ROLE_SAFEKEEPER)
+    AddTranslation("Un Père Noël", ROLE_SANTA)
+    AddTranslation("Un Sapeur", ROLE_SAPPER)
+    AddTranslation("Un Éclaireur", ROLE_SCOUT)
+    AddTranslation("Un Ombre", ROLE_SHADOW)
+    AddTranslation("Un Fratrie", ROLE_SIBLING)
+    AddTranslation("Un Lié à L'âme", ROLE_SOULBOUND)
+    AddTranslation("Un Âme Soeur", ROLE_SOULMAGE)
+    AddTranslation("Un Éponge", ROLE_SPONGE)
+    AddTranslation("Un Espionner", ROLE_SPY)
+    AddTranslation("Un Maître des Tâches", ROLE_TASKMASTER)
+    AddTranslation("Un Taxidermiste", ROLE_TAXIDERMIST)
+    AddTranslation("Un Détective", ROLE_TEAM_JESTER)
+    AddTranslation("Un Échangeur", ROLE_TEAM_MONSTER)
+    AddTranslation("Un Voleur", ROLE_THIEF)
+    AddTranslation("Un Traqueur", ROLE_TRACKER)
+    AddTranslation("Un Filou", ROLE_TRICKSTER)
+    AddTranslation("Un Transfuge", ROLE_TURNCOAT)
+    AddTranslation("Un Vampire", ROLE_VAMPIRE)
+    AddTranslation("Un Vétéran", ROLE_VETERAN)
+    AddTranslation("Un Justicier", ROLE_VINDICATOR)
+    AddTranslation("Un Loup-Garou", ROLE_WEREWOLF)
+    AddTranslation("Un Baleine Détective", ROLE_WHALEDETECTIVE)
+    AddTranslation("Un Baleine Indépendant", ROLE_WHALEINDEPENDENT)
+    AddTranslation("Un Baleine Innocente", ROLE_WHALEINNOCENT)
+    AddTranslation("Un Baleine Bouffon", ROLE_WHALEJESTER)
+    AddTranslation("Un Baleine Monstre", ROLE_WHALEMONSTER)
+    AddTranslation("Un Baleine Traitre", ROLE_WHALETRAITOR)
+    AddTranslation("Un Garçon de la Roue", ROLE_WHEELBOY)
+    AddTranslation("Un Yéti", ROLE_YETI)
+    AddTranslation("Un Yorkshireman", ROLE_YORKSHIREMAN)
+    AddTranslation("Un Zélote", ROLE_ZEALOT)
+    AddTranslation("Un Zombi", ROLE_ZOMBIE)
+    ApplyTranslations(ROLE_STRINGS_EXT, "Role Strings Extended")
     table.Empty(translatedRoles)
-    -- Base Custom Roles --
-    addTranslation("Aucunes", ROLE_NONE)
-    addTranslation("Innocentes", ROLE_INNOCENT)
-    addTranslation("Traitres", ROLE_TRAITOR)
-    addTranslation("Détectives", ROLE_DETECTIVE)
-    addTranslation("Bouffons", ROLE_JESTER)
-    addTranslation("Échangeurs", ROLE_SWAPPER)
-    addTranslation("Problèmes", ROLE_GLITCH)
-    addTranslation("Fantômes", ROLE_PHANTOM)
-    addTranslation("Hypnotiseurs", ROLE_HYPNOTIST)
-    addTranslation("Vengeurs", ROLE_REVENGER)
-    addTranslation("Ivres", ROLE_DRUNK)
-    addTranslation("Clowns", ROLE_CLOWN)
-    addTranslation("Adjoints", ROLE_DEPUTY)
-    addTranslation("Imitateurs", ROLE_IMPERSONATOR)
-    addTranslation("Mendiants", ROLE_BEGGAR)
-    addTranslation("Vieux Hommes", ROLE_OLDMAN)
-    addTranslation("Mercenaires", ROLE_MERCENARY)
-    addTranslation("Voleurs de Corps", ROLE_BODYSNATCHER)
-    addTranslation("Vétérans", ROLE_VETERAN)
-    addTranslation("Assassins", ROLE_ASSASSIN)
-    addTranslation("Tueurs", ROLE_KILLER)
-    addTranslation("Zombis", ROLE_ZOMBIE)
-    addTranslation("Vampires", ROLE_VAMPIRE)
-    addTranslation("Médecins", ROLE_DOCTOR)
-    addTranslation("Charlatans", ROLE_QUACK)
-    addTranslation("Parasites", ROLE_PARASITE)
-    addTranslation("Filous", ROLE_TRICKSTER)
-    addTranslation("Paramédicals", ROLE_PARAMEDIC)
-    addTranslation("Scientifiques Fous", ROLE_MADSCIENTIST)
-    addTranslation("Paladins", ROLE_PALADIN)
-    addTranslation("Traqueurs", ROLE_TRACKER)
-    addTranslation("Voyantes", ROLE_MEDIUM)
-    addTranslation("Pillez Les Gobelins", ROLE_LOOTGOBLIN)
-    addTranslation("Transfuges", ROLE_TURNCOAT)
-    addTranslation("Sapeurs", ROLE_SAPPER)
-    addTranslation("Informateurs", ROLE_INFORMANT)
-    addTranslation("Les Maréchaux", ROLE_MARSHAL)
-    addTranslation("Infectés", ROLE_INFECTED)
-    addTranslation("Cupidons", ROLE_CUPID)
-    addTranslation("Ombres", ROLE_SHADOW)
-    addTranslation("Éponges", ROLE_SPONGE)
-    addTranslation("Incendiaires", ROLE_ARSONIST)
-    addTranslation("Espionners", ROLE_SPY)
-    addTranslation("Esprits de la Ruche", ROLE_HIVEMIND)
-    addTranslation("Devineurs", ROLE_GUESSER)
-    addTranslation("Intendantes", ROLE_QUARTERMASTER)
-    addTranslation("Les Justiciers", ROLE_VINDICATOR)
-    -- Jingle Jam Pack Roles --
-    addTranslation("Boxeurs", ROLE_BOXER)
-    addTranslation("Communistes", ROLE_COMMUNIST)
-    addTranslation("Hommes Aléatoires", ROLE_RANDOMAN)
-    addTranslation("Pères Noël", ROLE_SANTA)
-    addTranslation("Taxidermistes", ROLE_TAXIDERMIST)
-    addTranslation("Clowns Détectives", ROLE_DETECTOCLOWN)
-    addTranslation("Les Faussaires", ROLE_FAKER)
-    addTranslation("Krampus", ROLE_KRAMPUS)
-    addTranslation("Administrateurs", ROLE_ADMIN)
-    addTranslation("Chuchoteurs de Fantômes", ROLE_GHOSTWHISPERER)
-    addTranslation("Renégates", ROLE_RENEGADE)
-    addTranslation("Limites de L'âme", ROLE_SOULBOUND)
-    addTranslation("Mages D'âme", ROLE_SOULMAGE)
-    addTranslation("Élémentalistes", ROLE_ELEMENTALIST)
-    addTranslation("Cliniciens", ROLE_PHYSICIAN)
-    -- External Roles --
-    addTranslation("Annonceurs", ROLE_ANNOUNCER)
-    addTranslation("Serviteurs de L'effroi", ROLE_DREADTHRALL)
-    addTranslation("Français", ROLE_FRENCHMAN)
-    addTranslation("Opossums", ROLE_POSSUM)
-    addTranslation("Invocateurs", ROLE_SUMMONER)
-    addTranslation("Les Choses", ROLE_THETHING)
-    -- Randomat Roles --
-    addTranslation("Yétis", ROLE_YETI)
-    addTranslation("Abeilles", ROLE_BEE)
-    addTranslation("Reines Des Abeilles", ROLE_QUEENBEE)
-    addTranslation("Elfes", ROLE_ELF)
-    -- Debug command translated roles --
-    addTranslation("Éclaireurs", ROLE_SCOUT)
-    addTranslation("Bons Jumeaux", ROLE_GOODTWIN)
-    addTranslation("Mauvais Jumeaux", ROLE_EVILTWIN)
-    addTranslation("Maîtres de la Peste", ROLE_PLAGUEMASTER)
-    addTranslation("Illusionnistes", ROLE_ILLUSIONIST)
-    addTranslation("Cannibales", ROLE_CANNIBAL)
-    addTranslation("Maîtres des Tâches", ROLE_TASKMASTER)
-    addTranslation("Les joueurs", ROLE_GAMER)
-    addTranslation("Marionnettistes", ROLE_PUPPETEER)
-    addTranslation("Échangeurs Aléatoires", ROLE_RANDOSWAPPER)
-    addTranslation("Baleines Détectives", ROLE_WHALEDETECTIVE)
-    addTranslation("Baleines Indépendantes", ROLE_WHALEINDEPENDENT)
-    addTranslation("Baleines Innocentes", ROLE_WHALEINNOCENT)
-    addTranslation("Baleines Bouffons", ROLE_WHALEJESTER)
-    addTranslation("Baleines Monstres", ROLE_WHALEMONSTER)
-    addTranslation("Baleines Traitres", ROLE_WHALETRAITOR)
-    addTranslation("Garçons de la Roue", ROLE_WHEELBOY)
-    addTranslation("Marchands d'Armes", ROLE_ARMSDEALER)
-    addTranslation("Imitateurs de Baril", ROLE_BARRELMIMIC)
-    addTranslation("Hommes BLEUS", ROLE_BLUMANN)
-    addTranslation("Boutons", ROLE_BUTTON)
-    addTranslation("Cuisiniers", ROLE_CHEF)
-    addTranslation("Cloners", ROLE_CLONE)
-    addTranslation("Ermites", ROLE_HERMIT)
-    addTranslation("Poisses", ROLE_HOODOO)
-    addTranslation("Gobelins Mentaux", ROLE_MINDGOBLIN)
-    addTranslation("Missionnaires", ROLE_MISSIONARY)
-    addTranslation("Moines", ROLE_MONK)
-    addTranslation("Pharaons", ROLE_PHARAOH)
-    addTranslation("Piñatas", ROLE_PINATA)
-    addTranslation("Empoisonneurs", ROLE_POISONER)
-    addTranslation("Hommes ROUGES", ROLE_REDMANN)
-    addTranslation("Gardiens du Coffre", ROLE_SAFEKEEPER)
-    addTranslation("Fratries", ROLE_SIBLING)
-    addTranslation("Voleurs", ROLE_THIEF)
-    addTranslation("Loups-Garous", ROLE_WEREWOLF)
-    addTranslation("Yorkshiremen", ROLE_YORKSHIREMAN)
-    addTranslation("Zélotes", ROLE_ZEALOT)
-    addTranslation("Kévins", ROLE_KEVIN)
-
-    if istable(ROLE_STRINGS_PLURAL) then
-        if not roleStringsOrig then
-            roleStringsOrig = table.Copy(ROLE_STRINGS_PLURAL)
-        end
-
-        local translatedRoleIDs = {}
-
-        if debugPrint then
-            print("=====Role strings plural to be translated=====")
-        end
-
-        for _, entry in ipairs(translatedRoles) do
-            ROLE_STRINGS_PLURAL[entry.id] = entry.translation
-
-            if debugPrint then
-                translatedRoleIDs[entry.id] = true
-            end
-        end
-
-        if debugPrint then
-            for roleID, roleString in ipairs(ROLE_STRINGS_PLURAL) do
-                if not translatedRoleIDs[roleID] then
-                    print(roleString, ROLE_STRINGS_RAW[roleID])
-                end
-            end
-        end
-    end
+    -- Role Strings Plural --
+    AddTranslation("Administrateurs", ROLE_ADMIN)
+    AddTranslation("Marchands d'Armes", ROLE_ARMSDEALER)
+    AddTranslation("Incendiaires", ROLE_ARSONIST)
+    AddTranslation("Assassins", ROLE_ASSASSIN)
+    AddTranslation("Imitateurs de Baril", ROLE_BARRELMIMIC)
+    AddTranslation("Abeilles", ROLE_BEE)
+    AddTranslation("Mendiants", ROLE_BEGGAR)
+    AddTranslation("Hommes BLEUS", ROLE_BLUMANN)
+    AddTranslation("Voleurs de Corps", ROLE_BODYSNATCHER)
+    AddTranslation("Boxeurs", ROLE_BOXER)
+    AddTranslation("Boutons", ROLE_BUTTON)
+    AddTranslation("Cannibales", ROLE_CANNIBAL)
+    AddTranslation("Cuisiniers", ROLE_CHEF)
+    AddTranslation("Cloners", ROLE_CLONE)
+    AddTranslation("Clowns", ROLE_CLOWN)
+    AddTranslation("Communistes", ROLE_COMMUNIST)
+    AddTranslation("Traitres", ROLE_CONVAR_TYPE_BOOL)
+    AddTranslation("Cupidons", ROLE_CUPID)
+    AddTranslation("Adjoints", ROLE_DEPUTY)
+    AddTranslation("Clowns Détectives", ROLE_DETECTOCLOWN)
+    AddTranslation("Aucunes", ROLE_DETRAITOR)
+    AddTranslation("Médecins", ROLE_DOCTOR)
+    AddTranslation("Ivres", ROLE_DRUNK)
+    AddTranslation("Élémentalistes", ROLE_ELEMENTALIST)
+    AddTranslation("Elfes", ROLE_ELF)
+    AddTranslation("Mauvais Jumeaux", ROLE_EVILTWIN)
+    AddTranslation("Les Faussaires", ROLE_FAKER)
+    AddTranslation("Français", ROLE_FRENCHMAN)
+    AddTranslation("Les joueurs", ROLE_GAMER)
+    AddTranslation("Chuchoteurs de Fantômes", ROLE_GHOSTWHISPERER)
+    AddTranslation("Problèmes", ROLE_GLITCH)
+    AddTranslation("Bons Jumeaux", ROLE_GOODTWIN)
+    AddTranslation("Devineurs", ROLE_GUESSER)
+    AddTranslation("Ermites", ROLE_HERMIT)
+    AddTranslation("Esprits de la Ruche", ROLE_HIVEMIND)
+    AddTranslation("Poisses", ROLE_HOODOO)
+    AddTranslation("Hypnotiseurs", ROLE_HYPNOTIST)
+    AddTranslation("Illusionnistes", ROLE_ILLUSIONIST)
+    AddTranslation("Imitateurs", ROLE_IMPERSONATOR)
+    AddTranslation("Infectés", ROLE_INFECTED)
+    AddTranslation("Informateurs", ROLE_INFORMANT)
+    AddTranslation("Innocentes", ROLE_INNOCENT)
+    AddTranslation("Bouffons", ROLE_JESTER)
+    AddTranslation("Kévins", ROLE_KEVIN)
+    AddTranslation("Tueurs", ROLE_KILLER)
+    AddTranslation("Krampus", ROLE_KRAMPUS)
+    AddTranslation("Pillez Les Gobelins", ROLE_LOOTGOBLIN)
+    AddTranslation("Scientifiques Fous", ROLE_MADSCIENTIST)
+    AddTranslation("Les Maréchaux", ROLE_MARSHAL)
+    AddTranslation("Voyantes", ROLE_MEDIUM)
+    AddTranslation("Mercenaires", ROLE_MERCENARY)
+    AddTranslation("Gobelins Mentaux", ROLE_MINDGOBLIN)
+    AddTranslation("Missionnaires", ROLE_MISSIONARY)
+    AddTranslation("Moines", ROLE_MONK)
+    AddTranslation("Vieux Hommes", ROLE_OLDMAN)
+    AddTranslation("Paladins", ROLE_PALADIN)
+    AddTranslation("Paramédicals", ROLE_PARAMEDIC)
+    AddTranslation("Parasites", ROLE_PARASITE)
+    AddTranslation("Fantômes", ROLE_PHANTOM)
+    AddTranslation("Pharaons", ROLE_PHARAOH)
+    AddTranslation("Cliniciens", ROLE_PHYSICIAN)
+    AddTranslation("Piñatas", ROLE_PINATA)
+    AddTranslation("Maîtres de la Peste", ROLE_PLAGUEMASTER)
+    AddTranslation("Empoisonneurs", ROLE_POISONER)
+    AddTranslation("Marionnettistes", ROLE_PUPPETEER)
+    AddTranslation("Charlatans", ROLE_QUACK)
+    AddTranslation("Intendantes", ROLE_QUARTERMASTER)
+    AddTranslation("Reines Des Abeilles", ROLE_QUEENBEE)
+    AddTranslation("Hommes Aléatoires", ROLE_RANDOMAN)
+    AddTranslation("Échangeurs Aléatoires", ROLE_RANDOSWAPPER)
+    AddTranslation("Hommes ROUGES", ROLE_REDMANN)
+    AddTranslation("Renégates", ROLE_RENEGADE)
+    AddTranslation("Vengeurs", ROLE_REVENGER)
+    AddTranslation("Gardiens du Coffre", ROLE_SAFEKEEPER)
+    AddTranslation("Pères Noël", ROLE_SANTA)
+    AddTranslation("Sapeurs", ROLE_SAPPER)
+    AddTranslation("Éclaireurs", ROLE_SCOUT)
+    AddTranslation("Ombres", ROLE_SHADOW)
+    AddTranslation("Fratries", ROLE_SIBLING)
+    AddTranslation("Limites de L'âme", ROLE_SOULBOUND)
+    AddTranslation("Mages D'âme", ROLE_SOULMAGE)
+    AddTranslation("Éponges", ROLE_SPONGE)
+    AddTranslation("Espionners", ROLE_SPY)
+    AddTranslation("Maîtres des Tâches", ROLE_TASKMASTER)
+    AddTranslation("Taxidermistes", ROLE_TAXIDERMIST)
+    AddTranslation("Détectives", ROLE_TEAM_JESTER)
+    AddTranslation("Échangeurs", ROLE_TEAM_MONSTER)
+    AddTranslation("Voleurs", ROLE_THIEF)
+    AddTranslation("Traqueurs", ROLE_TRACKER)
+    AddTranslation("Filous", ROLE_TRICKSTER)
+    AddTranslation("Transfuges", ROLE_TURNCOAT)
+    AddTranslation("Vampires", ROLE_VAMPIRE)
+    AddTranslation("Vétérans", ROLE_VETERAN)
+    AddTranslation("Les Justiciers", ROLE_VINDICATOR)
+    AddTranslation("Loups-Garous", ROLE_WEREWOLF)
+    AddTranslation("Baleines Détectives", ROLE_WHALEDETECTIVE)
+    AddTranslation("Baleines Indépendantes", ROLE_WHALEINDEPENDENT)
+    AddTranslation("Baleines Innocentes", ROLE_WHALEINNOCENT)
+    AddTranslation("Baleines Bouffons", ROLE_WHALEJESTER)
+    AddTranslation("Baleines Monstres", ROLE_WHALEMONSTER)
+    AddTranslation("Baleines Traitres", ROLE_WHALETRAITOR)
+    AddTranslation("Garçons de la Roue", ROLE_WHEELBOY)
+    AddTranslation("Yétis", ROLE_YETI)
+    AddTranslation("Yorkshiremen", ROLE_YORKSHIREMAN)
+    AddTranslation("Zélotes", ROLE_ZEALOT)
+    AddTranslation("Zombis", ROLE_ZOMBIE)
+    ApplyTranslations(ROLE_STRINGS_PLURAL, "Role Strings Plural")
+    table.Empty(translatedRoles)
 
     -- Renaming custom passive shop items
     -- (Default TTT passive items like the rader are covered by the language file)
@@ -577,119 +514,125 @@ net.Receive("FrenchRandomatBegin", function()
     -- My version of the second chance, demonic possession, and clairvoyancy perk use role strings; however, not all versions on the workshop do, so we ALSO have to define hard-coded translations here
     local translatedPassiveItems = {
         {
-            id = EQUIP_ASC,
+            id = "EQUIP_ASC",
             name = "Un Deuxième Chance",
             desc = "Petite chance d'être ressuscité à la mort. \n\nAprès avoir tué quelqu'un, les chances augmentent.",
         },
         {
-            id = EQUIP_DEMONIC_POSSESSION,
-            name = "Possession démoniaque",
-            desc = "Permet un contrôle limité sur quelqu'un après sa mort. \n\nUne fois spectateur, faites un clic droit pour faire défiler les joueurs vivants.\n\nAppuyez sur R pour commencer à les manipuler.",
-        },
-        {
-            id = EQUIP_DOUBLETAP,
-            name = "Tapez deux fois",
-            desc = "Tirez 50 % plus vite avec n'importe quel pistolet ordinaire.",
-        },
-        {
-            id = EQUIP_JUGGERNOG,
-            name = "Mastodonte",
-            desc = "Guérit complètement et accorde 50% de santé en plus.",
-        },
-        {
-            id = EQUIP_PHD,
-            name = "Disque de doctorat",
-            desc = "Au lieu de subir des dégâts de chute, provoquez une explosion de dégâts importants à l'endroit où vous atterrissez. \n\nConfère l'immunité aux explosions.",
-        },
-        {
-            id = EQUIP_SPEEDCOLA,
-            name = "Cola rapide",
-            desc = "Double votre vitesse de rechargement des armes ordinaires.",
-        },
-        {
-            id = EQUIP_STAMINUP,
-            name = "Endurance",
-            desc = "Augmentez considérablement la vitesse de sprint!",
-        },
-        {
-            id = EQUIP_BUNKER,
+            id = "EQUIP_BUNKER",
             name = "Bunker de Bruh",
             desc = "Craquement détecté! Présentez-vous au bunker bruh \nimmédiatement! \nCrée un bunker autour de vous lorsque vous subissez des dégâts.",
         },
         {
-            id = EQUIP_CLAIRVOYANT,
+            id = "EQUIP_CLAIRVOYANT",
             name = "Voyance",
             desc = "Quand quelqu'un meurt, vous pouvez voir son corps pendant un bref instant.",
         },
         {
-            id = EQUIP_PHS_TRACKER,
-            name = "Mise à niveau du suivi de santé",
-            desc = "Améliore la portée et la qualité des informations du Health Tracker.",
+            id = "EQUIP_DEMONIC_POSSESSION",
+            name = "Possession démoniaque",
+            desc = "Permet un contrôle limité sur quelqu'un après sa mort. \n\nUne fois spectateur, faites un clic droit pour faire défiler les joueurs vivants.\n\nAppuyez sur R pour commencer à les manipuler.",
         },
         {
-            id = EQUIP_ELEMENTALIST_FROSTBITE,
-            name = "Gelure",
-            desc = "Tirez sur les joueurs pour ralentir leur mouvement, la force du ralentissement dépend des dégâts infligés.",
+            id = "EQUIP_DOUBLETAP",
+            name = "Tapez deux fois",
+            desc = "Tirez 50 % plus vite avec n'importe quel pistolet ordinaire.",
         },
         {
-            id = EQUIP_ELEMENTALIST_FROSTBITE_UP,
-            name = "Gelure+",
-            desc = "Mises à niveau Frostbite, les joueurs qui ont été ralentis ont une chance de se figer lorsqu'ils sont touchés, perdant ainsi tout mouvement.",
-        },
-        {
-            id = EQUIP_ELEMENTALIST_PYROMANCER,
-            name = "Pyromancien",
-            desc = "Tirez sur les joueurs pour les enflammer, la durée évoluant en fonction des dégâts infligés.",
-        },
-        {
-            id = EQUIP_ELEMENTALIST_PYROMANCER_UP,
-            name = "Pyromancien+",
-            desc = "Mises à niveau du Pyromancien, les joueurs enflammés ont une chance d'exploser lorsqu'ils sont tirés, causant des dégâts à tout le monde autour d'eux.",
-        },
-        {
-            id = EQUIP_ELEMENTALIST_WINDBURN,
-            name = "Coup de vent",
-            desc = "Tirer sur les joueurs les pousse vers l'arrière et les éloigne de vous, la force de poussée augmentant en fonction des dégâts infligés.",
-        },
-        {
-            id = EQUIP_ELEMENTALIST_WINDBURN_UP,
-            name = "Coup de vent+",
-            desc = "Mises à niveau Windburn, au lieu de pousser, lance occasionnellement des joueurs qui tirent dans les airs pour un atterrissage dur et douloureux.",
-        },
-        {
-            id = EQUIP_ELEMENTALIST_DISCHARGE,
+            id = "EQUIP_ELEMENTALIST_DISCHARGE",
             name = "Décharge",
             desc = "Tirez sur les joueurs pour les choquer, en frappant leur vue en fonction des dégâts infligés, en les désorientant.",
         },
         {
-            id = EQUIP_ELEMENTALIST_DISCHARGE_UP,
+            id = "EQUIP_ELEMENTALIST_DISCHARGE_UP",
             name = "Décharge+",
             desc = "La décharge de mise à niveau amène les joueurs abattus à commettre en outre des actions involontaires, telles que bouger, tirer ou sauter.",
         },
         {
-            id = EQUIP_ELEMENTALIST_MIDNIGHT,
-            name = "Minuit",
-            desc = "Tirez sur les joueurs pour commencer à les aveugler, à assombrir leur écran et à rendre leur vision difficile.",
+            id = "EQUIP_ELEMENTALIST_FROSTBITE",
+            name = "Gelure",
+            desc = "Tirez sur les joueurs pour ralentir leur mouvement, la force du ralentissement dépend des dégâts infligés.",
         },
         {
-            id = EQUIP_ELEMENTALIST_MIDNIGHT_UP,
-            name = "Minuit+",
-            desc = "Mises à niveau à minuit, les joueurs dont les écrans sont atténués ont une chance de devenir complètement aveugles lorsqu'on leur tire dessus, sans rien voir.",
+            id = "EQUIP_ELEMENTALIST_FROSTBITE_UP",
+            name = "Gelure+",
+            desc = "Mises à niveau Frostbite, les joueurs qui ont été ralentis ont une chance de se figer lorsqu'ils sont touchés, perdant ainsi tout mouvement.",
         },
         {
-            id = EQUIP_ELEMENTALIST_LIFESTEAL,
+            id = "EQUIP_ELEMENTALIST_LIFESTEAL",
             name = "Vol de vie",
             desc = "Tirez sur les joueurs pour leur voler leur force vitale, une balle à la fois.",
         },
         {
-            id = EQUIP_ELEMENTALIST_LIFESTEAL_UP,
+            id = "EQUIP_ELEMENTALIST_LIFESTEAL_UP",
             name = "Vol de vie+",
             desc = "Améliore Lifesteal, exécute les joueurs qui tirent si leur santé devient trop faible, les tuant instantanément.",
+        },
+        {
+            id = "EQUIP_ELEMENTALIST_MIDNIGHT",
+            name = "Minuit",
+            desc = "Tirez sur les joueurs pour commencer à les aveugler, à assombrir leur écran et à rendre leur vision difficile.",
+        },
+        {
+            id = "EQUIP_ELEMENTALIST_MIDNIGHT_UP",
+            name = "Minuit+",
+            desc = "Mises à niveau à minuit, les joueurs dont les écrans sont atténués ont une chance de devenir complètement aveugles lorsqu'on leur tire dessus, sans rien voir.",
+        },
+        {
+            id = "EQUIP_ELEMENTALIST_PYROMANCER",
+            name = "Pyromancien",
+            desc = "Tirez sur les joueurs pour les enflammer, la durée évoluant en fonction des dégâts infligés.",
+        },
+        {
+            id = "EQUIP_ELEMENTALIST_PYROMANCER_UP",
+            name = "Pyromancien+",
+            desc = "Mises à niveau du Pyromancien, les joueurs enflammés ont une chance d'exploser lorsqu'ils sont tirés, causant des dégâts à tout le monde autour d'eux.",
+        },
+        {
+            id = "EQUIP_ELEMENTALIST_WINDBURN",
+            name = "Coup de vent",
+            desc = "Tirer sur les joueurs les pousse vers l'arrière et les éloigne de vous, la force de poussée augmentant en fonction des dégâts infligés.",
+        },
+        {
+            id = "EQUIP_ELEMENTALIST_WINDBURN_UP",
+            name = "Coup de vent+",
+            desc = "Mises à niveau Windburn, au lieu de pousser, lance occasionnellement des joueurs qui tirent dans les airs pour un atterrissage dur et douloureux.",
+        },
+        {
+            id = "EQUIP_JUGGERNOG",
+            name = "Mastodonte",
+            desc = "Guérit complètement et accorde 50% de santé en plus.",
+        },
+        {
+            id = "EQUIP_PHD",
+            name = "Disque de doctorat",
+            desc = "Au lieu de subir des dégâts de chute, provoquez une explosion de dégâts importants à l'endroit où vous atterrissez. \n\nConfère l'immunité aux explosions.",
+        },
+        {
+            id = "EQUIP_PHS_TRACKER",
+            name = "Mise à niveau du suivi de santé",
+            desc = "Améliore la portée et la qualité des informations du Health Tracker.",
+        },
+        {
+            id = "EQUIP_SPEEDCOLA",
+            name = "Cola rapide",
+            desc = "Double votre vitesse de rechargement des armes ordinaires.",
+        },
+        {
+            id = "EQUIP_STAMINUP",
+            name = "Endurance",
+            desc = "Augmentez considérablement la vitesse de sprint!",
+        },
+        {
+            id = "EQUIP_TF2_CLASS_CHANGER",
+            name = "Changer de classe TF2",
+            desc = "Achetez ceci pour changer de classe !\n\nSi vous êtes un Mann ROUGE ou BLEUE, appuyez plutôt sur la virgule [,].",
         },
     }
 
     local translatedPassiveItemNames = {}
-    local passiveItemNames = {}
+    local passiveItems = {}
+    local passiveItemIdToGlobalName = {}
 
     for role = 1, ROLE_MAX do
         -- Skip the Randoman and Hoodoo as randomat event names don't have translations
@@ -705,7 +648,7 @@ net.Receive("FrenchRandomatBegin", function()
                 if not equ.id then continue end
 
                 for _, translation in ipairs(translatedPassiveItems) do
-                    if equ.id == translation.id then
+                    if _G[translation.id] and equ.id == _G[translation.id] then
                         equ.name = translation.name
                         equ.desc = translation.desc
 
@@ -718,24 +661,44 @@ net.Receive("FrenchRandomatBegin", function()
                 end
 
                 if debugPrint then
-                    table.insert(passiveItemNames, {
+                    passiveItems[equ.id] = {
+                        globalName = passiveItemIdToGlobalName[equ.id],
                         name = equ.name,
-                        role = roleStringsOrig[role]
-                    })
+                        desc = equ.desc,
+                    }
                 end
             end
         end
     end
 
     if debugPrint then
-        print("=====Passive items to be translated=====")
+        print("=====Passive items=====")
 
-        for _, tbl in ipairs(passiveItemNames) do
+        for name, id in pairs(_G) do
+            if not isstring(name) or not isnumber(id) or not string.StartsWith(name, "EQUIP_") then continue end
+            passiveItemIdToGlobalName[id] = name
+        end
+
+        for _, tbl in pairs(passiveItems) do
             -- Skip any passive items with an underscore in its name as it's highly likely to be a translation string handled instead in the language file
             if not translatedPassiveItemNames[tbl.name] and not string.find(tbl.name, "_") then
-                print(tbl.name, tbl.role)
+                print(tbl.globalName)
+                print(tbl.name)
+                print(tbl.desc)
+                print("")
             end
         end
+
+        local sortedString = ""
+
+        -- Sorts the passive item translations into alphabetical order by their global variable name
+        for _, item in SortedPairsByMemberValue(translatedPassiveItems, "id") do
+            -- Behold... the most readable code of all time...
+            -- This is just printing the passive item translation table above into a copy-pastable file that's sorted in alphabetical order...
+            sortedString = sortedString .. "{\n    id = \"" .. item.id .. "\",\n    name = \"" .. item.name .. "\",\n    desc = \"" .. item.desc:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\n", "\\n") .. "\",\n},\n"
+        end
+
+        file.Write("randomat/french_passive_items.txt", sortedString)
     end
 
     -- Renaming weapons
@@ -2089,11 +2052,380 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_mad_zombificator = {
             name = "Dispositif de Zombification",
             desc = [[Transforme les joueurs morts en zombies.]]
-        }
+        },
+        weapon_ttt_prop_disguiser_2 = {
+            name = "Déguisement D'accessoires 2",
+            desc = [[Vous déguise en accessoire mobile !]]
+        },
+        weapon_gmr_gacha = {
+            name = "Machine Gacha"
+        },
+        waluigi_launcher_ttt = {
+            name = "Lanceur de Waluigi",
+            desc = [[Lancez un Waluigi sur vos ennemis.]]
+        },
+        weapon_ttt_randomatclub = {
+            name = "Massue"
+        },
+        weapon_zm_mac10 = {
+            name = "MAC10"
+        },
+        tfa_vr11 = {
+            name = "VR-11",
+            desc = [[Quiconque vous touchez obtient le pouvoir de tuer instantanément avec des armes ordinaires !
+
+    Dure un temps limité.]]
+        },
+        weapon_yeti_club = {
+            name = "Massue"
+        },
+        weapon_whl_spinner = {
+            name = "Roue Tournante"
+        },
+        tfa_bo3_argus = {
+            name = "Argus",
+            desc = [[Argus]]
+        },
+        weapon_tttbasegrenade = {
+            name = "Grenade Incendiaire"
+        },
+        ttt_slappers = {
+            name = "Baffeurs",
+            desc = [[La 1ère arme blague que vous achetez par round est gratuite ! 
+
+    Vous permet de gifler quelqu'un et de secouer son écran !
+
+    Clic gauche - main gauche
+    Clic droit - main droite]]
+        },
+        weapon_ttt_tf2_scattergun = {
+            name = "Scattergun TF2",
+            desc = [[Un fusil à pompe à tir rapide et à dispersion serrée !]]
+        },
+        weapon_mis_proselytizer = {
+            name = "Prosélytiseur"
+        },
+        weapon_ballin = {
+            name = "Basket-ball"
+        },
+        weapon_ttt_tf2_sandman = {
+            name = "Le Marchand de Sable",
+            desc = [[Une arme de mêlée à frappe rapide !
+    Plus de DPS que le pied de biche !
+
+    Clic droit pour lancer une balle de baseball qui ralentit !]]
+        },
+        weapon_ttt_m16 = {
+            name = "M16"
+        },
+        weapon_sp_winchester = {
+            name = "Winchester 1873"
+        },
+        weapon_pnr_poisongun = {
+            name = "Pistolet à Poison"
+        },
+        weapon_ttt_tf2_shotgun = {
+            name = "Fusil à Pompe TF2",
+            desc = [[Un fusil à pompe standard classique]]
+        },
+        weapon_pp_remington = {
+            name = "Remington 1858"
+        },
+        weapon_plm_dartgun = {
+            name = "Fusil à Fléchettes de la Peste"
+        },
+        weapon_whl_buffettable = {
+            name = "Table Buffet"
+        },
+        weapon_ttt_glock = {
+            name = "Glock"
+        },
+        weapon_ttt_tf2_shortstop = {
+            name = "L'Arrêt-court",
+            desc = [[Un pistolet-fusil à pompe qui vous permet de bousculer les joueurs !]]
+        },
+        weapon_ttt_randomatrevolver = {
+            name = "Revolver"
+        },
+        weapon_thf_thievestools = {
+            name = "Outils de Voleur"
+        },
+        ttt_pap_groovitron = {
+            name = "Groovitron",
+            desc = [[Force les joueurs à proximité à danser !]]
+        },
+        weapon_ttt_tacticalbrick = {
+            name = "Brique Tactique",
+            desc = [[Une brique qui peut être lancée pour des raisons tactiques. Toucher quelqu'un à la tête ou charger votre lancer plus longtemps infligera plus de dégâts.]]
+        },
+        weapon_ysm_dbshotgun = {
+            name = "Double Baril"
+        },
+        weapon_fre_baguette = {
+            name = "Baguette"
+        },
+        weapon_cln_targetpicker = {
+            name = "Sélecteur de Cible"
+        },
+        ttt_perk_juggernog = {
+            name = "Mastodonte"
+        },
+        weapon_ttt_tf2_minigun = {
+            name = "Minigun Lourd",
+            desc = [[Une minigun à 200 munitions !
+    Les munitions ne peuvent pas être rechargées]]
+        },
+        weapon_ttt_tf2_medigun = {
+            name = "Medi Gun",
+            desc = [[Soin à distance ! Soigne jusqu'à 100 PV, peut sur-soigner jusqu'à 150
+
+    Après avoir utilisé toutes les munitions, clic droit pour activer l'invincibilité pendant 8 secondes,
+    pour vous et votre cible soignée !]]
+        },
+        weapon_ttt_tf2_loosecannon = {
+            name = "Canon Détaché",
+            desc = [[Tire des boulets de canon chargeables !
+    Synchronisez bien et touchez un joueur juste au moment où il explose pour un double dégât !]]
+        },
+        weapon_ttt_tf2_syringegun = {
+            name = "Pistolet à Seringues",
+            desc = [[Tire des seringues à haut dégât, avec une portée limitée]]
+        },
+        weapon_ttt_tf2_tomislav = {
+            name = "Tomislav",
+            desc = [[Une minigun à 200 munitions !
+    Les munitions ne peuvent pas être rechargées, complètement silencieuse et précise]]
+        },
+        weapon_ttt_baguette_randomat = {
+            name = "Baguette"
+        },
+        weapon_ttt_tf2_stickyjumper = {
+            name = "Lanceur Collant de Saut",
+            desc = [[Un lanceur de bombes collantes conçu pour le saut collant !]]
+        },
+        weapon_ap_tec9 = {
+            name = "TEC-9"
+        },
+        weapon_ttt_tf2_sniper = {
+            name = "Sniper TF2",
+            desc = [[Un puissant fusil de sniper !
+
+    Visez avec le clic droit,
+    et restez visé pour charger un tir à plus haut dégât !
+
+    Inflige 50 dégâts sans viser, jusqu'à 80 en visant !]]
+        },
+        weapon_ttt_tf2_smg = {
+            name = "Pistolet-Mitrailleur TF2",
+            desc = [[Un pistolet-mitrailleur standard avec un rechargement très rapide !]]
+        },
+        weapon_ttt_tf2_rpg = {
+            name = "Lance-Roquettes",
+            desc = [[Un lance-roquettes !
+
+    Sautez et tirez sur vos pieds pour faire un saut de roquette !]]
+        },
+        weapon_bam_transformer = {
+            name = "Transformateur de Baril"
+        },
+        weapon_ttt_tf2_revolver = {
+            name = "Revolver de L'Espion",
+            desc = [[Un revolver à tir rapide !]]
+        },
+        weapon_ttt_tf2_pistol = {
+            name = "Pistolet TF2",
+            desc = [[Un pistolet à tir rapide]]
+        },
+        weapon_ttt_tf2_machete = {
+            name = "Kukri",
+            desc = [[Une arme de mêlée à forte frappe !
+    Plus de DPS que le pied de biche !]]
+        },
+        weapon_sfk_safeplacer = {
+            name = "Placeur de Coffre"
+        },
+        weapon_ttt_tf2_knife = {
+            name = "Couteau D'assassinat",
+            desc = [[Touchez quelqu'un par derrière pour un kill instantané !
+
+    Sinon inflige des dégâts normaux]]
+        },
+        weapon_ttt_tf2_jarate = {
+            name = "Jarate",
+            desc = [[Lancez sur les joueurs pour leur faire temporairement subir plus de dégâts !]]
+        },
+        weapon_ttt_tf2_inviswatch = {
+            name = "Montre D'invisibilité",
+            desc = [[Devenez invisible pendant 10 secondes à charge maximale, et se recharge automatiquement !
+
+    Peut être activée sans être complètement chargée
+
+    Peut être chargée manuellement via les munitions de pistolet, appuyez sur 'R' pour recharger]]
+        },
+        weapon_ttt_tf2_grenadelauncher = {
+            name = "Lance-Grenades",
+            desc = [[Tire des grenades explosives en arc !]]
+        },
+        weapon_ttt_tf2_goldenfryingpan = {
+            name = "Poêle D'or",
+            desc = [[Plus de DPS que le pied de biche !
+
+    Transforme les joueurs tués en statues d'or !]]
+        },
+        weapon_ttt_tf2_forceanature = {
+            name = "Force-A-Nature",
+            desc = [[Un double canon qui propulse les joueurs en arrière !]]
+        },
+        weapon_ttt_tf2_eurekaeffect = {
+            name = "Effet Eureka",
+            desc = [[Plus de DPS que le pied de biche !
+
+    Appuyez sur Recharger pour une téléportation unique vers un point d'apparition !]]
+        },
+        weapon_ttt_tf2_eternalreward = {
+            name = "Votre Récompense Éternelle",
+            desc = [[Touchez quelqu'un par derrière pour un kill instantané !
+
+    Ne laisse pas de corps, prend l'apparence de vos victimes !]]
+        },
+        weapon_ttt_tf2_bonesaw = {
+            name = "Scie à Os",
+            desc = [[Une arme de mêlée à forte frappe !
+    Plus de DPS que le pied de biche, vous soigne pendant que vous la tenez !]]
+        },
+        weapon_ttt_boom_cat = {
+            name = "Chat Boum",
+            desc = [[Lancez un chat qui fait boum.]]
+        },
+        weapon_ttt_tf2_escapeplan = {
+            name = "Le Plan D'évasion",
+            desc = [[Plus de DPS que le pied de biche !
+
+    Votre vitesse augmente à mesure que votre santé diminue !]]
+        },
+        weapon_ttt_tf2_caber = {
+            name = "Caber D'Ullapool",
+            desc = [[Plus de DPS que le pied de biche !
+
+    Explose et propulse les joueurs dans les airs au premier coup !]]
+        },
+        weapon_ttt_teleportgren = {
+            name = "Grenade de Téléportation",
+            desc = [[Une grenade hautement explosive.
+
+    Prudent ! Elle peut exploser dans votre main si vous
+    la faites cuire trop longtemps !]]
+        },
+        weapon_ttt_seekgull = {
+            name = "Mouette en Boîte",
+            desc = [[Une grenade hautement explosive.
+
+    Prudent ! Elle peut exploser dans votre main si vous
+    la faites cuire trop longtemps !]]
+        },
+        weapon_ttt_mc_poison = {
+            name = "Poison"
+        },
+        weapon_ysm_pie = {
+            name = "Tarte"
+        },
+        weapon_ttt_csgo_r8revolver = {
+            name = "Revolver R8"
+        },
+        weapon_ttt_revolver_randomat = {
+            name = "Revolver"
+        },
+        weapon_ttt_rdmtrocketsciencelauncher = {
+            name = "Lance-Roquettes"
+        },
+        weapon_wwf_claws = {
+            name = "Griffes",
+            desc = [[Clic gauche pour attaquer. Clic droit pour bondir.]]
+        },
+        weapon_can_eater = {
+            name = "Cannibaliseur"
+        },
+        weapon_ttt_boomerang_randomat = {
+            name = "Boomerang",
+            desc = [[Clic droit pour lancer]]
+        },
+        weapon_ttt_tf2_lollichop = {
+            name = "Sucette Tranchante",
+            desc = [[Une arme de mêlée lente mais qui frappe fort...
+
+    qui vous envoie au Pyroland !]]
+        },
+        weapon_ysm_guarddog = {
+            name = "Chien de Garde"
+        },
+        weapon_btn_transformer = {
+            name = "Transformateur de Bouton"
+        },
+        weapon_gmr_cheeto_fingers = {
+            name = "Doigts de Cheetos"
+        },
+        weapon_chf_stoveplacer = {
+            name = "Placeur de Cuisinière",
+            desc = [[Place une cuisinière avec différents types de plats, procurant différents buffs.]]
+        },
+        ttt_pap_remove_tool = {
+            name = "Outil de Suppression"
+        },
+        weapon_phr_ankh = {
+            name = "Ankh"
+        },
+        weapon_ttt_tf2_flamethrower = {
+            name = "Lance-Flammes",
+            desc = [[Lance-flammes à haut dégât et courte portée !
+
+    Clic droit pour repousser les joueurs et objets]]
+        },
+        weapon_ap_pp19 = {
+            name = "PP-19 Bizon"
+        },
+        weapon_ttt_ak47gold = {
+            name = "AK-47 Kadhafi",
+            desc = [[AK-47 fait en or.
+    Plus de dégâts, plus de munitions, plus de meurtres.]]
+        },
+        weapon_ttt_tf2_stickybomblauncher = {
+            name = "Lanceur de Bombes Collantes",
+            desc = [[Tire des bombes collantes !
+    Faites-les exploser avec le clic droit
+
+    Vous ne pouvez en avoir que 8 à la fois.]]
+        },
+        ttt_weapon_lasso = {
+            name = "Lasso",
+            desc = [[Tir principal : lancez le lasso pour tirer des joueurs ou des objets.
+
+    Tir secondaire : attachez-vous à un joueur proche.]]
+        },
+        tfa_bo2_remington_nma = {
+            name = "Remington N.M.A.",
+            desc = [[Remington N.M.A.]]
+        },
+        weapon_ttt_tf2_rainblower = {
+            name = "Souffleur D'arc-en-ciel",
+            desc = [[Un merveilleux lance-flammes tirant un arc-en-ciel
+
+    qui vous envoie au Pyroland !]]
+        },
+        weapon_ttt_flashbang = {
+            name = "Grenade Aveuglante",
+            desc = [[Le meilleur flash que vous n'ayez jamais vu - PAS POUR ISA !]]
+        },
+        weapon_ttt_head_message = {
+            name = "Message au-dessus de la Tête",
+            desc = [[Écrivez un message qui s'affiche au-dessus de votre tête !]]
+        },
+        weapon_ap_mrca1 = {
+            name = "MR-CA1"
+        },
     }
 
     if debugPrint then
-        print("=====Weapons to translate=====")
+        print("=====Weapons=====")
     end
 
     for _, SWEPCopy in ipairs(weapons.GetList()) do
@@ -2133,9 +2465,15 @@ net.Receive("FrenchRandomatBegin", function()
             -- If a weapon has an undersocre in its name, it is highly likely using translation strings,
             -- which are handled in the language file itself
             if not SWEP or not SWEP.Kind or not SWEP.PrintName or string.find(SWEP.PrintName, "_") then continue end
+            if SWEP.EquipMenuData and SWEP.EquipMenuData.desc and string.find(SWEP.EquipMenuData.desc, "_desc") then continue end
 
             if debugPrint then
                 print(SWEP.PrintName, classname)
+
+                if SWEP.EquipMenuData and SWEP.EquipMenuData.desc then
+                    print(SWEP.EquipMenuData.desc)
+                    print("")
+                end
             end
 
             if not SWEP.origPrintName then
