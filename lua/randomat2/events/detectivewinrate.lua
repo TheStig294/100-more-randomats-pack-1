@@ -114,8 +114,10 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End()
-    Randomat:ForceResetAllPlayermodels()
+function EVENT:End(isActive)
+    if isActive then
+        Randomat:ForceResetAllPlayermodels()
+    end
 end
 
 Randomat:register(EVENT)

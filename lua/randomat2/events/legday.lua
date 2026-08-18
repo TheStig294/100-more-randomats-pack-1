@@ -11,7 +11,7 @@ local bonelist = {"ValveBiped.Bip01_Pelvis", "ValveBiped.Bip01_L_Thigh", "ValveB
 local transmodlist = {Vector(0, 0, -38), Vector(-3.9, 0, 0), Vector(-16, 0, 0), Vector(-16, 0, 0), Vector(-6.31, 0, 0), Vector(3.9, 0, 0), Vector(-16, 0, 0), Vector(-16, 0, 0), Vector(-6.31, 0, 0)}
 
 local function ScalePlayerLegs(mult)
-    for _, p in ipairs(player.GetAll()) do
+    for _, p in player.Iterator() do
         for i = 1, #bonelist do
             local boneId = p:LookupBone(bonelist[i])
 
@@ -33,17 +33,19 @@ function EVENT:Begin()
         viewHeight = 40
     end
 
-    for _, p in ipairs(player.GetAll()) do
+    for _, p in player.Iterator() do
         -- Set viewheight for players as well
         p:SetViewOffset(Vector(0, 0, viewHeight))
         p:SetViewOffsetDucked(Vector(0, 0, 28))
     end
 end
 
-function EVENT:End()
-    ScalePlayerLegs(1, 1, 0)
-    -- Reset viewheight for players as well
-    Randomat:ForceResetAllPlayermodels()
+function EVENT:End(isActive)
+    if isActive then
+        ScalePlayerLegs(1, 1, 0)
+        -- Reset viewheight for players as well
+        Randomat:ForceResetAllPlayermodels()
+    end
 end
 
 function EVENT:GetConVars()

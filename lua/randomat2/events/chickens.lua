@@ -21,7 +21,8 @@ function EVENT:Begin()
     maxHealth = {}
     local new_traitors = {}
 
-    for k, ply in pairs(self:GetAlivePlayers()) do
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
         Randomat:ForceSetPlayermodel(ply, "models/xtra_randos/chicken/chicken3.mdl")
         maxHealth[ply] = ply:GetMaxHealth()
 
@@ -42,7 +43,7 @@ function EVENT:Begin()
             end
         end
 
-        -- Server can get overwelmed when this event triggers, so attempt to remove incompatible roles a second time
+        -- Server can get overwhelmed when this event triggers, so attempt to remove incompatible roles a second time
         timer.Simple(2, function()
             if Randomat:IsBodyDependentRole(ply) then
                 self:StripRoleWeapons(ply)
@@ -60,7 +61,8 @@ function EVENT:Begin()
     end)
 
     self:AddHook("Think", function()
-        for k, ply in pairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
             -- Decrease height players can automatically step up (i.e. players can't climb stairs)
             ply:SetStepSize(18 * sc)
             -- Shrink playermodel size
@@ -75,7 +77,7 @@ function EVENT:Begin()
     end)
 
     -- Scales the player speed on clients
-    for k, ply in pairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         net.Start("RdmtSetSpeedMultiplier")
         net.WriteFloat(sp)
         net.WriteString("RdmtChickensSpeed")
@@ -94,21 +96,23 @@ function EVENT:Begin()
     end)
 
     -- Play a random chicken hurt sound when a player is hurt
-    self:AddHook("EntityTakeDamage", function(ent, dmginfo)
+    self:AddHook("EntityTakeDamage", function(ent, _)
         if IsValid(ent) and ent:IsPlayer() then
             ent:EmitSound(sndTabPain[math.random(#sndTabPain)], 100, 100)
         end
     end)
 
     -- Play a distinct chicken sound when a player dies
-    self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
+    self:AddHook("DoPlayerDeath", function(ply, _, dmginfo)
         dmginfo:SetDamageType(DMG_SLASH) -- Slashing damage causes no death sound, and thus mutes the normal death sound
         sound.Play("chickens/bkawk.mp3", ply:GetShootPos(), 90, 100, 1)
     end)
 
     -- Plays random idle chicken sounds
     timer.Create("RdmtChickenIdleSounds", 5, 0, function()
-        for i, ply in pairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
+
             timer.Simple(math.random(4), function()
                 ply:EmitSound(sndTabIdle[math.random(#sndTabIdle)], 100, 100)
             end)
@@ -131,8 +135,11 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End()
-    Randomat:ForceResetAllPlayermodels()
+function EVENT:End(isActive)
+    if isActive then
+        Randomat:ForceResetAllPlayermodels()
+    end
+
     timer.Remove("RdmtChickenIdleSounds")
     timer.Remove("RdmtChickenHp")
     -- Reset the player speed on the client
@@ -141,7 +148,7 @@ function EVENT:End()
     net.Broadcast()
 
     -- Reset all players
-    for k, ply in pairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         -- Resetting player size, hitbox, and ability to climb stairs...
         ply:SetModelScale(1, 0)
         ply:ResetHull()
@@ -158,7 +165,9 @@ end
 function EVENT:Condition()
     local incompatibleRoleExists = false
 
-    for _, ply in ipairs(self:GetAlivePlayers()) do
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
+
         if Randomat:IsBodyDependentRole(ply) then
             incompatibleRoleExists = true
             break

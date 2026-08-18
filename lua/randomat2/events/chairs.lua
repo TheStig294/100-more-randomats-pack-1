@@ -43,8 +43,8 @@ local function ApplyChairModel(ply)
     if model == rythianModel then
         Randomat:ForceSetPlayermodel(ply, rythianModel)
     else
-        ply.oldViewOffset = ply:GetViewOffset()
-        ply.oldViewOffsetDucked = ply:GetViewOffsetDucked()
+        ply.chairsRandomatOldViewOffset = ply:GetViewOffset()
+        ply.chairsRandomatOldViewOffsetDucked = ply:GetViewOffsetDucked()
         ply:SetViewOffset(Vector(0, 0, 40))
         ply:SetViewOffsetDucked(Vector(0, 0, 28))
         chair = ents.Create("prop_dynamic")
@@ -132,13 +132,15 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    for _, ply in ipairs(player.GetAll()) do
-        if ply.oldViewOffset then
-            ply:SetViewOffset(ply.oldViewOffset)
+    for _, ply in player.Iterator() do
+        if ply.chairsRandomatOldViewOffset then
+            ply:SetViewOffset(ply.chairsRandomatOldViewOffset)
+            ply.chairsRandomatOldViewOffset = nil
         end
 
-        if ply.oldViewOffsetDucked then
-            ply:SetViewOffsetDucked(ply.oldViewOffsetDucked)
+        if ply.chairsRandomatOldViewOffsetDucked then
+            ply:SetViewOffsetDucked(ply.chairsRandomatOldViewOffsetDucked)
+            ply.chairsRandomatOldViewOffsetDucked = nil
         end
     end
 end

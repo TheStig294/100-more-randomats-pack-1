@@ -67,7 +67,8 @@ function EVENT:Begin()
     self.Description = GetDescription()
     local new_traitors = {}
 
-    for _, v in ipairs(self:GetAlivePlayers()) do
+    for _, v in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
         local _, new_traitor = self:HandleRoleWeapons(v)
 
         if new_traitor then
@@ -84,7 +85,9 @@ function EVENT:Begin()
         local updated = false
         new_traitors = {}
 
-        for _, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
+
             if strip then
                 for _, wep in ipairs(ply:GetWeapons()) do
                     local weaponclass = WEPS.GetClass(wep)
@@ -119,13 +122,13 @@ function EVENT:Begin()
         end
     end)
 
-    self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+    self:AddHook("PlayerCanPickupWeapon", function(_, wep)
         if not strip then return end
 
         return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_whoa_weaponid"):GetString()
     end)
 
-    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+    self:AddHook("TTTCanOrderEquipment", function(ply, _, is_item)
         if not strip or not IsValid(ply) then return end
 
         if not is_item then
@@ -136,7 +139,7 @@ function EVENT:Begin()
         end
     end)
 
-    self:AddHook("DoPlayerDeath", function(ply, attacker, dmginfo)
+    self:AddHook("DoPlayerDeath", function(ply, _, dmginfo)
         -- Silence their usual death noise
         dmginfo:SetDamageType(DMG_SLASH)
         sound.Play("whoa/whoa.mp3", ply:GetShootPos(), 140, 100, 1)
@@ -144,7 +147,7 @@ function EVENT:Begin()
 
     -- Sets someone's playermodel again when respawning, as force playermodel is off
     if modelExists then
-        for k, ply in pairs(player.GetAll()) do
+        for _, ply in player.Iterator() do
             Randomat:ForceSetPlayermodel(ply, "models/bandicoot/bandicoot.mdl")
         end
 
@@ -156,22 +159,23 @@ function EVENT:Begin()
     end
 end
 
-function EVENT:End()
+function EVENT:End(isActive)
     timer.Remove("RandomatWhoaTimer")
 
-    for i, ent in ipairs(ents.FindByClass(GetConVar("randomat_whoa_weaponid"):GetString())) do
+    for _, ent in ipairs(ents.FindByClass(GetConVar("randomat_whoa_weaponid"):GetString())) do
         ent:Remove()
     end
 
     if strip then
-        for i, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
             ply:Give("weapon_zm_improvised")
             ply:Give("weapon_zm_carry")
             ply:Give("weapon_ttt_unarmed")
         end
     end
 
-    if modelExists then
+    if isActive and modelExists then
         Randomat:ForceResetAllPlayermodels()
     end
 end

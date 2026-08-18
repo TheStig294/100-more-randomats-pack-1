@@ -13,12 +13,10 @@ if modelExists then
 end
 
 util.AddNetworkString("SpeedrunRandomatPlayAlertSound")
-local speedrunRandomat = false
 local hasteMode = false
 local hasteMinutes = 0.5
 
 function EVENT:Begin()
-    speedrunRandomat = true
     hasteMode = GetConVar("ttt_haste"):GetBool()
     hasteMinutes = GetConVar("ttt_haste_minutes_per_death"):GetFloat()
     local time = GetConVar("randomat_speedrun_time"):GetInt()
@@ -93,10 +91,8 @@ function EVENT:Begin()
     end
 end
 
-function EVENT:End()
-    if speedrunRandomat then
-        speedrunRandomat = false
-
+function EVENT:End(isActive)
+    if isActive then
         if hasteMode then
             GetConVar("ttt_haste"):SetBool(true)
             GetConVar("ttt_haste_minutes_per_death"):SetFloat(hasteMinutes)

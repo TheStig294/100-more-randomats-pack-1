@@ -11,7 +11,8 @@ local remainingModels = {}
 local playermodelData = {}
 
 function EVENT:Begin()
-    for _, ply in pairs(self:GetAlivePlayers()) do
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
         playerModels[ply] = ply:GetModel()
         playermodelData[ply:GetModel()] = Randomat:GetPlayerModelData(ply)
     end
@@ -19,7 +20,8 @@ function EVENT:Begin()
     -- Initially add all player's models to the pool of models not yet picked
     table.Add(remainingModels, playerModels)
 
-    for _, ply in ipairs(self:GetAlivePlayers()) do
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
         local ownModelRemoved = false
         local ownModel = playerModels[ply]
 
@@ -64,13 +66,15 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End()
+function EVENT:End(isActive)
     -- Clear the used tables for next time the randomat is triggered
-    table.Empty(swapModels)
-    table.Empty(remainingModels)
-    table.Empty(playerModels)
-    table.Empty(playermodelData)
-    Randomat:ForceResetAllPlayermodels()
+    if isActive then
+        table.Empty(swapModels)
+        table.Empty(remainingModels)
+        table.Empty(playerModels)
+        table.Empty(playermodelData)
+        Randomat:ForceResetAllPlayermodels()
+    end
 end
 
 Randomat:register(EVENT)
