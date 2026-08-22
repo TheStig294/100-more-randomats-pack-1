@@ -250,6 +250,7 @@ L.cannibal_eaten = "MANGÉ"
 L.cannibal_swallowed = "AVALÉ"
 L.cheatsheet_current_role = "{role} (RÔLE ACTUEL)"
 L.cheatsheet_desc_admin = "A un menu de commandes admin qu'il peut utiliser contre d'autres joueurs pour aider ou pour nuire."
+L.cheatsheet_desc_announcer = "Averti chaque fois que quelqu'un achète un objet. Voit le nom de l'objet, mais pas qui l'a acheté"
 L.cheatsheet_desc_armsdealer = "Fait des deals d'armes discrètement tout en essayant de survivre au chaos qu'il provoque."
 L.cheatsheet_desc_arsonist = "Peut asperger les joueurs et les enflammer. Gagne s'il est le dernier joueur en vie."
 L.cheatsheet_desc_assassin = "Se voit assigner une cible au hasard. Inflige plus de dégâts à sa cible et moins à tout le monde."
@@ -269,6 +270,7 @@ L.cheatsheet_desc_deputy = "Promu pour remplacer le détective en cas de sa mort
 L.cheatsheet_desc_detective = "Version de base des détectives qui peuvent utiliser leur scanner ADN pour traquer les tueurs."
 L.cheatsheet_desc_detectoclown = "Promu pour remplacer le détective en cas de sa mort, mais est en réalité un Bouffon qui doit tuer tout le monde pour gagner."
 L.cheatsheet_desc_doctor = "A accès à des objets de soin qui peuvent aider à se soigner soi-même et ses coéquipiers."
+L.cheatsheet_desc_dreadthrall = "Utilise des capacités spéciales via son Charme d'Os pour distraire et vaincre ses ennemis."
 L.cheatsheet_desc_drunk = "A oublié son rôle et s'en souvient après un certain temps ou lorsqu'il ne reste plus de membres de l'équipe innocente ou de l'équipe des traîtres en vie."
 L.cheatsheet_desc_elementalist = "Peut acheter des capacités élémentaires dans sa boutique qui causent différents effets sur les joueurs qu'il tire."
 L.cheatsheet_desc_eviltwin = "A un Bon Jumeau dans l'équipe des traîtres qui sait qui est le Mauvais Jumeau."
@@ -309,6 +311,7 @@ L.cheatsheet_desc_physician = "A un Traqueur de Santé qui permet de planter des
 L.cheatsheet_desc_pinata = "Laisse tomber des armes périodiquement en subissant des dégâts. Ne peut endommager que les joueurs qui l'ont blessé en premier."
 L.cheatsheet_desc_plaguemaster = "Peut propager sa peste aux joueurs, les tuant après un certain temps. Gagne s'il est le dernier joueur en vie."
 L.cheatsheet_desc_poisoner = "Peut empoisonner un joueur, désactivant sa capacité de rôle"
+L.cheatsheet_desc_possum = "Peut faire le mort lorsqu'il est attaqué en activant son Déguisement de la Mort."
 L.cheatsheet_desc_puppeteer = "Regarde et contrôle un joueur cible, en lui donnant des debuffs ou en le faisant tirer avec son arme"
 L.cheatsheet_desc_quack = "Peut acheter des objets de soin et de faux objets de soin qui tuent les joueurs au lieu de les soigner."
 L.cheatsheet_desc_quartermaster = "Peut acheter des objets disponibles pour les Traîtres sous forme de caisses d'armes pour d'autres joueurs."
@@ -327,10 +330,12 @@ L.cheatsheet_desc_soulbound = "Créé par un Soulmage liant l'âme d'un cadavre 
 L.cheatsheet_desc_soulmage = "Peut utiliser son Appareil de Liaison d'Âme pour convertir un joueur mort en son Lié d'Âme, lui accordant des capacités pour aider ses nouveaux coéquipiers."
 L.cheatsheet_desc_sponge = "A une aura visible qui absorbe les dégâts qui seraient infligés aux joueurs proches et gagne la manche s'il meurt."
 L.cheatsheet_desc_spy = "Vole le nom et le modèle de joueur des joueurs qu'il tue."
+L.cheatsheet_desc_summoner = "Peut acheter des objets qui invoquent des sbires."
 L.cheatsheet_desc_swapper = "Échange de rôle avec son tueur au lieu de mourir."
 L.cheatsheet_desc_taskmaster = "A une liste de tâches à accomplir avant la fin de la manche."
 L.cheatsheet_desc_taxidermist = "A un Kit de Taxidermie qui peut être utilisé pour rendre les cadavres des joueurs impossibles à identifier."
 L.cheatsheet_desc_thief = "Ne peut obtenir des armes qu'en les volant à d'autres joueurs. Volez quelque chose de bien et survivez !"
+L.cheatsheet_desc_tinkerer = "Peut utiliser son appareil pour Pack-a-Punch les objets des autres joueurs."
 L.cheatsheet_desc_tracker = "Peut voir une trace de pas laissée par les autres joueurs."
 L.cheatsheet_desc_traitor = "Membre de base de l'équipe des traîtres qui peut acheter des objets pour aider à vaincre ses ennemis."
 L.cheatsheet_desc_trickster = "Peut activer des pièges comme les membres de l'équipe des traîtres."
@@ -497,6 +502,7 @@ L.dreadthrall_powers_credits = "{credits} crédits disponibles"
 L.dreadthrall_powers_spiritwalk = "Marche spirituelle"
 L.dreadthrall_powers_spiritwalk_tooltip = "Devenez invisible et déplacez-vous rapidement pour vous échapper"
 L.dreadthrall_powers_subtitle = "   Toutes les capacités coûtent\n {credits} crédits) par utilisation"
+L.dreadthrall_powers_subtitle_free = "Toutes les capacités sont\n    gratuites à utiliser"
 L.dreadthrall_powers_title = "Choisissez une capacité"
 L.drop_no_ammo = "Pas assez de munitions dans le chargeur de votre arme pour les jeter en tant que boîte de munitions."
 L.drop_no_room = "Il n'y pas la place pour jeter votre arme !"
@@ -833,6 +839,7 @@ L.info_popup_beggar_jester = "Vous êtes {role}! Les {traîtres} pensent que vou
 L.info_popup_blumann = "Vous êtes {role} !\nAu lieu d'acheter des objets, vous choisissez une classe TF2 à jouer ! (Appuyez sur ',')\nAppuyez sur {menukey} pour recevoir votre équipement spécial"
 L.info_popup_bodysnatcher_indep = "Vous êtes {role}! Utilisez votre dispositif d'arrachage de corps sur un cadavre\npour assumer leur rôle et rejoindre l'équipe gagnante!"
 L.info_popup_bodysnatcher_jester = "Vous êtes {role}! Les {traitors} pensent que vous êtes un {ajester} et vous\nn'infliger aucun dégât. Utilisez votre dispositif d'arrachage de corps sur un cadavre\npour prendre leur rôle et rejoindre le combat!"
+L.info_popup_bountyhunter = "Vous êtes un {role} ! Vous êtes dans l'équipe des {innocent}.\n\nLes détectives peuvent placer des primes sur les terroristes, gagnez un crédit\n\nen tuant la cible. Appuyez sur {menukey} pour dépenser le crédit !"
 L.info_popup_boxer = "Vous êtes {role}! Utilisez vos gants de boxe\npour obliger les autres à lâcher leurs armes ou\nassommez-les.\n\nÉliminez tous les joueurs vivants à\nen même temps pour gagner!"
 L.info_popup_button = "Vous êtes {role} ! Faites en sorte que les {traitors} vous\npoussent suffisamment de fois pour gagner, mais ne laissez pas le minuteur\nse terminer sans qu'un {aninnocent} vous remette dans l'autre sens ou les\n{traitors} gagneront à la place !"
 L.info_popup_cannibal = "Vous êtes {role} ! Mangez tous les joueurs vivants pour gagner.\n\nTous ceux que vous avez mangés seront réanimés si vous mourez."
@@ -858,6 +865,7 @@ L.info_popup_gamer = "Vous êtes {role} ! En tant que {adetective}, le QG vous a
 L.info_popup_gamer_gacha_only = "Vous êtes {role} ! En tant que {adetective}, le QG vous a donné des\nressources spéciales pour trouver les {traitors}.\n\nUtilisez votre machine gacha pour obtenir des prix qui\nprocurent une gamme de buffs de qualité variable.\n\nAppuyez sur {menukey} pour recevoir votre équipement !"
 L.info_popup_ghostwhisperer = "Vous êtes {role}! Utilisez votre appareil fantôme pour\npermettre à un joueur mort de parler dans le chat."
 L.info_popup_glitch = "Vous êtes {role}! Les {traitors} pensent que vous en faites partie.\nEssayez de vous fondre dans la masse et ne vous trahissez pas."
+L.info_popup_goodboy = "Vous êtes {role} ! \n  \nQuiconque vous tue sera temporairement aveuglé par des larmes de culpabilité."
 L.info_popup_goodtwin = "Vous êtes {role} !\nVous avez un jumeau dans l'équipe des traîtres qui sait qui vous êtes.\nCependant, vous et votre jumeau ne pouvez pas vous blesser mutuellement.\nSi vous êtes le dernier jumeau en vie, vous obtenez une invulnérabilité temporaire.\nEssayez de convaincre tout le monde que vous êtes le bon jumeau !"
 L.info_popup_guesser = "Vous êtes {role}! Les {traitors} pensent que vous êtes un {ajester} et vous ne faites rien\ndommage. Cependant, vous pouvez utiliser votre devineur de rôle pour essayer de deviner le rôle d'un joueur. Deviner\ncorrectement pour voler leur rôle. Devinez mal et vous mourez. Tu es immortel et si\nles joueurs tentent de vous endommager, vous apprendrez lentement des informations sur leur rôle."
 L.info_popup_hermit = "Vous êtes {role} ! Si vous voyez ce message, veuillez le signaler aux développeurs !"
@@ -889,6 +897,7 @@ L.info_popup_monster_alone = "Vous n'avez pas d'alliés ce tour.\n\nTuez tous le
 L.info_popup_monster_comrades = "Travaillez avec vos alliés pour tuer tous les autres.\n\nVoici vos camarades :\n{allylist}"
 L.info_popup_monster_illusionist = "Travaillez avec vos alliés pour tuer tous les autres.\nMAIS ATTENTION ! Il y a {anillusionist} qui vous empêche de savoir qui sont vos camarades."
 L.info_popup_oldman = "Vous êtes {role}! La moindre brise pourrait tuer\nvous si vous ne faites pas attention. Peu importe qui gagne, tant que\npuisque vous êtes en vie à la fin du tour."
+L.info_popup_outlaw = "Vous êtes un {role} ! {comrades}\n\nVous êtes immunisé contre divers effets de détective, et apparaissez avec\n\nun déguiseur. Appuyez sur {menukey} pour y accéder ainsi qu'à une boutique très basique."
 L.info_popup_paladin = "Vous êtes {role}! En tant que {adetective}, le QG vous a donné des ressources spéciales pour trouver les {traitors}.\nVous possédez une aura de guérison visible par tous.\nGardez vos amis proches, mais ne laissez surtout pas vos ennemis se rapprocher!\n\nAppuyez sur {menukey} pour recevoir votre équipement!"
 L.info_popup_paramedic = "Vous êtes {role}! Vous pouvez donner à vos camarades {innocents}\nune seconde chance avec votre défibrillateur. Reste en vie\net ramenez le joueur le plus fort de votre équipe."
 L.info_popup_parasite = "Vous êtes {role}! {comrades}\n\nInfectez ceux qui vous tuent et attendez patiemment une chance de prendre le contrôle.\nAssurez-vous de rester discret car votre hôte doit rester en vie pour que vous puissiez\nréapparaître. Essayez d'éviter de les guérir ou de les tuer!\n\nAppuyez sur {menukey} pour recevoir votre équipement spécial!"
@@ -920,6 +929,7 @@ L.info_popup_santa = "Vous êtes {role}! En tant que {detective}, le QG vous a d
 L.info_popup_sapper = "Vous êtes {role}! En tant que {adetective}, le QG vous a donné des ressources spéciales pour trouver les {traîtres}.\nVous disposez d'une aura de protection contre les explosions visible par tout le monde.\nGardez vos amis proches, mais ne laissez surtout pas vos ennemis se rapprocher!\n\nAppuyez sur {menukey} pour recevoir votre équipement!"
 L.info_popup_scout = "Vous êtes {role} ! Vous savez quels rôles {traitor}\nsont en jeu. Utilisez vos informations pour aider vos camarades {innocents} !"
 L.info_popup_shadow = "Vous êtes {role}! Trouvez rapidement votre cible\net restez près d'eux. Si vous ne le faites pas, vous serez puni.\n\nSurvivez jusqu'à la fin du tour pour gagner."
+L.info_popup_sheriff = "Vous êtes un {role} !\n\nVous ne pouvez pas manier d'armes principales, mais toutes les armes\n\nsecondaires sont devenues plus puissantes entre vos mains !"
 L.info_popup_sibling = "Vous êtes {role} ! Vous obtenez des copies des\nachats en boutique de votre cible (et pourriez les voler).\n\nVotre cible est : {siblingtarget}\n"
 L.info_popup_sibling_hidden = "Vous êtes {role} ! Vous obtenez des copies des\nachats en boutique de votre cible (et pourriez les voler)."
 L.info_popup_soulbound = "Vous êtes un {role}! {comrades}\n\nVoir ce message devrait être impossible! S'il vous plaît laissez\nnous savons comment vous voyez cela afin que nous puissions y remédier.\n\nAppuyez sur {menukey} pour recevoir votre équipement spécial!"
@@ -933,6 +943,7 @@ L.info_popup_taskmaster = "Vous êtes {role} ! Accomplissez vos tâches\navant l
 L.info_popup_taxidermist = "Vous êtes {role}! {comrades}\n\nVous pouvez utiliser votre kit de taxidermie sur un cadavre pour le rendre impossible à identifier.\n\nAppuyez sur {menukey} pour recevoir votre équipement spécial!"
 L.info_popup_thething = "Vous êtes {role}!\n\nSacrifiez-vous en tuant vos ennemis\npour les convertir et gagner par attrition."
 L.info_popup_thief = "Vous êtes {role} ! {comrades}\nVolez des armes à d'autres joueurs en\n{method}.{cost}"
+L.info_popup_tinkerer = "Vous êtes {role} ! Vous êtes {adetective} avec la capacité d'améliorer les objets de vos alliés.\nVous avez un Appareil d'Amélioration qui peut Pack-a-Punch l'objet actuel de quiconque vous l'utilisez sur.\nNotez que l'appareil doit se recharger entre les utilisations.\n\nAppuyez sur {menukey} pour recevoir votre équipement !"
 L.info_popup_tracker = "Vous êtes {role}! En tant que {adetective}, le QG vous a donné des ressources spéciales pour trouver les {traîtres}.\nVous pouvez voir les traces des joueurs et suivre leurs traces.\nUtilisez vos compétences pour garder un œil sur où se trouvent les joueurs.\n\nAppuyez sur {menukey} pour recevoir votre équipement!"
 L.info_popup_traitor = "Vous êtes {role}! {comrades}\n\nAppuyez sur {menukey} pour recevoir votre équipement spécial!"
 L.info_popup_traitor_alone = "Vous n'avez pas d'amis {traitors} ce round.\n\nTuez tous les autres pour gagner !"
@@ -1057,7 +1068,10 @@ L.name_kick = "Un joueur a été automatiquement expulsé pour avoir changé son
 L.newton_desc = "Pousse les gens à une distance de sécurité.\n\nMunitions illimitées, mais lent à tirer."
 L.newton_name = "Lanceur de Newton"
 L.next = "Suivant"
+L.outlaw_dna = "Impossible de vérifier la source de l'ADN ! Échantillon jeté."
 L.overtime = "PROLONGATIONS"
+L.p90_desc = "SMG à tir extrêmement rapide.\nLivré avec une lunette montée."
+L.p90_name = "P90"
 L.pap_desc = "Améliore votre arme tenue!\n\nTenez l'arme que vous souhaitez améliorer entre vos mains, puis achetez cet objet!"
 L.pap_name = "Emballez un coup de poing"
 L.pharaoh_stealing = "VOL EN COURS"
@@ -1524,6 +1538,10 @@ L.shotgun_name = "Fusil à pompe"
 L.sibling_targetid = "VOTRE FRÈRE/SŒUR"
 L.sipistol_desc = "Pistolet bas bruit, utilise des munitions\nde pistolet normales.\n\nLes victimes ne crieront pas quand tuées."
 L.sipistol_name = "Pistolet Silencieux"
+L.slam_desc = "Une mine qui peut être détonée manuellement\nou collée sur un mur comme mine de déclenchement.\n\nNOTE : Peut être tirée et détruite par tout le monde."
+L.slam_disarmed = "Une SLAM que vous avez plantée a été désamorcée."
+L.slam_full = "Vous ne pouvez actuellement pas transporter de SLAM."
+L.slam_name = "SLAM M4"
 L.something = "quelque chose"
 L.soulbindingdevice_help_pri = "Maintenez {primaryfire} sur un cadavre pour le convertir en âme liée."
 L.spec_help = "Cliquez pour observer un joueur, ou {usekey} sur un objet physique pour le posséder."
@@ -1600,6 +1618,9 @@ L.thief_credits_hud = "Crédits actuels : {credits}"
 L.thief_steal_notify = "Vous avez volé \"{item}\" à {victim} !"
 L.timestop_desc = "Une seconde... Deux secondes...\n"
 L.timestop_name = "Arrêt du temps"
+L.tinkerer_charge_title = "CHARGE"
+L.tinkererupgrade_help_pri = "Approchez-vous d'un joueur et maintenez {primaryfire} pour Pack-a-Punch son objet actuel."
+L.tinkererupgrade_help_sec = "L'appareil doit se recharger entre les utilisations."
 L.tip1 = "Les traitres peuvent fouillez un corps silencieusement, sans confirmer la mort, en maintenant {walkkey} et en pressant {usekey} sur le corps."
 L.tip10 = "Traitre ou Détective, gardez à l’œil les messages rouges en haut à droite. Ils sont importants pour vous."
 L.tip11 = "Traitre ou Détective, gardez en tête que vous récompensés de crédits d'équipement si vos camarades et vous vous débrouillez bien. Assurez-vous de les dépenser !"
@@ -1669,6 +1690,8 @@ L.ttt_ap_vector_hudhelp1 = "La cadence de tir de cette arme ralentit et elle dev
 L.ttt_ap_vector_hudhelp2 = "plus précis pendant les tirs prolongés."
 L.ttt_pp_rbull_hudhelp1 = "Les dégâts et la cadence de tir de cette arme augmentent"
 L.ttt_pp_rbull_hudhelp2 = "à mesure que la santé de l'utilisateur diminue."
+L.ttt_r8revolver_tip1 = "Maintenez {primaryfire} pour tirer en double action (Lent mais précis)"
+L.ttt_r8revolver_tip2 = "Tapotez {secondaryfire} pour éventailler le chien (Rapide mais imprécis)"
 L.ttt_rp_railgun_hudhelp3 = "Maintenez {primaryfire} pour charger et relâchez pour tirer. Plus vous chargez longtemps, plus vous infligez de dégâts. Charger le Fusil à Tuer Gratuit trop longtemps le fera exploser !"
 L.ttt_rp_railgun_hudhelp4 = "Tuer un allié avec le Fusil à Tuer Gratuit n'entraîne aucune pénalité de karma -- mais les autres peuvent aussi vous tuer sans pénalité de karma quand vous le portez !"
 L.ttt_silentkiller_hudhelp1 = "Tueur silencieux :"
@@ -1823,7 +1846,7 @@ concommand.Add("ttt_randomat_french_missing_translations", function()
     local missingTranslations = {}
 
     for id, text in pairs(LANG.GetLanguageTable("english")) do
-        if not translationIDs[id] then
+        if not translationIDs[id] and text ~= "" then
             print(id)
             missingTranslations[id] = text
         end
@@ -1835,7 +1858,7 @@ concommand.Add("ttt_randomat_french_missing_translations", function()
 
     for key, translation in SortedPairs(L) do
         -- TTT adds some nonsense into the language table by default...
-        if key == "language_name" or key == "" then continue end
+        if key == "language_name" or key == "" or translation == "" then continue end
         -- Double-escape backslashes \\, double quotes \", and newlines \n a second time, else they will literally appear in the text file
         -- We want to copy-paste the output back into the script as-is
         -- Yeah this is pretty hard to read... Hope your IDE has Lua string colouring!

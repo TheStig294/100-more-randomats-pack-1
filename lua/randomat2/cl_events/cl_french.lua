@@ -111,8 +111,26 @@ net.Receive("FrenchRandomatBegin", function()
     -- Renaming roles
     local roleIdToGlobalName = {}
 
-    for name, value in pairs(_G) do
-        if not isstring(name) or not isnumber(value) or not string.StartsWith(name, "ROLE_") then continue end
+    -- The "^ROLE_%u+$" search isn't perfect and picks up some non-role globals to translate
+    local ignoredGlobals = {
+        -- Role global value marker for looping purposes
+        ROLE_MAX = true,
+        -- A genuine role global, but a super old depreciated one that's just coming from the randomat...
+        ROLE_DETRAITOR = true,
+    }
+
+    if debugPrint then
+        print("=====Role Globals=====")
+    end
+
+    for name, value in SortedPairs(_G) do
+        -- No role global name has more than one "_" underscore in its name, which is what the "^ROLE_%u+$" pattern is searching for...
+        if not isstring(name) or not isnumber(value) or ignoredGlobals[name] or not string.find(name, "^ROLE_%u+$") then continue end
+
+        if debugPrint then
+            print(name)
+        end
+
         roleIdToGlobalName[value] = name
     end
 
@@ -169,6 +187,7 @@ net.Receive("FrenchRandomatBegin", function()
 
     -- Role Strings --
     AddTranslation("Administrateur", ROLE_ADMIN)
+    AddTranslation("Annonceur", ROLE_ANNOUNCER)
     AddTranslation("Marchand d'Armes", ROLE_ARMSDEALER)
     AddTranslation("Incendiaire", ROLE_ARSONIST)
     AddTranslation("Assassin", ROLE_ASSASSIN)
@@ -177,6 +196,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Mendiant", ROLE_BEGGAR)
     AddTranslation("Homme BLEU", ROLE_BLUMANN)
     AddTranslation("Voleur de Corps", ROLE_BODYSNATCHER)
+    AddTranslation("Chasseur de Primes", ROLE_BOUNTYHUNTER)
     AddTranslation("Boxeur", ROLE_BOXER)
     AddTranslation("Bouton", ROLE_BUTTON)
     AddTranslation("Cannibale", ROLE_CANNIBAL)
@@ -184,12 +204,12 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Cloner", ROLE_CLONE)
     AddTranslation("Clown", ROLE_CLOWN)
     AddTranslation("Communiste", ROLE_COMMUNIST)
-    AddTranslation("Traitre", ROLE_CONVAR_TYPE_BOOL)
     AddTranslation("Cupidon", ROLE_CUPID)
     AddTranslation("Adjoint", ROLE_DEPUTY)
+    AddTranslation("Détective", ROLE_DETECTIVE)
     AddTranslation("Détective Clown", ROLE_DETECTOCLOWN)
-    AddTranslation("Aucune", ROLE_DETRAITOR)
     AddTranslation("Médecin", ROLE_DOCTOR)
+    AddTranslation("Serviteur de L'effroi", ROLE_DREADTHRALL)
     AddTranslation("Ivre", ROLE_DRUNK)
     AddTranslation("Élémentaliste", ROLE_ELEMENTALIST)
     AddTranslation("Elfe", ROLE_ELF)
@@ -199,6 +219,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Joueur", ROLE_GAMER)
     AddTranslation("Chuchoteur Fantôme", ROLE_GHOSTWHISPERER)
     AddTranslation("Problème", ROLE_GLITCH)
+    AddTranslation("Bon Chien", ROLE_GOODBOY)
     AddTranslation("Bon Jumeau", ROLE_GOODTWIN)
     AddTranslation("Devineur", ROLE_GUESSER)
     AddTranslation("Ermite", ROLE_HERMIT)
@@ -223,6 +244,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Missionnaire", ROLE_MISSIONARY)
     AddTranslation("Moine", ROLE_MONK)
     AddTranslation("Vieil Homme", ROLE_OLDMAN)
+    AddTranslation("Hors-la-loi", ROLE_OUTLAW)
     AddTranslation("Paladin", ROLE_PALADIN)
     AddTranslation("Paramédical", ROLE_PARAMEDIC)
     AddTranslation("Parasite", ROLE_PARASITE)
@@ -232,6 +254,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Piñata", ROLE_PINATA)
     AddTranslation("Maître de la Peste", ROLE_PLAGUEMASTER)
     AddTranslation("Empoisonneur", ROLE_POISONER)
+    AddTranslation("Opossum", ROLE_POSSUM)
     AddTranslation("Marionnettiste", ROLE_PUPPETEER)
     AddTranslation("Charlatan", ROLE_QUACK)
     AddTranslation("Intendante", ROLE_QUARTERMASTER)
@@ -246,17 +269,20 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Sapeur", ROLE_SAPPER)
     AddTranslation("Éclaireur", ROLE_SCOUT)
     AddTranslation("Ombre", ROLE_SHADOW)
+    AddTranslation("Shérif", ROLE_SHERIFF)
     AddTranslation("Fratrie", ROLE_SIBLING)
     AddTranslation("Lié à L'âme", ROLE_SOULBOUND)
     AddTranslation("Âme Soeur", ROLE_SOULMAGE)
     AddTranslation("Éponge", ROLE_SPONGE)
     AddTranslation("Espionner", ROLE_SPY)
+    AddTranslation("Invocateur", ROLE_SUMMONER)
+    AddTranslation("Échangeur", ROLE_SWAPPER)
     AddTranslation("Maître des Tâches", ROLE_TASKMASTER)
     AddTranslation("Taxidermiste", ROLE_TAXIDERMIST)
-    AddTranslation("Détective", ROLE_TEAM_JESTER)
-    AddTranslation("Échangeur", ROLE_TEAM_MONSTER)
     AddTranslation("Voleur", ROLE_THIEF)
+    AddTranslation("Bricoleur", ROLE_TINKERER)
     AddTranslation("Traqueur", ROLE_TRACKER)
+    AddTranslation("Traitre", ROLE_TRAITOR)
     AddTranslation("Filou", ROLE_TRICKSTER)
     AddTranslation("Transfuge", ROLE_TURNCOAT)
     AddTranslation("Vampire", ROLE_VAMPIRE)
@@ -278,14 +304,16 @@ net.Receive("FrenchRandomatBegin", function()
     table.Empty(translatedRoles)
     -- Role Strings Extended --
     AddTranslation("Un Administrateur", ROLE_ADMIN)
+    AddTranslation("Un Annonceur", ROLE_ANNOUNCER)
     AddTranslation("Un Marchand d'Armes", ROLE_ARMSDEALER)
     AddTranslation("Un Incendiaire", ROLE_ARSONIST)
     AddTranslation("Un Assassin", ROLE_ASSASSIN)
     AddTranslation("Un Imitateur de Baril", ROLE_BARRELMIMIC)
-    AddTranslation("Un Abeille", ROLE_BEE)
+    AddTranslation("Une Abeille", ROLE_BEE)
     AddTranslation("Un Mendiant", ROLE_BEGGAR)
     AddTranslation("Un Homme BLEU", ROLE_BLUMANN)
     AddTranslation("Un Voleur de Corps", ROLE_BODYSNATCHER)
+    AddTranslation("Un Chasseur de Primes", ROLE_BOUNTYHUNTER)
     AddTranslation("Un Boxeur", ROLE_BOXER)
     AddTranslation("Un Bouton", ROLE_BUTTON)
     AddTranslation("Un Cannibale", ROLE_CANNIBAL)
@@ -293,12 +321,12 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Un Cloner", ROLE_CLONE)
     AddTranslation("Un Clown", ROLE_CLOWN)
     AddTranslation("Un Communiste", ROLE_COMMUNIST)
-    AddTranslation("Un Traitre", ROLE_CONVAR_TYPE_BOOL)
     AddTranslation("Un Cupidon", ROLE_CUPID)
     AddTranslation("Un Adjoint", ROLE_DEPUTY)
+    AddTranslation("Un Détective", ROLE_DETECTIVE)
     AddTranslation("Un Détective Clown", ROLE_DETECTOCLOWN)
-    AddTranslation("Un Aucune", ROLE_DETRAITOR)
     AddTranslation("Un Médecin", ROLE_DOCTOR)
+    AddTranslation("Un Serviteur de L'effroi", ROLE_DREADTHRALL)
     AddTranslation("Un Ivre", ROLE_DRUNK)
     AddTranslation("Un Élémentaliste", ROLE_ELEMENTALIST)
     AddTranslation("Un Elfe", ROLE_ELF)
@@ -308,6 +336,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Un Joueur", ROLE_GAMER)
     AddTranslation("Un Chuchoteur Fantôme", ROLE_GHOSTWHISPERER)
     AddTranslation("Un Problème", ROLE_GLITCH)
+    AddTranslation("Un Bon Chien", ROLE_GOODBOY)
     AddTranslation("Un Bon Jumeau", ROLE_GOODTWIN)
     AddTranslation("Un Devineur", ROLE_GUESSER)
     AddTranslation("Un Ermite", ROLE_HERMIT)
@@ -318,7 +347,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Un Imitateur", ROLE_IMPERSONATOR)
     AddTranslation("Un Infecté", ROLE_INFECTED)
     AddTranslation("Un Informateur", ROLE_INFORMANT)
-    AddTranslation("Un Innocente", ROLE_INNOCENT)
+    AddTranslation("Une Innocente", ROLE_INNOCENT)
     AddTranslation("Un Bouffon", ROLE_JESTER)
     AddTranslation("Un Kévin", ROLE_KEVIN)
     AddTranslation("Un Tueur", ROLE_KILLER)
@@ -326,58 +355,64 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Un Butin Gobelin", ROLE_LOOTGOBLIN)
     AddTranslation("Un Scientifique Fou", ROLE_MADSCIENTIST)
     AddTranslation("Un Maréchal", ROLE_MARSHAL)
-    AddTranslation("Un Voyante", ROLE_MEDIUM)
+    AddTranslation("Une Voyante", ROLE_MEDIUM)
     AddTranslation("Un Mercenaire", ROLE_MERCENARY)
     AddTranslation("Un Gobelin Mental", ROLE_MINDGOBLIN)
     AddTranslation("Un Missionnaire", ROLE_MISSIONARY)
     AddTranslation("Un Moine", ROLE_MONK)
+    AddTranslation("Un rôle caché", ROLE_NONE)
     AddTranslation("Un Vieil Homme", ROLE_OLDMAN)
+    AddTranslation("Un Hors-la-loi", ROLE_OUTLAW)
     AddTranslation("Un Paladin", ROLE_PALADIN)
     AddTranslation("Un Paramédical", ROLE_PARAMEDIC)
     AddTranslation("Un Parasite", ROLE_PARASITE)
     AddTranslation("Un Fantôme", ROLE_PHANTOM)
     AddTranslation("Un Pharaon", ROLE_PHARAOH)
     AddTranslation("Un Clinicien", ROLE_PHYSICIAN)
-    AddTranslation("Un Piñata", ROLE_PINATA)
+    AddTranslation("Une Piñata", ROLE_PINATA)
     AddTranslation("Un Maître de la Peste", ROLE_PLAGUEMASTER)
     AddTranslation("Un Empoisonneur", ROLE_POISONER)
+    AddTranslation("Un Opossum", ROLE_POSSUM)
     AddTranslation("Un Marionnettiste", ROLE_PUPPETEER)
     AddTranslation("Un Charlatan", ROLE_QUACK)
-    AddTranslation("Un Intendante", ROLE_QUARTERMASTER)
-    AddTranslation("Un Reine Des Abeilles", ROLE_QUEENBEE)
+    AddTranslation("Une Intendante", ROLE_QUARTERMASTER)
+    AddTranslation("Une Reine Des Abeilles", ROLE_QUEENBEE)
     AddTranslation("Un Homme Aléatoire", ROLE_RANDOMAN)
     AddTranslation("Un Échangeur Aléatoire", ROLE_RANDOSWAPPER)
     AddTranslation("Un Homme ROUGE", ROLE_REDMANN)
-    AddTranslation("Un Renégate", ROLE_RENEGADE)
+    AddTranslation("Une Renégate", ROLE_RENEGADE)
     AddTranslation("Un Vengeur", ROLE_REVENGER)
     AddTranslation("Un Gardien du Coffre", ROLE_SAFEKEEPER)
     AddTranslation("Un Père Noël", ROLE_SANTA)
     AddTranslation("Un Sapeur", ROLE_SAPPER)
     AddTranslation("Un Éclaireur", ROLE_SCOUT)
-    AddTranslation("Un Ombre", ROLE_SHADOW)
-    AddTranslation("Un Fratrie", ROLE_SIBLING)
+    AddTranslation("Une Ombre", ROLE_SHADOW)
+    AddTranslation("Un Shérif", ROLE_SHERIFF)
+    AddTranslation("Une Fratrie", ROLE_SIBLING)
     AddTranslation("Un Lié à L'âme", ROLE_SOULBOUND)
-    AddTranslation("Un Âme Soeur", ROLE_SOULMAGE)
-    AddTranslation("Un Éponge", ROLE_SPONGE)
+    AddTranslation("Une Âme Soeur", ROLE_SOULMAGE)
+    AddTranslation("Une Éponge", ROLE_SPONGE)
     AddTranslation("Un Espionner", ROLE_SPY)
+    AddTranslation("Un Invocateur", ROLE_SUMMONER)
+    AddTranslation("Un Échangeur", ROLE_SWAPPER)
     AddTranslation("Un Maître des Tâches", ROLE_TASKMASTER)
     AddTranslation("Un Taxidermiste", ROLE_TAXIDERMIST)
-    AddTranslation("Un Détective", ROLE_TEAM_JESTER)
-    AddTranslation("Un Échangeur", ROLE_TEAM_MONSTER)
     AddTranslation("Un Voleur", ROLE_THIEF)
+    AddTranslation("Un Bricoleur", ROLE_TINKERER)
     AddTranslation("Un Traqueur", ROLE_TRACKER)
+    AddTranslation("Un Traitre", ROLE_TRAITOR)
     AddTranslation("Un Filou", ROLE_TRICKSTER)
     AddTranslation("Un Transfuge", ROLE_TURNCOAT)
     AddTranslation("Un Vampire", ROLE_VAMPIRE)
     AddTranslation("Un Vétéran", ROLE_VETERAN)
     AddTranslation("Un Justicier", ROLE_VINDICATOR)
     AddTranslation("Un Loup-Garou", ROLE_WEREWOLF)
-    AddTranslation("Un Baleine Détective", ROLE_WHALEDETECTIVE)
-    AddTranslation("Un Baleine Indépendant", ROLE_WHALEINDEPENDENT)
-    AddTranslation("Un Baleine Innocente", ROLE_WHALEINNOCENT)
-    AddTranslation("Un Baleine Bouffon", ROLE_WHALEJESTER)
-    AddTranslation("Un Baleine Monstre", ROLE_WHALEMONSTER)
-    AddTranslation("Un Baleine Traitre", ROLE_WHALETRAITOR)
+    AddTranslation("Une Baleine Détective", ROLE_WHALEDETECTIVE)
+    AddTranslation("Une Baleine Indépendant", ROLE_WHALEINDEPENDENT)
+    AddTranslation("Une Baleine Innocente", ROLE_WHALEINNOCENT)
+    AddTranslation("Une Baleine Bouffon", ROLE_WHALEJESTER)
+    AddTranslation("Une Baleine Monstre", ROLE_WHALEMONSTER)
+    AddTranslation("Une Baleine Traitre", ROLE_WHALETRAITOR)
     AddTranslation("Un Garçon de la Roue", ROLE_WHEELBOY)
     AddTranslation("Un Yéti", ROLE_YETI)
     AddTranslation("Un Yorkshireman", ROLE_YORKSHIREMAN)
@@ -387,6 +422,7 @@ net.Receive("FrenchRandomatBegin", function()
     table.Empty(translatedRoles)
     -- Role Strings Plural --
     AddTranslation("Administrateurs", ROLE_ADMIN)
+    AddTranslation("Annonceurs", ROLE_ANNOUNCER)
     AddTranslation("Marchands d'Armes", ROLE_ARMSDEALER)
     AddTranslation("Incendiaires", ROLE_ARSONIST)
     AddTranslation("Assassins", ROLE_ASSASSIN)
@@ -395,6 +431,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Mendiants", ROLE_BEGGAR)
     AddTranslation("Hommes BLEUS", ROLE_BLUMANN)
     AddTranslation("Voleurs de Corps", ROLE_BODYSNATCHER)
+    AddTranslation("Chasseurs de Primes", ROLE_BOUNTYHUNTER)
     AddTranslation("Boxeurs", ROLE_BOXER)
     AddTranslation("Boutons", ROLE_BUTTON)
     AddTranslation("Cannibales", ROLE_CANNIBAL)
@@ -402,12 +439,12 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Cloners", ROLE_CLONE)
     AddTranslation("Clowns", ROLE_CLOWN)
     AddTranslation("Communistes", ROLE_COMMUNIST)
-    AddTranslation("Traitres", ROLE_CONVAR_TYPE_BOOL)
     AddTranslation("Cupidons", ROLE_CUPID)
     AddTranslation("Adjoints", ROLE_DEPUTY)
+    AddTranslation("Détectives", ROLE_DETECTIVE)
     AddTranslation("Clowns Détectives", ROLE_DETECTOCLOWN)
-    AddTranslation("Aucunes", ROLE_DETRAITOR)
     AddTranslation("Médecins", ROLE_DOCTOR)
+    AddTranslation("Serviteurs de L'effroi", ROLE_DREADTHRALL)
     AddTranslation("Ivres", ROLE_DRUNK)
     AddTranslation("Élémentalistes", ROLE_ELEMENTALIST)
     AddTranslation("Elfes", ROLE_ELF)
@@ -417,6 +454,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Les joueurs", ROLE_GAMER)
     AddTranslation("Chuchoteurs de Fantômes", ROLE_GHOSTWHISPERER)
     AddTranslation("Problèmes", ROLE_GLITCH)
+    AddTranslation("Bons Chiens", ROLE_GOODBOY)
     AddTranslation("Bons Jumeaux", ROLE_GOODTWIN)
     AddTranslation("Devineurs", ROLE_GUESSER)
     AddTranslation("Ermites", ROLE_HERMIT)
@@ -441,6 +479,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Missionnaires", ROLE_MISSIONARY)
     AddTranslation("Moines", ROLE_MONK)
     AddTranslation("Vieux Hommes", ROLE_OLDMAN)
+    AddTranslation("Hors-la-loi", ROLE_OUTLAW)
     AddTranslation("Paladins", ROLE_PALADIN)
     AddTranslation("Paramédicals", ROLE_PARAMEDIC)
     AddTranslation("Parasites", ROLE_PARASITE)
@@ -450,6 +489,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Piñatas", ROLE_PINATA)
     AddTranslation("Maîtres de la Peste", ROLE_PLAGUEMASTER)
     AddTranslation("Empoisonneurs", ROLE_POISONER)
+    AddTranslation("Opossums", ROLE_POSSUM)
     AddTranslation("Marionnettistes", ROLE_PUPPETEER)
     AddTranslation("Charlatans", ROLE_QUACK)
     AddTranslation("Intendantes", ROLE_QUARTERMASTER)
@@ -464,17 +504,20 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Sapeurs", ROLE_SAPPER)
     AddTranslation("Éclaireurs", ROLE_SCOUT)
     AddTranslation("Ombres", ROLE_SHADOW)
+    AddTranslation("Shérifs", ROLE_SHERIFF)
     AddTranslation("Fratries", ROLE_SIBLING)
     AddTranslation("Limites de L'âme", ROLE_SOULBOUND)
     AddTranslation("Mages D'âme", ROLE_SOULMAGE)
     AddTranslation("Éponges", ROLE_SPONGE)
     AddTranslation("Espionners", ROLE_SPY)
+    AddTranslation("Invocateurs", ROLE_SUMMONER)
+    AddTranslation("Échangeurs", ROLE_SWAPPER)
     AddTranslation("Maîtres des Tâches", ROLE_TASKMASTER)
     AddTranslation("Taxidermistes", ROLE_TAXIDERMIST)
-    AddTranslation("Détectives", ROLE_TEAM_JESTER)
-    AddTranslation("Échangeurs", ROLE_TEAM_MONSTER)
     AddTranslation("Voleurs", ROLE_THIEF)
+    AddTranslation("Bricoleurs", ROLE_TINKERER)
     AddTranslation("Traqueurs", ROLE_TRACKER)
+    AddTranslation("Traitres", ROLE_TRAITOR)
     AddTranslation("Filous", ROLE_TRICKSTER)
     AddTranslation("Transfuges", ROLE_TURNCOAT)
     AddTranslation("Vampires", ROLE_VAMPIRE)
@@ -786,6 +829,9 @@ net.Receive("FrenchRandomatBegin", function()
             
             Clic gauche: modifiez la cause du décès.]]
         },
+        doi_mg42 = {
+            name = "MG42"
+        },
         doncmk2_swep = {
             name = "Donconnon Mark Deux",
             desc = [[Tire une tête MASSIVE qui vole à travers les murs.
@@ -819,6 +865,14 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[La 1ère arme blague que vous achetez est gratuite !
 
             Aveuglez temporairement quelqu'un en le pointant devant son visage.]]
+        },
+        maclunkey = {
+            name = "Maclunkey",
+            desc = [[N'inflige aucun dégât avec d'autres armes tant que vous portez ceci sur vous.
+
+    A un coup qui tue instantanément mais met du temps à être dégainé.
+
+    Peut être lâché pour infliger à nouveau des dégâts avec d'autres armes.]]
         },
         manipulator = {
             name = "Changeur de Gravité",
@@ -993,6 +1047,10 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Le Pistolet de Noël",
             desc = [[Tirez des cadeaux qui tuent d'un seul coup]]
         },
+        thw_swep = {
+            name = "Thwomp",
+            desc = [[Description !]]
+        },
         ttt_backwards_shotgun = {
             name = "Fusil à Pompe à L'envers",
             desc = [[La première arme blague que vous achetez une cartouche est gratuite!
@@ -1024,6 +1082,10 @@ net.Receive("FrenchRandomatBegin", function()
         ttt_pap_groovitron = {
             name = "Groovitron",
             desc = [[Force les joueurs à proximité à danser !]]
+        },
+        ttt_pap_jam = {
+            name = "Confiture",
+            desc = [[Un pot de confiture. Ne fait rien...]]
         },
         ttt_pap_remove_tool = {
             name = "Outil de Suppression"
@@ -1194,12 +1256,33 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Invoque un Doncombine hostile à quiconque
             pas dans l'équipe des traîtres]]
         },
+        weapon_dp = {
+            name = "DP-28"
+        },
+        weapon_dr2_remote = {
+            name = "Contrôleur de Drone",
+            desc = [[Contrôle un drone de reconnaissance qui tire des missiles. Clic gauche
+    pour déployer/récupérer le drone, clic droit pour basculer le
+    contrôle. Le drone vole en utilisant WASD, sauter/s'accroupir
+    change l'altitude, clic gauche pour tirer un missile.
+    Le drone régénère passivement sa santé et ses munitions.]]
+        },
         weapon_dubstepgun = {
             name = "Pistolet Dubstep",
             desc = [[Maintenez le clic gauche pour tirer des lasers musicaux qui infligent beaucoup de dégâts!]]
         },
+        weapon_enderpearl = {
+            name = "Perle de l'Ender",
+            desc = [[Vous savez ce que ça fait.]]
+        },
+        weapon_enfield_4 = {
+            name = "Lee Enfield No.4"
+        },
         weapon_fartgrenade = {
             name = "Grenade à Pet"
+        },
+        weapon_fg42 = {
+            name = "FG-42"
         },
         weapon_fireaxe = {
             name = "Hache D'incendie"
@@ -1209,6 +1292,9 @@ net.Receive("FrenchRandomatBegin", function()
         },
         weapon_fre_baguette = {
             name = "Baguette"
+        },
+        weapon_gewehr43 = {
+            name = "Gewehr 43"
         },
         weapon_gmr_cheeto_fingers = {
             name = "Doigts de Cheetos"
@@ -1221,6 +1307,13 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Gnome vos copains avec la nouvelle grenade explosive « Youve been Gnomed ».
 
             Vous avez été Gnomed!]]
+        },
+        weapon_guardiansummoner = {
+            name = "Invocateur de Garde",
+            desc = [[Invoque un Gardien Fourmilion :
+    Un grand fourmilion qui attaque avec du poison
+    et invoque des fourmilions plus petits à
+    son aide.]]
         },
         weapon_gue_guesser = {
             name = "Devineur de Rôle"
@@ -1248,14 +1341,41 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_kra_carry = {
             name = "Griffes Saisissantes"
         },
+        weapon_lee = {
+            name = "Lee Enfield No.2"
+        },
         weapon_long_revolver = {
             name = "Revolver Longue",
             desc = [[La 1ère arme blague que vous achetez est gratuite !
 
             Un revolver ridiculement long.]]
         },
+        weapon_luger = {
+            name = "Luger"
+        },
         weapon_m3 = {
             name = "Pistolet Graisseur M3"
+        },
+        weapon_m9k_1887winchester = {
+            name = "Winchester 1887"
+        },
+        weapon_m9k_1897winchester = {
+            name = "Winchester 1897"
+        },
+        weapon_m9k_acr = {
+            name = "ACR"
+        },
+        weapon_m9k_ak47 = {
+            name = "AK-47"
+        },
+        weapon_m9k_ak74 = {
+            name = "AK-74"
+        },
+        weapon_m9k_amd65 = {
+            name = "AMD-65"
+        },
+        weapon_m9k_an94 = {
+            name = "AN-94"
         },
         weapon_m9k_ares_shrike = {
             name = "Pie-grièche D'Arès"
@@ -1263,14 +1383,119 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_m9k_auga3 = {
             name = "Steyr AOÛT A3"
         },
+        weapon_m9k_aw50 = {
+            name = "AW-50"
+        },
+        weapon_m9k_barret_m82 = {
+            name = "Barrett M82"
+        },
+        weapon_m9k_bizonp19 = {
+            name = "Bizon PP19"
+        },
+        weapon_m9k_browningauto5 = {
+            name = "Browning Auto 5"
+        },
+        weapon_m9k_colt1911 = {
+            name = "Colt 1911"
+        },
+        weapon_m9k_coltpython = {
+            name = "Colt Python"
+        },
+        weapon_m9k_contender = {
+            name = "Thompson G2"
+        },
         weapon_m9k_dbarrel = {
             name = "Double Baril"
         },
         weapon_m9k_deagle = {
             name = "Aigle du Désert .40"
         },
+        weapon_m9k_dragunov = {
+            name = "SVD Dragounov"
+        },
+        weapon_m9k_f2000 = {
+            name = "FN F2000"
+        },
+        weapon_m9k_fal = {
+            name = "FN FAL"
+        },
+        weapon_m9k_famas = {
+            name = "FAMAS"
+        },
+        weapon_m9k_fg42 = {
+            name = "FG 42"
+        },
+        weapon_m9k_g36c = {
+            name = "G36C"
+        },
+        weapon_m9k_g3a3 = {
+            name = "HK G3A3"
+        },
+        weapon_m9k_glock = {
+            name = "Glock 18"
+        },
+        weapon_m9k_hk45 = {
+            name = "HK45C"
+        },
+        weapon_m9k_honeybadger = {
+            name = "AAC H-Badger"
+        },
         weapon_m9k_intervention = {
             name = "Intervention"
+        },
+        weapon_m9k_ithacam37 = {
+            name = "Ithaca M37"
+        },
+        weapon_m9k_jackhammer = {
+            name = "MK3A1"
+        },
+        weapon_m9k_kac_pdw = {
+            name = "KAC PDW"
+        },
+        weapon_m9k_l85 = {
+            name = "L85"
+        },
+        weapon_m9k_luger = {
+            name = "P08 Luger"
+        },
+        weapon_m9k_m14sp = {
+            name = "M14"
+        },
+        weapon_m9k_m16a4_acog = {
+            name = "M16A4 ACOG"
+        },
+        weapon_m9k_m1918bar = {
+            name = "M1918 BAR"
+        },
+        weapon_m9k_m24 = {
+            name = "M24"
+        },
+        weapon_m9k_m249lmg = {
+            name = "M249 LMG"
+        },
+        weapon_m9k_m29satan = {
+            name = "M29 Satan"
+        },
+        weapon_m9k_m3 = {
+            name = "Benelli M3"
+        },
+        weapon_m9k_m416 = {
+            name = "HK 416"
+        },
+        weapon_m9k_m4a1 = {
+            name = "M4A1"
+        },
+        weapon_m9k_m60 = {
+            name = "M60"
+        },
+        weapon_m9k_m92beretta = {
+            name = "M92 Beretta"
+        },
+        weapon_m9k_m98b = {
+            name = "Barrett M98B"
+        },
+        weapon_m9k_magpulpdr = {
+            name = "Magpul PDR"
         },
         weapon_m9k_model3russian = {
             name = "Modèle S&W 3"
@@ -1278,8 +1503,41 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_m9k_model627 = {
             name = "Modèle S&W 627"
         },
+        weapon_m9k_mossberg590 = {
+            name = "Mossberg 590"
+        },
+        weapon_m9k_mp40 = {
+            name = "MP40"
+        },
+        weapon_m9k_mp5 = {
+            name = "HK MP5"
+        },
+        weapon_m9k_mp5sd = {
+            name = "HK MP5SD"
+        },
+        weapon_m9k_mp7 = {
+            name = "HK MP7"
+        },
+        weapon_m9k_mp9 = {
+            name = "MP9"
+        },
+        weapon_m9k_pkm = {
+            name = "PKM"
+        },
+        weapon_m9k_psg1 = {
+            name = "PSG-1"
+        },
         weapon_m9k_ragingbull = {
             name = "Taureau Furieux"
+        },
+        weapon_m9k_remington1858 = {
+            name = "Remington 1858"
+        },
+        weapon_m9k_remington7615p = {
+            name = "Remington 7615P"
+        },
+        weapon_m9k_remington870 = {
+            name = "Remington 870"
         },
         weapon_m9k_scar = {
             name = "CICATRICE-H"
@@ -1287,14 +1545,53 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_m9k_scoped_taurus = {
             name = "Porté Taureau Furieux"
         },
+        weapon_m9k_sig_p229r = {
+            name = "SIG Sauer P229R"
+        },
+        weapon_m9k_sl8 = {
+            name = "HK SL8"
+        },
+        weapon_m9k_smgp90 = {
+            name = "FN P90"
+        },
+        weapon_m9k_spas12 = {
+            name = "SPAS 12"
+        },
+        weapon_m9k_sten = {
+            name = "STEN"
+        },
         weapon_m9k_striker12 = {
             name = "Attaquant 12"
+        },
+        weapon_m9k_svt40 = {
+            name = "SVT 40"
+        },
+        weapon_m9k_svu = {
+            name = "Dragounov SVU"
+        },
+        weapon_m9k_tar21 = {
+            name = "TAR-21"
+        },
+        weapon_m9k_tec9 = {
+            name = "TEC-9"
         },
         weapon_m9k_thompson = {
             name = "Mitraillette"
         },
+        weapon_m9k_ump45 = {
+            name = "HK UMP45"
+        },
         weapon_m9k_usas = {
             name = "États-Unis"
+        },
+        weapon_m9k_usc = {
+            name = "HK USC"
+        },
+        weapon_m9k_usp = {
+            name = "HK USP"
+        },
+        weapon_m9k_uzi = {
+            name = "UZI"
         },
         weapon_m9k_val = {
             name = "COMME VAL"
@@ -1304,6 +1601,9 @@ net.Receive("FrenchRandomatBegin", function()
         },
         weapon_m9k_vikhr = {
             name = "SR-3M Vikhr"
+        },
+        weapon_m9k_winchester73 = {
+            name = "Winchester '73"
         },
         weapon_mad_zombificator = {
             name = "Dispositif de Zombification",
@@ -1321,6 +1621,10 @@ net.Receive("FrenchRandomatBegin", function()
         },
         weapon_mhl_badge = {
             name = "Insigne D'adjoint"
+        },
+        weapon_minigun = {
+            name = "Minigun",
+            desc = [[Le Choix D'arme de Rambo]]
         },
         weapon_mis_proselytizer = {
             name = "Prosélytiseur"
@@ -1364,6 +1668,9 @@ net.Receive("FrenchRandomatBegin", function()
         },
         weapon_pp_remington = {
             name = "Remington 1858"
+        },
+        weapon_ppsh41 = {
+            name = "PPSH-41"
         },
         weapon_prop_blaster = {
             name = "Blaster à Accessoires",
@@ -1410,6 +1717,20 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Un piège à poser au sol.
             Peut être ramassé avec un bâton magnéto...]]
         },
+        weapon_sharkulonsummoner = {
+            name = "Invocateur de Sharkulon",
+            desc = [[Invoque un Sharkulon, un drone tueur
+    rapide en forme de requin
+
+    inflige moins de dégâts aux traîtres]]
+        },
+        weapon_sharxcalibur = {
+            name = "Sharxcalibur",
+            desc = [[Arme de mêlée qui sacrifiera sa vie pour
+    sauver la vôtre si elle est équipée
+
+    Deviendra un projectile après activation]]
+        },
         weapon_shovel = {
             name = "Pelle"
         },
@@ -1443,8 +1764,17 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_stenmk3 = {
             name = "Sten Mark Trois"
         },
+        weapon_svt40 = {
+            name = "SVT-40"
+        },
         weapon_syringegun = {
             name = "Pistolet à Seringue"
+        },
+        weapon_t14nambu = {
+            name = "Type 14 Nambu"
+        },
+        weapon_t38 = {
+            name = "Type 38 Arisaka"
         },
         weapon_taser_derens = {
             name = "Pistolet Paralysant",
@@ -1479,8 +1809,20 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_thr_bonecharm = {
             name = "Charme D'os"
         },
+        weapon_tnk_upgrader = {
+            name = "Appareil D'amélioration"
+        },
+        weapon_tt = {
+            name = "Tokarev TT-33"
+        },
         weapon_ttt_adm_menu = {
             name = "Menu Administrateur"
+        },
+        weapon_ttt_ak47 = {
+            name = "AK47",
+            desc = [[Fusil d'assaut à très haut dégât.
+
+    A un recul très élevé.]]
         },
         weapon_ttt_ak47gold = {
             name = "AK-47 Kadhafi",
@@ -1553,6 +1895,9 @@ net.Receive("FrenchRandomatBegin", function()
 
             Une chauve-souris qui emprisonne ceux que vous frappez dans une cage pendant quelques secondes.]]
         },
+        weapon_ttt_bookquill = {
+            name = "Carnet"
+        },
         weapon_ttt_boom_cat = {
             name = "Chat Boum",
             desc = [[Lancez un chat qui fait boum.]]
@@ -1568,6 +1913,14 @@ net.Receive("FrenchRandomatBegin", function()
             La victime tire au hasard
             puis mourir d'une crise cardiaque
             20 secondes plus tard.]]
+        },
+        weapon_ttt_brain_parasite = {
+            name = "Parasite Cérébral",
+            desc = [[Pistolet silencieux chargé de parasites qui forcent la cible à tirer au hasard.
+
+    Le parasite tue la victime 20 secondes après l'infection.
+
+    1 fléchette.]]
         },
         weapon_ttt_car_gun = {
             name = "Pistolet de Voiture",
@@ -1706,6 +2059,9 @@ net.Receive("FrenchRandomatBegin", function()
             name = "Extincteur",
             desc = [[Vaporisez les traîtres et aveuglez-les]]
         },
+        weapon_ttt_famas = {
+            name = "FAMAS"
+        },
         weapon_ttt_fingergun = {
             name = "Pistolet à Doigt",
             desc = [[BOOM BOOM
@@ -1756,6 +2112,9 @@ net.Receive("FrenchRandomatBegin", function()
             tirer ou faire autre chose.
             
             4 coups]]
+        },
+        weapon_ttt_g3sg1 = {
+            name = "G3SG1"
         },
         weapon_ttt_galil = {
             name = "Galille"
@@ -1822,6 +2181,12 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Un pot de pisse
             Toute personne couverte subira deux fois plus de dégâts]]
         },
+        weapon_ttt_jetpack = {
+            name = "Jetpack",
+            desc = [[Sélectionnez-le et appuyez sur Saut pour vous propulser vers le haut.
+
+    Attention à l'atterrissage.]]
+        },
         weapon_ttt_jetpackspawner = {
             name = "Déployeur Jetpack",
             desc = [[Faites un clic gauche pour déposer un jetpack, appuyez sur 'E' pour l'équiper.]]
@@ -1850,6 +2215,14 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Un pistolet-guitare!
 
             Un fusil musical à dégâts élevés avec des animations et des sons très sympas.]]
+        },
+        weapon_ttt_loudawp = {
+            name = "AWP",
+            desc = [[Fusil de sniper AWP silencieux.
+
+    N'a que deux tirs.
+
+    Les victimes ne crieront pas lorsqu'elles seront tuées.]]
         },
         weapon_ttt_m16 = {
             name = "M16"
@@ -1914,6 +2287,9 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Maintenez le clic gauche pour modifier la quantité de force utilisée.
             Clic droit pour changer les couleurs.]]
         },
+        weapon_ttt_mp5 = {
+            name = "MP5 Navy"
+        },
         weapon_ttt_mud_device_randomat = {
             name = "Appareil D'analyse de Boue"
         },
@@ -1932,6 +2308,15 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Poings mortels d'un seul coup.
 
             Joue de la musique et change de modèle de lecteur dès que vous le tenez!]]
+        },
+        weapon_ttt_p228 = {
+            name = "P228"
+        },
+        weapon_ttt_p90 = {
+            name = "FN P90",
+            desc = [[Pistolet-mitrailleur à tir extrêmement rapide.
+
+    Livré avec une lunette montée.]]
         },
         weapon_ttt_painkillers = {
             name = "Analgésiques",
@@ -1953,8 +2338,19 @@ net.Receive("FrenchRandomatBegin", function()
             
             Faites un clic droit pour vous transformer!]]
         },
+        weapon_ttt_pistol = {
+            name = "USP"
+        },
         weapon_ttt_pistol_randomat = {
             name = "Pistolet à un Coup"
+        },
+        weapon_ttt_poisonturtlenade = {
+            name = "Grenade Tortue Empoisonnée",
+            desc = [[Un projectile qui éclate en plusieurs
+    tortues empoisonnées hostiles à l'impact.
+    Les tortues ne peuvent pas infliger de dégâts létaux,
+    mais elles peuvent faire descendre la santé d'un joueur
+    à un niveau dangereusement bas.]]
         },
         weapon_ttt_popupgun = {
             name = "Pistolet Contextuel",
@@ -2019,6 +2415,10 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_ttt_rdmtrocketsciencelauncher = {
             name = "Lance-Roquettes"
         },
+        weapon_ttt_revolver = {
+            name = "S&W 500",
+            desc = [[Élimine n'importe quel terroriste en un seul coup.]]
+        },
         weapon_ttt_revolver_randomat = {
             name = "Revolver"
         },
@@ -2056,13 +2456,25 @@ net.Receive("FrenchRandomatBegin", function()
     Prudent ! Elle peut exploser dans votre main si vous
     la faites cuire trop longtemps !]]
         },
+        weapon_ttt_sg550 = {
+            name = "SG 550"
+        },
+        weapon_ttt_sg552 = {
+            name = "SG 552"
+        },
         weapon_ttt_shocktrap = {
             name = "Piège à Choc",
             desc = [[template]]
         },
+        weapon_ttt_signedbook = {
+            name = "Livre D'informations"
+        },
         weapon_ttt_slam = {
             name = "CLAQUER",
             desc = [[Allez et claque!]]
+        },
+        weapon_ttt_smg = {
+            name = "MP7"
         },
         weapon_ttt_smg_soulbinding = {
             name = "Dispositif de Lien D'âme"
@@ -2360,6 +2772,9 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_vam_fangs = {
             name = "Crocs",
             desc = [[Faites un clic gauche pour sucer le sang. Cliquez avec le bouton droit pour faire disparaître.]]
+        },
+        weapon_welrod = {
+            name = "Welrod"
         },
         weapon_whl_buffettable = {
             name = "Table Buffet"
