@@ -167,10 +167,10 @@ local function AdjustSegmentX(seg, nextSeg, segX)
             -- If this segment isn't a column and the next segment IS and the first character is narrower than the
             -- column width, then shift it all left a bit so that there isn't a space between this segment and the
             -- top character of the following column
-            segX = (segX + finishedBlockWidth) - (nextSeg.columnWidth - nextSeg.width) / 2
+            segX = (segX + finishedBlockWidth) - ((nextSeg.columnWidth - nextSeg.width) / 2)
         elseif IsVert(seg) and not nextSeg.columnWidth and seg.width < seg.columnWidth then
             -- Same as above but for a column transitioning into a non-column
-            segX = (segX + finishedBlockWidth) - (seg.columnWidth - seg.width) / 2
+            segX = (segX + finishedBlockWidth) - ((seg.columnWidth - seg.width) / 2)
         elseif not (seg.shapeGroup and seg.shapeGroup == nextSeg.shapeGroup and not (nextSeg.ascend or nextSeg.descend)) then
             -- Move segX by the width of what we've just drawn
             segX = segX + finishedBlockWidth

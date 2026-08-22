@@ -184,7 +184,7 @@ hook.Add("TTTHUDInfoPaint", "RandomatEventTrackingHUDInfoPaint", function(client
 
     -- Move this up based on how many other labels there are
     if active_labels then
-        label_top = label_top + 20 * #active_labels
+        label_top = label_top + (20 * #active_labels)
     else
         label_top = label_top + 20
     end

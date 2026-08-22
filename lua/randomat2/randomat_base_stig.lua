@@ -316,7 +316,7 @@ local function TriggerEvent(event, ply, options, ...)
     if should_hide then
         net.WriteString("???")
         net.WriteString("A 'Secret' Event")
-        net.WriteString(options.HiddenMessage or "This event is hidden by '" .. Randomat:GetEventTitle(Randomat.Events["secret"]) .. "'")
+        net.WriteString(options.HiddenMessage or ("This event is hidden by '" .. Randomat:GetEventTitle(Randomat.Events["secret"]) .. "'"))
     else
         net.WriteString(event.Id)
         net.WriteString(title)
@@ -502,7 +502,7 @@ function Randomat:CanEventRun(event, ignore_history)
     if min_players > 0 and player_count < min_players then return false, "Not enough players (" .. player_count .. " vs. " .. min_players .. " required)" end
     -- Check that the round has run the correct amount of time
     local round_percent_complete = Randomat:GetRoundCompletePercent()
-    if event.MinRoundCompletePercent and event.MinRoundCompletePercent > round_percent_complete or event.MaxRoundCompletePercent and event.MaxRoundCompletePercent < round_percent_complete then return false, "Round percent complete mismatch (" .. round_percent_complete .. ")" end
+    if (event.MinRoundCompletePercent and event.MinRoundCompletePercent > round_percent_complete) or (event.MaxRoundCompletePercent and event.MaxRoundCompletePercent < round_percent_complete) then return false, "Round percent complete mismatch (" .. round_percent_complete .. ")" end
     -- Don't allow single use events to run twice
     if event.SingleUse and Randomat:IsEventActive(event.Id) then return false, "Single use event is already running" end
     -- Don't use the same events over and over again
@@ -510,7 +510,7 @@ function Randomat:CanEventRun(event, ignore_history)
 
     if event.Type ~= EVENT_TYPE_DEFAULT then
         -- Don't let spectator UI events run if there are roles that also use spectator UIs already in the round
-        if (event.Type == EVENT_TYPE_SPECTATOR_UI or type(event.Type) == "table" and table.HasValue(event.Type, EVENT_TYPE_SPECTATOR_UI)) and not CanSpectatorUIEventRun() then return false, "Event requires spectator UI and role with that feature is in this round" end
+        if (event.Type == EVENT_TYPE_SPECTATOR_UI or (type(event.Type) == "table" and table.HasValue(event.Type, EVENT_TYPE_SPECTATOR_UI))) and not CanSpectatorUIEventRun() then return false, "Event requires spectator UI and role with that feature is in this round" end
 
         -- Don't allow multiple events of the same type to run at once
         for _, evt in pairs(Randomat.ActiveEvents) do
@@ -570,7 +570,7 @@ function Randomat:GetRandomEvent(skip_history, can_run)
     local found = false
 
     for _, v in pairs(events) do
-        if Randomat:CanEventRun(v) and (not can_run or can_run(v)) then
+        if Randomat:CanEventRun(v) and ((not can_run) or can_run(v)) then
             found = true
             break
         end
@@ -824,7 +824,7 @@ function Randomat:GetEventsByType(etype)
     local events = {}
 
     for _, e in pairs(Randomat.Events) do
-        if e.Type == etype or type(e.Type) == "table" and table.HasValue(e.Type, etype) then
+        if (e.Type == etype) or (type(e.Type) == "table" and table.HasValue(e.Type, etype)) then
             TableInsert(events, e)
         end
     end
@@ -836,7 +836,7 @@ function Randomat:IsEventTypeActive(etype)
     for _, evt in pairs(Randomat.ActiveEvents) do
         -- If this event has a list of types and it contains the one we care about
         -- or its single type is the one we care about, then stop searching
-        if type(evt.Type) == "table" and table.HasValue(evt.Type, etype) or evt.Type == etype then return true end
+        if (type(evt.Type) == "table" and table.HasValue(evt.Type, etype)) or evt.Type == etype then return true end
     end
 
     return false
@@ -851,7 +851,7 @@ function Randomat:GetPlayers(shuffle, alive_only, dead_only, dead_includes_spec)
         plys = GetAllPlayers()
     else
         for _, ply in PlayerIterator() do
-            if IsValid(ply) and (not alive_only and not dead_only or alive_only and ply:Alive() and not ply:IsSpec() or dead_only and (not ply:Alive() or ply:IsSpec()) and (dead_includes_spec or ply:GetRole() ~= ROLE_NONE)) then
+            if IsValid(ply) and ((not alive_only and not dead_only) or (alive_only and (ply:Alive() and not ply:IsSpec())) or (dead_only and (not ply:Alive() or ply:IsSpec()) and (dead_includes_spec or ply:GetRole() ~= ROLE_NONE))) then
                 -- Anybody
                 -- Alive and non-spec
                 -- Dead but not spec unless that's enabled
@@ -892,7 +892,7 @@ function Randomat:SetRole(ply, role, set_max_hp, scale_hp)
     end
 
     -- Heal the Old Man and Loot Goblin back to full when they are converted
-    if (old_role == ROLE_OLDMAN and role ~= ROLE_OLDMAN or old_role == ROLE_LOOTGOBLIN and role ~= ROLE_LOOTGOBLIN) and SetRoleStartingHealth then
+    if ((old_role == ROLE_OLDMAN and role ~= ROLE_OLDMAN) or (old_role == ROLE_LOOTGOBLIN and role ~= ROLE_LOOTGOBLIN)) and SetRoleStartingHealth then
         SetRoleStartingHealth(ply)
         -- Reset special round logic for roles if we are changing a player away from being the last of that role
     elseif player.IsRoleLiving then
@@ -1108,7 +1108,7 @@ local function GetRandomRoleWeapon(roles, blocklist, droppable_only)
     local item = item_data[1]
     local item_role = item_data[2]
     local item_id = tonumber(item.id)
-    local swep_table = not item_id and weapons.GetStored(item.ClassName) or nil
+    local swep_table = (not item_id) and weapons.GetStored(item.ClassName) or nil
 
     return item, item_id, swep_table, item_role
 end
@@ -1521,7 +1521,7 @@ function randomat_meta:HandleWeaponAddAndSelect(ply, addweapons)
         local w_class = WEPS.GetClass(w)
         local w_kind = WEPS.TypeForWeapon(w_class)
 
-        if active_class ~= nil and w_class == active_class or w_kind == active_kind then
+        if (active_class ~= nil and w_class == active_class) or w_kind == active_kind then
             select_class = w_class
         end
     end
