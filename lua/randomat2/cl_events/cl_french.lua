@@ -147,10 +147,10 @@ net.Receive("FrenchRandomatBegin", function()
         })
     end
 
-    local function ApplyTranslations(stringTable, tableName)
+    local function ApplyTranslations(stringTable, tableName, originalTable)
         if istable(stringTable) then
-            if not roleStringsOrig then
-                roleStringsOrig = table.Copy(stringTable)
+            if not originalTable then
+                originalTable = table.Copy(stringTable)
             end
 
             local translatedRoleIDs = {}
@@ -183,6 +183,8 @@ net.Receive("FrenchRandomatBegin", function()
                 file.Write("randomat/french_sorted_" .. tableName:lower():gsub(" ", "_") .. ".txt", orderedString)
             end
         end
+
+        return originalTable
     end
 
     -- Role Strings --
@@ -300,7 +302,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Homme du Yorkshire", ROLE_YORKSHIREMAN)
     AddTranslation("Zélote", ROLE_ZEALOT)
     AddTranslation("Zombi", ROLE_ZOMBIE)
-    ApplyTranslations(ROLE_STRINGS, "Role Strings")
+    roleStringsOrig = ApplyTranslations(ROLE_STRINGS, "Role Strings", roleStringsOrig)
     table.Empty(translatedRoles)
     -- Role Strings Extended --
     AddTranslation("Un Administrateur", ROLE_ADMIN)
@@ -418,7 +420,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Un Yorkshireman", ROLE_YORKSHIREMAN)
     AddTranslation("Un Zélote", ROLE_ZEALOT)
     AddTranslation("Un Zombi", ROLE_ZOMBIE)
-    ApplyTranslations(ROLE_STRINGS_EXT, "Role Strings Extended")
+    roleStringsExtOrig = ApplyTranslations(ROLE_STRINGS_EXT, "Role Strings Extended", roleStringsExtOrig)
     table.Empty(translatedRoles)
     -- Role Strings Plural --
     AddTranslation("Administrateurs", ROLE_ADMIN)
@@ -535,7 +537,7 @@ net.Receive("FrenchRandomatBegin", function()
     AddTranslation("Yorkshiremen", ROLE_YORKSHIREMAN)
     AddTranslation("Zélotes", ROLE_ZEALOT)
     AddTranslation("Zombis", ROLE_ZOMBIE)
-    ApplyTranslations(ROLE_STRINGS_PLURAL, "Role Strings Plural")
+    roleStringsPluralOrig = ApplyTranslations(ROLE_STRINGS_PLURAL, "Role Strings Plural", roleStringsPluralOrig)
     table.Empty(translatedRoles)
 
     -- Renaming custom passive shop items
