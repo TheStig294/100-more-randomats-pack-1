@@ -56,15 +56,13 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End(isActive)
+function EVENT:End()
     -- Stop Sound
     for _, ply in player.Iterator() do
         ply:StopSound("physics\\concrete\\concrete_scrape_smooth_loop1.wav")
     end
 
-    if isActive then
-        Randomat:ForceResetAllPlayermodels()
-    end
+    Randomat:ForceResetAllPlayermodels()
 end
 
 -- Checking if someone is a body dependent role and if it isn't at the start of the round, prevent the event from running

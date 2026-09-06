@@ -16,7 +16,7 @@ local function ScalePlayerLegs(mult)
             local boneId = p:LookupBone(bonelist[i])
 
             if boneId ~= nil then
-                p:ManipulateBoneScale(boneId, Vector(mult * p:GetManipulateBoneScale(boneId)[1], mult * p:GetManipulateBoneScale(boneId)[2], mult * p:GetManipulateBoneScale(boneId)[3]))
+                p:ManipulateBoneScale(boneId, Vector(mult, mult, mult))
                 p:ManipulateBonePosition(boneId, transmodlist[i] - transmodlist[i] * mult)
             end
         end
@@ -40,12 +40,10 @@ function EVENT:Begin()
     end
 end
 
-function EVENT:End(isActive)
-    if isActive then
-        ScalePlayerLegs(1, 1, 0)
-        -- Reset viewheight for players as well
-        Randomat:ForceResetAllPlayermodels()
-    end
+function EVENT:End()
+    ScalePlayerLegs(1)
+    -- Reset viewheight for players as well
+    Randomat:ForceResetAllPlayermodels()
 end
 
 function EVENT:GetConVars()

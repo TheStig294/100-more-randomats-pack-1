@@ -91,15 +91,13 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End(isActive)
+function EVENT:End()
     if CR_VERSION then
         net.Start("DuncanEventRandomatEnd")
         net.Broadcast()
     end
 
-    if isActive then
-        Randomat:ForceResetAllPlayermodels()
-    end
+    Randomat:ForceResetAllPlayermodels()
 end
 
 function EVENT:GetConVars()

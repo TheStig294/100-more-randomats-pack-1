@@ -66,15 +66,13 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End(isActive)
+function EVENT:End()
     -- Clear the used tables for next time the randomat is triggered
-    if isActive then
-        table.Empty(swapModels)
-        table.Empty(remainingModels)
-        table.Empty(playerModels)
-        table.Empty(playermodelData)
-        Randomat:ForceResetAllPlayermodels()
-    end
+    table.Empty(swapModels)
+    table.Empty(remainingModels)
+    table.Empty(playerModels)
+    table.Empty(playermodelData)
+    Randomat:ForceResetAllPlayermodels()
 end
 
 Randomat:register(EVENT)

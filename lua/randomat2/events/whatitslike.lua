@@ -77,10 +77,8 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End(isActive)
-    if isActive then
-        Randomat:ForceResetAllPlayermodels()
-    end
+function EVENT:End()
+    Randomat:ForceResetAllPlayermodels()
 
     if CR_VERSION then
         net.Start("WhatItsLikeRandomatEnd")

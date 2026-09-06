@@ -67,12 +67,12 @@ function EVENT:Begin()
     self.Description = GetDescription()
     local new_traitors = {}
 
-    for _, v in player.Iterator() do
+    for _, ply in player.Iterator() do
         if not ply:Alive() or ply:IsSpec() then continue end
-        local _, new_traitor = self:HandleRoleWeapons(v)
+        local _, new_traitor = self:HandleRoleWeapons(ply)
 
         if new_traitor then
-            table.insert(new_traitors, v)
+            table.insert(new_traitors, ply)
         end
     end
 
@@ -159,7 +159,7 @@ function EVENT:Begin()
     end
 end
 
-function EVENT:End(isActive)
+function EVENT:End()
     timer.Remove("RandomatWhoaTimer")
 
     for _, ent in ipairs(ents.FindByClass(GetConVar("randomat_whoa_weaponid"):GetString())) do
@@ -175,7 +175,7 @@ function EVENT:End(isActive)
         end
     end
 
-    if isActive and modelExists then
+    if modelExists then
         Randomat:ForceResetAllPlayermodels()
     end
 end

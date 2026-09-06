@@ -135,11 +135,8 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End(isActive)
-    if isActive then
-        Randomat:ForceResetAllPlayermodels()
-    end
-
+function EVENT:End()
+    Randomat:ForceResetAllPlayermodels()
     timer.Remove("RdmtChickenIdleSounds")
     timer.Remove("RdmtChickenHp")
     -- Reset the player speed on the client
