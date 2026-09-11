@@ -12,7 +12,6 @@ function EVENT:Begin()
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsMeleeDamageRole(ply) then
-            self:StripRoleWeapons(ply)
             local isTraitor = Randomat:SetToBasicRole(ply, "Traitor")
 
             if isTraitor then

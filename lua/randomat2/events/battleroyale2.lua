@@ -26,7 +26,6 @@ function EVENT:Begin()
 
     -- Turning everyone into an innocent
     for _, ply in ipairs(plys) do
-        self:StripRoleWeapons(ply)
         Randomat:SetRole(ply, ROLE_INNOCENT)
         ply:SetNWEntity("BattleRoyalePartner", NULL)
     end

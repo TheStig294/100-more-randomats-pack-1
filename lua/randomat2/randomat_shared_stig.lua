@@ -719,6 +719,13 @@ end
 
 function Randomat:ForceSetPlayermodel(ply, data)
     if not IsPlayer(ply) then return end
+    -- If a player's model data isn't cached yet, save it before manipulating their model
+    local sid64 = ply:SteamID64()
+
+    if not playermodelData[sid64] then
+        playermodelData[sid64] = Randomat:GetPlayerModelData(ply)
+    end
+
     -- Use the entity SetModel meta function to bypass model blocking things like in Enhanced Player Model Selector
     local SetModel = FindMetaTable("Entity").SetModel
 
@@ -776,14 +783,9 @@ function Randomat:ForceResetAllPlayermodels()
 
         if playermodelData[sid64] then
             Randomat:ForceSetPlayermodel(ply, playermodelData[sid64])
+            playermodelData[sid64] = nil
         end
     end
-end
 
-hook.Add("TTTBeginRound", "RdmtGetStartingPlayerModels", function()
     table.Empty(playermodelData)
-
-    for _, ply in player.Iterator() do
-        playermodelData[ply:SteamID64()] = Randomat:GetPlayerModelData(ply)
-    end
-end)
+end

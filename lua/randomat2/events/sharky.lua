@@ -46,7 +46,6 @@ function EVENT:Begin()
     -- Set the role of the chosen traitors to ordinary traitors, if they aren't a traitor already
     for _, ply in ipairs({chosenTraitor, chosenPartner}) do
         if not Randomat:IsTraitorTeam(ply) then
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_TRAITOR)
             ply:SetDefaultCredits()
         end
@@ -60,7 +59,6 @@ function EVENT:Begin()
             traitorCount = traitorCount + 1
 
             if traitorCount > originalTraitorCount then
-                self:StripRoleWeapons(ply)
                 Randomat:SetRole(ply, ROLE_INNOCENT)
                 ply:SetDefaultCredits()
             end

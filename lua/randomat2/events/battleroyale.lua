@@ -26,7 +26,6 @@ function EVENT:Begin()
 
     -- Turning everyone into an innocent
     for _, ply in player.Iterator() do
-        self:StripRoleWeapons(ply)
         Randomat:SetRole(ply, ROLE_INNOCENT)
     end
 

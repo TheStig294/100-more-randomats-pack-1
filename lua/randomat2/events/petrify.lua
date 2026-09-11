@@ -14,7 +14,6 @@ function EVENT:Begin()
         ply.soundPlaying = false
 
         if Randomat:IsBodyDependentRole(ply) then
-            self:StripRoleWeapons(ply)
             local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
 
             if isTraitor then

@@ -16,6 +16,7 @@ local table = table
 local timer = timer
 local util = util
 local CallHook = hook.Call
+local RunHook = hook.Run
 local EntsCreate = ents.Create
 local EntsFindByClass = ents.FindByClass
 local GetAllPlayers = player.GetAll
@@ -878,6 +879,11 @@ function Randomat:SetRole(ply, role, set_max_hp, scale_hp)
     local old_role = ply:GetRole()
     ply:SetRole(role)
 
+    if old_role ~= role and isfunction(CRVersion) and not CRVersion("2.5.4") then
+        Randomat:StripRoleWeapons(ply)
+        RunHook("PlayerLoadout", ply)
+    end
+
     -- Set the player's max HP for their new role (Defaults to true)
     if set_max_hp ~= false and SetRoleMaxHealth then
         local current_max = ply:GetMaxHealth()
@@ -914,6 +920,42 @@ function Randomat:SetRole(ply, role, set_max_hp, scale_hp)
     end
 
     net.Broadcast()
+end
+
+function Randomat:StripRoleWeapons(ply, skip_add_crowbar)
+    if not IsValid(ply) then return end
+
+    if ply.StripRoleWeapons then
+        ply:StripRoleWeapons()
+    else
+        if ply:HasWeapon("weapon_hyp_brainwash") then
+            ply:StripWeapon("weapon_hyp_brainwash")
+        end
+
+        if ply:HasWeapon("weapon_vam_fangs") then
+            ply:StripWeapon("weapon_vam_fangs")
+        end
+
+        if ply:HasWeapon("weapon_zom_claws") then
+            ply:StripWeapon("weapon_zom_claws")
+        end
+
+        if ply:HasWeapon("weapon_kil_knife") then
+            ply:StripWeapon("weapon_kil_knife")
+        end
+
+        if ply:HasWeapon("weapon_kil_crowbar") then
+            ply:StripWeapon("weapon_kil_crowbar")
+        end
+
+        if ply:HasWeapon("weapon_ttt_wtester") then
+            ply:StripWeapon("weapon_ttt_wtester")
+        end
+    end
+
+    if not skip_add_crowbar then
+        ply:Give("weapon_zm_improvised")
+    end
 end
 
 -- Notifications
@@ -1382,7 +1424,7 @@ function randomat_meta:AddHook(hooktype, callbackfunc, suffix)
         id = id .. ":" .. suffix
     end
 
-    hook.Add(hooktype, id, function(...) return callbackfunc(...) end)
+    hook.Add(hooktype, id, callbackfunc)
     self.Hooks = self.Hooks or {}
 
     TableInsert(self.Hooks, {hooktype, id})
@@ -1468,39 +1510,7 @@ function randomat_meta:RenameWeps(name)
 end
 
 function randomat_meta:StripRoleWeapons(ply, skip_add_crowbar)
-    if not IsValid(ply) then return end
-
-    if ply.StripRoleWeapons then
-        ply:StripRoleWeapons()
-    else
-        if ply:HasWeapon("weapon_hyp_brainwash") then
-            ply:StripWeapon("weapon_hyp_brainwash")
-        end
-
-        if ply:HasWeapon("weapon_vam_fangs") then
-            ply:StripWeapon("weapon_vam_fangs")
-        end
-
-        if ply:HasWeapon("weapon_zom_claws") then
-            ply:StripWeapon("weapon_zom_claws")
-        end
-
-        if ply:HasWeapon("weapon_kil_knife") then
-            ply:StripWeapon("weapon_kil_knife")
-        end
-
-        if ply:HasWeapon("weapon_kil_crowbar") then
-            ply:StripWeapon("weapon_kil_crowbar")
-        end
-
-        if ply:HasWeapon("weapon_ttt_wtester") then
-            ply:StripWeapon("weapon_ttt_wtester")
-        end
-    end
-
-    if not skip_add_crowbar then
-        ply:Give("weapon_zm_improvised")
-    end
+    Randomat:StripRoleWeapons(ply, skip_add_crowbar)
 end
 
 function randomat_meta:HandleWeaponAddAndSelect(ply, addweapons)

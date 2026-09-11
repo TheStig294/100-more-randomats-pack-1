@@ -41,11 +41,9 @@ function EVENT:Begin()
         ply.MoralityRespawnCount = 0
 
         if Randomat:IsJesterTeam(ply) then
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
             -- Make any old man player innocent, as their adrenaline rush interferes with this event in a confusing way
         elseif ROLE_OLDMAN and ply:GetRole() == ROLE_OLDMAN then
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
         end
     end
@@ -70,7 +68,6 @@ function EVENT:Begin()
                 -- Run the normal respawn code now
                 ply:SpawnForRound(true)
                 Randomat:SetRole(ply, attacker:GetRole(), true)
-                self:StripRoleWeapons(ply)
 
                 if ply.MoralityRespawnCount then
                     ply.MoralityRespawnCount = ply.MoralityRespawnCount + 1

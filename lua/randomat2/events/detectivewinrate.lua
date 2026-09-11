@@ -49,7 +49,6 @@ function EVENT:Begin()
                 end
             end
 
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
             ply:SetDefaultCredits()
             break
@@ -64,8 +63,6 @@ function EVENT:Begin()
             if Randomat:IsTraitorTeam(ply) then
                 traitorChanged = true
             end
-
-            self:StripRoleWeapons(ply)
 
             for _, wep in ipairs(roleWeapons) do
                 ply:Give(wep)
@@ -83,7 +80,6 @@ function EVENT:Begin()
     -- If a traitor was made the detective, change a random non-traitor, non-detective into traitor
     for _, ply in ipairs(alivePlayers) do
         if traitorChanged and not Randomat:IsTraitorTeam(ply) and not Randomat:IsDetectiveLike(ply) then
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_TRAITOR)
             ply:SetDefaultCredits()
 

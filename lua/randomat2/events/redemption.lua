@@ -37,12 +37,10 @@ function EVENT:Begin()
     for _, ply in ipairs(alivePlayers) do
         -- Setting the chosen player and their worst partner to be ordinary traitors
         if ply == chosenTraitor or ply == chosenPartner then
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_TRAITOR)
             ply:SetDefaultCredits()
         else
             -- Setting everyone else to be ordinary innocents, to give the traitors more of a chance to win
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
             ply:SetDefaultCredits()
         end

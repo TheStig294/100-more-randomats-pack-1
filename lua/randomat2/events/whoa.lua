@@ -54,11 +54,6 @@ function EVENT:HandleRoleWeapons(ply)
         updated = true
     end
 
-    -- Remove role weapons from anyone on the traitor team now
-    if updated then
-        self:StripRoleWeapons(ply)
-    end
-
     return updated, changing_teams
 end
 

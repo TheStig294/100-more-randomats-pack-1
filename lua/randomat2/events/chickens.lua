@@ -35,7 +35,6 @@ function EVENT:Begin()
         end
 
         if Randomat:IsBodyDependentRole(ply) then
-            self:StripRoleWeapons(ply)
             local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
 
             if isTraitor then
@@ -46,7 +45,6 @@ function EVENT:Begin()
         -- Server can get overwhelmed when this event triggers, so attempt to remove incompatible roles a second time
         timer.Simple(2, function()
             if Randomat:IsBodyDependentRole(ply) then
-                self:StripRoleWeapons(ply)
                 Randomat:SetToBasicRole(ply, "Traitor", true)
             end
         end)

@@ -10,7 +10,6 @@ function EVENT:Begin()
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsBodyDependentRole(ply) then
-            self:StripRoleWeapons(ply)
             local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
 
             if isTraitor then
