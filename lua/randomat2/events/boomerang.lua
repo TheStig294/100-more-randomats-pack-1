@@ -1,14 +1,14 @@
 local EVENT = {}
-CreateConVar("randomat_boomerang_timer", 2, FCVAR_NONE, "Seconds between giving boomerangs if they don't return", 1, 15)
-local strip = CreateConVar("randomat_boomerang_strip", 1, FCVAR_NONE, "The event strips your other weapons", 0, 1)
-CreateConVar("randomat_boomerang_weaponid", "weapon_ttt_boomerang_randomat", FCVAR_NONE, "Id of the weapon given")
 EVENT.Title = "Boomerang Fu!"
 EVENT.Description = "\"They're a one-shot if it hits you twice\""
 EVENT.id = "boomerang"
 
 EVENT.Categories = {"item", "largeimpact"}
 
-strip = strip:GetBool()
+CreateConVar("randomat_boomerang_timer", 2, FCVAR_NONE, "Seconds between giving boomerangs if they don't return", 1, 15)
+local stripCvar = CreateConVar("randomat_boomerang_strip", 1, FCVAR_NONE, "The event strips your other weapons", 0, 1)
+local weaponIdCvar = CreateConVar("randomat_boomerang_weaponid", "weapon_ttt_boomerang_randomat", FCVAR_NONE, "Id of the weapon given")
+local strip = stripCvar:GetBool()
 
 if strip then
     -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round
@@ -17,18 +17,20 @@ if strip then
 end
 
 function EVENT:Begin()
-    strip = GetConVar("randomat_boomerang_strip"):GetBool()
+    strip = stripCvar:GetBool()
 
     -- Remove all weapons from the ground
-    if GetConVar("randomat_boomerang_strip"):GetBool() then
-        for _, ent in pairs(ents.GetAll()) do
+    if stripCvar:GetBool() then
+        for _, ent in ents.Iterator() do
             if ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY or ent.Kind == WEAPON_NADE and ent.AutoSpawnable then
                 ent:Remove()
             end
         end
     end
 
-    for i, ply in pairs(self:GetAlivePlayers()) do
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
+
         -- Strip all living players' weapons, if enabled
         if strip then
             ply:StripWeapons()
@@ -46,7 +48,7 @@ function EVENT:Begin()
         end
 
         -- Give everyone their initial boomerang
-        ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
+        ply:Give(weaponIdCvar:GetString())
     end
 
     SendFullStateUpdate()
@@ -58,19 +60,19 @@ function EVENT:Begin()
                 ply:SetFOV(0, 0.2)
             end
 
-            ply:Give(GetConVar("randomat_boomerang_weaponid"):GetString())
+            ply:Give(weaponIdCvar:GetString())
         end)
     end)
 
     -- Only allows players to pick up boomerangs if weapon stripping is enabled
-    self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+    self:AddHook("PlayerCanPickupWeapon", function(_, wep)
         if not strip then return end
 
-        return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_boomerang_weaponid"):GetString()
+        return IsValid(wep) and WEPS.GetClass(wep) == weaponIdCvar:GetString()
     end)
 
     -- Prevents players from buying non-passive items
-    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+    self:AddHook("TTTCanOrderEquipment", function(ply, _, is_item)
         if not strip or not IsValid(ply) then return end
 
         if not is_item then
@@ -83,12 +85,13 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    for i, ent in ipairs(ents.FindByClass(GetConVar("randomat_boomerang_weaponid"):GetString())) do
+    for _, ent in ipairs(ents.FindByClass(weaponIdCvar:GetString())) do
         ent:Remove()
     end
 
     if strip then
-        for i, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
             ply:Give("weapon_zm_improvised")
             ply:Give("weapon_zm_carry")
             ply:Give("weapon_ttt_unarmed")

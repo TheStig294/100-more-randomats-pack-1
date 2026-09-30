@@ -1,12 +1,13 @@
 local EVENT = {}
-CreateConVar("randomat_chickens_hp", 60, FCVAR_NONE, "Player max HP", 1, 100)
-CreateConVar("randomat_chickens_sc", 0.25, FCVAR_NONE, "Multiplier players are shrunk by", 0.1, 1)
-CreateConVar("randomat_chickens_sp", 0.75, FCVAR_NONE, "Player movement speed multiplier", 0.1, 1)
 EVENT.Title = "BAWK!"
 EVENT.Description = "Transforms everyone into chickens!"
 EVENT.id = "chickens"
 
 EVENT.Categories = {"modelchange", "fun", "largeimpact", "rolechange", "biased_traitor", "biased"}
+
+local hpCvar = CreateConVar("randomat_chickens_hp", 60, FCVAR_NONE, "Player max HP", 1, 100)
+local scCvar = CreateConVar("randomat_chickens_sc", 0.25, FCVAR_NONE, "Multiplier players are shrunk by", 0.1, 1)
+local spCvar = CreateConVar("randomat_chickens_sp", 0.75, FCVAR_NONE, "Player movement speed multiplier", 0.1, 1)
 
 local sndTabIdle = {"chickens/idle1.mp3", "chickens/idle2.mp3", "chickens/idle3.mp3", "chickens/alert.mp3"}
 
@@ -15,11 +16,11 @@ local sndTabPain = {"chickens/pain1.mp3", "chickens/pain2.mp3", "chickens/pain3.
 local maxHealth = {}
 
 function EVENT:Begin()
-    local hp = GetConVar("randomat_chickens_hp"):GetInt()
-    local sc = GetConVar("randomat_chickens_sc"):GetFloat()
-    local sp = GetConVar("randomat_chickens_sp"):GetFloat()
+    local hp = hpCvar:GetInt()
+    local sc = scCvar:GetFloat()
+    local sp = spCvar:GetFloat()
     maxHealth = {}
-    local new_traitors = {}
+    local _, _, new_traitors = Randomat:BalanceTeams()
 
     for _, ply in player.Iterator() do
         if not ply:Alive() or ply:IsSpec() then continue end
@@ -33,30 +34,10 @@ function EVENT:Begin()
         if hp < ply:GetMaxHealth() then
             ply:SetMaxHealth(hp)
         end
-
-        if Randomat:IsBodyDependentRole(ply) then
-            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
-
-            if isTraitor then
-                table.insert(new_traitors, ply)
-            end
-        end
-
-        -- Server can get overwhelmed when this event triggers, so attempt to remove incompatible roles a second time
-        timer.Simple(2, function()
-            if Randomat:IsBodyDependentRole(ply) then
-                Randomat:SetToBasicRole(ply, "Traitor", true)
-            end
-        end)
     end
 
     -- Send message to the traitor team if new traitors joined
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-    SendFullStateUpdate()
-
-    timer.Simple(2, function()
-        SendFullStateUpdate()
-    end)
 
     self:AddHook("Think", function()
         for _, ply in player.Iterator() do
@@ -154,22 +135,6 @@ function EVENT:End()
             ply:SetHealth(maxHealth[ply])
         end
     end
-end
-
--- Checking if someone is a body dependent role and if it isn't at the start of the round, prevent the event from running
-function EVENT:Condition()
-    local incompatibleRoleExists = false
-
-    for _, ply in player.Iterator() do
-        if not ply:Alive() or ply:IsSpec() then continue end
-
-        if Randomat:IsBodyDependentRole(ply) then
-            incompatibleRoleExists = true
-            break
-        end
-    end
-
-    return not incompatibleRoleExists or Randomat:GetRoundCompletePercent() < 5
 end
 
 function EVENT:GetConVars()

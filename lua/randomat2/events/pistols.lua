@@ -13,67 +13,15 @@ util.AddNetworkString("PistolsPrepareShowdown")
 util.AddNetworkString("PistolsBeginShowdown")
 util.AddNetworkString("PistolsRandomatWinTitle")
 util.AddNetworkString("PistolsEndEvent")
-
-function EVENT:HandleRoleWeapons(ply)
-    local updated = false
-    local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
-
-    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
-    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or changing_teams then
-        Randomat:SetRole(ply, ROLE_TRAITOR)
-        updated = true
-    elseif Randomat:IsJesterTeam(ply) then
-        Randomat:SetRole(ply, ROLE_INNOCENT)
-        updated = true
-    end
-
-    return updated, changing_teams
-end
-
-local eventTriggered = false
 local triggerShowdown = false
 
 function EVENT:Begin()
     local pistolsTriggerOnce = false
     local triggerDelay = 1
     triggerShowdown = false
-    eventTriggered = true
     -- Transform all jesters to innocents and independents to traitors so we know there can only be an innocent or traitor win
-    local new_traitors = {}
-
-    for _, v in ipairs(self:GetAlivePlayers()) do
-        local _, new_traitor = self:HandleRoleWeapons(v)
-
-        if new_traitor then
-            table.insert(new_traitors, v)
-        end
-    end
-
-    SendFullStateUpdate()
+    local _, _, new_traitors = Randomat:BalanceTeams()
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-
-    timer.Create("PistolsRoleChangeTimer", 1, 0, function()
-        local updated = false
-        new_traitors = {}
-
-        for _, ply in ipairs(self:GetAlivePlayers()) do
-            -- Workaround the case where people can respawn as Zombies while this is running
-            updatedPly, new_traitor = self:HandleRoleWeapons(ply)
-            updated = updated or updatedPly
-
-            if new_traitor then
-                table.insert(new_traitors, ply)
-            end
-        end
-
-        -- If anyone's role changed, send the update
-        -- If anyone became a traitor, notify all other traitors
-        if updated then
-            SendFullStateUpdate()
-            self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-        end
-    end)
-
     self:DisableRoundEndSounds()
     local showTriggerMessage = false
 
@@ -101,7 +49,8 @@ function EVENT:Begin()
             end
 
             timer.Simple(triggerDelay, function()
-                for i, ply in pairs(self:GetAlivePlayers()) do
+                for _, ply in player.Iterator() do
+                    if not ply:Alive() or ply:IsSpec() then continue end
                     ply:SetCredits(0)
 
                     -- Give players ammo for the one-shot pistol if they have it
@@ -135,7 +84,7 @@ function EVENT:Begin()
             local traitorPlayers = {}
             local innocentPlayers = {}
 
-            for i, ply in ipairs(alivePlayers) do
+            for _, ply in ipairs(alivePlayers) do
                 -- Let players turn into zombies first so we can change them into traitors properly
                 if ply.IsZombifying and ply:IsZombifying() then
                     return WIN_NONE
@@ -148,20 +97,6 @@ function EVENT:Begin()
 
             if table.IsEmpty(traitorPlayers) or table.IsEmpty(innocentPlayers) or #innocentPlayers + #traitorPlayers == 2 or #alivePlayers == 2 then
                 winBlocked = true
-                new_traitors = {}
-
-                -- Check if anyone's roles need to be changed one last time and remove the timer so people aren't given crowbars by the self:StripRoleWeapons() call
-                for _, v in ipairs(self:GetAlivePlayers()) do
-                    _, new_traitor = self:HandleRoleWeapons(v)
-
-                    if new_traitor then
-                        table.insert(new_traitors, v)
-                    end
-                end
-
-                SendFullStateUpdate()
-                self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-                timer.Remove("PistolsRoleChangeTimer")
                 local oneOnOneShowdown = #alivePlayers == 2
 
                 if showTriggerMessage then
@@ -214,30 +149,27 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End()
-    if eventTriggered then
-        eventTriggered = false
-        timer.Remove("PistolsTriggerShowdown")
-        timer.Remove("PistolsRoleChangeTimer")
-        net.Start("PistolsEndEvent")
-        net.Broadcast()
+function EVENT:End(isActive)
+    if not isActive then return end
+    timer.Remove("PistolsTriggerShowdown")
+    net.Start("PistolsEndEvent")
+    net.Broadcast()
 
-        if triggerShowdown then
-            timer.Remove("PistolsDrawHalos")
-            timer.Remove("PistolsGivePistols")
+    if triggerShowdown then
+        timer.Remove("PistolsDrawHalos")
+        timer.Remove("PistolsGivePistols")
 
-            timer.Simple(5, function()
-                for i, ent in ipairs(ents.FindByClass("weapon_ttt_pistol_randomat")) do
-                    ent:Remove()
-                end
+        timer.Simple(5, function()
+            for _, ent in ipairs(ents.FindByClass("weapon_ttt_pistol_randomat")) do
+                ent:Remove()
+            end
 
-                for i, ply in ipairs(self:GetAlivePlayers()) do
-                    ply:Give("weapon_zm_improvised")
-                    ply:Give("weapon_zm_carry")
-                    ply:Give("weapon_ttt_unarmed")
-                end
-            end)
-        end
+            for _, ply in ipairs(self:GetAlivePlayers()) do
+                ply:Give("weapon_zm_improvised")
+                ply:Give("weapon_zm_carry")
+                ply:Give("weapon_ttt_unarmed")
+            end
+        end)
     end
 end
 

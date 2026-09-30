@@ -249,6 +249,10 @@ function EVENT:Begin()
         end)
     end)
 
+    local _, _, new_traitors = Randomat:BalanceTeams()
+    -- Send message to the traitor team if new traitors joined
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+
     for _, ply in player.Iterator() do
         Randomat:ForceSetPlayermodel(ply, chosenModel)
 

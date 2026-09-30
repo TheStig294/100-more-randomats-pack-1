@@ -18,28 +18,27 @@ EVENT.Categories = {"largeimpact", "item", "rolechange"}
 util.AddNetworkString("WesternBeginEvent")
 util.AddNetworkString("WesternEndEvent")
 local musicConvar = CreateConVar("randomat_western_music", 1, FCVAR_NONE, "Play music during this event", 0, 1)
-local eventTriggered
 
 function EVENT:Begin()
-    eventTriggered = true
     -- Picking a random name
     self.Title = eventnames[math.random(#eventnames)]
     Randomat:EventNotifySilent(self.Title)
 
     -- Remove all weapons on players and the ground that take up the pistol slot
     timer.Simple(0.1, function()
-        for _, ent in pairs(ents.GetAll()) do
+        for _, ent in ents.Iterator() do
             if (ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY) and ent.AutoSpawnable then
                 ent:Remove()
             end
         end
     end)
 
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        -- Transform all jesters/independents to innocents so we know there can only be an innocent or traitor win
-        if Randomat:IsJesterTeam(ply) or Randomat:IsIndependentTeam(ply) then
-            Randomat:SetRole(ply, ROLE_INNOCENT)
-        end
+    -- Transform all jesters to innocents and independents to traitors so we know there can only be an innocent or traitor win
+    local _, _, new_traitors = Randomat:BalanceTeams()
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
 
         timer.Simple(1, function()
             ply:SetFOV(0, 0.2)
@@ -115,10 +114,10 @@ function EVENT:Begin()
     end)
 
     -- Only allows players to pick up duel revolvers
-    self:AddHook("PlayerCanPickupWeapon", function(ply, wep) return IsValid(wep) and WEPS.GetClass(wep) == "weapon_ttt_duel_revolver_randomat" end)
+    self:AddHook("PlayerCanPickupWeapon", function(_, wep) return IsValid(wep) and WEPS.GetClass(wep) == "weapon_ttt_duel_revolver_randomat" end)
 
     -- Prevents players from buying non-passive items
-    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+    self:AddHook("TTTCanOrderEquipment", function(ply, _, is_item)
         if not IsValid(ply) then return end
 
         if not is_item then
@@ -130,21 +129,19 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End()
-    if eventTriggered then
-        eventTriggered = false
-        EVENT.Title = ""
+function EVENT:End(isActive)
+    if not isActive then return end
+    EVENT.Title = ""
 
-        -- Remove all duel revolvers from players and the ground
-        for _, ent in ipairs(ents.FindByClass("weapon_ttt_duel_revolver_randomat")) do
-            ent:Remove()
-        end
-
-        net.Start("WesternEndEvent")
-        net.Broadcast()
-        net.Start("DuelRevolverRemoveHalo")
-        net.Broadcast()
+    -- Remove all duel revolvers from players and the ground
+    for _, ent in ipairs(ents.FindByClass("weapon_ttt_duel_revolver_randomat")) do
+        ent:Remove()
     end
+
+    net.Start("WesternEndEvent")
+    net.Broadcast()
+    net.Start("DuelRevolverRemoveHalo")
+    net.Broadcast()
 end
 
 -- Do not trigger passive item only events when there is a Faker

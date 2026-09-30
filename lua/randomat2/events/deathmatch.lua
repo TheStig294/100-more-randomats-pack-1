@@ -7,16 +7,14 @@ EVENT.Categories = {"gamemode", "rolechange", "largeimpact"}
 
 function EVENT:Begin()
     -- Randomly for all alive players,
-    for i, ply in pairs(self:GetAlivePlayers(true)) do
+    for i, ply in ipairs(self:GetAlivePlayers(true)) do
         if (i % 2) == 0 then
             -- Set half of all players to detectives
             Randomat:SetRole(ply, ROLE_DETECTIVE)
-            -- Remove their credits
             ply:SetCredits(0)
         else
             -- Set the rest to traitors
             Randomat:SetRole(ply, ROLE_TRAITOR)
-            -- Remove their credits
             ply:SetCredits(0)
         end
     end

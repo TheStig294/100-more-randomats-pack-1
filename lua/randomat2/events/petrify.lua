@@ -7,24 +7,15 @@ EVENT.Categories = {"modelchange", "fun", "rolechange", "moderateimpact", "biase
 
 function EVENT:Begin()
     -- Petrify all players
-    local new_traitors = {}
+    local _, _, new_traitors = Randomat:BalanceTeams()
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
         Randomat:ForceSetPlayermodel(ply, "models/player.mdl")
         ply.soundPlaying = false
-
-        if Randomat:IsBodyDependentRole(ply) then
-            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
-
-            if isTraitor then
-                table.insert(new_traitors, ply)
-            end
-        end
     end
 
     -- Send message to the traitor team if new traitors joined
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-    SendFullStateUpdate()
 
     -- Player sound when moving
     self:AddHook("Move", function(ply, mv)

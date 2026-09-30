@@ -171,57 +171,6 @@ function Randomat:GivePassiveOrActiveItem(ply, equipment)
     return givenItem
 end
 
-function Randomat:SetToBasicRole(ply, noMessageRole, independentMonsterAsInnocent)
-    local teamName
-    local monsterIndependentRole = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
-    local changeToTraitorTeam = monsterIndependentRole and not independentMonsterAsInnocent
-
-    -- Independents, monsters and special traitors become traitors
-    if ply:GetRole() ~= ROLE_TRAITOR and (Randomat:IsTraitorTeam(ply) or changeToTraitorTeam) then
-        Randomat:SetRole(ply, ROLE_TRAITOR)
-        teamName = "Traitor"
-        -- Special detectives become normal detectives
-    elseif ply:GetRole() ~= ROLE_DETECTIVE and Randomat:IsGoodDetectiveLike(ply) then
-        Randomat:SetRole(ply, ROLE_DETECTIVE)
-        teamName = "Detective"
-    elseif ply:GetRole() ~= ROLE_INNOCENT and (Randomat:IsJesterTeam(ply) or Randomat:IsInnocentTeam(ply) or (monsterIndependentRole and independentMonsterAsInnocent)) then
-        -- Jesters and special innocents become normal innocents
-        Randomat:SetRole(ply, ROLE_INNOCENT)
-        teamName = "Innocent"
-    else
-        return
-    end
-
-    -- Anyone already a basic role isn't affected
-    -- Some roles don't have the basic weapons, give them now
-    ply:Give("weapon_zm_improvised")
-    ply:Give("weapon_zm_carry")
-    ply:Give("weapon_ttt_unarmed")
-    -- Notify the player why their role was changed
-    local changedTeamMessage = "You have joined the " .. teamName .. " team"
-
-    if teamName == "Detective" then
-        changedTeamMessage = "You have become an ordinary detective"
-    end
-
-    local extendedChangedTeamMessage = changedTeamMessage .. " due to being a role incompatible with a running event"
-
-    timer.Simple(0.1, function()
-        if noMessageRole and noMessageRole == teamName then return end
-        ply:PrintMessage(HUD_PRINTCENTER, changedTeamMessage)
-        ply:PrintMessage(HUD_PRINTTALK, extendedChangedTeamMessage)
-    end)
-
-    return changeToTraitorTeam
-end
-
-function Randomat:IsBodyDependentRole(ply)
-    local role = ply:GetRole()
-    if role == ROLE_PARASITE and ConVarExists("ttt_parasite_respawn_mode") and GetConVar("ttt_parasite_respawn_mode"):GetInt() == 1 then return true end
-
-    return role == ROLE_MADSCIENTIST or role == ROLE_ZOMBIE or role == ROLE_HYPNOTIST or role == ROLE_BODYSNATCHER or role == ROLE_PARAMEDIC or role == ROLE_PHANTOM or role == ROLE_TAXIDERMIST
-end
-
 function Randomat:SpectatorRandomatAlert(ply, EVENT)
     ply:PrintMessage(HUD_PRINTCENTER, "Spectator Randomat Active!")
     local title = EVENT.Title or EVENT.AltTitle or "A spectator randomat"

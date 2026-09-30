@@ -8,21 +8,9 @@ EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 EVENT.Categories = {"biased_innocent", "biased", "rolechange", "moderateimpact"}
 
 function EVENT:Begin()
-    local new_traitors = {}
-
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsMeleeDamageRole(ply) then
-            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor")
-
-            if isTraitor then
-                table.insert(new_traitors, ply)
-            end
-        end
-    end
-
+    local _, _, new_traitors = Randomat:BalanceTeams()
     -- Send message to the traitor team if new traitors joined
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-    SendFullStateUpdate()
 
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
         if IsPlayer(ent) and dmginfo:IsBulletDamage() == false then
@@ -34,20 +22,6 @@ function EVENT:Begin()
             end
         end
     end)
-end
-
--- Checking if someone is a melee damage role and if it isn't at the start of the round, prevent the event from running
-function EVENT:Condition()
-    local incompatibleRoleExists = false
-
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsMeleeDamageRole(ply) then
-            incompatibleRoleExists = true
-            break
-        end
-    end
-
-    return not incompatibleRoleExists or Randomat:GetRoundCompletePercent() < 5
 end
 
 Randomat:register(EVENT)

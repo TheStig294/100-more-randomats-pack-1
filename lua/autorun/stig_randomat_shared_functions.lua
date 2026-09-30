@@ -85,18 +85,6 @@ function Randomat:IsBuyableItem(role, wep)
     return false
 end
 
-function Randomat:IsMeleeDamageRole(ply)
-    local role = ply:GetRole()
-
-    return role == ROLE_ZOMBIE or role == ROLE_KILLER or role == ROLE_MADSCIENTIST
-end
-
-function Randomat:IsKillCommandSensitiveRole(ply)
-    local role = ply:GetRole()
-
-    return role == ROLE_MADSCIENTIST or role == ROLE_ZOMBIE or role == ROLE_PARASITE or role == ROLE_REVENGER or role == ROLE_PHANTOM
-end
-
 function Randomat:MapHasProps()
     local propCount = table.Count(ents.FindByClass("prop_physics*")) + table.Count(ents.FindByClass("prop_dynamic"))
 
