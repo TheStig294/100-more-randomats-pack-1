@@ -21,6 +21,8 @@ function EVENT:Begin()
     -- Sets everyone looking forward in case someone's view becomes offset
     timer.Create("DoomedRandomatSetView", 1, 0, function()
         for _, ply in ipairs(self:GetAlivePlayers()) do
+            -- Don't do this to players in vehicles as the player's pitch is calculated weirdly and causes their view to move
+            if IsValid(ply:GetParent()) then continue end
             local angles = ply:EyeAngles()
             angles.pitch = 0
             ply:SetEyeAngles(angles)
