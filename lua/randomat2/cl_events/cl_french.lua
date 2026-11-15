@@ -2203,7 +2203,7 @@ net.Receive("FrenchRandomatBegin", function()
             desc = [[Tirez pour aller dans la direction opposée (par exemple, tirez vers le bas pour monter).]]
         },
         weapon_ttt_knife_randomat = {
-            name = "Couteau de lancer"
+            name = "Couteau"
         },
         weapon_ttt_liftgren = {
             name = "Grenade de Levage",
@@ -2411,7 +2411,13 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_ttt_randomatdetonator = {
             name = "Détonateur"
         },
-        weapon_ttt_randomatrevolver = {
+        weapon_ttt_randomatmurderhands = {
+            name = "Mains"
+        },
+        weapon_ttt_randomatmurderknife = {
+            name = "Couteau"
+        },
+        weapon_ttt_randomatmurderrevolver = {
             name = "Revolver"
         },
         weapon_ttt_rdmtrocketsciencelauncher = {
