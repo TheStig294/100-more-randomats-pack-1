@@ -2411,6 +2411,9 @@ net.Receive("FrenchRandomatBegin", function()
         weapon_ttt_randomatdetonator = {
             name = "Détonateur"
         },
+        weapon_ttt_randomatrevolver = {
+            name = "Revolver"
+        },
         weapon_ttt_randomatmurderhands = {
             name = "Mains"
         },
